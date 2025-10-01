@@ -1,5 +1,5 @@
 """ "_summary_" """
 
 ma_variable = 4
-ma_variable = "toto"
+ma_variable2 = "toto"
 print(ma_variable)
