@@ -1,4 +1,4 @@
 """ "_summary_" """
 
-a = 4
-a = "toto"
+ma_variable = 4
+ma_variable = "toto"
