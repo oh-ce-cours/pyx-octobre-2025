@@ -10,6 +10,5 @@ p = Path(".")
 # et les zipper dans compressed.zip
 
 for x in p.rglob("*.py"):
-    print(bytes(x))
     if x.is_file() and len(x.stem) < 2:
         print(x)
