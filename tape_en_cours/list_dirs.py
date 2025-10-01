@@ -17,7 +17,6 @@ for x in p.rglob("*.py"):
 
 print(files_to_zip)
 
-
 with zipfile.ZipFile("multiple_files.zip", mode="w") as archive:
     for filename in files_to_zip:
         archive.write(filename, arcname=filename.name)
