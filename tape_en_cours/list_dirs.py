@@ -9,6 +9,7 @@ p = Path(".")
 #
 # et les zipper dans compressed.zip
 
+files_to_zip = []
 for x in p.rglob("*.py"):
     if x.is_file() and len(x.stem) < 2:
         print(x)
