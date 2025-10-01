@@ -18,8 +18,6 @@ for x in p.rglob("*.py"):
 print(files_to_zip)
 
 
-filenames = ["hello.txt", "lorem.md", "realpython.md"]
-
 with zipfile.ZipFile("multiple_files.zip", mode="w") as archive:
     for filename in filenames:
         archive.write(filename)
