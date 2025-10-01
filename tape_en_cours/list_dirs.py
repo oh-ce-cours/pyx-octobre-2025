@@ -12,4 +12,6 @@ p = Path(".")
 files_to_zip = []
 for x in p.rglob("*.py"):
     if x.is_file() and len(x.stem) < 2:
-        print(x)
+        files_to_zip.append(x)
+
+print(files_to_zip)
