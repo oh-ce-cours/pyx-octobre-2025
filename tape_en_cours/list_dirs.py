@@ -1,4 +1,5 @@
 from pathlib import Path
+import zipfile
 
 p = Path(".")
 # print([x for x in p.iterdir() if x.is_dir()])
@@ -15,3 +16,10 @@ for x in p.rglob("*.py"):
         files_to_zip.append(x)
 
 print(files_to_zip)
+
+
+filenames = ["hello.txt", "lorem.md", "realpython.md"]
+
+with zipfile.ZipFile("multiple_files.zip", mode="w") as archive:
+    for filename in filenames:
+        archive.write(filename)
