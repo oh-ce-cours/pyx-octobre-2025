@@ -1,0 +1,46 @@
+
+888b     d888          d8b 888 d8b                                            888
+8888b   d8888          Y8P 888 Y8P                                            888
+88888b.d88888              888                                                888
+888Y88888P888  .d88b.  888 888 888 .d8888b   .d88b.   8888b.  888d888 .d8888b 88888b.
+888 Y888P 888 d8P  Y8b 888 888 888 88K      d8P  Y8b     "88b 888P"  d88P"    888 "88b
+888  Y8P  888 88888888 888 888 888 "Y8888b. 88888888 .d888888 888    888      888  888
+888   "   888 Y8b.     888 888 888      X88 Y8b.     888  888 888    Y88b.    888  888
+888       888  "Y8888  888 888 888  88888P'  "Y8888  "Y888888 888     "Y8888P 888  888
+
+Config file path:       "none"
+Database path:          "./data.ms"
+Server listening on:    "http://0.0.0.0:7700"
+Environment:            "development"
+Commit SHA:             "cfaac6f7ca55e91ec3cf40f8682f528cd8743562"
+Commit date:            "2024-11-14T15:55:14Z"
+Package version:        "1.11.3"
+
+Thank you for using Meilisearch!
+
+
+We collect anonymized analytics to improve our product and your experience. To learn more, including how to turn off analytics, visit our dedicated documentation page: https://www.meilisearch.com/docs/learn/what_is_meilisearch/telemetry
+
+Anonymous telemetry:    "Enabled"
+Instance UID:           "a492201d-67ba-4134-9aea-edfd51a8e67e"
+
+
+
+ No master key was found. The server will accept unidentified requests.
+
+ A master key of at least 16 bytes will be required when switching to a production environment.
+
+
+We generated a new secure master key for you (you can safely use this token):
+
+>> --master-key ampL3RuYk50ghQIOZ43_Gef4zikqz5eJNSyAJ1PNeJs <<
+
+Restart Meilisearch with the argument above to use this new and secure master key.
+
+Check out Meilisearch Cloud!    https://www.meilisearch.com/cloud?utm_campaign=oss&utm_source=engine&utm_medium=cli
+Documentation:                  https://www.meilisearch.com/docs
+Source code:                    https://github.com/meilisearch/meilisearch
+Discord:                        https://discord.meilisearch.com
+
+[2024-12-07T11:44:59.869069Z]  INFO actix_server::builder: starting 14 workers
+[2024-12-07T11:44:59.869107Z]  INFO actix_server::server: Actix runtime found; starting in Actix runtime
