@@ -84,7 +84,6 @@ def generate_tar_archive(files: list[Path], tar_name: str) -> None:
     :return: None
     :rtype: None
     """
-
     with tarfile.open(tar_name, mode="x:gz") as archive:
         for filename in files:
             archive.add(filename, arcname=filename.name)
