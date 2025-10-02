@@ -10,6 +10,7 @@ def filter_python_files(files):
     for file in files:
         if file.suffix == ".py":
             res.append(file)
+    return res
 
 
 p = Path(".")
