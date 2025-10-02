@@ -26,12 +26,3 @@ with zipfile.ZipFile("multiple_files.zip", mode="w") as archive:
         archive.write(filename, arcname=filename.name)
 
 # smtp.send(files_to_zip)
-
-
-def mon_nom_de_fonction(nb: int) -> str:
-    for i in range(nb):
-        print("coucou")
-    return "ok"
-
-
-mon_nom_de_fonction("toto")
