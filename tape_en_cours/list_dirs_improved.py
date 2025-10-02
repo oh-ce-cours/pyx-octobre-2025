@@ -88,6 +88,8 @@ def generate_tar_archive(files: list[Path], tar_name: str) -> None:
         with tarfile.open(tar_name, mode="x:gz") as archive:
             for filename in files:
                 archive.add(filename, arcname=filename.name)
+    except Exception as e:
+        print(f"Erreur lors de la création de l'archive tar: {e}")
 
 
 def main() -> None:
