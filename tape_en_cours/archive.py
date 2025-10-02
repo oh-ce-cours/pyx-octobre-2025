@@ -1,6 +1,11 @@
 from pathlib import Path
 
-from list_dirs_improved import filter_python_files, get_all_files
+from list_dirs_improved import (
+    filter_python_files,
+    get_all_files,
+    filter_short_named_files,
+    generate_zip_archive,
+)
 
 
 def main() -> None:
