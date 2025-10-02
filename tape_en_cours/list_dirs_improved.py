@@ -84,6 +84,6 @@ def main() -> None:
     generate_zip_archive(short_named_files, "multiple_files.zip")
 
 
-print(__name__)
+print("__name__:", __name__)
 if __name__ == "__main__":
     main()
