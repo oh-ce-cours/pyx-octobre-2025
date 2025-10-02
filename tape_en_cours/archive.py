@@ -7,6 +7,7 @@ from list_dirs_improved import (
     get_all_files,
     filter_short_named_files,
     generate_zip_archive,
+    generate_tar_archive,
     output_file_list,
 )
 
