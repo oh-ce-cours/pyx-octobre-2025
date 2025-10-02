@@ -44,7 +44,11 @@ def report(
     python_files = filter_python_files(all_files)
     short_named_files = filter_short_named_files(python_files, max_length)
     output_file_list(short_named_files, output_txt)
-    json.dump(short_named_files, open("report.json", "w", encoding="utf8"), indent=4)
+    json.dump(
+        [f.name for f in short_named_files],
+        open("report.json", "w", encoding="utf8"),
+        indent=4,
+    )
 
 
 if __name__ == "__main__":
