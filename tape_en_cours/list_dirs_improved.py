@@ -18,7 +18,7 @@ def filter_short_named_files(files, max_length):
 
 
 def output_file_list(files, output_path):
-    with open(output_path, "w") as f:
+    with open(output_path, "w", encoding="utf8") as f:
         for file in files:
             f.write(str(file) + "\n")
 
