@@ -1,0 +1,4 @@
+.venv/lib/python3.12/site-packages/pygments/lexers/r.py
+.venv/lib/python3.12/site-packages/pygments/lexers/j.py
+.venv/lib/python3.12/site-packages/pygments/lexers/d.py
+.venv/lib/python3.12/site-packages/pygments/lexers/q.py

@@ -26,4 +26,5 @@ def output_file_list(files, output_path):
 p = Path(".")
 all_files = get_all_files(p)
 python_files = filter_python_files(all_files)
-print(python_files)
+short_named_files = filter_short_named_files(python_files, 2)
+output_file_list(short_named_files, "short_named_python_files.txt")
