@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import typer
+
 from list_dirs_improved import (
     filter_python_files,
     get_all_files,
