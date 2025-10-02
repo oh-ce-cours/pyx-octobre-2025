@@ -6,7 +6,10 @@ def get_all_files(path):
 
 
 def filter_python_files(files):
-    return [f for f in files if f.suffix == ".py"]
+    res = []
+    for file in files:
+        if file.suffix == ".py":
+            res.append(file)
 
 
 p = Path(".")
