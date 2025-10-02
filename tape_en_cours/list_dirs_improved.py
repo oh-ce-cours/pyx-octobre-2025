@@ -3,6 +3,7 @@
 from pathlib import Path
 import zipfile
 import tarfile
+import sys
 
 
 def get_all_files(path: Path) -> list[Path]:
@@ -90,6 +91,7 @@ def generate_tar_archive(files: list[Path], tar_name: str) -> None:
                 archive.add(filename, arcname=filename.name)
     except (FileExistsError, OSError) as e:
         print(f"L'archive {tar_name} existe déjà. Choisissez un autre nom.", e)
+        sys.exit(42)
     except Exception as e:
         print(
             f"Une erreur est survenue lors de la création de l'archive tar: {e}",
