@@ -1,8 +1,0 @@
-../multiple_files/r.py
-../multiple_files/j.py
-../multiple_files/d.py
-../multiple_files/q.py
-../tape_en_cours/.venv/lib/python3.12/site-packages/pygments/lexers/r.py
-../tape_en_cours/.venv/lib/python3.12/site-packages/pygments/lexers/j.py
-../tape_en_cours/.venv/lib/python3.12/site-packages/pygments/lexers/d.py
-../tape_en_cours/.venv/lib/python3.12/site-packages/pygments/lexers/q.py
