@@ -1,7 +1,3 @@
-from pathlib import Path
-import zipfile
-
-p = Path(".")
 # print([x for x in p.iterdir() if x.is_dir()])
 
 # on peut lister les fichiers récursivement et prendre uniquement les fichiers qui
@@ -10,11 +6,14 @@ p = Path(".")
 #
 # et les zipper dans compressed.zip
 
+from pathlib import Path
+import zipfile
+
+p = Path(".")
 files_to_zip = []
 for x in p.rglob("*.py"):
     if x.is_file() and len(x.stem) < 2:
         files_to_zip.append(x)
-
 print(files_to_zip)
 
 with zipfile.ZipFile("multiple_files.zip", mode="w") as archive:
