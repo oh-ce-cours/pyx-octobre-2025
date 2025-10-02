@@ -25,7 +25,7 @@ with zipfile.ZipFile("multiple_files.zip", mode="w") as archive:
     for filename in files_to_zip:
         archive.write(filename, arcname=filename.name)
 
-smtp.send(files_to_zip)
+# smtp.send(files_to_zip)
 
 
 def mon_nom_de_fonction(nb: int):
