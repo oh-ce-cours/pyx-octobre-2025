@@ -15,7 +15,7 @@ app = typer.Typer()
 
 
 @app.command()
-def main() -> None:
+def create() -> None:
     """Fonction principale pour exécuter le script."""
     p = Path(".")
     all_files = get_all_files(p)
@@ -25,4 +25,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    create()
