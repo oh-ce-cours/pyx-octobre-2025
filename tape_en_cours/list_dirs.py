@@ -6,6 +6,11 @@
 #
 # et les zipper dans compressed.zip
 
+"""Regarde les fichiers .py dans le répertoire courant et ses sous-répertoires
+et zippe ceux dont le nom (sans l'extension) est plus court que 2
+caractères dans un fichier multiple_files.zip
+"""
+
 from pathlib import Path
 import zipfile
 
