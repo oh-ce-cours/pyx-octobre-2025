@@ -11,11 +11,11 @@ import zipfile
 
 p = Path(".")
 files_to_zip = []
-for x in p.rglob("*.py"):
-    if x.is_file() and len(x.stem) < 2:
-        files_to_zip.append(x)
+for file in p.rglob("*.py"):
+    if file.is_file() and len(file.stem) < 2:
+        files_to_zip.append(file)
 print(files_to_zip)
 
-with zipfile.ZipFile("multiple_files.zip", mode="w") as archive:
-    for filename in files_to_zip:
-        archive.write(filename, arcname=filename.name)
+archive = zipfile.ZipFile("compressed.zip", mode="w")
+for filename in files_to_zip:
+    archive.write(filename, arcname=filename.name)
