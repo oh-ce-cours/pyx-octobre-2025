@@ -26,6 +26,7 @@ def archive(
     short_named_files = filter_short_named_files(python_files, max_length)
     generate_zip_archive(short_named_files, zip_name)
 
+
 @app.command()
 def report(
     path: str,
