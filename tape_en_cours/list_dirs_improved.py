@@ -1,4 +1,5 @@
 from pathlib import Path
+import zipfile
 
 
 def get_all_files(path: Path) -> list[Path]:
@@ -21,6 +22,12 @@ def output_file_list(files: list[Path], output_path_name: str):
     with open(output_path_name, "w", encoding="utf8") as f:
         for file in files:
             f.write(str(file) + "\n")
+
+
+def generate_zip_archive(files: list[Path], zip_name: str):
+    with zipfile.ZipFile(zip_name, mode="w") as archive:
+        for filename in files:
+            archive.write(filename, arcname=filename.name)
 
 
 p = Path(".")
