@@ -5,12 +5,12 @@ def get_all_files(path: Path) -> list[Path]:
     return [x for x in path.rglob("*") if x.is_file()]
 
 
-def filter_python_files(files: list[Path]) -> tuple[Path, ...]:
+def filter_python_files(files: list[Path]) -> list[Path]:
     res = []
     for file in files:
         if file.suffix == ".py":
             res.append(file)
-    return tuple(res)
+    return res
 
 
 def filter_short_named_files(files, max_length):
