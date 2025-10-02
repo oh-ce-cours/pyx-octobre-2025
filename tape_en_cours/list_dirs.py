@@ -6,7 +6,6 @@
 #
 # et les zipper dans compressed.zip
 
-from pathlib import Path
 import zipfile
 
 p = Path(".")
