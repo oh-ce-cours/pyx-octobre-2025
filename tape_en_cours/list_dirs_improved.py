@@ -91,7 +91,10 @@ def generate_tar_archive(files: list[Path], tar_name: str) -> None:
     except FileExistsError:
         print(f"L'archive {tar_name} existe déjà. Choisissez un autre nom.")
     except Exception as e:
-        print(f"Erreur lors de la création de l'archive tar: {e}", type(e))
+        print(
+            f"Une erreur est survenue lors de la création de l'archive tar: {e}",
+            type(e),
+        )
 
 
 def main() -> None:
