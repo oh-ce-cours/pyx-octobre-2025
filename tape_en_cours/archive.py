@@ -45,7 +45,7 @@ def report(
     short_named_files = filter_short_named_files(python_files, max_length)
     output_file_list(short_named_files, output_txt)
     json.dump(
-        [f.name for f in short_named_files],
+        [dict(f) for f in short_named_files],
         open("report.json", "w", encoding="utf8"),
         indent=4,
     )
