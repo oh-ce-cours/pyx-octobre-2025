@@ -5,10 +5,24 @@ import zipfile
 
 
 def get_all_files(path: Path) -> list[Path]:
+    """Récupère tous les fichiers d'un répertoire de manière récursive.
+
+    :param path: Le chemin du répertoire à parcourir
+    :type path: Path
+    :return: Liste des chemins de tous les fichiers trouvés
+    :rtype: list[Path]
+    """
     return [x for x in path.rglob("*") if x.is_file()]
 
 
 def filter_python_files(files: list[Path]) -> list[Path]:
+    """Filtre une liste de fichiers pour ne garder que les fichiers Python.
+
+    :param files: Liste des fichiers à filtrer
+    :type files: list[Path]
+    :return: Liste des fichiers Python
+    :rtype: list[Path]
+    """
     res = []
     for file in files:
         if file.suffix == ".py":
