@@ -18,13 +18,13 @@ def filter_short_named_files(files: list[Path], max_length: int) -> list[Path]:
     return [f for f in files if len(f.stem) < max_length]
 
 
-def output_file_list(files: list[Path], output_path_name: str):
+def output_file_list(files: list[Path], output_path_name: str) -> None:
     with open(output_path_name, "w", encoding="utf8") as f:
         for file in files:
             f.write(str(file) + "\n")
 
 
-def generate_zip_archive(files: list[Path], zip_name: str):
+def generate_zip_archive(files: list[Path], zip_name: str) -> None:
     with zipfile.ZipFile(zip_name, mode="w") as archive:
         for filename in files:
             archive.write(filename, arcname=filename.name)
