@@ -1,4 +1,34 @@
 [
     {
         "name": "r.py",
-        "mode": 
+        "mode": "staff"
+    },
+    {
+        "name": "j.py",
+        "mode": "staff"
+    },
+    {
+        "name": "d.py",
+        "mode": "staff"
+    },
+    {
+        "name": "q.py",
+        "mode": "staff"
+    },
+    {
+        "name": "r.py",
+        "mode": "staff"
+    },
+    {
+        "name": "j.py",
+        "mode": "staff"
+    },
+    {
+        "name": "d.py",
+        "mode": "staff"
+    },
+    {
+        "name": "q.py",
+        "mode": "staff"
+    }
+]
