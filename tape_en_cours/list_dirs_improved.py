@@ -10,7 +10,7 @@ def filter_python_files(files: list[Path]) -> list[Path]:
     for file in files:
         if file.suffix == ".py":
             res.append(file)
-    return res
+    return tuple(res)
 
 
 def filter_short_named_files(files, max_length):
