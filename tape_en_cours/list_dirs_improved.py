@@ -70,6 +70,7 @@ def generate_zip_archive(files: list[Path], zip_name: str) -> None:
     """
     with zipfile.ZipFile(zip_name, mode="w") as archive:
         for filename in files:
+            file_exists = archive
             archive.write(filename, arcname=filename.name)
 
 
