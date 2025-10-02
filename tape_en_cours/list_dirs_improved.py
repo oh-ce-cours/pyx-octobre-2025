@@ -1,7 +1,7 @@
 from pathlib import Path
 
 
-def get_all_files(path):
+def get_all_files(path: Path):
     return [x for x in path.rglob("*") if x.is_file()]
 
 
