@@ -11,6 +11,10 @@ from list_dirs_improved import (
 )
 
 
+app = typer.Typer()
+
+
+@app.command()
 def main() -> None:
     """Fonction principale pour exécuter le script."""
     p = Path(".")
