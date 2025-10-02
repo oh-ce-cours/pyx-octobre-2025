@@ -31,6 +31,15 @@ def filter_python_files(files: list[Path]) -> list[Path]:
 
 
 def filter_short_named_files(files: list[Path], max_length: int) -> list[Path]:
+    """Filtre les fichiers dont le nom est plus court qu'une longueur maximale.
+
+    :param files: Liste des fichiers à filtrer
+    :type files: list[Path]
+    :param max_length: Longueur maximale du nom du fichier (sans extension)
+    :type max_length: int
+    :return: Liste des fichiers avec un nom court
+    :rtype: list[Path]
+    """
     return [f for f in files if len(f.stem) < max_length]
 
 
