@@ -73,6 +73,23 @@ def generate_zip_archive(files: list[Path], zip_name: str) -> None:
             archive.write(filename, arcname=filename.name)
 
 
+def generate_tar_archive(files: list[Path], tar_name: str) -> None:
+    """Crée une archive tar.gz contenant les fichiers spécifiés.
+
+    :param files: Liste des fichiers à archiver
+    :type files: list[Path]
+    :param tar_name: Nom de l'archive tar.gz à créer
+    :type tar_name: str
+    :return: None
+    :rtype: None
+    """
+    import tarfile
+
+    with tarfile.open(tar_name, mode="w:gz") as archive:
+        for filename in files:
+            archive.add(filename, arcname=filename.name)
+
+
 def main() -> None:
     """Fonction principale pour exécuter le script."""
     print("dans main de list_dirs_improved")
