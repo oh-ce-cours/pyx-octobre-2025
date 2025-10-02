@@ -16,7 +16,7 @@ app = typer.Typer()
 
 @app.command()
 def create(
-    path: str = ".",
+    path: str,
     max_length: int = 2,
     zip_name: str = "multiple_files.zip",
     output_txt: str = "short_named_python_files.txt",
