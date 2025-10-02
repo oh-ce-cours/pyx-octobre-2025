@@ -44,12 +44,30 @@ def filter_short_named_files(files: list[Path], max_length: int) -> list[Path]:
 
 
 def output_file_list(files: list[Path], output_path_name: str) -> None:
+    """Écrit la liste des fichiers dans un fichier texte.
+
+    :param files: Liste des fichiers à écrire
+    :type files: list[Path]
+    :param output_path_name: Nom du fichier de sortie
+    :type output_path_name: str
+    :return: None
+    :rtype: None
+    """
     with open(output_path_name, "w", encoding="utf8") as f:
         for file in files:
             f.write(str(file) + "\n")
 
 
 def generate_zip_archive(files: list[Path], zip_name: str) -> None:
+    """Crée une archive zip contenant les fichiers spécifiés.
+
+    :param files: Liste des fichiers à archiver
+    :type files: list[Path]
+    :param zip_name: Nom de l'archive zip à créer
+    :type zip_name: str
+    :return: None
+    :rtype: None
+    """
     with zipfile.ZipFile(zip_name, mode="w") as archive:
         for filename in files:
             archive.write(filename, arcname=filename.name)
