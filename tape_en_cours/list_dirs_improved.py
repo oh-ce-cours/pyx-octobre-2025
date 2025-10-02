@@ -73,7 +73,7 @@ def generate_zip_archive(files: list[Path], zip_name: str) -> None:
             archive.write(filename, arcname=filename.name)
 
 
-def azesrdtgfh() -> None:
+def main() -> None:
     """Fonction principale pour exécuter le script."""
     p = Path(".")
     all_files = get_all_files(p)
@@ -84,4 +84,4 @@ def azesrdtgfh() -> None:
 
 
 if __name__ == "__main__":
-    azesrdtgfh()
+    main()
