@@ -88,7 +88,7 @@ def generate_tar_archive(files: list[Path], tar_name: str) -> None:
         with tarfile.open(tar_name, mode="x:gz") as archive:
             for filename in files:
                 archive.add(filename, arcname=filename.name)
-    except FileExistsError, OSError:
+    except (FileExistsError, OSError) as e:
         print(f"L'archive {tar_name} existe déjà. Choisissez un autre nom.")
     except Exception as e:
         print(
