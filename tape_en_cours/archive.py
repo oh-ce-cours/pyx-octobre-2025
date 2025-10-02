@@ -18,14 +18,18 @@ app = typer.Typer()
 def archive(
     path: str,
     max_length: int = 2,
-    zip_name: str = "multiple_files.zip",
+    archive_name: str = "multiple_files.zip",
+    format: str = "zip",
 ) -> None:
-    """Crée une archive zip des fichiers Python avec des noms courts."""
+    """Crée une archive (zip ou tar) des fichiers Python avec des noms courts."""
     p = Path(path)
     all_files = get_all_files(p)
     python_files = filter_python_files(all_files)
     short_named_files = filter_short_named_files(python_files, max_length)
-    generate_zip_archive(short_named_files, zip_name)
+    if format.lower() == "tar":
+        generate_tar_archive(short_named_files, archive_name)
+    else:
+        generate_zip_archive(short_named_files, archive_name)
 
 
 @app.command()
