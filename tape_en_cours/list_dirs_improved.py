@@ -71,6 +71,7 @@ def generate_zip_archive(files: list[Path], zip_name: str) -> None:
     with zipfile.ZipFile(zip_name, mode="w") as archive:
         for filename in files:
             file_exists = filename.name in archive.namelist()
+            print(archive)
             print(filename.name, file_exists)
             archive.write(filename, arcname=filename.name)
 
