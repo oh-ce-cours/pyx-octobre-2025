@@ -83,5 +83,4 @@ def main() -> None:
     generate_zip_archive(short_named_files, "multiple_files.zip")
 
 
-if __name__ == "__main__":
-    main()
+main()
