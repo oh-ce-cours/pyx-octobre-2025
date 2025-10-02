@@ -31,3 +31,6 @@ smtp.send(files_to_zip)
 def mon_nom_de_fonction(nb: int):
     for i in range(nb):
         print("coucou")
+
+
+mon_nom_de_fonction("toto")
