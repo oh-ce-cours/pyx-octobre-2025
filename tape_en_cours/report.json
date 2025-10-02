@@ -1,10 +1,4 @@
 [
-    "r.py",
-    "j.py",
-    "d.py",
-    "q.py",
-    "r.py",
-    "j.py",
-    "d.py",
-    "q.py"
-]
+    {
+        "name": "r.py",
+        "mode": 
