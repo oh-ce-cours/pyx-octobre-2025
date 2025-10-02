@@ -110,3 +110,9 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+with open("test.txt", "w", encoding="utf8") as f:
+    f.write("Bonjour le monde\n")
+
+f = open("test.txt", "w", encoding="utf8")
+f.write
