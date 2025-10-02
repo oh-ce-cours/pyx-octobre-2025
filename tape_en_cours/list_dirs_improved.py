@@ -17,8 +17,8 @@ def filter_short_named_files(files: list[Path], max_length: int) -> list[Path]:
     return [f for f in files if len(f.stem) < max_length]
 
 
-def output_file_list(files: list[Path], output_path: str):
-    with open(output_path, "w", encoding="utf8") as f:
+def output_file_list(files: list[Path], output_path_name: str):
+    with open(output_path_name, "w", encoding="utf8") as f:
         for file in files:
             f.write(str(file) + "\n")
 
