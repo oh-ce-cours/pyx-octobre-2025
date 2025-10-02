@@ -28,7 +28,7 @@ with zipfile.ZipFile("multiple_files.zip", mode="w") as archive:
 smtp.send(files_to_zip)
 
 
-def mon_nom_de_fonction(nb: int):
+def mon_nom_de_fonction(nb: int) -> None:
     for i in range(nb):
         print("coucou")
 
