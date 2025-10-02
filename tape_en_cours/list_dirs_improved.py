@@ -1,11 +1,11 @@
 from pathlib import Path
 
 
-def get_all_files(path: Path):
+def get_all_files(path: Path) -> list[Path]:
     return [x for x in path.rglob("*") if x.is_file()]
 
 
-def filter_python_files(files):
+def filter_python_files(files: list[Path]) -> list[Path]:
     res = []
     for file in files:
         if file.suffix == ".py":
