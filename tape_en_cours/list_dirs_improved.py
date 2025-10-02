@@ -15,4 +15,5 @@ def filter_python_files(files):
 
 p = Path(".")
 all_files = get_all_files(p)
-print(all_files)
+python_files = filter_python_files(all_files)
+print(python_files)
