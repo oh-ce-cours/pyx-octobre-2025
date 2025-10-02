@@ -7,7 +7,6 @@
 # et les zipper dans compressed.zip
 
 from pathlib import Path
-import pathlib
 import zipfile
 
 p = Path(".")
