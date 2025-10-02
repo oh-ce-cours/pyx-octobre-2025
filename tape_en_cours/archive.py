@@ -18,6 +18,8 @@ app = typer.Typer()
 def create(
     path: str = ".",
     max_length: int = 2,
+    zip_name: str = "multiple_files.zip",
+    output_txt: str = "short_named_python_files.txt",
 ) -> None:
     """Fonction principale pour exécuter le script."""
     p = Path(path)
