@@ -12,6 +12,7 @@ from list_dirs_improved import (
 
 
 app = typer.Typer()
+print("coucouc")
 
 
 @app.command()
