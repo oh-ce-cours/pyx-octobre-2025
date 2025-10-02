@@ -1,4 +1,4 @@
-"""Regarde les fichiers .py dans le répertoire courant et ses sous-répertoires"""
+"""Maniuplation de fichiers et de répertoires avec pathlib et zipfile."""
 
 from pathlib import Path
 import zipfile
