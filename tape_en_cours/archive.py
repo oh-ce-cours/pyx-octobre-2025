@@ -10,7 +10,6 @@ from list_dirs_improved import (
     output_file_list,
 )
 
-
 app = typer.Typer()
 
 
