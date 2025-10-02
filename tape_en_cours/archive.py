@@ -1,5 +1,7 @@
 from pathlib import Path
 
+from list_dirs_improved import filter_python_files, get_all_files
+
 
 def main() -> None:
     """Fonction principale pour exécuter le script."""
