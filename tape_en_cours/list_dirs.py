@@ -6,10 +6,9 @@
 #
 # et les zipper dans compressed.zip
 
-from pathlib import Path
 import zipfile
 
-p = Path(".")
+p = zipfile.Path(".")
 files_to_zip = []
 for x in p.rglob("*.py"):
     if x.is_file() and len(x.stem) < 2:
