@@ -13,6 +13,10 @@ def filter_python_files(files):
     return res
 
 
+def filter_short_named_files(files, max_length):
+    return [f for f in files if len(f.stem) < max_length]
+
+
 p = Path(".")
 all_files = get_all_files(p)
 python_files = filter_python_files(all_files)
