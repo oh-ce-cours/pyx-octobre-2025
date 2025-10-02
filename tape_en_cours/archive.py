@@ -12,7 +12,6 @@ from list_dirs_improved import (
 
 
 app = typer.Typer()
-print("coucouc")
 
 
 @app.command()
@@ -31,5 +30,4 @@ def create(
 
 
 if __name__ == "__main__":
-    create()
-    print("coucouc")
+    app()
