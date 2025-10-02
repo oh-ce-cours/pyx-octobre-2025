@@ -110,14 +110,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-with open("test.txt", "w", encoding="utf8") as f:
-    f.write("Bonjour le monde\n")
-
-try:
-    f = open("test.txt", "w", encoding="utf8")
-    f.write("Bonjour le monde\n")
-except Exception as e:
-    print("Une erreur est survenue lors de l'ouverture du fichier:", e)
-finally:
-    f.close()
