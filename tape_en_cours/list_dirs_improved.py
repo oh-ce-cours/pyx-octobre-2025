@@ -1,3 +1,5 @@
+"""Regarde les fichiers .py dans le répertoire courant et ses sous-répertoires"""
+
 from pathlib import Path
 import zipfile
 
