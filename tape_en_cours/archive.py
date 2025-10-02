@@ -15,9 +15,12 @@ app = typer.Typer()
 
 
 @app.command()
-def create(path: str = ".") -> None:
+def create(
+    path: str = ".",
+    max_length: int = 2,
+) -> None:
     """Fonction principale pour exécuter le script."""
-    p = Path(".")
+    p = Path(path)
     all_files = get_all_files(p)
     python_files = filter_python_files(all_files)
     short_named_files = filter_short_named_files(python_files, 2)
