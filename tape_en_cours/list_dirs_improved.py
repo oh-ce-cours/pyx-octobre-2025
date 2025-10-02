@@ -75,7 +75,7 @@ def generate_zip_archive(files: list[Path], zip_name: str) -> None:
 
 def main() -> None:
     """Fonction principale pour exécuter le script."""
-    print("dans maiin de list_dirs_improved")
+    print("dans main de list_dirs_improved")
     p = Path(".")
     all_files = get_all_files(p)
     python_files = filter_python_files(all_files)
