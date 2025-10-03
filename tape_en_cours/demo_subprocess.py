@@ -21,7 +21,7 @@ try:
     logging.info(result.stderr)
     logging.info("returncode: %s", result.returncode)
 except subprocess.CalledProcessError as e:
-    logging.error(f"Erreur lors de l'exécution de ls: {e}")
-    logging.error(f"Sortie d'erreur : {e.stderr}")
+    logging.error("Erreur lors de l'exécution de ls: %s", e)
+    logging.error("Sortie d'erreur : %s", e.stderr)
 except Exception as e:
-    logging.critical(f"Une erreur inattendue est survenue : {e}")
+    logging.critical("Une erreur inattendue est survenue : %s", e)
