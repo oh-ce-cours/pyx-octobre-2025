@@ -8,13 +8,17 @@ logger.setLevel(logging.INFO)
 
 # File handler pour les erreurs uniquement
 file_handler = logging.FileHandler("plop.log")
-file_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+file_handler.setFormatter(
+    logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+)
 file_handler.setLevel(logging.ERROR)
 logger.addHandler(file_handler)
 
 # Stream handler pour tous les niveaux
 stream_handler = logging.StreamHandler()
-stream_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+stream_handler.setFormatter(
+    logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+)
 stream_handler.setLevel(logging.INFO)
 logger.addHandler(stream_handler)
 
