@@ -38,7 +38,6 @@ for user in users:
         if user_vm_id == user_id:
             user_vms.append(vm)
     user["vms"] = user_vms
-users
 
 import IPython
 
