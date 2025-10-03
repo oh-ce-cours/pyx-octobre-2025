@@ -70,7 +70,17 @@ def add_vms_to_users(users, vms):
                 user_vms.append(vm)
         user["vms"] = user_vms
 
-def create_vm(base_url, user_id, name, operating_system, cpu_cores, ram_gb, disk_gb, status="running"):
+
+def create_vm(
+    base_url,
+    user_id,
+    name,
+    operating_system,
+    cpu_cores,
+    ram_gb,
+    disk_gb,
+    status="running",
+):
     payload = {
         "user_id": user_id,
         "name": name,
@@ -78,13 +88,9 @@ def create_vm(base_url, user_id, name, operating_system, cpu_cores, ram_gb, disk
         "cpu_cores": cpu_cores,
         "ram_gb": ram_gb,
         "disk_gb": disk_gb,
-        "status": status
+        "status": status,
     }
-    headers = {
-        "accept": "application/json",
-        "Content-Type": "application/json"
-    }
-    resp = requests.post(f"{base_url}/vm", json=payload, headers=headers, timeout=5)
+    resp = requests.post(f"{base_url}/vm", json=payload, timeout=5)
     try:
         resp.raise_for_status()
     except requests.RequestException as e:
