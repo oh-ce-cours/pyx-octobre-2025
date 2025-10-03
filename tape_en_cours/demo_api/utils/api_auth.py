@@ -22,7 +22,7 @@ class Auth:
         token = resp.json()["authToken"]
         return token
 
-    def login_user(self, base_url, email, password) -> None | str:
+    def login_user(self, email, password) -> None | str:
         payload = {"email": email, "password": password}
         headers = {"accept": "application/json", "Content-Type": "application/json"}
         resp = requests.post(
