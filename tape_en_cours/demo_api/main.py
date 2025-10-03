@@ -14,3 +14,8 @@ import json
 
 base_url = "https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt"
 resp = requests.get(f"{base_url}/user")
+
+users = []
+for user in resp.json():
+    user["created_at"] = datetime.datetime.fromtimestamp(user["created_at"] / 1e3)
+    users.append(user)
