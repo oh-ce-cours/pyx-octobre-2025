@@ -10,7 +10,7 @@
 # ...
 
 
-from utils.api import get_users, get_vms, add_vms_to_users, create_user
+from utils.api import get_users, get_vms, add_vms_to_users, create_user, login_user
 import json
 
 BASE_URL = "https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt"
@@ -27,6 +27,7 @@ json.dump(
 )
 
 user = create_user(BASE_URL, "Jean Dupont", "jean@dupont.com", "motdepasse123")
+token = login_user(BASE_URL, "
 
 import IPython
 
