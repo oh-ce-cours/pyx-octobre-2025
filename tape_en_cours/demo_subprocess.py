@@ -2,6 +2,12 @@ import subprocess
 import shlex
 import logging
 
+# Configuration du logging
+handler = logging.StreamHandler()
+handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+logging.getLogger().addHandler(handler)
+logging.getLogger().setLevel(logging.INFO)
+
 try:
     result = subprocess.run(
         shlex.split("python archive.py report .. --output-txt toto.txt"),
