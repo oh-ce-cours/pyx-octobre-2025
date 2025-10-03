@@ -8,7 +8,7 @@ class Auth:
 
     def create_user(self, name, email, password):
         payload = {"name": name, "email": email, "password": password}
-        resp = requests.post(f"{base_url}/auth/signup", json=payload, timeout=5)
+        resp = requests.post(f"{self.base_url}/auth/signup", json=payload, timeout=5)
 
         try:
             resp.raise_for_status()
