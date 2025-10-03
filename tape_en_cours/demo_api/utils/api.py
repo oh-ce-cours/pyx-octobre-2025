@@ -72,7 +72,6 @@ def add_vms_to_users(users, vms):
 
 def create_vm(base_url, token, name, status):
     payload = {
-        "user_id": 0,
         "name": "string",
         "operating_system": "string",
         "cpu_cores": 0,
