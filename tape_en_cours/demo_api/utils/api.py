@@ -59,8 +59,8 @@ def login_user(base_url, email, password) -> None | str:
         print(f"Payload: {payload}")
         print(f"Response: {resp.text}")
         return None
-    data = resp.json()
-    return data["token"]  # Retourne le token d'authentification
+    token = resp.json()["authToken"]
+    return token
 
 
 def add_vms_to_users(users, vms):
