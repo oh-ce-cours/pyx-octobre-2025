@@ -42,7 +42,7 @@ def create_user(base_url, name, email, password):
     return user
 
 
-def login_user(base_url, email, password) -> str:
+def login_user(base_url, email, password) -> None | str:
     payload = {"email": email, "password": password}
     resp = requests.post(f"{base_url}/auth/login", json=payload, timeout=5)
     try:
