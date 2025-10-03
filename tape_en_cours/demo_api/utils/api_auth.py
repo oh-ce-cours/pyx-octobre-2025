@@ -22,11 +22,11 @@ class Auth:
         token = resp.json()["authToken"]
         return token
 
-    def login_user(base_url, email, password) -> None | str:
+    def login_user(self, base_url, email, password) -> None | str:
         payload = {"email": email, "password": password}
         headers = {"accept": "application/json", "Content-Type": "application/json"}
         resp = requests.post(
-            f"{base_url}/auth/login", json=payload, headers=headers, timeout=5
+            f"{self.base_url}/auth/login", json=payload, headers=headers, timeout=5
         )
         try:
             resp.raise_for_status()
@@ -38,7 +38,7 @@ class Auth:
         token = resp.json()["authToken"]
         return token
 
-    def get_logged_user_info(base_url, token):
+    def get_logged_user_info(self, token):
         headers = {"accept": "application/json", "Authorization": f"Bearer {token}"}
         resp = requests.get(f"{base_url}/auth/me", headers=headers, timeout=5)
         try:
