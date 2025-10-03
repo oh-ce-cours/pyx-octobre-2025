@@ -1,5 +1,4 @@
 import requests
-import datetime
 from utils.date_utils import parse_unix_timestamp
 
 
