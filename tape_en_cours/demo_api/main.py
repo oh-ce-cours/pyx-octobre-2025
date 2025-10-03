@@ -17,6 +17,7 @@ from utils.api import (
     create_user,
     login_user,
     create_vm,
+    get_user_info,
 )
 import json
 
