@@ -11,7 +11,7 @@
 import requests
 import datetime
 
-base_url = "https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt"
+BASE_URL = "https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt"
 
 
 def get_users(base_url):
