@@ -10,7 +10,14 @@
 # ...
 
 
-from utils.api import get_users, get_vms, add_vms_to_users, create_user, login_user
+from utils.api import (
+    get_users,
+    get_vms,
+    add_vms_to_users,
+    create_user,
+    login_user,
+    create_vm,
+)
 import json
 
 BASE_URL = "https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt"
