@@ -14,21 +14,27 @@ import datetime
 base_url = "https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt"
 
 
-resp = requests.get(f"{base_url}/user", timeout=5)
-users = []
-for user in resp.json():
-    user["created_at"] = datetime.datetime.fromtimestamp(user["created_at"] / 1e3)
-    users.append(user)
-
-resp = requests.get(f"{base_url}/vm", timeout=5)
-vms = []
-for vm in resp.json():
-    vm["created_at"] = datetime.datetime.fromtimestamp(vm["created_at"] / 1e3)
-    vms.append(vm)
+def get_users(base_url):
+    resp = requests.get(f"{base_url}/user", timeout=5)
+    users = []
+    for user in resp.json():
+        user["created_at"] = datetime.datetime.fromtimestamp(user["created_at"] / 1e3)
+        users.append(user)
+    return users
 
 
-print(users)
-print(vms)
+def get_vms(base_url):
+    resp = requests.get(f"{base_url}/vm", timeout=5)
+    vms = []
+    for vm in resp.json():
+        vm["created_at"] = datetime.datetime.fromtimestamp(vm["created_at"] / 1e3)
+        vms.append(vm)
+    return vms
+
+
+users = get_users(base_url)
+vms = get_vms(base_url)
+
 
 for user in users:
     user_id = user["id"]
