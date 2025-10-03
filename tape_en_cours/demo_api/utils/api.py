@@ -51,6 +51,7 @@ def login_user(base_url, email, password) -> str:
         print(f"Erreur lors de la connexion de l'utilisateur: {e}")
         print(f"Payload: {payload}")
         print(f"Response: {resp.text}")
+        return None
     data = resp.json()
     return data["token"]  # Retourne le token d'authentification
 
