@@ -14,12 +14,9 @@ from demo_api.utils.api import get_users, get_vms, add_vms_to_users
 
 BASE_URL = "https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt"
 
-
 users = get_users(BASE_URL)
 vms = get_vms(BASE_URL)
-
-
-add_vms_to_users(users, vms)
+users = add_vms_to_users(users, vms)
 
 import IPython
 
