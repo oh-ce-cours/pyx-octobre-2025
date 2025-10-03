@@ -27,7 +27,7 @@ BASE_URL = "https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt"
 # )
 
 user = create_user(BASE_URL, "Jean Dupont", "jean@dupont.com", "motdepasse123")
-token = login_user(BASE_URL, "Jean Dupont", "motdepasse123")
+token = login_user(BASE_URL, "jean@dupont.com", "motdepasse123")
 print("Token:", token)
 
 import IPython
