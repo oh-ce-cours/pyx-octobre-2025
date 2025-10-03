@@ -1,0 +1,27 @@
+---
+- hosts: db*
+  tasks:
+  - name: Add mongo ppa key
+    become: yes
+    apt_key: >
+      keyserver=hkp://keyserver.ubuntu.com:80
+      id=7F0CEB10
+      state=present
+  - name: Add mongo sources list
+    become: yes
+    lineinfile:
+      line: "deb http://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse"
+      dest: "etc/apt/sources.list.d/mongodb.list"
+      state: "present"
+      create: "yes"
+  - name: install packages
+    package:
+      name: 
+        - mongodb
+        - mariadb-server
+      state: present
+    become: yes 
+  - name: Start MariaDB
+    service: name=mysql state=started enabled=yes
+  - name: Start Mongo
+    service: name=mongodb state=started enabled=yes
