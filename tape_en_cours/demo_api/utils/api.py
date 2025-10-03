@@ -22,6 +22,16 @@ def get_vms(base_url):
     return vms
 
 
+def create_user(base_url, name, email, passwor):
+    resp = requests.post(
+        f"{base_url}/user", json={"name": name, "email": email}, timeout=5
+    )
+    resp.raise_for_status()
+    user = resp.json()
+    user["created_at"] = datetime.datetime.fromtimestamp(user["created_at"] / 1e3)
+    return user
+
+
 def add_vms_to_users(users, vms):
     for user in users:
         user_id = user["id"]
