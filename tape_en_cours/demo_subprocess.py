@@ -12,7 +12,7 @@ try:
     output = result.stdout
     logging.info("Résultat de ls :")
     logging.info(output)
-    print(result.stderr)
+    logging.info(result.stderr)
     print("returncode:", result.returncode)
 except subprocess.CalledProcessError as e:
     print(f"Erreur lors de l'exécution de ls: {e}")
