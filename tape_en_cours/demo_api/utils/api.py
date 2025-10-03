@@ -46,7 +46,7 @@ def login_user(base_url, email, password) -> None | str:
     payload = {"email": email, "password": password}
     headers = {"accept": "application/json", "Content-Type": "application/json"}
     resp = requests.post(
-        f"{base_url}/auth/login", data=payload, headers=headers, timeout=5
+        f"{base_url}/auth/login", json=payload, headers=headers, timeout=5
     )
     try:
         resp.raise_for_status()
