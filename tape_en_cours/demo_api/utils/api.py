@@ -36,7 +36,8 @@ def create_user(base_url, name, email, password):
         print(f"Erreur lors de la création de l'utilisateur: {e}")
         print(f"Payload: {payload}")
         print(f"Response: {resp.text}")
-        return None
+        if "Duplicate record detected." in resp.text:
+            print("Un utilisateur avec cet email existe déjà.")
     user = resp.json()
     user["created_at"] = parse_unix_timestamp(user["created_at"])
     return user
