@@ -18,3 +18,5 @@ users = []
 for user in resp.json():
     user["created_at"] = datetime.datetime.fromtimestamp(user["created_at"] / 1e3)
     users.append(user)
+
+print(users)
