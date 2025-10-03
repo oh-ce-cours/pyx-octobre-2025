@@ -11,3 +11,6 @@
 import requests
 import datetime
 import json
+
+base_url = "https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt"
+resp = requests.get(f"{base_url}/user")
