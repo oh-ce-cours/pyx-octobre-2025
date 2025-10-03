@@ -31,7 +31,7 @@ try:
         check=True,
     )
     output = result.stdout
-    logging.info("Résultat de ls :")
+    logging.debug("Résultat de ls :")
     logging.info(output)
     logging.info(result.stderr)
     logging.info("returncode: %s", result.returncode)
