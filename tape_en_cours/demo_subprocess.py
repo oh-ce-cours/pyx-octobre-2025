@@ -10,8 +10,8 @@ try:
         check=True,
     )
     output = result.stdout
-    print("Résultat de ls :")
-    print(output)
+    logging.info("Résultat de ls :")
+    logging.info(output)
     print(result.stderr)
     print("returncode:", result.returncode)
 except subprocess.CalledProcessError as e:
