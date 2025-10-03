@@ -29,6 +29,7 @@ def create_user(base_url, name, email, passwor):
         resp.raise_for_status()
     except requests.RequestException as e:
         print(f"Erreur lors de la création de l'utilisateur: {e}")
+        print(f"Payload: {payload}")
         return None
     user = resp.json()
     user["created_at"] = datetime.datetime.fromtimestamp(user["created_at"] / 1e3)
