@@ -24,9 +24,7 @@ def get_vms(base_url):
 
 def create_user(base_url, name, email, passwor):
     payload = {"name": name, "email": email, "password": password}
-    resp = requests.post(
-        f"{base_url}/user", json=, timeout=5
-    )
+    resp = requests.post(f"{base_url}/user", json=payload, timeout=5)
     resp.raise_for_status()
     user = resp.json()
     user["created_at"] = datetime.datetime.fromtimestamp(user["created_at"] / 1e3)
