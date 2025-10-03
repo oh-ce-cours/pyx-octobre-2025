@@ -28,3 +28,4 @@ for vm in resp.json():
 
 
 print(users)
+print(vms)
