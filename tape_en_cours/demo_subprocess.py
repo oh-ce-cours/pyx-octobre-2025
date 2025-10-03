@@ -3,7 +3,7 @@ import shlex
 
 try:
     result = subprocess.run(
-        "python archive.py report .. --output-txt toto.txt".split(),
+        shlex.split("python archive.py report .. --output-txt toto.txt"),
         capture_output=True,
         text=True,
         check=True,
