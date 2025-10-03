@@ -1,3 +1,7 @@
+import requests
+import datetime
+
+
 def get_users(base_url):
     resp = requests.get(f"{base_url}/user", timeout=5)
     users = []
