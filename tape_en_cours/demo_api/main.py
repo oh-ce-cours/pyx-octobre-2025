@@ -38,12 +38,14 @@ token = create_user(BASE_URL, "Jean Dupont", "jean@dupont21.com", "motdepasse123
 if not token:
     token = login_user(BASE_URL, "jean@dupont21.com", "motdepasse123")
 
+user = get_logged_user_info(BASE_URL, token)
+print("User info:", user)
 
 token = "eyJhbGciOiJBMjU2S1ciLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwiemlwIjoiREVGIn0.fpzPuyxOU-KlOV4SBfyF4qr0VRFeDpyiVMN_xHEhQN0kMOiQ--1kYEf5hej3jv3ZjzDiFxWIAzBw3Q5bUeFlmKAzT-f1m526.kLdny7u3IbNwho9xZvGCFg.aGt3fq7Lp6E34FcXtGxFEQS6yS3j_qAotqGmpTWnCIRQYlFx7Anmd1FCHjUnqt-itgJJc5PMaRyeyNtwUDDegv-XCp8JuEbCm-63VHz8oRP3_WFehtI5qgNeXvpkXyzT5Khi59nmHJyrmPt-qTU-zfDRuHYIRTfJXTQjaBxRPNc.bi5A2LJcT7IzjbyK3GQGZs6Y7Qjd3JdZU2_U2_TCYDk"
 create_vm(
     token,
     BASE_URL,
-    user_id=1,
+    user_id=user["id"],
     name="VM de Jean",
     operating_system="Ubuntu 22.04",
     cpu_cores=2,
