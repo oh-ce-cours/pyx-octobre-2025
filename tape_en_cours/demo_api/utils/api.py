@@ -72,12 +72,12 @@ def add_vms_to_users(users, vms):
 
 def create_vm(base_url, token, name, status):
     payload = {
-        "name": "string",
-        "operating_system": "string",
-        "cpu_cores": 0,
-        "ram_gb": 0,
-        "disk_gb": 0,
-        "status": "running"
+        "name": "ma vm 1",
+        "operating_system": "linux",
+        "cpu_cores": 32,
+        "ram_gb": 32,
+        "disk_gb": 500,
+        "status": "stoppend"
 }
     headers = {
         "accept": "application/json",
