@@ -72,6 +72,7 @@ def add_vms_to_users(users, vms):
 
 
 def create_vm(
+    token,
     base_url,
     user_id,
     name,
@@ -90,7 +91,9 @@ def create_vm(
         "disk_gb": disk_gb,
         "status": status,
     }
-    resp = requests.post(f"{base_url}/vm", json=payload, timeout=5)
+    headers = {"Authorization": f"Bearer {token}"}
+
+    resp = requests.post(f"{base_url}/vm", json=payload, timeout=5, headers=headers)
     try:
         resp.raise_for_status()
     except requests.RequestException as e:
