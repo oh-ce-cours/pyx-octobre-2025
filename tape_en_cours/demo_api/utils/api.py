@@ -43,6 +43,14 @@ def create_user(base_url, name, email, password):
     return user
 
 
+def login_user(base_url, email, password) -> str:
+    payload = {"email": email, "password": password}
+    resp = requests.post(f"{base_url}/auth/login", json=payload, timeout=5)
+    resp.raise_for_status()
+    data = resp.json()
+    return data["token"]  # Retourne le token d'authentification
+
+
 def add_vms_to_users(users, vms):
     for user in users:
         user_id = user["id"]
