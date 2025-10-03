@@ -1,7 +1,12 @@
 import subprocess
 
 try:
-    result = subprocess.run(['ls'], capture_output=True, text=True, check=True)
+    result = subprocess.run(
+        "python archive.py report .. --output-txt toto.txt",
+        capture_output=True,
+        text=True,
+        check=True,
+    )
     output = result.stdout
     print("Résultat de ls :")
     print(output)
