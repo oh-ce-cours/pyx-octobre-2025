@@ -22,9 +22,9 @@ for user in resp.json():
 
 resp = requests.get(f"{base_url}/vm", timeout=5)
 vms = []
-for user in resp.json():
-    user["created_at"] = datetime.datetime.fromtimestamp(user["created_at"] / 1e3)
-    users.append(user)
+for vm in resp.json():
+    vm["created_at"] = datetime.datetime.fromtimestamp(vm["created_at"] / 1e3)
+    vms.append(vm)
 
 
 print(users)
