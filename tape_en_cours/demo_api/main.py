@@ -32,18 +32,22 @@ def get_vms(base_url):
     return vms
 
 
+def add_vms_to_users(users, vms):
+    for user in users:
+        user_id = user["id"]
+        user_vms = []
+        for vm in vms:
+            user_vm_id = vm["user_id"]
+            if user_vm_id == user_id:
+                user_vms.append(vm)
+        user["vms"] = user_vms
+
+
 users = get_users(BASE_URL)
 vms = get_vms(BASE_URL)
 
 
-for user in users:
-    user_id = user["id"]
-    user_vms = []
-    for vm in vms:
-        user_vm_id = vm["user_id"]
-        if user_vm_id == user_id:
-            user_vms.append(vm)
-    user["vms"] = user_vms
+add_vms_to_users(users, vms)
 
 import IPython
 
