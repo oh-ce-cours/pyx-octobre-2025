@@ -30,6 +30,10 @@ def create_user(base_url, name, email, password):
     payload = {"name": name, "email": email, "password": password}
     resp = requests.post(f"{base_url}/user", data=payload, timeout=5)
 
+    import IPython
+
+    IPython.embed()
+
     try:
         resp.raise_for_status()
     except requests.RequestException as e:
