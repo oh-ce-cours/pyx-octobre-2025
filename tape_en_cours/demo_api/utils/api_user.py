@@ -1,9 +1,6 @@
 import requests
 import datetime
-
-
-def parse_unix_timestamp(ts):
-    return datetime.datetime.fromtimestamp(ts / 1e3)
+from .date_utils import parse_unix_timestamp
 
 
 def get_users(base_url):
