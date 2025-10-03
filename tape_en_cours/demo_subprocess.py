@@ -6,7 +6,11 @@ import logging
 handler = logging.FileHandler("plop.log")
 handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
 logging.getLogger().addHandler(handler)
-logging.getLogger().setLevel(logging.INFO)
+
+sh = logging.StreamHandler()
+sh.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+logging.getLogger().addHandler(sh)
+
 
 try:
     result = subprocess.run(
