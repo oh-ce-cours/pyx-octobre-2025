@@ -18,7 +18,7 @@ BASE_URL = "https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt"
 users = get_users(BASE_URL)
 vms = get_vms(BASE_URL)
 add_vms_to_users(users, vms)
-
+json.dump(users, open("vm_users.json", "w"), indent=4, sort_keys=True, default=str)
 
 import IPython
 
