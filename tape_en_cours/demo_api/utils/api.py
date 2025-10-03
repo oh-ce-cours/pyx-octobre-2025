@@ -22,7 +22,7 @@ def get_vms(base_url):
     return vms
 
 
-def create_user(base_url, name, email, passwor):
+def create_user(base_url, name, email, passwodr):
     payload = {"name": name, "email": email, "password": password}
     resp = requests.post(f"{base_url}/user", json=payload, timeout=5)
 
