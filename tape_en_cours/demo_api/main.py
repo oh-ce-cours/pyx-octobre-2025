@@ -12,7 +12,7 @@ import requests
 import datetime
 
 base_url = "https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt"
-resp = requests.get(f"{base_url}/user")
+resp = requests.get(f"{base_url}/user", timeout=5)
 
 users = []
 for user in resp.json():
