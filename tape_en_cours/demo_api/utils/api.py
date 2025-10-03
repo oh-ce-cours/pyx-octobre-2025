@@ -4,6 +4,7 @@ import datetime
 
 def get_users(base_url):
     resp = requests.get(f"{base_url}/user", timeout=5)
+    resp.raise_for_status()
     users = []
     for user in resp.json():
         user["created_at"] = datetime.datetime.fromtimestamp(user["created_at"] / 1e3)
@@ -13,6 +14,7 @@ def get_users(base_url):
 
 def get_vms(base_url):
     resp = requests.get(f"{base_url}/vm", timeout=5)
+    resp.raise_for_status()
     vms = []
     for vm in resp.json():
         vm["created_at"] = datetime.datetime.fromtimestamp(vm["created_at"] / 1e3)
