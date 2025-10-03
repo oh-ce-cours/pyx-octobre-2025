@@ -2,7 +2,7 @@ import subprocess
 
 try:
     result = subprocess.run(
-        "python archive.py report .. --output-txt toto.txt",
+        "python archive.py report .. --output-txt toto.txt".split(),
         capture_output=True,
         text=True,
         check=True,
