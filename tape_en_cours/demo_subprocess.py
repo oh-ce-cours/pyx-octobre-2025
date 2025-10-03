@@ -10,7 +10,7 @@ logging.getLogger().setLevel(logging.INFO)
 
 try:
     result = subprocess.run(
-        shlex.split("python archive.py report .. --output-txt toto.txt"),
+        shlex.split("python archie.py report .. --output-txt toto.txt"),
         capture_output=True,
         text=True,
         check=True,
