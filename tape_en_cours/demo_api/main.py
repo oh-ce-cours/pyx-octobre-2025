@@ -26,6 +26,8 @@ json.dump(
     default=str,
 )
 
+user = create_user(BASE_URL, "Jean Dupont", "jean@dupont.com", "motdepasse123")
+
 import IPython
 
 IPython.embed()
