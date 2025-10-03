@@ -3,13 +3,20 @@ import shlex
 import logging
 
 # Configuration du logging
-handler = logging.FileHandler("plop.log")
-handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
-logging.getLogger().addHandler(handler)
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
-sh = logging.StreamHandler()
-sh.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
-logging.getLogger().addHandler(sh)
+# File handler pour les erreurs uniquement
+file_handler = logging.FileHandler("plop.log")
+file_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+file_handler.setLevel(logging.ERROR)
+logger.addHandler(file_handler)
+
+# Stream handler pour tous les niveaux
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+stream_handler.setLevel(logging.INFO)
+logger.addHandler(stream_handler)
 
 
 try:
