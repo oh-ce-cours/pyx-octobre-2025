@@ -10,16 +10,16 @@ logging.getLogger().setLevel(logging.INFO)
 
 try:
     result = subprocess.run(
-        shlex.split("python archie.py report .. --output-txt toto.txt"),
+        shlex.split("python archive.py report .. --output-txt toto.txt"),
         capture_output=True,
         text=True,
         check=True,
     )
     output = result.stdout
-    logging.info("Résultat de ls :")
-    logging.info(output)
-    logging.info(result.stderr)
-    logging.info("returncode: %s", result.returncode)
+    logging.debug("Résultat de ls :")
+    logging.debug(output)
+    logging.debug(result.stderr)
+    logging.debug("returncode: %s", result.returncode)
 except subprocess.CalledProcessError as e:
     logging.error("Erreur lors de l'exécution de ls: %s", e)
     logging.error("Sortie d'erreur : %s", e.stderr)
