@@ -42,8 +42,8 @@ def create_user(base_url, name, email, password):
         print(f"Response: {resp.text}")
         if "Duplicate record detected." in resp.text:
             print("Un utilisateur avec cet email existe déjà.")
-    user = resp.json()
-    return user
+    token = resp.json()["authToken"]
+    return token
 
 
 def login_user(base_url, email, password) -> None | str:
