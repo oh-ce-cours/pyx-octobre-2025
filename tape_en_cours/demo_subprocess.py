@@ -1,5 +1,6 @@
 import subprocess
 import shlex
+import logging
 
 try:
     result = subprocess.run(
