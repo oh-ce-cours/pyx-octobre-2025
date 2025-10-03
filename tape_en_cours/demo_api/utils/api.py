@@ -51,7 +51,6 @@ def login_user(base_url, email, password) -> None | str:
     try:
         resp.raise_for_status()
     except requests.RequestException as e:
-        print(resp.data)
         print(f"Erreur lors de la connexion de l'utilisateur: {e}")
         print(f"Payload: {payload}")
         print(f"Response: {resp.text}")
