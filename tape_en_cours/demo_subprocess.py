@@ -4,7 +4,7 @@ import logging
 
 # Configuration du logging
 handler = logging.StreamHandler()
-handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
 logging.getLogger().addHandler(handler)
 logging.getLogger().setLevel(logging.INFO)
 
@@ -19,7 +19,7 @@ try:
     logging.info("Résultat de ls :")
     logging.info(output)
     logging.info(result.stderr)
-    logging.info("returncode:", result.returncode)
+    logging.info("returncode: %s", result.returncode)
 except subprocess.CalledProcessError as e:
     logging.error(f"Erreur lors de l'exécution de ls: {e}")
     logging.error(f"Sortie d'erreur : {e.stderr}")
