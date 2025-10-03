@@ -34,6 +34,8 @@ BASE_URL = "https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt"
 #     default=str,
 # )
 
+
+input()
 token = create_user(BASE_URL, "Jean Dupont", "jean@dupont21.com", "motdepasse123")
 if not token:
     token = login_user(BASE_URL, "jean@dupont21.com", "motdepasse123")
@@ -55,3 +57,9 @@ create_vm(
 )
 
 print("Token:", token)
+
+# a rajouter : passage de mot de passe en CLI
+# passage de varaibles en variable d'environnement
+# logging
+# doc
+# sphinx
