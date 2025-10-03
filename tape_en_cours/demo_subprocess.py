@@ -4,7 +4,7 @@ import logging
 
 # Configuration du logging
 logger = logging.getLogger()
-# logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.DEBUG)
 
 # File handler pour les erreurs uniquement
 file_handler = logging.FileHandler("plop.log")
