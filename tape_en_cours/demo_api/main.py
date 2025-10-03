@@ -27,7 +27,8 @@ json.dump(
 )
 
 user = create_user(BASE_URL, "Jean Dupont", "jean@dupont.com", "motdepasse123")
-token = login_user(BASE_URL, "
+token = login_user(BASE_URL, "Jean Dupont", "motdepasse123")
+print("Token:", token)
 
 import IPython
 
