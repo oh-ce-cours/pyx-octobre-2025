@@ -10,6 +10,8 @@ try:
     output = result.stdout
     print("Résultat de ls :")
     print(output)
+    print(result.stderr)
+    print("returncode:", result.returncode)
 except subprocess.CalledProcessError as e:
     print(f"Erreur lors de l'exécution de ls: {e}")
     print(f"Sortie d'erreur : {e.stderr}")
