@@ -1,8 +1,17 @@
-../multiple_files/r.py
-../multiple_files/j.py
-../multiple_files/d.py
-../multiple_files/q.py
-../tape_en_cours/.venv/lib/python3.12/site-packages/pygments/lexers/r.py
-../tape_en_cours/.venv/lib/python3.12/site-packages/pygments/lexers/j.py
-../tape_en_cours/.venv/lib/python3.12/site-packages/pygments/lexers/d.py
-../tape_en_cours/.venv/lib/python3.12/site-packages/pygments/lexers/q.py
+[1m[36m__pycache__[m[m
+archive.py
+demo_typer.py
+demo.txt
+hello_world.py
+Jour 1.ipynb
+Jour 2.ipynb
+Jour 3.ipynb
+list_dirs_improved.py
+list_dirs.py
+multiple_files.zip
+[1m[36mpip_archive[m[m
+report.json
+requirements_offline.txt
+requirements.txt
+toto.tar
+toto.txt
