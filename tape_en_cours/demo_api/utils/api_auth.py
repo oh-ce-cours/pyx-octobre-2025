@@ -2,6 +2,11 @@ import requests
 import datetime
 
 
+class Auth:
+    def __init__(self, base_url):
+        self.base_url = base_url
+
+
 def create_user(base_url, name, email, password):
     payload = {"name": name, "email": email, "password": password}
     resp = requests.post(f"{base_url}/auth/signup", json=payload, timeout=5)
