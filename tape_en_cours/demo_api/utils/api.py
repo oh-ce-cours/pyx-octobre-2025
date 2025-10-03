@@ -70,15 +70,26 @@ def add_vms_to_users(users, vms):
                 user_vms.append(vm)
         user["vms"] = user_vms
 
-def create_vm(base_url, token, name, status):
+def create_vm(base_url, user_id, name, operating_system, cpu_cores, ram_gb, disk_gb, status="running"):
     payload = {
-        "name": "ma vm 1",
-        "operating_system": "linux",
-        "cpu_cores": 32,
-        "ram_gb": 32,
-        "disk_gb": 500,
-        "status": "stoppend"
-}
+        "user_id": user_id,
+        "name": name,
+        "operating_system": operating_system,
+        "cpu_cores": cpu_cores,
+        "ram_gb": ram_gb,
+        "disk_gb": disk_gb,
+        "status": status
+    }
     headers = {
         "accept": "application/json",
-        "Content-Type": "application
+        "Content-Type": "application/json"
+    }
+    resp = requests.post(f"{base_url}/vm", json=payload, headers=headers, timeout=5)
+    try:
+        resp.raise_for_status()
+    except requests.RequestException as e:
+        print(f"Erreur lors de la création de la VM: {e}")
+        print(f"Payload: {payload}")
+        print(f"Response: {resp.text}")
+        return None
+    return resp.json()
