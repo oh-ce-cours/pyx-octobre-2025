@@ -2,6 +2,10 @@ import requests
 import datetime
 
 
+def parse_unix_timestamp(ts):
+    return datetime.datetime.fromtimestamp(ts / 1e3)
+
+
 def get_users(base_url):
     resp = requests.get(f"{base_url}/user", timeout=5)
     resp.raise_for_status()
