@@ -32,8 +32,8 @@ def get_vms(base_url):
     return vms
 
 
-users = get_users(base_url)
-vms = get_vms(base_url)
+users = get_users(BASE_URL)
+vms = get_vms(BASE_URL)
 
 
 for user in users:
