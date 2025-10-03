@@ -40,7 +40,7 @@ class Auth:
 
     def get_logged_user_info(self, token):
         headers = {"accept": "application/json", "Authorization": f"Bearer {token}"}
-        resp = requests.get(f"{base_url}/auth/me", headers=headers, timeout=5)
+        resp = requests.get(f"{self.base_url}/auth/me", headers=headers, timeout=5)
         try:
             resp.raise_for_status()
         except requests.RequestException as e:
