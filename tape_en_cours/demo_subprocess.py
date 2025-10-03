@@ -19,3 +19,4 @@ except subprocess.CalledProcessError as e:
     logging.error(f"Sortie d'erreur : {e.stderr}")
 except Exception as e:
     logging.critical(f"Une erreur inattendue est survenue : {e}")
+print("coucou")
