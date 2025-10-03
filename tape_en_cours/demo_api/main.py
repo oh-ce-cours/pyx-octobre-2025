@@ -30,6 +30,16 @@ for vm in resp.json():
 print(users)
 print(vms)
 
+for user in users:
+    user_id = user["id"]
+    user_vms = []
+    for vm in vms:
+        user_vm_id = vm["user_id"]
+        if user_vm_id == user_id:
+            user_vms.append(vm)
+    user["vms"] = user_vms
+users
+
 import IPython
 
 IPython.embed()
