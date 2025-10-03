@@ -26,6 +26,8 @@ def create_user(base_url, name, email, passwor):
     payload = {"name": name, "email": email, "password": password}
     try:
         resp = requests.post(f"{base_url}/user", json=payload, timeout=5)
+    except requests.RequestException as e:
+        print(f"Erreur lors de la création de l'utilisateur: {e}")
         resp.raise_for_status()
     except requests.RequestException as e:
         print(f"Erreur lors de la création de l'utilisateur: {e}")
