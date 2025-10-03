@@ -30,10 +30,6 @@ def create_user(base_url, name, email, password):
     payload = {"name": name, "email": email, "password": password}
     resp = requests.post(f"{base_url}/auth/signup", json=payload, timeout=5)
 
-    import IPython
-
-    IPython.embed()
-
     try:
         resp.raise_for_status()
     except requests.RequestException as e:
@@ -42,6 +38,7 @@ def create_user(base_url, name, email, password):
         print(f"Response: {resp.text}")
         if "Duplicate record detected." in resp.text:
             print("Un utilisateur avec cet email existe déjà.")
+        return None
     token = resp.json()["authToken"]
     return token
 
