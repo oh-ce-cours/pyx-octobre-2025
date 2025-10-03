@@ -11,7 +11,7 @@ def get_users(base_url):
     resp.raise_for_status()
     users = []
     for user in resp.json():
-        user["created_at"] = datetime.datetime.fromtimestamp(user["created_at"] / 1e3)
+        user["created_at"] = parse_unix_timestamp(user["created_at"])
         users.append(user)
     return users
 
@@ -21,7 +21,7 @@ def get_vms(base_url):
     resp.raise_for_status()
     vms = []
     for vm in resp.json():
-        vm["created_at"] = datetime.datetime.fromtimestamp(vm["created_at"] / 1e3)
+        vm["created_at"] = parse_unix_timestamp(vm["created_at"])
         vms.append(vm)
     return vms
 
@@ -38,7 +38,7 @@ def create_user(base_url, name, email, password):
         print(f"Response: {resp.text}")
         return None
     user = resp.json()
-    user["created_at"] = datetime.datetime.fromtimestamp(user["created_at"] / 1e3)
+    user["created_at"] = parse_unix_timestamp(user["created_at"])
     return user
 
 
