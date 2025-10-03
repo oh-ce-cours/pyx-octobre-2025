@@ -102,3 +102,15 @@ def create_vm(
         print(f"Response: {resp.text}")
         return None
     return resp.json()
+
+
+def get_user_info(base_url, token):
+    headers = {"accept": "application/json", "Authorization": f"Bearer {token}"}
+    resp = requests.get(f"{base_url}/auth/me", headers=headers, timeout=5)
+    try:
+        resp.raise_for_status()
+    except requests.RequestException as e:
+        print(f"Erreur lors de la récupération des informations utilisateur: {e}")
+        print(f"Response: {resp.text}")
+        return None
+    return resp.json()
