@@ -26,6 +26,7 @@ BASE_URL = "https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt"
 #     default=str,
 # )
 
-user = create_user(BASE_URL, "Jean Dupont", "jean@dupont20.com", "motdepasse123")
-token = login_user(BASE_URL, "jean@dupont20.com", "motdepasse123")
+token = create_user(BASE_URL, "Jean Dupont", "jean@dupont21.com", "motdepasse123")
+if not token:
+    token = login_user(BASE_URL, "jean@dupont21.com", "motdepasse123")
 print("Token:", token)
