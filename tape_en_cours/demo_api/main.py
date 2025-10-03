@@ -15,16 +15,16 @@ import json
 
 BASE_URL = "https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt"
 
-users = get_users(BASE_URL)
-vms = get_vms(BASE_URL)
-add_vms_to_users(users, vms)
-json.dump(
-    users,
-    open("vm_users.json", "w", encoding="utf8"),
-    indent=4,
-    sort_keys=True,
-    default=str,
-)
+# users = get_users(BASE_URL)
+# vms = get_vms(BASE_URL)
+# add_vms_to_users(users, vms)
+# json.dump(
+#     users,
+#     open("vm_users.json", "w", encoding="utf8"),
+#     indent=4,
+#     sort_keys=True,
+#     default=str,
+# )
 
 user = create_user(BASE_URL, "Jean Dupont", "jean@dupont.com", "motdepasse123")
 token = login_user(BASE_URL, "Jean Dupont", "motdepasse123")
