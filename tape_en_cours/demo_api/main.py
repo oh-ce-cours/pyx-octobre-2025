@@ -29,3 +29,7 @@ for vm in resp.json():
 
 print(users)
 print(vms)
+
+import IPython
+
+IPython.embed()
