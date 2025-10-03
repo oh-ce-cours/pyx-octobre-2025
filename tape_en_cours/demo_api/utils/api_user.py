@@ -1,6 +1,6 @@
 import requests
 import datetime
-from .date_utils import parse_unix_timestamp
+from utils.date_utils import parse_unix_timestamp
 
 
 def get_users(base_url):
