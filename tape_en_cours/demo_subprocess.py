@@ -11,7 +11,7 @@ file_handler = logging.FileHandler("plop.log")
 file_handler.setFormatter(
     logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
 )
-file_handler.setLevel(logging.DEBUG)
+file_handler.setLevel(logging.WARNING)
 logger.addHandler(file_handler)
 
 # Stream handler pour tous les niveaux
