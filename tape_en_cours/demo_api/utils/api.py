@@ -28,7 +28,7 @@ def get_vms(base_url):
 
 def create_user(base_url, name, email, password):
     payload = {"name": name, "email": email, "password": password}
-    resp = requests.post(f"{base_url}/user", json=payload, timeout=5)
+    resp = requests.post(f"{base_url}/user", data=payload, timeout=5)
 
     try:
         resp.raise_for_status()
@@ -44,7 +44,7 @@ def create_user(base_url, name, email, password):
 
 def login_user(base_url, email, password) -> None | str:
     payload = {"email": email, "password": password}
-    resp = requests.post(f"{base_url}/auth/login", json=payload, timeout=5)
+    resp = requests.post(f"{base_url}/auth/login", data=payload, timeout=5)
     try:
         resp.raise_for_status()
     except requests.RequestException as e:
