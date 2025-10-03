@@ -47,7 +47,7 @@ create_vm(
     cpu_cores=2,
     ram_gb=4,
     disk_gb=50,
-    status="stooped",
+    status="stopped",
 )
 
 print("Token:", token)
