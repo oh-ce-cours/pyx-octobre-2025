@@ -91,9 +91,9 @@ def signup(
 
     .. code-block:: shell
 
-    python main.py signup
-    python main.py signup --name "Alice Martin" --email "alice@example.com"
-    python main.py signup -n "Bob Dupont" -e "bob@test.com" -p "monmotdepasse" --verbose
+        python main.py signup
+        python main.py signup --name "Alice Martin" --email "alice@example.com"
+        python main.py signup -n "Bob Dupont" -e "bob@test.com" -p "monmotdepasse" --verbose
     """
     from utils.api.auth import Auth
     from utils.config import config
