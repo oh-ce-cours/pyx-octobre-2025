@@ -65,6 +65,10 @@ html_baseurl = "https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/"
 html_use_opensearch = "https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/"
 html_short_title = "Demo API Docs"
 
+# Configuration pour forcer les chemins absolus des assets statiques
+# Cette configuration indique à Sphinx d'utiliser des chemins absolus
+html_static_path = ["_static"]
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
