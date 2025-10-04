@@ -37,7 +37,7 @@ Créateur de données via l'API en utilisant le générateur Faker.
 
 **Exemples d'usage :**
 ```bash
-# Créer 20 utilisateurs via l'API (client simple)
+# Créer 20 utilisateurs via l'API
 python scripts/create_data_via_api.py users --count 20
 
 # Créer 50 VMs via l'API
@@ -72,9 +72,8 @@ python scripts/quick_cleanup.py cleanup --real --delay 3
 
 Tous les scripts utilisent la configuration définie dans `utils/config.py` pour :
 - URL de l'API
+- Identifiants d'authentification
 - Paramètres de connexion
-
-**Note** : Le script `create_data_via_api.py` utilise maintenant un client API simple sans authentification.
 
 ## Prérequis
 

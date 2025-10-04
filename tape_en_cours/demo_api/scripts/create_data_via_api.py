@@ -31,7 +31,6 @@ sys.path.append(str(Path(__file__).parent.parent))
 from utils.api import ApiClient
 from utils.data_generator import UserDataGenerator, VMDataGenerator
 from utils.logging_config import get_logger
-from utils.config import config
 
 logger = get_logger(__name__)
 console = Console()
