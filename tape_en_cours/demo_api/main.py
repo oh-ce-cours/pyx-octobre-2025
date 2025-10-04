@@ -13,7 +13,7 @@
 from utils.api.user import get_users, add_vms_to_users
 from utils.api.vm import get_vms, create_vm
 from utils.api.auth import Auth
-from utils.password_utils import get_credentials, get_or_create_token
+from utils.password_utils import get_or_create_token
 from utils.logging_config import get_logger
 from utils.config import config
 import json
