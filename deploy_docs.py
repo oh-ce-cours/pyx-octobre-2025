@@ -241,21 +241,6 @@ def main():
     # 8. Créer le fichier robots.txt
     create_robots_txt()
 
-    # 9. Corriger les chemins dans tous les fichiers
-    print("\n🔧 Correction des chemins CSS pour GitHub Pages...")
-    files_to_fix = []
-
-    # Trouver tous les fichiers HTML, CSS et JS
-    for pattern in ["*.html", "*.css", "*.js"]:
-        files_to_fix.extend(DOCS_DEPLOY_DIR.rglob(pattern))
-
-    fixed_count = 0
-    for file_path in files_to_fix:
-        if fix_static_paths(file_path):
-            fixed_count += 1
-
-    print(f"✅ {fixed_count} fichiers corrigés")
-
     # Résumé
     print("\n" + "=" * 50)
     print(f"📊 Résumé: {success_count}/{total_commands} commandes réussies")
