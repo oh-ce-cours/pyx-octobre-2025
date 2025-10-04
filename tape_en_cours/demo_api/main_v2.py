@@ -215,7 +215,7 @@ def vm(
         "--cores", str(cores),
         "--ram", str(ram),
         "--disk", str(disk),
-        --status", status,
+        "--status", status,
         "--verbose"
     ]
     
