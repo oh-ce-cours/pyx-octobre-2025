@@ -48,7 +48,6 @@ class VMService:
                 base_url=self.api.base_url,
                 email=email,
                 password=password,
-                token_env_var="DEMO_API_TOKEN",
             )
 
             # Définir le token dans le client API
