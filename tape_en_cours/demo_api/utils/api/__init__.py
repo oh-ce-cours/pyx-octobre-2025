@@ -14,13 +14,13 @@ from .auth import Auth
 from .user import get_users, add_vms_to_users
 from .vm import get_vms, create_vm
 from .exceptions import (
-    UserCreationError, 
-    UserLoginError, 
-    UserInfoError, 
+    UserCreationError,
+    UserLoginError,
+    UserInfoError,
     UsersFetchError,
     VMsFetchError,
     VMCreationError,
-    TokenError
+    TokenError,
 )
 from ..config import config
 from ..logging_config import get_logger
@@ -55,7 +55,7 @@ class UsersAPI:
         status: str = "stopped",
     ) -> Dict[str, Any]:
         """Crée une VM pour un utilisateur
-        
+
         Raises:
             VMCreationError: Si la création de la VM échoue
         """
@@ -100,7 +100,7 @@ class VMsAPI:
         status: str = "stopped",
     ) -> Dict[str, Any]:
         """Crée une VM
-        
+
         Raises:
             VMCreationError: Si la création de la VM échoue
         """
@@ -131,7 +131,7 @@ class AuthAPI:
 
     def login(self, email: str, password: str) -> str:
         """Connexion d'un utilisateur
-        
+
         Raises:
             UserLoginError: Si la connexion échoue
         """
@@ -143,7 +143,7 @@ class AuthAPI:
 
     def create_user(self, name: str, email: str, password: str) -> str:
         """Création d'un utilisateur
-        
+
         Raises:
             UserCreationError: Si la création d'utilisateur échoue
         """
@@ -155,7 +155,7 @@ class AuthAPI:
 
     def get_user_info(self) -> Dict[str, Any]:
         """Récupère les informations de l'utilisateur connecté
-        
+
         Raises:
             TokenError: Si aucun token n'est disponible
             UserInfoError: Si la récupération des informations échoue
@@ -164,7 +164,9 @@ class AuthAPI:
             logger.warning(
                 "Aucun token disponible pour récupérer les informations utilisateur"
             )
-            raise TokenError("Aucun token disponible pour récupérer les informations utilisateur")
+            raise TokenError(
+                "Aucun token disponible pour récupérer les informations utilisateur"
+            )
 
         logger.info("Récupération des informations utilisateur via API unifiée")
         return self._api._auth.get_logged_user_info(self._api.token)
@@ -256,7 +258,9 @@ def create_authenticated_client(
             client.login(email, password)
             return client
         except UserLoginError:
-            logger.warning("Échec de connexion avec les identifiants fournis", email=email)
+            logger.warning(
+                "Échec de connexion avec les identifiants fournis", email=email
+            )
 
     # Essayer avec les identifiants de la configuration
     if config.has_credentials:
