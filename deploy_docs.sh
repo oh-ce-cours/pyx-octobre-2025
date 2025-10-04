@@ -67,18 +67,18 @@ fix_css_paths() {
     if [[ "$OSTYPE" == "darwin"* ]]; then
         # macOS
         sed -i '' \
-            -e "s|href=\"_static/|href=\"${relative_path}/_static/|g" \
-            -e "s|src=\"_static/|src=\"${relative_path}/_static/|g" \
-            -e "s|url(\"_static/|url(\"${relative_path}/_static/|g" \
-            -e "s|url('_static/|url('${relative_path}/_static/|g" \
+            -e "s|href=\"_static/|href=\"${relative_path}/static/|g" \
+            -e "s|src=\"_static/|src=\"${relative_path}/static/|g" \
+            -e "s|url(\"_static/|url(\"${relative_path}/static/|g" \
+            -e "s|url('_static/|url('${relative_path}/static/|g" \
             "$file"
     else
         # Linux/Unix
         sed -i \
-            -e "s|href=\"_static/|href=\"${relative_path}/_static/|g" \
-            -e "s|src=\"_static/|src=\"${relative_path}/_static/|g" \
-            -e "s|url(\"_static/|url(\"${relative_path}/_static/|g" \
-            -e "s|url('_static/|url('${relative_path}/_static/|g" \
+            -e "s|href=\"_static/|href=\"${relative_path}/static/|g" \
+            -e "s|src=\"_static/|src=\"${relative_path}/static/|g" \
+            -e "s|url(\"_static/|url(\"${relative_path}/static/|g" \
+            -e "s|url('_static/|url('${relative_path}/static/|g" \
             "$file"
     fi
 }
