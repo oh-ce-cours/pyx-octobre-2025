@@ -64,9 +64,7 @@ html_theme = "furo"
 html_baseurl = "https://oh-ce-cours.github.io/pyx-octobre-2025/"
 
 # Configuration des chemins pour GitHub Pages
-html_use_opensearch = (
-    "https://oh-ce-cours.github.io/pyx-octobre-2025/"
-)
+html_use_opensearch = "https://oh-ce-cours.github.io/pyx-octobre-2025/"
 html_short_title = "Demo API Docs"
 
 # Force l'utilisation de chemins absolus pour tous les assets
@@ -151,6 +149,7 @@ html_sidebars = {
 # Cette configuration force Sphinx à utiliser des chemins absolus basés sur html_baseurl
 # pour tous les assets statiques (CSS, JS, images, etc.)
 
+
 # Force l'utilisation de chemins absolus pour les assets statiques
 def setup(app):
     """Configuration personnalisée pour forcer les chemins absolus."""
@@ -201,9 +200,11 @@ def setup(app):
         """Corrige les chemins statiques dans le contexte HTML."""
         if app.builder.name == "html":
             base_url = app.config.html_baseurl.rstrip("/")
-            
+
             # Force les chemins absolus pour tous les assets statiques
-            context["pathto"] = lambda other, *args, **kwargs: f"{base_url}/{other.lstrip('/')}"
+            context["pathto"] = (
+                lambda other, *args, **kwargs: f"{base_url}/{other.lstrip('/')}"
+            )
             context["static_url"] = f"{base_url}/_static"
             context["base_url"] = base_url
 
