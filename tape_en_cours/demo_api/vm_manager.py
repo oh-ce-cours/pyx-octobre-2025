@@ -31,10 +31,11 @@ def create_vm(
 
     Exemples:
 
-    \b
-    python vm_manager.py create
-    python vm_manager.py create --name "Ma VM" --email "alice@example.com" --password "motdepasse"
-    python vm_manager.py create -n "VM Test" --ram 8 --disk 100 --verbose
+    .. code-block:: shell
+
+        python vm_manager.py create
+        python vm_manager.py create --name "Ma VM" --email "alice@example.com" --password "motdepasse"
+        python vm_manager.py create -n "VM Test" --ram 8 --disk 100 --verbose
     """
 
     # Configurer le nom par défaut si non fourni
@@ -128,10 +129,11 @@ def create_vm_cli(
 
     Exemples:
 
-    \b
-    python vm_manager.py create
-    python vm_manager.py create --name "Ma VM" --email "alice@example.com" --password "motdepasse"
-    python vm_manager.py create -n "VM Test" --ram 8 --disk 100 --verbose
+    .. code-block:: shell
+
+        python vm_manager.py create
+        python vm_manager.py create --name "Ma VM" --email "alice@example.com" --password "motdepasse"
+        python vm_manager.py create -n "VM Test" --ram 8 --disk 100 --verbose
     """
     create_vm(name, email, password, os, cores, ram, disk, status, verbose)
 
