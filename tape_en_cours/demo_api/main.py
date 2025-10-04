@@ -10,7 +10,7 @@
 # ...
 
 
-from utils.api import Api, create_authenticated_client
+from utils.api import Api
 from utils.api.exceptions import (
     UsersFetchError, 
     VMsFetchError, 
@@ -113,20 +113,19 @@ if api.is_authenticated() and user:
         disk_gb=50,
     )
 
-    vm_result = api.users.create_vm(
-        user_id=user["id"],
-        name="VM de Jean",
-        operating_system="Ubuntu 22.04",
-        cpu_cores=2,
-        ram_gb=4,
-        disk_gb=50,
-        status="stopped",
-    )
-
-    if vm_result:
+    try:
+        vm_result = api.users.create_vm(
+            user_id=user["id"],
+            name="VM de Jean",
+            operating_system="Ubuntu 22.04",
+            cpu_cores=2,
+            ram_gb=4,
+            disk_gb=50,
+            status="stopped",
+        )
         logger.info("VM créée avec succès", vm_id=vm_result.get("id"), status="stopped")
-    else:
-        logger.error("Échec de la création de VM", user_id=user["id"])
+    except VMCreationError as e:
+        logger.error("Échec de la création de VM", error=str(e), user_id=user["id"])
 else:
     logger.error(
         "Impossible de créer la VM: authentification échouée",
