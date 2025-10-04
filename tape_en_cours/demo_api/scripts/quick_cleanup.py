@@ -10,7 +10,7 @@ from typing import Optional, Tuple
 import typer
 from pathlib import Path
 from rich.console import Console
-from rich.progress import Progress, SpinnerColumn, TextColumn
+from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeElapsedColumn, TimeRemainingColumn, MofNCompleteColumn
 from rich.table import Table
 from rich.panel import Panel
 
@@ -249,7 +249,7 @@ def delete_items_batch(client, items: list, item_type: str, delay: float) -> int
 def delete_items_with_progress(
     client, items: list, item_type: str, delay: float
 ) -> int:
-    """Supprime des éléments avec barre de progression et affichage"""
+    """Supprime des éléments avec barre de progression détaillée et affichage"""
 
     if not items:
         console.print(f"[yellow]⚠️  Aucun{item_type} à supprimer[/yellow]")
@@ -258,16 +258,36 @@ def delete_items_with_progress(
     # Affichage du panneau de suppression
     display_deletion_progress(item_type, delay)
 
+    # Calcul du temps estimé total (suppression + délais)
+    estimated_time = len(items) * delay + (len(items) - 1) * delay
+    console.print(f"[dim]⏱️  Temps estimé: ~{estimated_time:.1f}s[/dim]")
+    console.print()
+
     with Progress(
         SpinnerColumn(),
         TextColumn("[progress.description]{task.description}"),
+        BarColumn(bar_width=None),
+        MofNCompleteColumn(),
+        TextColumn("•"),
+        TimeElapsedColumn(),
+        TextColumn("•"),
+        TimeRemainingColumn(),
         console=console,
+        expand=True,
     ) as progress:
         task = progress.add_task(
-            f"Suppression de {len(items)} {item_type}s...", total=len(items)
+            f"Suppression des {item_type}s", total=len(items)
         )
 
         for i, item in enumerate(items):
+            # Mise à jour de la description avec le nom de l'élément
+            item_name = item.get("name", f"ID {item['id']}")
+            progress.update(
+                task, 
+                description=f"Suppression {item_type}: {item_name}",
+                advance=0
+            )
+            
             # Suppression avec affichage
             if item_type == "vm":
                 delete_single_vm_with_display(client, item)
@@ -278,7 +298,11 @@ def delete_items_with_progress(
 
             # Pause si pas le dernier élément
             if i < len(items) - 1:
-                display_pause_message(delay)
+                progress.update(
+                    task, 
+                    description=f"Pause {delay}s avant le prochain {item_type}..."
+                )
+                time.sleep(delay)
 
     # Affichage du résultat
     display_deletion_result(item_type, len(items), len(items))
