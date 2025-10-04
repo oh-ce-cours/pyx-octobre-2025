@@ -228,18 +228,19 @@ def get_credentials(
 
 # === Gestion des tokens d'authentification ===
 
+
 def get_token_from_env(env_var="DEMO_API_TOKEN"):
     """
     Récupère un token d'authentification depuis une variable d'environnement.
-    
+
     Args:
         env_var (str): Nom de la variable d'environnement contenant le token
-        
+
     Returns:
         str|None: Le token récupéré ou None si pas trouvé
     """
     token = os.environ.get(env_var)
-    
+
     if token:
         logger.info(
             "Token d'authentification récupéré depuis la variable d'environnement",
@@ -250,28 +251,28 @@ def get_token_from_env(env_var="DEMO_API_TOKEN"):
         logger.debug(
             "Aucun token trouvé dans les variables d'environnement", env_var=env_var
         )
-    
+
     return token
 
 
 def save_token_to_env(token, env_var="DEMO_API_TOKEN"):
     """
     Sauvegarde un token dans une variable d'environnement (session uniquement).
-    
-    ⚠️ ATTENTION: Cette fonction modifie seulement les variables d'environnement 
+
+    ⚠️ ATTENTION: Cette fonction modifie seulement les variables d'environnement
     de la session Python courante, pas le système d'exploitation.
-    
+
     Args:
         token (str): Le token à sauvegarder
         env_var (str): Nom de la variable d'environnement
-        
+
     Returns:
         bool: True si sauvegardé avec succès
     """
     if not token:
         logger.error("Impossible de sauvegarder un token vide")
         return False
-    
+
     os.environ[env_var] = token
     logger.info(
         "Token sauvegardé dans les variables d'environnement de la session",
@@ -284,69 +285,80 @@ def save_token_to_env(token, env_var="DEMO_API_TOKEN"):
 def remove_token_from_env(env_var="DEMO_API_TOKEN"):
     """
     Supprime un token des variables d'environnement (session uniquement).
-    
+
     Args:
         env_var (str): Nom de la variable d'environnement
-        
+
     Returns:
         bool: True si supprimé avec succès
     """
     if env_var in os.environ:
         del os.environ[env_var]
-        logger.info("Token supprimé des variables d'environnement de la session", env_var=env_var)
+        logger.info(
+            "Token supprimé des variables d'environnement de la session",
+            env_var=env_var,
+        )
         return True
     else:
-        logger.debug("Token non trouvé dans les variables d'environnement", env_var=env_var)
+        logger.debug(
+            "Token non trouvé dans les variables d'environnement", env_var=env_var
+        )
         return False
 
 
-def get_or_create_token(base_url, email=None, password=None, token_env_var="DEMO_API_TOKEN"):
+def get_or_create_token(
+    base_url, email=None, password=None, token_env_var="DEMO_API_TOKEN"
+):
     """
     Récupère un token depuis les variables d'environnement ou en crée un nouveau.
-    
+
     Args:
         base_url (str): URL de base de l'API
         email (str|None): Email pour l'authentification
         password (str|None): Mot de passe poxr l'authentification
         token_env_var (str): Variable d'environnement pour le token
-        
+
     Returns:
         str|None: Token valide ou None si échec
     """
     from .api.auth import Auth
-    
+
     # Essayer d'abord de récupérer depuis les variables d'environnement
     existing_token = get_token_from_env(token_env_var)
     if existing_token:
         logger.info("Token existant trouvé dans les variables d'environnement")
-        
+
         # Tester si le token est encore valide
         auth = Auth(base_url)
         user_info = auth.get_logged_user_info(existing_token)
-        
+
         if user_info:
-            logger.info("Token existant validé avec succès", user_id=user_info.get("id"))
+            logger.info(
+                "Token existant validé avec succès", user_id=user_info.get("id")
+            )
             return existing_token
         else:
-            logger.warning("Token existant expiré ou invalide, nouvelle authentification nécessaire")
+            logger.warning(
+                "Token existant expiré ou invalide, nouvelle authentification nécessaire"
+            )
             remove_token_from_env(token_env_var)
-    
+
     # Créer un nouveau token
     logger.info("Création d'un nouveau token d'authentification")
-    
+
     # Récupérer les identifiants si non fournis
     if not email or not password:
         email, password = get_credentials(email=email)
-    
+
     # Authentification
     auth = Auth(base_url)
-    
+
     # Essayer de créer un utilisateur, sinon se connecter
     token = auth.create_user("Demo User", email, password)
     if not token:
         logger.warning("Utilisateur déjà existant, tentative de connexion", email=email)
         token = auth.login_user(email, password)
-    
+
     if token:
         # Sauvegarder le token pour les prochaines utilisations
         save_token_to_env(token, token_env_var)
@@ -359,32 +371,33 @@ def get_or_create_token(base_url, email=None, password=None, token_env_var="DEMO
 
 # === Utilitaires pour fichier .env ===
 
+
 def save_token_to_env_file(token, env_file_path=".env", token_key="DEMO_API_TOKEN"):
     """
     Sauvegarde un token dans un fichier .env.
-    
+
     Args:
         token (str): Token à sauvegarder
         env_file_path (str): Chemin vers le fichier .env
         token_key (str): Clé pour le token dans le fichier
-        
+
     Returns:
         bool: True si sauvegardé avec succès
     """
     if not token:
         logger.error("Impossible de sauvegarder un token vide")
         return False
-    
+
     try:
         # Lire le contenu existant du fichier
         env_content = ""
         if os.path.exists(env_file_path):
             with open(env_file_path, "r", encoding="utf-8") as f:
                 env_content = f.read()
-        
+
         # Ajouter ou mettre à jour la ligne du token
         token_line = f"{token_key}={token}\n"
-        
+
         # Si le token existe déjà, le remplacer
         lines = env_content.splitlines()
         updated = False
@@ -393,14 +406,14 @@ def save_token_to_env_file(token, env_file_path=".env", token_key="DEMO_API_TOKE
                 lines[i] = token_line.strip()
                 updated = True
                 break
-        
+
         if not updated:
             lines.append(token_line.strip())
-        
+
         # Sauvegarder le fichier
         with open(env_file_path, "w", encoding="utf-8") as f:
             f.write("\n".join(lines) + "\n")
-        
+
         logger.info(
             "Token sauvegardé dans le fichier .env",
             env_file=env_file_path,
@@ -408,7 +421,7 @@ def save_token_to_env_file(token, env_file_path=".env", token_key="DEMO_API_TOKE
             token_length=len(token),
         )
         return True
-        
+
     except Exception as e:
         logger.error(
             "Erreur lors de la sauvegarde du token dans .env",
@@ -421,11 +434,11 @@ def save_token_to_env_file(token, env_file_path=".env", token_key="DEMO_API_TOKE
 def load_token_from_env_file(env_file_path=".env", token_key="DEMO_API_TOKEN"):
     """
     Charge un token depuis un fichier .env.
-    
+
     Args:
         env_file_path (str): Chemin vers le fichier .env
         token_key (str): Clé pour le token dans le fichier
-        
+
     Returns:
         str|None: Token chargé ou None si non trouvé/erreur
     """
@@ -433,7 +446,7 @@ def load_token_from_env_file(env_file_path=".env", token_key="DEMO_API_TOKEN"):
         if not os.path.exists(env_file_path):
             logger.debug("Fichier .env non trouvé", env_file=env_file_path)
             return None
-        
+
         with open(env_file_path, "r", encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
@@ -446,10 +459,10 @@ def load_token_from_env_file(env_file_path=".env", token_key="DEMO_API_TOKEN"):
                             token_length=len(token),
                         )
                         return token
-        
+
         logger.debug("Token non trouvé dans le fichier .env", env_file=env_file_path)
         return None
-        
+
     except Exception as e:
         logger.error(
             "Erreur lors du chargement du token depuis .env",
