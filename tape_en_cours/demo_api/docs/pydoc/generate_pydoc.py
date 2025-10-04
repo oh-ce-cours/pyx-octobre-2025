@@ -81,8 +81,9 @@ def generate_pydoc_html(module_name: str, output_dir: Path, project_root: Path) 
         try:
             # Essayer d'importer le module pour vérifier qu'il existe
             import importlib
+
             module = importlib.import_module(module_name)
-            
+
             # Générer la documentation HTML avec pydoc
             html_doc = pydoc.HTMLDoc()
             html_content = html_doc.document(module)
@@ -93,7 +94,7 @@ def generate_pydoc_html(module_name: str, output_dir: Path, project_root: Path) 
             <p><strong>Erreur d'import:</strong> {import_error}</p>
             <p>Ce module n'a pas pu être importé correctement.</p>
             """
-        
+
         # Ajouter un en-tête HTML complet
         full_html = f"""<!DOCTYPE html>
 <html lang="fr">
