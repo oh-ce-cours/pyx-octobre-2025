@@ -17,20 +17,27 @@ def get_password(prompt="Mot de passe: ", env_var="DEMO_API_PASSWORD"):
     Returns:
         str: Le mot de passe récupéré
     """
+    logger.info("Récupération du mot de passe", env_var=env_var)
+    
     # Essayer de récupérer depuis une variable d'environnement
     password_from_env = os.environ.get(env_var)
 
     if password_from_env:
-        print(f"Mot de passe récupéré depuis la variable d'environnement '{env_var}'")
+        logger.info("Mot de passe récupéré depuis la variable d'environnement", 
+                   env_var=env_var, 
+                   password_length=len(password_from_env))
         return password_from_env
 
     # Si pas de variable d'environnement, demander une saisie sécurisée
-    print("Aucune variable d'environnement trouvée. Saisie sécurisée nécessaire.")
+    logger.warning("Aucune variable d'environnement trouvée. Saisie sécurisée nécessaire.", 
+                  env_var=env_var)
     password = getpass.getpass(prompt=prompt)
 
     if not password:
+        logger.error("Erreur: mot de passe vide fourni")
         raise ValueError("Le mot de passe ne peut pas être vide")
 
+    logger.info("Mot de passe saisi avec succès", password_length=len(password))
     return password
 
 
