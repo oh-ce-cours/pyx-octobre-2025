@@ -37,10 +37,10 @@ logger.info("VMs récupérées", count=len(vms))
 logger.info("Association des VMs aux utilisateurs")
 add_vms_to_users(users, vms)
 
-logger.info("Sauvegarde des données utilisateurs/VMs en JSON", filename="vm_users.json")
+logger.info("Sauvegarde des données utilisateurs/VMs en JSON", filename=config.DEMO_API_OUTPUT_FILE)
 json.dump(
     users,
-    open("vm_users.json", "w", encoding="utf8"),
+    open(config.DEMO_API_OUTPUT_FILE, "w", encoding="utf8"),
     indent=4,
     sort_keys=True,
     default=str,
@@ -50,8 +50,13 @@ logger.info("Sauvegarde terminée avec succès")
 
 # Gestion intelligente des tokens d'authentification
 logger.info("Début du processus d'authentification")
+logger.info("Configuration chargée", config_summary=config.to_dict())
+
 token = get_or_create_token(
-    base_url=BASE_URL, email="jean@dupont21.com", token_env_var="DEMO_API_TOKEN"
+    base_url=BASE_URL,
+    email=config.DEMO_API_EMAIL or "jean@dupont21.com",
+    password=config.DEMO_API_PASSWORD,
+    token_env_var="DEMO_API_TOKEN"
 )
 
 if not token:
