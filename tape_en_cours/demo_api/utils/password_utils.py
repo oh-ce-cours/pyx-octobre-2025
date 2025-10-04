@@ -3,6 +3,7 @@ import getpass
 from dotenv import load_dotenv, set_key
 from .logging_config import get_logger
 from .api.exceptions import CredentialsError, TokenError
+    from .config import config
 
 # Logger pour ce module
 logger = get_logger(__name__)
@@ -278,13 +279,12 @@ def save_token_to_env(token, env_var="DEMO_API_TOKEN"):
         return False
 
     # Utiliser le gestionnaire de configuration pour sauvegarder
-    from .config import config
-    
+
     if env_var == "DEMO_API_TOKEN":
         success = config.update_token(token)
     else:
         success = config.save_to_env_file(env_var, token)
-    
+
     if success:
         logger.info(
             "Token sauvegardé avec succès via le gestionnaire de configuration",
@@ -296,7 +296,7 @@ def save_token_to_env(token, env_var="DEMO_API_TOKEN"):
             "Impossible de sauvegarder le token via le gestionnaire de configuration",
             env_var=env_var,
         )
-    
+
     return success
 
 

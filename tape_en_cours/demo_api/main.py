@@ -379,6 +379,8 @@ def debug() -> None:
     typer.echo(f"   URL de base: {config.DEMO_API_BASE_URL}")
     typer.echo(f"   Timeout: {config.DEMO_API_TIMEOUT}s")
     typer.echo(f"   Max retries: {config.DEMO_API_MAX_RETRIES}")
+    typer.echo(f"   Mode debug: {'✅ Activé' if config.DEMO_API_DEBUG else '❌ Désactivé'}")
+    typer.echo(f"   Niveau de log: {config.DEMO_API_LOG_LEVEL}")
     typer.echo()
 
     # Identifiants
@@ -394,15 +396,18 @@ def debug() -> None:
 
     typer.echo()
 
-    # Variables d'environnement brutes
-    typer.echo("🔧 Variables d'environnement brutes:")
-    demo_vars = {k: v for k, v in os.environ.items() if k.startswith("DEMO_API_")}
-    for key, value in demo_vars.items():
-        if "PASSWORD" in key or "TOKEN" in key:
-            display_value = f"{value[:10]}..." if value else "Non défini"
-        else:
-            display_value = value or "Non défini"
-        typer.echo(f"   {key}: {display_value}")
+    # Propriétés de configuration
+    typer.echo("⚙️ Propriétés de configuration:")
+    typer.echo(f"   Environnement production: {'✅ Oui' if config.is_production else '❌ Non'}")
+    typer.echo(f"   Identifiants disponibles: {'✅ Oui' if config.has_credentials else '❌ Non'}")
+    typer.echo(f"   Token disponible: {'✅ Oui' if config.has_token else '❌ Non'}")
+    typer.echo()
+
+    # Configuration client
+    typer.echo("🔧 Configuration client:")
+    client_config = config.client_config
+    for key, value in client_config.items():
+        typer.echo(f"   {key}: {value}")
 
     typer.echo()
     typer.echo("✨ Debug terminé!")
