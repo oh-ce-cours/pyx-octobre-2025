@@ -298,7 +298,7 @@ def save_token_to_env(token, env_var="DEMO_API_TOKEN"):
             env_var=env_var,
         )
         return True
-    except Exception as e:
+    except (OSError, IOError, PermissionError) as e:
         logger.warning(
             "Impossible de sauvegarder le token dans .env.local",
             error=str(e),
