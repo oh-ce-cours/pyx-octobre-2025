@@ -397,17 +397,11 @@ def create_vms_via_api(
                 except Exception as e:
                     import traceback
 
-                    stacktrace = traceback.format_exc()
                     logger.error(
                         "Erreur lors de la création d'une VM",
                         error=str(e),
                         error_type=type(e).__name__,
-                        vm_data=vm_data if "vm_data" in locals() else None,
-                        stacktrace=stacktrace,
                     )
-                    print(f"\n🔍 STACKTRACE COMPLÈTE:")
-                    print(stacktrace)
-                    print(f"🔍 FIN STACKTRACE\n")
                     display_error_message("VM", i, f"{type(e).__name__}: {str(e)}")
 
                 progress.update(task, advance=1)
@@ -722,9 +716,6 @@ def full_dataset(
                 border_style="blue",
             )
         )
-        # Debug: Afficher le contenu de created_users
-        logger.debug(f"Liste created_users: {created_users}")
-        logger.debug(f"Type de created_users: {type(created_users)}")
 
         if created_users is None:
             logger.error("created_users est None!")
@@ -737,9 +728,6 @@ def full_dataset(
             )
             raise typer.Exit(1)
 
-        logger.debug(f"Nombre d'utilisateurs dans created_users: {len(created_users)}")
-        for i, user in enumerate(created_users):
-            logger.debug(f"Utilisateur {i}: {user} (type: {type(user)})")
 
         # Vérifier qu'on a des utilisateurs créés avec succès
         if not created_users:
@@ -752,18 +740,15 @@ def full_dataset(
             )
             raise typer.Exit(1)
 
-        # Debug: Analyser chaque utilisateur avant extraction des IDs
+        # Analyser chaque utilisateur avant extraction des IDs
         valid_users = []
         for i, user in enumerate(created_users):
-            logger.debug(f"Analyse utilisateur {i}: {user}")
             if user and isinstance(user, dict) and "id" in user:
                 valid_users.append(user)
-                logger.debug(f"Utilisateur {i} valide, ID: {user['id']}")
             else:
                 logger.warning(f"Utilisateur {i} invalide: {user} (type: {type(user)})")
 
         user_ids = [user["id"] for user in valid_users]
-        logger.debug(f"IDs d'utilisateurs extraits: {user_ids}")
 
         if not user_ids:
             console.print(
