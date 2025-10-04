@@ -115,25 +115,23 @@ else:
     user = None
 
 if api.is_authenticated() and user:
+    vm_to_create = {
+        "user_id": user["id"],
+        "name": "VM de Jean",
+        "operating_system": "Ubuntu 22.04",
+        "cpu_cores": 2,
+        "ram_gb": 4,
+        "disk_gb": 50,
+        "status": "stopped",
+    }
     logger.info(
         "Début de création de VM",
-        user_id=user["id"],
-        vm_name="VM de Jean",
-        operating_system="Ubuntu 22.04",
-        cpu_cores=2,
-        ram_gb=4,
-        disk_gb=50,
+        **vm_to_create,
     )
 
     try:
         vm_result = api.users.create_vm(
-            user_id=user["id"],
-            name="VM de Jean",
-            operating_system="Ubuntu 22.04",
-            cpu_cores=2,
-            ram_gb=4,
-            disk_gb=50,
-            status="stopped",
+            **vm_to_create,
         )
         logger.info("VM créée avec succès", vm_id=vm_result.get("id"), status="stopped")
     except VMCreationError as e:
