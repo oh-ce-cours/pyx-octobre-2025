@@ -33,13 +33,15 @@ def create_vm(
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Mode verbeux"),
 ) -> None:
     """
-    🖥️ Créer une VM
+    🖥️ Créer une VM pour un utilisateur existant
+
+    Authentifie un utilisateur existant et crée une VM pour lui.
 
     Exemples:
 
     \b
     python vm_manager.py create
-    python vm_manager.py create --name "Ma VM" --cores 4
+    python vm_manager.py create --name "Ma VM" --email "alice@example.com" --password "motdepasse"
     python vm_manager.py create -n "VM Test" --ram 8 --disk 100 --verbose
     """
 
@@ -65,7 +67,7 @@ def create_vm(
 
     # Authentification de l'utilisateur
     typer.echo("🔐 Authentification de l'utilisateur...")
-    user = vm_service.authenticate_user(email=email, password=config.DEMO_API_PASSWORD)
+    user = vm_service.authenticate_user(email=email, password=password)
 
     if not user:
         typer.echo("❌ Échec de l'authentification")

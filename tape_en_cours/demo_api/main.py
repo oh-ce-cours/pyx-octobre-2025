@@ -111,7 +111,7 @@ def signup(
         token = api.auth.create_user(name=name, email=email, password=password)
         
         if token:
-            typer.echo(f"✅ Utilisateur créé avec succès!")
+            typer.echo("✅ Utilisateur créé avec succès!")
             typer.echo(f"   👤 Nom: {name}")
             typer.echo(f"   📧 Email: {email}")
             typer.echo(f"   🔑 Token: {token[:20]}...")
@@ -119,7 +119,7 @@ def signup(
             
             # Récupérer les informations complètes de l'utilisateur
             typer.echo("📋 Récupération des informations utilisateur...")
-            user_info = api.auth.get_logged_user_info(token)
+            user_info = api.auth.get_user_info(token)
             
             if user_info:
                 typer.echo("✅ Informations utilisateur récupérées:")
