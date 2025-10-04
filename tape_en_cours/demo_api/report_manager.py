@@ -34,7 +34,7 @@ def generate_reports(
     report_type: ReportType = typer.Option(
         ReportType.ALL, "--type", "-t", help="Type de rapport à générer"
     ),
-    format: ReportFormat = typer.Option(
+    report_format: ReportFormat = typer.Option(
         ReportFormat.ALL, "--format", "-f", help="Format de rapport (json, markdown, html, all)"
     ),
     output_dir: str = typer.Option(
@@ -57,7 +57,7 @@ def generate_reports(
     if verbose:
         typer.echo("🔧 Configuration:")
         typer.echo(f"   Type de rapport: {report_type.value}")
-        typer.echo(f"   Format: {format.value}")
+        typer.echo(f"   Format: {report_format.value}")
         typer.echo(f"   Répertoire de sortie: {output_dir}")
         typer.echo()
 

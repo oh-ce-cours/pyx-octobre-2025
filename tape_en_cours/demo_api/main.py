@@ -7,7 +7,7 @@ Interface d'orchestration avec Typer pour le management des utilisateurs et VMs.
 
 import typer
 from utils.logging_config import get_logger
-from report_manager import generate_reports, ReportType
+from report_manager import generate_reports, ReportType, ReportFormat
 from vm_manager import create_vm
 
 logger = get_logger(__name__)
@@ -41,10 +41,11 @@ def report(
 
     \b
     python main.py report
-    python main.py report --type users-vms
-    python main.py report -t status -o ./rapports --verbose
+    python main.py report --type users-vms --format markdown
+    python main.py report -t status -f html -o ./rapports --verbose
+    python main.py report --format all --type all
     """
-    # Convertir le string en enum
+    # Convertir les strings en enums
     try:
         report_type_enum = ReportType(report_type)
     except ValueError as exc:
@@ -52,8 +53,15 @@ def report(
         typer.echo("Types valides: all, users-vms, status")
         raise typer.Exit(1) from exc
 
+    try:
+        format_enum = ReportFormat(format)
+    except ValueError as exc:
+        typer.echo(f"❌ Format de rapport invalide: {format}")
+        typer.echo("Formats valides: all, json, markdown, html")
+        raise typer.Exit(1) from exc
+
     # Appeler directement la fonction
-    generate_reports(report_type_enum, output_dir, verbose)
+    generate_reports(report_type_enum, format_enum, output_dir, verbose)
 
 
 @app.command()
