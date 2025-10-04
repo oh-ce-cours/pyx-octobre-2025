@@ -3,6 +3,7 @@
 Script de nettoyage rapide et simple pour les VMs et utilisateurs
 """
 
+import sys
 import time
 from typing import Optional
 import typer
@@ -225,28 +226,36 @@ def quick_cleanup(
 
         # Supprimer les utilisateurs ensuite
         try:
-            with console.status("[bold green]Récupération des utilisateurs pour suppression...") as status:
+            with console.status(
+                "[bold green]Récupération des utilisateurs pour suppression..."
+            ) as status:
                 users = client.users.get()
-            
+
             if not users:
                 console.print("[yellow]⚠️  Aucun utilisateur à supprimer[/yellow]")
                 deleted_users = 0
             else:
                 deleted_users = 0
-                
+
                 with Progress(
                     SpinnerColumn(),
                     TextColumn("[progress.description]{task.description}"),
-                    console=console
+                    console=console,
                 ) as progress:
-                    task = progress.add_task(f"Suppression de {len(users)} utilisateurs...", total=len(users))
-                    
+                    task = progress.add_task(
+                        f"Suppression de {len(users)} utilisateurs...", total=len(users)
+                    )
+
                     for i, user in enumerate(users):
                         try:
-                            with console.status(f"Suppression utilisateur {user['id']}: {user['name']}...") as delete_status:
+                            with console.status(
+                                f"Suppression utilisateur {user['id']}: {user['name']}..."
+                            ) as delete_status:
                                 client.users.delete_user(user["id"])
-                                
-                            console.print(f"[green]✅ Utilisateur supprimé ({i + 1}/{len(users)}): [bold]{user['name']}[/bold][/green]")
+
+                            console.print(
+                                f"[green]✅ Utilisateur supprimé ({i + 1}/{len(users)}): [bold]{user['name']}[/bold][/green]"
+                            )
                             deleted_users += 1
                             progress.update(task, advance=1)
 
@@ -256,18 +265,26 @@ def quick_cleanup(
                                 time.sleep(delay)
 
                         except Exception as e:
-                            console.print(f"[red]❌ Erreur suppression User {user['id']}: {e}[/red]")
+                            console.print(
+                                f"[red]❌ Erreur suppression User {user['id']}: {e}[/red]"
+                            )
                             progress.update(task, advance=1)
-                            
+
                             # Pause même en cas d'erreur
                             if i < len(users) - 1:
-                                console.print(f"[dim]⏱️  Pause après erreur ({delay}s)...[/dim]")
+                                console.print(
+                                    f"[dim]⏱️  Pause après erreur ({delay}s)...[/dim]"
+                                )
                                 time.sleep(delay)
 
-            console.print(f"[bold cyan]📊 Résultat Utilisateurs: [green]{deleted_users}/{len(users)} supprimés[/green][/bold cyan]")
-            
+            console.print(
+                f"[bold cyan]📊 Résultat Utilisateurs: [green]{deleted_users}/{len(users)} supprimés[/green][/bold cyan]"
+            )
+
         except Exception as e:
-            console.print(f"[red]❌ Erreur lors de la récupération des utilisateurs: {e}[/red]")
+            console.print(
+                f"[red]❌ Erreur lors de la récupération des utilisateurs: {e}[/red]"
+            )
 
         # Résumé final
         total_deleted = deleted_vms + deleted_users
@@ -275,69 +292,80 @@ def quick_cleanup(
         summary_table.add_column("Type", style="cyan")
         summary_table.add_column("Supprimé", style="green")
         summary_table.add_column("Total", style="yellow")
-        
+
         summary_table.add_row("VMs", str(deleted_vms), str(len(vms)))
         summary_table.add_row("Utilisateurs", str(deleted_users), str(len(users)))
-        summary_table.add_row("**TOTAL**", f"[bold]{total_deleted}[/bold]", f"[bold]{len(vms) + len(users)}[/bold]")
-        
+        summary_table.add_row(
+            "**TOTAL**",
+            f"[bold]{total_deleted}[/bold]",
+            f"[bold]{len(vms) + len(users)}[/bold]",
+        )
+
         console.print(summary_table)
-        console.print(Panel.fit(
-            "[bold green]✅ NETTOYAGE TERMINÉ AVEC SUCCÈS ![/bold green]",
-            border_style="green"
-        ))
+        console.print(
+            Panel.fit(
+                "[bold green]✅ NETTOYAGE TERMINÉ AVEC SUCCÈS ![/bold green]",
+                border_style="green",
+            )
+        )
 
     except Exception as e:
         console.print(f"[bold red]❌ Erreur critique: {e}[/bold red]")
         raise typer.Exit(1)
 
 
+@app.command()
+def cleanup(
+    base_url: Optional[str] = typer.Option(
+        None, "--base-url", "-u", help="URL de base de l'API"
+    ),
+    email: Optional[str] = typer.Option(
+        None, "--email", "-e", help="Email pour l'authentification"
+    ),
+    password: Optional[str] = typer.Option(
+        None, "--password", "-p", help="Mot de passe pour l'authentification"
+    ),
+    real: bool = typer.Option(
+        False,
+        "--real",
+        "-r",
+        help="Effectue la suppression réelle (par défaut: mode simulation)",
+    ),
+    delay: float = typer.Option(
+        2.5,
+        "--delay",
+        "-d",
+        help="Délai en secondes entre les opérations (par défaut: 2.5)",
+    ),
+) -> None:
+    """
+    Script de nettoyage pour les VMs et utilisateurs
+
+    Nettoie toutes les données via l'API avec gestion automatique des limites de taux.
+
+    💡 Exemples d'usage:
+
+    • Mode simulation (par défaut):
+       python quick_cleanup.py
+
+    • Suppression réelle:
+       python quick_cleanup.py --real
+
+    • Avec délai personnalisé:
+       python quick_cleanup.py --real --delay 3
+
+    • Avec authentification spécifique:
+       python quick_cleanup.py --real --email user@example.com --password secret
+
+    ⚠️  ATTENTION: Utilisez --real seulement si vous voulez vraiment supprimer les données !
+    """
+    simulate = not real
+    quick_cleanup(base_url, email, password, simulate, delay)
+
+
 def main():
-    """Point d'entrée principal"""
-    args = sys.argv[1:]
-
-    # Paramètres par défaut
-    simulate = True
-    delay = 2.5
-
-    # Parse arguments simples
-    i = 0
-    while i < len(args):
-        arg = args[i]
-
-        if arg in ("--real", "--confirm"):
-            simulate = False
-        elif arg == "--delay":
-            # Récupérer la valeur du délai
-            if i + 1 < len(args) and args[i + 1].replace(".", "").isdigit():
-                delay = float(args[i + 1])
-                i += 1  # Skip la valeur du délai
-            else:
-                print("❌ Erreur: --delay nécessite une valeur numérique")
-                sys.exit(1)
-        elif arg in ("--help", "-h"):
-            print("Usage:")
-            print("  python quick_cleanup.py                    # Mode simulation")
-            print(
-                "  python quick_cleanup.py --real             # Suppression réelle (délai 2.5s)"
-            )
-            print(
-                "  python quick_cleanup.py --real --delay 3   # Suppression réelle avec délai personnalisé"
-            )
-            print("  python quick_cleanup.py --help             # Affiche cette aide")
-            sys.exit(0)
-        else:
-            print(f"❌ Argument inconnu: {arg}")
-            print("Utilisez --help pour voir l'aide")
-            sys.exit(1)
-
-        i += 1
-
-    print(f"🔧 Configuration:")
-    print(f"   Mode: {'Simulation' if simulate else 'Suppression réelle'}")
-    print(f"   Délai entre opérations: {delay}s")
-    print()
-
-    quick_cleanup(simulate, delay)
+    """Point d'entrée principal avec Typer"""
+    app()
 
 
 if __name__ == "__main__":
