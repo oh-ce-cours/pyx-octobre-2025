@@ -13,6 +13,15 @@ import requests
 from .auth import Auth
 from .user import get_users, add_vms_to_users
 from .vm import get_vms, create_vm
+from .exceptions import (
+    UserCreationError, 
+    UserLoginError, 
+    UserInfoError, 
+    UsersFetchError,
+    VMsFetchError,
+    VMCreationError,
+    TokenError
+)
 from ..config import config
 from ..logging_config import get_logger
 
@@ -44,8 +53,12 @@ class UsersAPI:
         ram_gb: int,
         disk_gb: int,
         status: str = "stopped",
-    ) -> Optional[Dict[str, Any]]:
-        """Crée une VM pour un utilisateur"""
+    ) -> Dict[str, Any]:
+        """Crée une VM pour un utilisateur
+        
+        Raises:
+            VMCreationError: Si la création de la VM échoue
+        """
         logger.info(
             "Création de VM via API unifiée",
             user_id=user_id,
@@ -85,8 +98,12 @@ class VMsAPI:
         ram_gb: int,
         disk_gb: int,
         status: str = "stopped",
-    ) -> Optional[Dict[str, Any]]:
-        """Crée une VM"""
+    ) -> Dict[str, Any]:
+        """Crée une VM
+        
+        Raises:
+            VMCreationError: Si la création de la VM échoue
+        """
         logger.info(
             "Création de VM via API unifiée",
             user_id=user_id,
@@ -112,13 +129,16 @@ class AuthAPI:
     def __init__(self, api_client: "ApiClient"):
         self._api = api_client
 
-    def login(self, email: str, password: str) -> Optional[str]:
-        """Connexion d'un utilisateur"""
+    def login(self, email: str, password: str) -> str:
+        """Connexion d'un utilisateur
+        
+        Raises:
+            UserLoginError: Si la connexion échoue
+        """
         logger.info("Connexion utilisateur via API unifiée", email=email)
         token = self._api._auth.login_user(email, password)
-        if token:
-            self._api.token = token
-            logger.info("Connexion réussie via API unifiée", email=email)
+        self._api.token = token
+        logger.info("Connexion réussie via API unifiée", email=email)
         return token
 
     def create_user(self, name: str, email: str, password: str) -> Optional[str]:
