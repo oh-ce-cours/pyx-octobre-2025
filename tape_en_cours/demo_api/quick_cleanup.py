@@ -3,8 +3,9 @@
 Script de nettoyage rapide et simple pour les VMs et utilisateurs
 
 Usage simple:
-    python quick_cleanup.py           # Mode simulation
-    python quick_cleanup.py --real    # Suppression réelle
+    python quick_cleanup.py                    # Mode simulation
+    python quick_cleanup.py --real             # Suppression réelle (délai par défaut 2.5s)
+    python quick_cleanup.py --real --delay 3   # Suppression réelle avec délai personnalisé
 """
 
 import sys
@@ -15,8 +16,14 @@ from utils.logging_config import get_logger
 logger = get_logger(__name__)
 
 
-def quick_cleanup(simulate: bool = True):
-    """Nettoie rapidement toutes les données"""
+def quick_cleanup(simulate: bool = True, delay: float = 2.5):
+    """
+    Nettoie rapidement toutes les données avec respect des limites de taux
+    
+    Args:
+        simulate: Si True, mode simulation (aucune suppression réelle)
+        delay: Délai en secondes entre les suppressions pour éviter les 429
+    """
 
     if simulate:
         print("🧹 NETTOYAGE SIMULATION")
@@ -55,19 +62,30 @@ def quick_cleanup(simulate: bool = True):
             return
 
         # Suppression réelle
-        print("\n🗑️  Suppression en cours...")
+        print(f"\n🗑️  Suppression en cours avec délai de {delay}s entre chaque opération...")
 
         # Supprimer les VMs d'abord
         try:
             vms = client.vms.get()
             deleted_vms = 0
-            for vm in vms:
+            
+            for i, vm in enumerate(vms):
                 try:
                     client.vms.delete(vm["id"])
-                    print(f"   ✅ VM supprimée: {vm['name']}")
+                    print(f"   ✅ VM supprimée ({i+1}/{len(vms)}): {vm['name']}")
                     deleted_vms += 1
+                    
+                    # Pause entre les suppressions pour éviter les 429
+                    if i < len(vms) - 1:  # Pas de pause après la dernière suppression
+                        print(f"   ⏱️  Pause de {delay}s avant la prochaine suppression...")
+                        time.sleep(delay)
+                        
                 except Exception as e:
                     print(f"   ❌ Erreur suppression VM {vm['id']}: {e}")
+                    # Pause même en cas d'erreur pour éviter d'aggraver les problèmes de rate limiting
+                    if i < len(vms) - 1:
+                        print(f"   ⏱️  Pause après erreur ({delay}s)...")
+                        time.sleep(delay)
 
             print(f"📊 VMs supprimées: {deleted_vms}/{len(vms)}")
         except Exception as e:
@@ -77,13 +95,26 @@ def quick_cleanup(simulate: bool = True):
         try:
             users = client.users.get()
             deleted_users = 0
-            for user in users:
+            
+            print(f"\n👥 Suppression des utilisateurs avec délai de {delay}s...")
+            
+            for i, user in enumerate(users):
                 try:
                     client.users.delete_user(user["id"])
-                    print(f"   ✅ Utilisateur supprimé: {user['name']}")
+                    print(f"   ✅ Utilisateur supprimé ({i+1}/{len(users)}): {user['name']}")
                     deleted_users += 1
+                    
+                    # Pause entre les suppressions pour éviter les 429
+                    if i < len(users) - 1:  # Pas de pause après la dernière suppression
+                        print(f"   ⏱️  Pause de {delay}s avant la prochaine suppression...")
+                        time.sleep(delay)
+                        
                 except Exception as e:
                     print(f"   ❌ Erreur suppression User {user['id']}: {e}")
+                    # Pause même en cas d'erreur pour éviter d'aggraver les problèmes de rate limiting
+                    if i < len(users) - 1:
+                        print(f"   ⏱️  Pause après erreur ({delay}s)...")
+                        time.sleep(delay)
 
             print(f"📊 Utilisateurs supprimés: {deleted_users}/{len(users)}")
         except Exception as e:
