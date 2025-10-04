@@ -705,6 +705,7 @@ def full_dataset(
             user_ids=user_ids,
             batch_size=batch_size,
             delay_between_batches=delay,
+            max_retries=max_retries,
         )
 
         # Statistiques finales
