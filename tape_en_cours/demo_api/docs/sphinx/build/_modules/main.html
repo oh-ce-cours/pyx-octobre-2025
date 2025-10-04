@@ -1,0 +1,574 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>main &mdash; Demo API 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Demo API
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenu:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Guide de démarrage rapide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">Modules API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli/index.html">Interface en ligne de commande</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Exemples d’utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Journal des modifications</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Demo API</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">main</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for main</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Point d&#39;entrée principal pour demo_api</span>
+
+<span class="sd">Interface d&#39;orchestration avec Typer pour le management des utilisateurs et VMs.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">typer</span>
+<span class="kn">from</span> <span class="nn">utils.logging_config</span> <span class="kn">import</span> <span class="n">get_logger</span>
+<span class="kn">from</span> <span class="nn">report_manager</span> <span class="kn">import</span> <span class="n">generate_reports</span><span class="p">,</span> <span class="n">ReportType</span><span class="p">,</span> <span class="n">ReportFormat</span>
+<span class="kn">from</span> <span class="nn">vm_manager</span> <span class="kn">import</span> <span class="n">create_vm</span>
+<span class="kn">from</span> <span class="nn">utils.data_generator</span> <span class="kn">import</span> <span class="n">DataGenerator</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">utils.password_utils</span> <span class="kn">import</span> <span class="n">save_token_to_env</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Typer</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;demo-api&quot;</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s2">&quot;🏗️ Interface CLI pour demo_api - Management des utilisateurs et VMs&quot;</span><span class="p">,</span>
+    <span class="n">rich_markup_mode</span><span class="o">=</span><span class="s2">&quot;markdown&quot;</span><span class="p">,</span>
+    <span class="n">add_completion</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">no_args_is_help</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="report">
+<a class="viewcode-back" href="../api/main.html#main.report">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">report</span><span class="p">(</span>
+    <span class="n">report_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;--type&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Type de rapport à générer (all, users-vms, status)&quot;</span>
+    <span class="p">),</span>
+    <span class="n">report_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;--format&quot;</span><span class="p">,</span> <span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Format de rapport (all, json, markdown, html)&quot;</span>
+    <span class="p">),</span>
+    <span class="n">output_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="s2">&quot;outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;--output-dir&quot;</span><span class="p">,</span> <span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Répertoire de sortie pour les rapports&quot;</span>
+    <span class="p">),</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;--verbose&quot;</span><span class="p">,</span> <span class="s2">&quot;-v&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Mode verbeux&quot;</span><span class="p">),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    📊 Générer des rapports</span>
+
+<span class="sd">    Exemples:</span>
+
+<span class="sd">    \b</span>
+<span class="sd">    python main.py report</span>
+<span class="sd">    python main.py report --type users-vms --format markdown</span>
+<span class="sd">    python main.py report -t status -f html -o ./rapports --verbose</span>
+<span class="sd">    python main.py report --format all --type all</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Convertir les strings en enums</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">report_type_enum</span> <span class="o">=</span> <span class="n">ReportType</span><span class="p">(</span><span class="n">report_type</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;❌ Type de rapport invalide: </span><span class="si">{</span><span class="n">report_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;Types valides: all, users-vms, status&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">format_enum</span> <span class="o">=</span> <span class="n">ReportFormat</span><span class="p">(</span><span class="n">report_format</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;❌ Format de rapport invalide: </span><span class="si">{</span><span class="n">report_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;Formats valides: all, json, markdown, html&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+
+    <span class="c1"># Appeler directement la fonction</span>
+    <span class="n">generate_reports</span><span class="p">(</span><span class="n">report_type_enum</span><span class="p">,</span> <span class="n">format_enum</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="signup">
+<a class="viewcode-back" href="../api/main.html#main.signup">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">signup</span><span class="p">(</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="s2">&quot;Jean Dupont&quot;</span><span class="p">,</span> <span class="s2">&quot;--name&quot;</span><span class="p">,</span> <span class="s2">&quot;-n&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Nom de l&#39;utilisateur&quot;</span>
+    <span class="p">),</span>
+    <span class="n">email</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="s2">&quot;jean@dupont21.com&quot;</span><span class="p">,</span> <span class="s2">&quot;--email&quot;</span><span class="p">,</span> <span class="s2">&quot;-e&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Email de l&#39;utilisateur&quot;</span>
+    <span class="p">),</span>
+    <span class="n">password</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="s2">&quot;password123&quot;</span><span class="p">,</span> <span class="s2">&quot;--password&quot;</span><span class="p">,</span> <span class="s2">&quot;-p&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Mot de passe de l&#39;utilisateur&quot;</span>
+    <span class="p">),</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;--verbose&quot;</span><span class="p">,</span> <span class="s2">&quot;-v&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Mode verbeux&quot;</span><span class="p">),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    👤 Créer un nouvel utilisateur avec authentification</span>
+
+<span class="sd">    Crée un utilisateur via /auth/signup et récupère son token d&#39;authentification.</span>
+
+<span class="sd">    Exemples:</span>
+
+<span class="sd">    \b</span>
+<span class="sd">    python main.py signup</span>
+<span class="sd">    python main.py signup --name &quot;Alice Martin&quot; --email &quot;alice@example.com&quot;</span>
+<span class="sd">    python main.py signup -n &quot;Bob Dupont&quot; -e &quot;bob@test.com&quot; -p &quot;monmotdepasse&quot; --verbose</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">utils.api.auth</span> <span class="kn">import</span> <span class="n">Auth</span>
+    <span class="kn">from</span> <span class="nn">utils.config</span> <span class="kn">import</span> <span class="n">config</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;🔧 Configuration utilisateur:&quot;</span><span class="p">)</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Nom: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Email: </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Mot de passe: </span><span class="si">{</span><span class="s1">&#39;*&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">password</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">()</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Début du processus de création d&#39;utilisateur&quot;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="c1"># Initialisation du client Auth</span>
+    <span class="n">auth</span> <span class="o">=</span> <span class="n">Auth</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">DEMO_API_BASE_URL</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Création de l&#39;utilisateur via /auth/signup</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;🔐 Création de l&#39;utilisateur...&quot;</span><span class="p">)</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="n">auth</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">token</span><span class="p">:</span>
+            <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;✅ Utilisateur créé avec succès!&quot;</span><span class="p">)</span>
+            <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   👤 Nom: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   📧 Email: </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">()</span>
+            <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;🔑 Token d&#39;authentification:&quot;</span><span class="p">)</span>
+            <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">()</span>
+            <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;📝 Token tronqué (20 premiers caractères):&quot;</span><span class="p">)</span>
+            <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   </span><span class="si">{</span><span class="n">token</span><span class="p">[:</span><span class="mi">20</span><span class="p">]</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+            <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">()</span>
+
+            <span class="c1"># Sauvegarder le token dans les variables d&#39;environnement de la session</span>
+
+            <span class="k">if</span> <span class="n">save_token_to_env</span><span class="p">(</span><span class="n">token</span><span class="p">):</span>
+                <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span>
+                    <span class="s2">&quot;💾 Token sauvegardé dans la session courante et dans .env.local&quot;</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;⚠️ Impossible de sauvegarder le token&quot;</span><span class="p">)</span>
+            <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">()</span>
+
+            <span class="c1"># Récupérer les informations complètes de l&#39;utilisateur</span>
+            <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;📋 Récupération des informations utilisateur...&quot;</span><span class="p">)</span>
+            <span class="n">user_info</span> <span class="o">=</span> <span class="n">auth</span><span class="o">.</span><span class="n">get_logged_user_info</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">user_info</span><span class="p">:</span>
+                <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;✅ Informations utilisateur récupérées:&quot;</span><span class="p">)</span>
+                <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   🆔 ID: </span><span class="si">{</span><span class="n">user_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   👤 Nom: </span><span class="si">{</span><span class="n">user_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   📧 Email: </span><span class="si">{</span><span class="n">user_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                <span class="c1"># Formater la date de création de manière plus lisible</span>
+                <span class="n">created_at</span> <span class="o">=</span> <span class="n">user_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;created_at&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">created_at</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">created_at</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                        <span class="c1"># Si c&#39;est un timestamp, le convertir</span>
+                        <span class="kn">from</span> <span class="nn">utils.date_utils</span> <span class="kn">import</span> <span class="n">parse_unix_timestamp</span>
+
+                        <span class="n">formatted_date</span> <span class="o">=</span> <span class="n">parse_unix_timestamp</span><span class="p">(</span><span class="n">created_at</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span>
+                            <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">/%m/%Y à %H:%M:%S&quot;</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c1"># Si c&#39;est déjà un objet datetime ou une chaîne</span>
+                        <span class="n">formatted_date</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">created_at</span><span class="p">)</span>
+                    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   📅 Créé le: </span><span class="si">{</span><span class="n">formatted_date</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;   📅 Créé le: N/A&quot;</span><span class="p">)</span>
+
+                <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">()</span>
+                <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;✨ Utilisateur prêt à utiliser!&quot;</span><span class="p">)</span>
+                <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span>
+                    <span class="s2">&quot;💡 Vous pouvez maintenant utiliser la commande &#39;create&#39; pour créer des VMs&quot;</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span>
+                    <span class="s2">&quot;⚠️ Utilisateur créé mais impossible de récupérer les informations&quot;</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;❌ Échec de la création de l&#39;utilisateur&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Erreur lors de la création de l&#39;utilisateur&quot;</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;❌ Erreur lors de la création: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="create">
+<a class="viewcode-back" href="../api/main.html#main.create">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">create</span><span class="p">(</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="s2">&quot;VM de Jean&quot;</span><span class="p">,</span> <span class="s2">&quot;--name&quot;</span><span class="p">,</span> <span class="s2">&quot;-n&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Nom de la VM&quot;</span><span class="p">),</span>
+    <span class="n">email</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="s2">&quot;jean@dupont21.com&quot;</span><span class="p">,</span> <span class="s2">&quot;--email&quot;</span><span class="p">,</span> <span class="s2">&quot;-e&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Email de l&#39;utilisateur existant&quot;</span>
+    <span class="p">),</span>
+    <span class="n">password</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="s2">&quot;password123&quot;</span><span class="p">,</span> <span class="s2">&quot;--password&quot;</span><span class="p">,</span> <span class="s2">&quot;-p&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Mot de passe de l&#39;utilisateur&quot;</span>
+    <span class="p">),</span>
+    <span class="n">use_saved_token</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;--use-token&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Utiliser le token sauvegardé dans la session&quot;</span>
+    <span class="p">),</span>
+    <span class="n">os</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="s2">&quot;Ubuntu 22.04&quot;</span><span class="p">,</span> <span class="s2">&quot;--os&quot;</span><span class="p">,</span> <span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Système d&#39;exploitation&quot;</span><span class="p">),</span>
+    <span class="n">cores</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;--cores&quot;</span><span class="p">,</span> <span class="s2">&quot;-c&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Nombre de cœurs CPU&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">16</span>
+    <span class="p">),</span>
+    <span class="n">ram</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;--ram&quot;</span><span class="p">,</span> <span class="s2">&quot;-r&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;RAM en GB&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">128</span><span class="p">),</span>
+    <span class="n">disk</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;--disk&quot;</span><span class="p">,</span> <span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Disque en GB&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">2048</span><span class="p">),</span>
+    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="s2">&quot;stopped&quot;</span><span class="p">,</span> <span class="s2">&quot;--status&quot;</span><span class="p">,</span> <span class="s2">&quot;-s&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Statut initial de la VM&quot;</span>
+    <span class="p">),</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;--verbose&quot;</span><span class="p">,</span> <span class="s2">&quot;-v&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Mode verbeux&quot;</span><span class="p">),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    🖥️ Créer une VM pour un utilisateur existant</span>
+
+<span class="sd">    Authentifie un utilisateur existant et crée une VM pour lui.</span>
+<span class="sd">    Peut utiliser un token sauvegardé ou des identifiants email/mot de passe.</span>
+
+<span class="sd">    Exemples:</span>
+
+<span class="sd">    \b</span>
+<span class="sd">    python main.py create</span>
+<span class="sd">    python main.py create --name &quot;Ma VM&quot; --email &quot;alice@example.com&quot; --password &quot;motdepasse&quot;</span>
+<span class="sd">    python main.py create -n &quot;VM Test&quot; --ram 8 --disk 100 --verbose</span>
+<span class="sd">    python main.py create --name &quot;Ma VM&quot; --use-token</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Vérifier si on doit utiliser le token sauvegardé</span>
+    <span class="k">if</span> <span class="n">use_saved_token</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">utils.password_utils</span> <span class="kn">import</span> <span class="n">get_token_from_config</span>
+
+        <span class="n">saved_token</span> <span class="o">=</span> <span class="n">get_token_from_config</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">saved_token</span><span class="p">:</span>
+            <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;🔑 Utilisation du token sauvegardé dans la session&quot;</span><span class="p">)</span>
+            <span class="c1"># Créer un client API avec le token sauvegardé</span>
+            <span class="kn">from</span> <span class="nn">utils.api</span> <span class="kn">import</span> <span class="n">ApiClient</span>
+
+            <span class="n">api_client</span> <span class="o">=</span> <span class="n">ApiClient</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="n">saved_token</span><span class="p">)</span>
+
+            <span class="c1"># Vérifier que le token est valide en récupérant les infos utilisateur</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">user_info</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">get_user_info</span><span class="p">()</span>
+                <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;✅ Token valide pour: </span><span class="si">{</span><span class="n">user_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">user_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+                <span class="p">)</span>
+
+                <span class="c1"># Créer la VM directement avec l&#39;API</span>
+                <span class="n">vm_result</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">vms</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                    <span class="n">user_id</span><span class="o">=</span><span class="n">user_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">operating_system</span><span class="o">=</span><span class="n">os</span><span class="p">,</span>
+                    <span class="n">cpu_cores</span><span class="o">=</span><span class="n">cores</span><span class="p">,</span>
+                    <span class="n">ram_gb</span><span class="o">=</span><span class="n">ram</span><span class="p">,</span>
+                    <span class="n">disk_gb</span><span class="o">=</span><span class="n">disk</span><span class="p">,</span>
+                    <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">vm_result</span><span class="p">:</span>
+                    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;🎉 VM créée avec succès!&quot;</span><span class="p">)</span>
+                    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   🆔 ID: </span><span class="si">{</span><span class="n">vm_result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   📝 Nom: </span><span class="si">{</span><span class="n">vm_result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   💻 OS: </span><span class="si">{</span><span class="n">vm_result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;operating_system&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   🔧 CPU: </span><span class="si">{</span><span class="n">vm_result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;cpu_cores&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> cores&quot;</span><span class="p">)</span>
+                    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   💾 RAM: </span><span class="si">{</span><span class="n">vm_result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ram_gb&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+                    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   💿 Disque: </span><span class="si">{</span><span class="n">vm_result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;disk_gb&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+                    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   ⚡ Statut: </span><span class="si">{</span><span class="n">vm_result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;✨ Terminé!&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;❌ Échec de la création de la VM&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;❌ Token invalide ou expiré: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span>
+                    <span class="s2">&quot;💡 Utilisez --password pour vous authentifier avec email/mot de passe&quot;</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;❌ Aucun token sauvegardé trouvé&quot;</span><span class="p">)</span>
+            <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span>
+                <span class="s2">&quot;💡 Créez d&#39;abord un utilisateur avec &#39;signup&#39; ou utilisez --password&quot;</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Appeler directement la fonction avec le mot de passe</span>
+        <span class="n">create_vm</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">os</span><span class="p">,</span> <span class="n">cores</span><span class="p">,</span> <span class="n">ram</span><span class="p">,</span> <span class="n">disk</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="generate">
+<a class="viewcode-back" href="../api/main.html#main.generate">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+    <span class="n">user_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;--users&quot;</span><span class="p">,</span> <span class="s2">&quot;-u&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Nombre d&#39;utilisateurs à générer&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">1000</span>
+    <span class="p">),</span>
+    <span class="n">min_vms</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;--min-vms&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Nombre minimum de VMs par utilisateur&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">10</span>
+    <span class="p">),</span>
+    <span class="n">max_vms</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;--max-vms&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Nombre maximum de VMs par utilisateur&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">20</span>
+    <span class="p">),</span>
+    <span class="n">output_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="s2">&quot;vm_users.json&quot;</span><span class="p">,</span> <span class="s2">&quot;--output&quot;</span><span class="p">,</span> <span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Fichier de sortie JSON&quot;</span>
+    <span class="p">),</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;--verbose&quot;</span><span class="p">,</span> <span class="s2">&quot;-v&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Mode verbeux&quot;</span><span class="p">),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    🎲 Générer des données factices avec Faker</span>
+
+<span class="sd">    Génère un dataset complet d&#39;utilisateurs français avec des VMs réalistes.</span>
+<span class="sd">    Les données sont sauvegardées dans un fichier JSON.</span>
+
+<span class="sd">    Exemples:</span>
+
+<span class="sd">    \b</span>
+<span class="sd">    python main.py generate</span>
+<span class="sd">    python main.py generate --users 100 --max-vms 3</span>
+<span class="sd">    python main.py generate -u 25 -o mon_dataset.json --verbose</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">min_vms</span> <span class="o">&gt;</span> <span class="n">max_vms</span><span class="p">:</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;❌ Le nombre minimum de VMs ne peut pas être supérieur au maximum&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;🎲 Génération de </span><span class="si">{</span><span class="n">user_count</span><span class="si">}</span><span class="s2"> utilisateurs avec </span><span class="si">{</span><span class="n">min_vms</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">max_vms</span><span class="si">}</span><span class="s2"> VMs chacun...&quot;</span>
+    <span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Générer les données</span>
+        <span class="n">users_data</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="o">.</span><span class="n">generate_users_with_vms</span><span class="p">(</span>
+            <span class="n">user_count</span><span class="o">=</span><span class="n">user_count</span><span class="p">,</span> <span class="n">vm_per_user_range</span><span class="o">=</span><span class="p">(</span><span class="n">min_vms</span><span class="p">,</span> <span class="n">max_vms</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Sauvegarder dans le fichier JSON</span>
+        <span class="n">output_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">users_data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+
+        <span class="c1"># Statistiques</span>
+        <span class="n">total_vms</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="s2">&quot;vms&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users_data</span><span class="p">)</span>
+        <span class="n">users_with_vms_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">u</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">users_data</span> <span class="k">if</span> <span class="n">u</span><span class="p">[</span><span class="s2">&quot;vms&quot;</span><span class="p">]])</span>
+
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;✅ Données générées avec succès !&quot;</span><span class="p">)</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;📊 Statistiques:&quot;</span><span class="p">)</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   • Utilisateurs: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">users_data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   • VMs totales: </span><span class="si">{</span><span class="n">total_vms</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   • Utilisateurs avec VMs: </span><span class="si">{</span><span class="n">users_with_vms_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   • Moyenne VMs/utilisateur: </span><span class="si">{</span><span class="n">total_vms</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">users_data</span><span class="p">)</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📁 Fichier sauvegardé: </span><span class="si">{</span><span class="n">output_path</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🔍 Aperçu des données générées:&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">user</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">users_data</span><span class="p">[:</span><span class="mi">3</span><span class="p">]):</span>
+                <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;   </span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">user</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">user</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">) - </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="s1">&#39;vms&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2"> VMs&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">users_data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   ... et </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">users_data</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">3</span><span class="si">}</span><span class="s2"> autres utilisateurs&quot;</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Erreur lors de la génération des données&quot;</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;❌ Erreur lors de la génération: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="debug">
+<a class="viewcode-back" href="../api/main.html#main.debug">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">debug</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;🔍 Afficher les informations de debug sur la configuration&quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">utils.config</span> <span class="kn">import</span> <span class="n">config</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;🔍 Informations de debug - Configuration&quot;</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+
+    <span class="c1"># Informations sur les fichiers .env</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;📁 Fichiers .env chargés:&quot;</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Nombre de fichiers: </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">env_files_loaded</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">env_files</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;.env.defaults&quot;</span><span class="p">,</span> <span class="s2">&quot;.env.local&quot;</span><span class="p">,</span> <span class="s2">&quot;.env&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">env_file</span> <span class="ow">in</span> <span class="n">env_files</span><span class="p">:</span>
+        <span class="n">exists</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">env_file</span><span class="p">)</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   </span><span class="si">{</span><span class="n">env_file</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="s1">&#39;✅ Existe&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">exists</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;❌ N&#39;existe pas&quot;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">()</span>
+
+    <span class="c1"># Configuration de l&#39;API</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;🌐 Configuration API:&quot;</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   URL de base: </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">DEMO_API_BASE_URL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Timeout: </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">DEMO_API_TIMEOUT</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Max retries: </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">DEMO_API_MAX_RETRIES</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;   Mode debug: </span><span class="si">{</span><span class="s1">&#39;✅ Activé&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">config</span><span class="o">.</span><span class="n">DEMO_API_DEBUG</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;❌ Désactivé&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Niveau de log: </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">DEMO_API_LOG_LEVEL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">()</span>
+
+    <span class="c1"># Identifiants</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;🔐 Identifiants:&quot;</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Email défini: </span><span class="si">{</span><span class="s1">&#39;✅ Oui&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">config</span><span class="o">.</span><span class="n">DEMO_API_EMAIL</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;❌ Non&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;   Mot de passe défini: </span><span class="si">{</span><span class="s1">&#39;✅ Oui&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">config</span><span class="o">.</span><span class="n">DEMO_API_PASSWORD</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;❌ Non&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Token défini: </span><span class="si">{</span><span class="s1">&#39;✅ Oui&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">config</span><span class="o">.</span><span class="n">DEMO_API_TOKEN</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;❌ Non&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">DEMO_API_TOKEN</span><span class="p">:</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Token (tronqué): </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">DEMO_API_TOKEN</span><span class="p">[:</span><span class="mi">20</span><span class="p">]</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">()</span>
+
+    <span class="c1"># Propriétés de configuration</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;⚙️ Propriétés de configuration:&quot;</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;   Environnement production: </span><span class="si">{</span><span class="s1">&#39;✅ Oui&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">config</span><span class="o">.</span><span class="n">is_production</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;❌ Non&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;   Identifiants disponibles: </span><span class="si">{</span><span class="s1">&#39;✅ Oui&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">config</span><span class="o">.</span><span class="n">has_credentials</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;❌ Non&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Token disponible: </span><span class="si">{</span><span class="s1">&#39;✅ Oui&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">config</span><span class="o">.</span><span class="n">has_token</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;❌ Non&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">()</span>
+
+    <span class="c1"># Configuration client</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;🔧 Configuration client:&quot;</span><span class="p">)</span>
+    <span class="n">client_config</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">client_config</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">client_config</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">()</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;✨ Debug terminé!&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="version">
+<a class="viewcode-back" href="../api/main.html#main.version">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">version</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;📋 Afficher la version&quot;&quot;&quot;</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;demo-api CLI v3.0.0&quot;</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;Powered by Typer 🚀&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../api/main.html#main.main">[docs]</a>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Point d&#39;entrée principal&quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">sys</span>
+
+    <span class="c1"># Gérer -h comme alias pour --help</span>
+    <span class="k">if</span> <span class="s2">&quot;-h&quot;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="ow">and</span> <span class="s2">&quot;--help&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;-h&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="s2">&quot;--help&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">app</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">⚠️  Exécution interrompue&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;❌ Erreur: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Demo API Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

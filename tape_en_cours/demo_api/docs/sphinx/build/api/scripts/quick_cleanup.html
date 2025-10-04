@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Module utils.config" href="../utils/config.html" />
-    <link rel="prev" title="Module scripts.generate_data" href="generate_data.html" /> 
+    <link rel="prev" title="Module scripts.generate_docs" href="generate_docs.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,7 +52,34 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#modules-scripts">Modules scripts</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="create_data_via_api.html">Module scripts.create_data_via_api</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generate_data.html">Module scripts.generate_data</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Module scripts.quick_cleanup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generate_docs.html">Module scripts.generate_docs</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Module scripts.quick_cleanup</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.display_header"><code class="docutils literal notranslate"><span class="pre">display_header()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.display_api_config"><code class="docutils literal notranslate"><span class="pre">display_api_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.display_operation_config"><code class="docutils literal notranslate"><span class="pre">display_operation_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.display_simulation_message"><code class="docutils literal notranslate"><span class="pre">display_simulation_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.connect_to_api"><code class="docutils literal notranslate"><span class="pre">connect_to_api()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.fetch_data"><code class="docutils literal notranslate"><span class="pre">fetch_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.display_vms_table"><code class="docutils literal notranslate"><span class="pre">display_vms_table()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.display_users_table"><code class="docutils literal notranslate"><span class="pre">display_users_table()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.display_deletion_progress"><code class="docutils literal notranslate"><span class="pre">display_deletion_progress()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.display_deletion_result"><code class="docutils literal notranslate"><span class="pre">display_deletion_result()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.display_pause_message"><code class="docutils literal notranslate"><span class="pre">display_pause_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.display_success_message"><code class="docutils literal notranslate"><span class="pre">display_success_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.delete_vm_data"><code class="docutils literal notranslate"><span class="pre">delete_vm_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.delete_user_data"><code class="docutils literal notranslate"><span class="pre">delete_user_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.delete_items_batch"><code class="docutils literal notranslate"><span class="pre">delete_items_batch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.delete_items_with_progress"><code class="docutils literal notranslate"><span class="pre">delete_items_with_progress()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.delete_items_with_progress_and_global"><code class="docutils literal notranslate"><span class="pre">delete_items_with_progress_and_global()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.delete_single_vm_with_display"><code class="docutils literal notranslate"><span class="pre">delete_single_vm_with_display()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.delete_single_user_with_display"><code class="docutils literal notranslate"><span class="pre">delete_single_user_with_display()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.cleanup_data"><code class="docutils literal notranslate"><span class="pre">cleanup_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.show_summary"><code class="docutils literal notranslate"><span class="pre">show_summary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.quick_cleanup"><code class="docutils literal notranslate"><span class="pre">quick_cleanup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.cleanup"><code class="docutils literal notranslate"><span class="pre">cleanup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.quick_cleanup.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#modules-utils">Modules utils</a></li>
@@ -90,15 +117,412 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-scripts-quick-cleanup">
-<h1>Module scripts.quick_cleanup<a class="headerlink" href="#module-scripts-quick-cleanup" title="Link to this heading"></a></h1>
+  <section id="module-scripts.quick_cleanup">
+<span id="module-scripts-quick-cleanup"></span><h1>Module scripts.quick_cleanup<a class="headerlink" href="#module-scripts.quick_cleanup" title="Link to this heading"></a></h1>
+<p>Script de nettoyage simplifié pour les VMs et utilisateurs avec Typer et Rich
+Utilise des fonctions modulaires pour une meilleure lisibilité</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.display_header">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">display_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulate</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#display_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.display_header" title="Link to this definition"></a></dt>
+<dd><p>Affiche l’en-tête selon le mode</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>simulate</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.display_api_config">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">display_api_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#display_api_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.display_api_config" title="Link to this definition"></a></dt>
+<dd><p>Affiche la configuration de l’API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.display_operation_config">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">display_operation_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delay</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulate</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#display_operation_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.display_operation_config" title="Link to this definition"></a></dt>
+<dd><p>Affiche la configuration des opérations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>delay</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>simulate</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.display_simulation_message">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">display_simulation_message</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#display_simulation_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.display_simulation_message" title="Link to this definition"></a></dt>
+<dd><p>Affiche le message de simulation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.connect_to_api">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">connect_to_api</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#connect_to_api"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.connect_to_api" title="Link to this definition"></a></dt>
+<dd><p>Se connecte à l’API et retourne le client</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>base_url</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>email</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>password</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.fetch_data">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">fetch_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#fetch_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.fetch_data" title="Link to this definition"></a></dt>
+<dd><p>Récupère les données VMs et utilisateurs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.display_vms_table">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">display_vms_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#display_vms_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.display_vms_table" title="Link to this definition"></a></dt>
+<dd><p>Affiche les VMs dans un tableau</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>vms</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.display_users_table">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">display_users_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">users</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#display_users_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.display_users_table" title="Link to this definition"></a></dt>
+<dd><p>Affiche les utilisateurs dans un tableau</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>users</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.display_deletion_progress">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">display_deletion_progress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#display_deletion_progress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.display_deletion_progress" title="Link to this definition"></a></dt>
+<dd><p>Affiche le panneau de suppression</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>delay</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.display_deletion_result">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">display_deletion_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deleted_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_count</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#display_deletion_result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.display_deletion_result" title="Link to this definition"></a></dt>
+<dd><p>Affiche le résultat de suppression</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>deleted_count</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>total_count</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.display_pause_message">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">display_pause_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delay</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#display_pause_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.display_pause_message" title="Link to this definition"></a></dt>
+<dd><p>Affiche un message de pause</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>delay</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>context</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.display_success_message">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">display_success_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#display_success_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.display_success_message" title="Link to this definition"></a></dt>
+<dd><p>Affiche un message de succès</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>item_name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.delete_vm_data">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">delete_vm_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#delete_vm_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.delete_vm_data" title="Link to this definition"></a></dt>
+<dd><p>Supprime une VM (logique pure sans affichage)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>vm</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.delete_user_data">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">delete_user_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#delete_user_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.delete_user_data" title="Link to this definition"></a></dt>
+<dd><p>Supprime un utilisateur (logique pure sans affichage)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>user</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.delete_items_batch">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">delete_items_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#delete_items_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.delete_items_batch" title="Link to this definition"></a></dt>
+<dd><p>Supprime une liste d’éléments avec gestion des pauses</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> – Client API</p></li>
+<li><p><strong>items</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – Liste des éléments à supprimer</p></li>
+<li><p><strong>item_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Type d’élément (‘vm’ ou ‘user’)</p></li>
+<li><p><strong>delay</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Délai entre suppressions</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Nombre d’éléments supprimés</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.delete_items_with_progress">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">delete_items_with_progress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#delete_items_with_progress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.delete_items_with_progress" title="Link to this definition"></a></dt>
+<dd><p>Supprime des éléments avec barre de progression détaillée et affichage</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>items</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>)</p></li>
+<li><p><strong>item_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>delay</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.delete_items_with_progress_and_global">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">delete_items_with_progress_and_global</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_progress</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_task</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#delete_items_with_progress_and_global"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.delete_items_with_progress_and_global" title="Link to this definition"></a></dt>
+<dd><p>Supprime des éléments avec barre de progression détaillée et mise à jour globale</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>items</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>)</p></li>
+<li><p><strong>item_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>delay</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.delete_single_vm_with_display">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">delete_single_vm_with_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#delete_single_vm_with_display"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.delete_single_vm_with_display" title="Link to this definition"></a></dt>
+<dd><p>Supprime une VM avec affichage</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>vm</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.delete_single_user_with_display">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">delete_single_user_with_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#delete_single_user_with_display"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.delete_single_user_with_display" title="Link to this definition"></a></dt>
+<dd><p>Supprime un utilisateur avec affichage</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>user</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.cleanup_data">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">cleanup_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">users</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#cleanup_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.cleanup_data" title="Link to this definition"></a></dt>
+<dd><p>Logique métier principale de nettoyage avec barre de progression globale</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> – Client API</p></li>
+<li><p><strong>vms</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – Liste des VMs</p></li>
+<li><p><strong>users</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>) – Liste des utilisateurs</p></li>
+<li><p><strong>delay</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Délai entre suppressions</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple (deleted_vms, deleted_users)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.show_summary">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">show_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">users</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deleted_vms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deleted_users</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#show_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.show_summary" title="Link to this definition"></a></dt>
+<dd><p>Affiche le résumé final</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vms</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>)</p></li>
+<li><p><strong>users</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span>)</p></li>
+<li><p><strong>deleted_vms</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>deleted_users</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.quick_cleanup">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">quick_cleanup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#quick_cleanup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.quick_cleanup" title="Link to this definition"></a></dt>
+<dd><p>Fonction principale orchestrant le nettoyage</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>base_url</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>email</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>password</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>simulate</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>delay</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.cleanup">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">cleanup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_url=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">real=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#cleanup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.cleanup" title="Link to this definition"></a></dt>
+<dd><p>Script de nettoyage pour les VMs et utilisateurs</p>
+<p>💡 Exemples d’usage:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Mode simulation (par défaut):</dt><dd><p>python quick_cleanup_simplified.py</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Suppression réelle:</dt><dd><p>python quick_cleanup_simplified.py –real</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Avec délai personnalisé:</dt><dd><p>python quick_cleanup_simplified.py –real –delay 3</p>
+</dd>
+</dl>
+</li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>base_url</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>email</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>password</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>real</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>delay</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.quick_cleanup.main">
+<span class="sig-prename descclassname"><span class="pre">scripts.quick_cleanup.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/quick_cleanup.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.quick_cleanup.main" title="Link to this definition"></a></dt>
+<dd><p>Point d’entrée principal</p>
+</dd></dl>
+
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="generate_data.html" class="btn btn-neutral float-left" title="Module scripts.generate_data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="generate_docs.html" class="btn btn-neutral float-left" title="Module scripts.generate_docs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="../utils/config.html" class="btn btn-neutral float-right" title="Module utils.config" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

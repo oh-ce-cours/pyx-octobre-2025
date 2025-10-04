@@ -61,7 +61,7 @@ Returns:<br>
  <dl><dt><a name="-display_preview"><strong>display_preview</strong></a>(title: str, items: List[Dict[str, Any]], max_items: int = 5) -&gt; None</dt><dd><span class="code">Affiche&nbsp;un&nbsp;aperçu&nbsp;des&nbsp;éléments&nbsp;créés</span></dd></dl>
  <dl><dt><a name="-display_statistics"><strong>display_statistics</strong></a>(title: str, stats: Dict[str, Any]) -&gt; None</dt><dd><span class="code">Affiche&nbsp;les&nbsp;statistiques&nbsp;dans&nbsp;un&nbsp;tableau</span></dd></dl>
  <dl><dt><a name="-display_success_message"><strong>display_success_message</strong></a>(item_type: str, item_name: str, item_details: str = '') -&gt; None</dt><dd><span class="code">Affiche&nbsp;un&nbsp;message&nbsp;de&nbsp;succès</span></dd></dl>
- <dl><dt><a name="-full_dataset"><strong>full_dataset</strong></a>(user_count: int = &lt;typer.models.OptionInfo object at 0x104abbd40&gt;, vm_count: int = &lt;typer.models.OptionInfo object at 0x104abbda0&gt;, batch_size: int = &lt;typer.models.OptionInfo object at 0x104abbec0&gt;, delay: float = &lt;typer.models.OptionInfo object at 0x104abbe30&gt;, output_file: Optional[str] = &lt;typer.models.OptionInfo object at 0x104abbd70&gt;, verbose: bool = &lt;typer.models.OptionInfo object at 0x104abbf50&gt;) -&gt; None</dt><dd><span class="code">🎯&nbsp;Créer&nbsp;un&nbsp;dataset&nbsp;complet&nbsp;via&nbsp;l'API&nbsp;avec&nbsp;des&nbsp;données&nbsp;Faker<br>
+ <dl><dt><a name="-full_dataset"><strong>full_dataset</strong></a>(user_count: int = &lt;typer.models.OptionInfo object at 0x1035efe30&gt;, vm_count: int = &lt;typer.models.OptionInfo object at 0x1035efe60&gt;, batch_size: int = &lt;typer.models.OptionInfo object at 0x1035efec0&gt;, delay: float = &lt;typer.models.OptionInfo object at 0x1035effe0&gt;, output_file: Optional[str] = &lt;typer.models.OptionInfo object at 0x1035eff50&gt;, verbose: bool = &lt;typer.models.OptionInfo object at 0x1035efe90&gt;) -&gt; None</dt><dd><span class="code">🎯&nbsp;Créer&nbsp;un&nbsp;dataset&nbsp;complet&nbsp;via&nbsp;l'API&nbsp;avec&nbsp;des&nbsp;données&nbsp;Faker<br>
 &nbsp;<br>
 Crée&nbsp;des&nbsp;utilisateurs&nbsp;et&nbsp;des&nbsp;VMs&nbsp;réalistes&nbsp;avec&nbsp;Faker&nbsp;via&nbsp;l'API.<br>
 Optionnellement&nbsp;sauvegarde&nbsp;les&nbsp;données&nbsp;créées&nbsp;dans&nbsp;un&nbsp;fichier&nbsp;JSON.<br>
@@ -81,7 +81,7 @@ Exemples:<br>
 &nbsp;<br>
 <br>
 python&nbsp;create_data_via_api.py&nbsp;status</span></dd></dl>
- <dl><dt><a name="-users"><strong>users</strong></a>(count: int = &lt;typer.models.OptionInfo object at 0x104abbb30&gt;, batch_size: int = &lt;typer.models.OptionInfo object at 0x104abbb60&gt;, delay: float = &lt;typer.models.OptionInfo object at 0x104abbb90&gt;, verbose: bool = &lt;typer.models.OptionInfo object at 0x104abbbc0&gt;) -&gt; None</dt><dd><span class="code">👥&nbsp;Créer&nbsp;des&nbsp;utilisateurs&nbsp;via&nbsp;l'API&nbsp;avec&nbsp;des&nbsp;données&nbsp;Faker<br>
+ <dl><dt><a name="-users"><strong>users</strong></a>(count: int = &lt;typer.models.OptionInfo object at 0x1035efc20&gt;, batch_size: int = &lt;typer.models.OptionInfo object at 0x1035efc50&gt;, delay: float = &lt;typer.models.OptionInfo object at 0x1035efc80&gt;, verbose: bool = &lt;typer.models.OptionInfo object at 0x1035efcb0&gt;) -&gt; None</dt><dd><span class="code">👥&nbsp;Créer&nbsp;des&nbsp;utilisateurs&nbsp;via&nbsp;l'API&nbsp;avec&nbsp;des&nbsp;données&nbsp;Faker<br>
 &nbsp;<br>
 Génère&nbsp;des&nbsp;utilisateurs&nbsp;réalistes&nbsp;avec&nbsp;Faker&nbsp;et&nbsp;les&nbsp;crée&nbsp;via&nbsp;l'API.<br>
 &nbsp;<br>
@@ -92,7 +92,7 @@ python&nbsp;create_data_via_api.py&nbsp;users&nbsp;--count&nbsp;20<br>
 python&nbsp;create_data_via_api.py&nbsp;users&nbsp;-c&nbsp;50&nbsp;--batch-size&nbsp;10&nbsp;--delay&nbsp;3.0&nbsp;--max-retries&nbsp;7<br>
 python&nbsp;create_data_via_api.py&nbsp;users&nbsp;--verbose</span></dd></dl>
  <dl><dt><a name="-version"><strong>version</strong></a>() -&gt; None</dt><dd><span class="code">📋&nbsp;Afficher&nbsp;la&nbsp;version&nbsp;du&nbsp;créateur&nbsp;de&nbsp;données</span></dd></dl>
- <dl><dt><a name="-vms"><strong>vms</strong></a>(count: int = &lt;typer.models.OptionInfo object at 0x104abbc20&gt;, batch_size: int = &lt;typer.models.OptionInfo object at 0x104abbc50&gt;, delay: float = &lt;typer.models.OptionInfo object at 0x104abbcb0&gt;, verbose: bool = &lt;typer.models.OptionInfo object at 0x104abbce0&gt;) -&gt; None</dt><dd><span class="code">🖥️&nbsp;Créer&nbsp;des&nbsp;VMs&nbsp;via&nbsp;l'API&nbsp;avec&nbsp;des&nbsp;données&nbsp;Faker<br>
+ <dl><dt><a name="-vms"><strong>vms</strong></a>(count: int = &lt;typer.models.OptionInfo object at 0x1035efd10&gt;, batch_size: int = &lt;typer.models.OptionInfo object at 0x1035efd40&gt;, delay: float = &lt;typer.models.OptionInfo object at 0x1035efd70&gt;, verbose: bool = &lt;typer.models.OptionInfo object at 0x1035efdd0&gt;) -&gt; None</dt><dd><span class="code">🖥️&nbsp;Créer&nbsp;des&nbsp;VMs&nbsp;via&nbsp;l'API&nbsp;avec&nbsp;des&nbsp;données&nbsp;Faker<br>
 &nbsp;<br>
 Génère&nbsp;des&nbsp;VMs&nbsp;réalistes&nbsp;avec&nbsp;Faker&nbsp;et&nbsp;les&nbsp;crée&nbsp;via&nbsp;l'API.<br>
 Les&nbsp;VMs&nbsp;sont&nbsp;associées&nbsp;à&nbsp;des&nbsp;utilisateurs&nbsp;existants.<br>

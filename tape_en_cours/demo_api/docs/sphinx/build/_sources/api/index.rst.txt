@@ -58,6 +58,11 @@ Modules scripts
 .. toctree::
    :maxdepth: 4
 
+   scripts/generate_docs.rst
+
+.. toctree::
+   :maxdepth: 4
+
    scripts/quick_cleanup.rst
 
 Modules utils

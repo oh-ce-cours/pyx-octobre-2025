@@ -19,7 +19,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Module scripts.quick_cleanup" href="quick_cleanup.html" />
+    <link rel="next" title="Module scripts.generate_docs" href="generate_docs.html" />
     <link rel="prev" title="Module scripts.create_data_via_api" href="create_data_via_api.html" /> 
 </head>
 
@@ -51,7 +51,15 @@
 <li class="toctree-l2"><a class="reference internal" href="../index.html#modules-reports">Modules reports</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#modules-scripts">Modules scripts</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="create_data_via_api.html">Module scripts.create_data_via_api</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Module scripts.generate_data</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Module scripts.generate_data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.generate_data.users_with_vms"><code class="docutils literal notranslate"><span class="pre">users_with_vms()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.generate_data.vms_only"><code class="docutils literal notranslate"><span class="pre">vms_only()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.generate_data.preview"><code class="docutils literal notranslate"><span class="pre">preview()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.generate_data.version"><code class="docutils literal notranslate"><span class="pre">version()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.generate_data.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="generate_docs.html">Module scripts.generate_docs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="quick_cleanup.html">Module scripts.quick_cleanup</a></li>
 </ul>
 </li>
@@ -90,8 +98,101 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-scripts-generate-data">
-<h1>Module scripts.generate_data<a class="headerlink" href="#module-scripts-generate-data" title="Link to this heading"></a></h1>
+  <section id="module-scripts.generate_data">
+<span id="module-scripts-generate-data"></span><h1>Module scripts.generate_data<a class="headerlink" href="#module-scripts.generate_data" title="Link to this heading"></a></h1>
+<p>Script utilitaire pour générer des données factices avec Faker.
+Permet de générer des utilisateurs et VMs réalistes pour les tests et démonstrations.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.generate_data.users_with_vms">
+<span class="sig-prename descclassname"><span class="pre">scripts.generate_data.</span></span><span class="sig-name descname"><span class="pre">users_with_vms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_count=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_vms=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_vms=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/generate_data.html#users_with_vms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.generate_data.users_with_vms" title="Link to this definition"></a></dt>
+<dd><p>🎯 Générer des utilisateurs avec leurs VMs</p>
+<p>Génère un dataset complet d’utilisateurs français avec des VMs réalistes.
+Les données sont sauvegardées dans un fichier JSON.</p>
+<p>Exemples:</p>
+<p>
+python generate_data.py users-with-vms
+python generate_data.py users-with-vms –users 100 –max-vms 3
+python generate_data.py users-with-vms -u 25 -o mon_dataset.json –verbose</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_count</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>min_vms</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>max_vms</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>output_file</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>verbose</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.generate_data.vms_only">
+<span class="sig-prename descclassname"><span class="pre">scripts.generate_data.</span></span><span class="sig-name descname"><span class="pre">vms_only</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vm_count=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_ids=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/generate_data.html#vms_only"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.generate_data.vms_only" title="Link to this definition"></a></dt>
+<dd><p>🖥️ Générer uniquement des VMs pour des utilisateurs existants</p>
+<p>Génère des VMs réalistes et les associe à des utilisateurs existants.</p>
+<p>Exemples:</p>
+<p>
+python generate_data.py vms-only
+python generate_data.py vms-only –vms 200 –user-ids “1,2,3,4,5,6,7,8,9,10”
+python generate_data.py vms-only -v 50 -u “1,2,3” -o mes_vms.json</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vm_count</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>user_ids</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>output_file</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>verbose</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.generate_data.preview">
+<span class="sig-prename descclassname"><span class="pre">scripts.generate_data.</span></span><span class="sig-name descname"><span class="pre">preview</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_count=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_vms=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/generate_data.html#preview"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.generate_data.preview" title="Link to this definition"></a></dt>
+<dd><p>👀 Prévisualiser les données générées sans les sauvegarder</p>
+<p>Affiche un aperçu des données qui seraient générées.</p>
+<p>Exemples:</p>
+<p>
+python generate_data.py preview
+python generate_data.py preview –users 10 –max-vms 2</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_count</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>max_vms</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.generate_data.version">
+<span class="sig-prename descclassname"><span class="pre">scripts.generate_data.</span></span><span class="sig-name descname"><span class="pre">version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/generate_data.html#version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.generate_data.version" title="Link to this definition"></a></dt>
+<dd><p>📋 Afficher la version du générateur</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.generate_data.main">
+<span class="sig-prename descclassname"><span class="pre">scripts.generate_data.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/generate_data.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.generate_data.main" title="Link to this definition"></a></dt>
+<dd><p>Point d’entrée principal</p>
+</dd></dl>
+
 </section>
 
 
@@ -99,7 +200,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="create_data_via_api.html" class="btn btn-neutral float-left" title="Module scripts.create_data_via_api" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="quick_cleanup.html" class="btn btn-neutral float-right" title="Module scripts.quick_cleanup" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="generate_docs.html" class="btn btn-neutral float-right" title="Module scripts.generate_docs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

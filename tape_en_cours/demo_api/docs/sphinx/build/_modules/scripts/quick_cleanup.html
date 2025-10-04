@@ -1,0 +1,734 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>scripts.quick_cleanup &mdash; Demo API 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Demo API
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenu:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Guide de démarrage rapide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">Modules API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">Interface en ligne de commande</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Exemples d’utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Journal des modifications</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Demo API</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">scripts.quick_cleanup</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for scripts.quick_cleanup</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Script de nettoyage simplifié pour les VMs et utilisateurs avec Typer et Rich</span>
+<span class="sd">Utilise des fonctions modulaires pour une meilleure lisibilité</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">import</span> <span class="nn">typer</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">rich.console</span> <span class="kn">import</span> <span class="n">Console</span>
+<span class="kn">from</span> <span class="nn">rich.progress</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Progress</span><span class="p">,</span>
+    <span class="n">SpinnerColumn</span><span class="p">,</span>
+    <span class="n">TextColumn</span><span class="p">,</span>
+    <span class="n">BarColumn</span><span class="p">,</span>
+    <span class="n">TimeElapsedColumn</span><span class="p">,</span>
+    <span class="n">TimeRemainingColumn</span><span class="p">,</span>
+    <span class="n">MofNCompleteColumn</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">rich.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">rich.panel</span> <span class="kn">import</span> <span class="n">Panel</span>
+
+<span class="c1"># Ajouter le répertoire parent au path pour les imports</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="p">))</span>
+
+<span class="kn">from</span> <span class="nn">utils.api</span> <span class="kn">import</span> <span class="n">create_authenticated_client</span>
+<span class="kn">from</span> <span class="nn">utils.logging_config</span> <span class="kn">import</span> <span class="n">get_logger</span>
+
+<span class="c1"># Configuration</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Typer</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;cleanup&quot;</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s2">&quot;🧹 Script de nettoyage pour les VMs et utilisateurs&quot;</span><span class="p">,</span>
+    <span class="n">rich_markup_mode</span><span class="o">=</span><span class="s2">&quot;rich&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># PARTIE REPRÉSENTATION / AFFICHAGE</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="display_header">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.display_header">[docs]</a>
+<span class="k">def</span> <span class="nf">display_header</span><span class="p">(</span><span class="n">simulate</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Affiche l&#39;en-tête selon le mode&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">simulate</span><span class="p">:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                <span class="s2">&quot;[bold blue]🧹 MODE SIMULATION[/bold blue]</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;Aucune donnée ne sera supprimée&quot;</span><span class="p">,</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                <span class="s2">&quot;[bold red]🗑️ MODE SUPPRESSION RÉELLE[/bold red]</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;⚠️ TOUTES LES DONNÉES SERONT SUPPRIMÉES !&quot;</span><span class="p">,</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="display_api_config">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.display_api_config">[docs]</a>
+<span class="k">def</span> <span class="nf">display_api_config</span><span class="p">(</span><span class="n">client</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Affiche la configuration de l&#39;API&quot;&quot;&quot;</span>
+    <span class="n">config_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;🔗 Configuration API&quot;</span><span class="p">)</span>
+    <span class="n">config_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Paramètre&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;cyan&quot;</span><span class="p">)</span>
+    <span class="n">config_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Valeur&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;magenta&quot;</span><span class="p">)</span>
+
+    <span class="n">config_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="s2">&quot;Base URL&quot;</span><span class="p">,</span> <span class="n">client</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span>
+    <span class="n">config_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span>
+        <span class="s2">&quot;Authentifié&quot;</span><span class="p">,</span> <span class="s2">&quot;✅ Oui&quot;</span> <span class="k">if</span> <span class="n">client</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;❌ Non&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">config_table</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="display_operation_config">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.display_operation_config">[docs]</a>
+<span class="k">def</span> <span class="nf">display_operation_config</span><span class="p">(</span><span class="n">delay</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">simulate</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Affiche la configuration des opérations&quot;&quot;&quot;</span>
+    <span class="n">config_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;🔧 Configuration&quot;</span><span class="p">)</span>
+    <span class="n">config_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Paramètre&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;cyan&quot;</span><span class="p">)</span>
+    <span class="n">config_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Valeur&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;magenta&quot;</span><span class="p">)</span>
+    <span class="n">config_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="s2">&quot;Délai entre opérations&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">delay</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+    <span class="n">config_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="s2">&quot;Mode&quot;</span><span class="p">,</span> <span class="s2">&quot;Simulation&quot;</span> <span class="k">if</span> <span class="n">simulate</span> <span class="k">else</span> <span class="s2">&quot;Suppression réelle&quot;</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">config_table</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="display_simulation_message">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.display_simulation_message">[docs]</a>
+<span class="k">def</span> <span class="nf">display_simulation_message</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Affiche le message de simulation&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+        <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+            <span class="s2">&quot;[bold blue]📋 Mode simulation - aucune suppression réelle[/bold blue]</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Utilisez [bold]--real[/bold] pour effectuer les suppressions&quot;</span><span class="p">,</span>
+            <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># PARTIE MANIPULATION DES DONNÉES</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="connect_to_api">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.connect_to_api">[docs]</a>
+<span class="k">def</span> <span class="nf">connect_to_api</span><span class="p">(</span>
+    <span class="n">base_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">email</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">password</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Se connecte à l&#39;API et retourne le client&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">console</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="s2">&quot;[bold green]Connexion à l&#39;API...&quot;</span><span class="p">):</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">create_authenticated_client</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">client</span></div>
+
+
+
+<div class="viewcode-block" id="fetch_data">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.fetch_data">[docs]</a>
+<span class="k">def</span> <span class="nf">fetch_data</span><span class="p">(</span><span class="n">client</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Récupère les données VMs et utilisateurs&quot;&quot;&quot;</span>
+    <span class="c1"># Récupération VMs</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[bold cyan]📊 Données actuelles:[/bold cyan]&quot;</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">console</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="s2">&quot;[bold green]Récupérations des VMs...&quot;</span><span class="p">):</span>
+        <span class="n">vms</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">vms</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="n">display_vms_table</span><span class="p">(</span><span class="n">vms</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+
+    <span class="c1"># Récupération utilisateurs</span>
+    <span class="k">with</span> <span class="n">console</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="s2">&quot;[bold green]Récupération des utilisateurs...&quot;</span><span class="p">):</span>
+        <span class="n">users</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="n">display_users_table</span><span class="p">(</span><span class="n">users</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">vms</span><span class="p">,</span> <span class="n">users</span></div>
+
+
+
+<div class="viewcode-block" id="display_vms_table">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.display_vms_table">[docs]</a>
+<span class="k">def</span> <span class="nf">display_vms_table</span><span class="p">(</span><span class="n">vms</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Affiche les VMs dans un tableau&quot;&quot;&quot;</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;💻 Machines virtuelles&quot;</span><span class="p">)</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;ID&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;cyan&quot;</span><span class="p">)</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Nom&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Utilisateur&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;yellow&quot;</span><span class="p">)</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Status&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;magenta&quot;</span><span class="p">)</span>
+
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[green]✅ </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">vms</span><span class="p">)</span><span class="si">}</span><span class="s2"> VMs trouvées[/green]&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">vm</span> <span class="ow">in</span> <span class="n">vms</span><span class="p">:</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">vm</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]),</span> <span class="n">vm</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="nb">str</span><span class="p">(</span><span class="n">vm</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]),</span> <span class="n">vm</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;Inconnu&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="display_users_table">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.display_users_table">[docs]</a>
+<span class="k">def</span> <span class="nf">display_users_table</span><span class="p">(</span><span class="n">users</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Affiche les utilisateurs dans un tableau&quot;&quot;&quot;</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;👥 Utilisateurs&quot;</span><span class="p">)</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;ID&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;cyan&quot;</span><span class="p">)</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Nom&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Email&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;yellow&quot;</span><span class="p">)</span>
+
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[green]✅ </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">users</span><span class="p">)</span><span class="si">}</span><span class="s2"> utilisateurs trouvés[/green]&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span><span class="p">:</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]),</span> <span class="n">user</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">user</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">])</span>
+
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="display_deletion_progress">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.display_deletion_progress">[docs]</a>
+<span class="k">def</span> <span class="nf">display_deletion_progress</span><span class="p">(</span><span class="n">item_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">delay</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Affiche le panneau de suppression&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+        <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;[bold red]🗑️  Suppression des </span><span class="si">{</span><span class="n">item_type</span><span class="si">}</span><span class="s2">s...[/bold red]</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Délai: [bold]</span><span class="si">{</span><span class="n">delay</span><span class="si">}</span><span class="s2">s[/bold]&quot;</span><span class="p">,</span>
+            <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="display_deletion_result">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.display_deletion_result">[docs]</a>
+<span class="k">def</span> <span class="nf">display_deletion_result</span><span class="p">(</span>
+    <span class="n">item_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">deleted_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">total_count</span><span class="p">:</span> <span class="nb">int</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Affiche le résultat de suppression&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;[bold cyan]📊 </span><span class="si">{</span><span class="n">item_type</span><span class="si">}</span><span class="s2">s supprimés: [green]</span><span class="si">{</span><span class="n">deleted_count</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">total_count</span><span class="si">}</span><span class="s2">[/green][/bold cyan]&quot;</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="display_pause_message">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.display_pause_message">[docs]</a>
+<span class="k">def</span> <span class="nf">display_pause_message</span><span class="p">(</span><span class="n">delay</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Affiche un message de pause&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">context</span><span class="p">:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[dim]⏱️  </span><span class="si">{</span><span class="n">context</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">delay</span><span class="si">}</span><span class="s2">s)...[/dim]&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[dim]⏱️  Pause de </span><span class="si">{</span><span class="n">delay</span><span class="si">}</span><span class="s2">s...[/dim]&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="display_success_message">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.display_success_message">[docs]</a>
+<span class="k">def</span> <span class="nf">display_success_message</span><span class="p">(</span><span class="n">item_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">item_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Affiche un message de succès&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[green]✅ </span><span class="si">{</span><span class="n">item_type</span><span class="si">}</span><span class="s2"> supprimé: [bold]</span><span class="si">{</span><span class="n">item_name</span><span class="si">}</span><span class="s2">[/bold][/green]&quot;</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># FONCTIONS PURES DE MANIPULATION DES DONNÉES</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="delete_vm_data">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.delete_vm_data">[docs]</a>
+<span class="k">def</span> <span class="nf">delete_vm_data</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">vm</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Supprime une VM (logique pure sans affichage)&quot;&quot;&quot;</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">vms</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">vm</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+
+<div class="viewcode-block" id="delete_user_data">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.delete_user_data">[docs]</a>
+<span class="k">def</span> <span class="nf">delete_user_data</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Supprime un utilisateur (logique pure sans affichage)&quot;&quot;&quot;</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">delete_user</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+
+<div class="viewcode-block" id="delete_items_batch">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.delete_items_batch">[docs]</a>
+<span class="k">def</span> <span class="nf">delete_items_batch</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">item_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">delay</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Supprime une liste d&#39;éléments avec gestion des pauses</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        client: Client API</span>
+<span class="sd">        items: Liste des éléments à supprimer</span>
+<span class="sd">        item_type: Type d&#39;élément (&#39;vm&#39; ou &#39;user&#39;)</span>
+<span class="sd">        delay: Délai entre suppressions</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Nombre d&#39;éléments supprimés</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
+        <span class="c1"># Suppression selon le type</span>
+        <span class="k">if</span> <span class="n">item_type</span> <span class="o">==</span> <span class="s2">&quot;vm&quot;</span><span class="p">:</span>
+            <span class="n">delete_vm_data</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># user</span>
+            <span class="n">delete_user_data</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+
+        <span class="c1"># Pause si pas le dernier élément</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay</span><span class="p">)</span>
+
+    <span class="c1"># Pause supplémentaire avant prochaine section</span>
+    <span class="k">if</span> <span class="n">item_type</span> <span class="o">==</span> <span class="s2">&quot;vm&quot;</span><span class="p">:</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># FONCTIONS DE SUPPRESSION AVEC AFFICHAGE</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="delete_items_with_progress">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.delete_items_with_progress">[docs]</a>
+<span class="k">def</span> <span class="nf">delete_items_with_progress</span><span class="p">(</span>
+    <span class="n">client</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">item_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">delay</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Supprime des éléments avec barre de progression détaillée et affichage&quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[yellow]⚠️  Aucun</span><span class="si">{</span><span class="n">item_type</span><span class="si">}</span><span class="s2"> à supprimer[/yellow]&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="c1"># Affichage du panneau de suppression</span>
+    <span class="n">display_deletion_progress</span><span class="p">(</span><span class="n">item_type</span><span class="p">,</span> <span class="n">delay</span><span class="p">)</span>
+
+    <span class="c1"># Calcul du temps estimé total (suppression + délais)</span>
+    <span class="n">estimated_time</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">*</span> <span class="n">delay</span> <span class="o">+</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">delay</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[dim]⏱️  Temps estimé: ~</span><span class="si">{</span><span class="n">estimated_time</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s[/dim]&quot;</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="n">Progress</span><span class="p">(</span>
+        <span class="n">SpinnerColumn</span><span class="p">(),</span>
+        <span class="n">TextColumn</span><span class="p">(</span><span class="s2">&quot;[progress.description]</span><span class="si">{task.description}</span><span class="s2">&quot;</span><span class="p">),</span>
+        <span class="n">BarColumn</span><span class="p">(</span><span class="n">bar_width</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+        <span class="n">MofNCompleteColumn</span><span class="p">(),</span>
+        <span class="n">TextColumn</span><span class="p">(</span><span class="s2">&quot;•&quot;</span><span class="p">),</span>
+        <span class="n">TimeElapsedColumn</span><span class="p">(),</span>
+        <span class="n">TextColumn</span><span class="p">(</span><span class="s2">&quot;•&quot;</span><span class="p">),</span>
+        <span class="n">TimeRemainingColumn</span><span class="p">(),</span>
+        <span class="n">console</span><span class="o">=</span><span class="n">console</span><span class="p">,</span>
+        <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="k">as</span> <span class="n">progress</span><span class="p">:</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">progress</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Suppression des </span><span class="si">{</span><span class="n">item_type</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
+            <span class="c1"># Mise à jour de la description avec le nom de l&#39;élément</span>
+            <span class="n">item_name</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;ID </span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="n">task</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Suppression </span><span class="si">{</span><span class="n">item_type</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">item_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="mi">0</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Suppression avec affichage</span>
+            <span class="k">if</span> <span class="n">item_type</span> <span class="o">==</span> <span class="s2">&quot;vm&quot;</span><span class="p">:</span>
+                <span class="n">delete_single_vm_with_display</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># user</span>
+                <span class="n">delete_single_user_with_display</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+
+            <span class="n">progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># Pause si pas le dernier élément</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                    <span class="n">task</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Pause </span><span class="si">{</span><span class="n">delay</span><span class="si">}</span><span class="s2">s avant le prochain </span><span class="si">{</span><span class="n">item_type</span><span class="si">}</span><span class="s2">...&quot;</span>
+                <span class="p">)</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay</span><span class="p">)</span>
+
+    <span class="c1"># Affichage du résultat</span>
+    <span class="n">display_deletion_result</span><span class="p">(</span><span class="n">item_type</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">))</span>
+
+    <span class="c1"># Pause supplémentaire avant prochaine section</span>
+    <span class="k">if</span> <span class="n">item_type</span> <span class="o">==</span> <span class="s2">&quot;vm&quot;</span><span class="p">:</span>
+        <span class="n">display_pause_message</span><span class="p">(</span><span class="n">delay</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Pause avant les utilisateurs&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="delete_items_with_progress_and_global">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.delete_items_with_progress_and_global">[docs]</a>
+<span class="k">def</span> <span class="nf">delete_items_with_progress_and_global</span><span class="p">(</span>
+    <span class="n">client</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">item_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">delay</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">global_progress</span><span class="p">,</span> <span class="n">global_task</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Supprime des éléments avec barre de progression détaillée et mise à jour globale&quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="c1"># Affichage du panneau de suppression</span>
+    <span class="n">display_deletion_progress</span><span class="p">(</span><span class="n">item_type</span><span class="p">,</span> <span class="n">delay</span><span class="p">)</span>
+
+    <span class="c1"># Calcul du temps estimé total (suppression + délais)</span>
+    <span class="n">estimated_time</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">*</span> <span class="n">delay</span> <span class="o">+</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">delay</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[dim]⏱️  Temps estimé: ~</span><span class="si">{</span><span class="n">estimated_time</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s[/dim]&quot;</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
+        <span class="c1"># Mise à jour de la barre globale avec le nom de l&#39;élément</span>
+        <span class="n">item_name</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;ID </span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">global_progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="n">global_task</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Suppression </span><span class="si">{</span><span class="n">item_type</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">item_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="mi">0</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Suppression avec affichage</span>
+        <span class="k">if</span> <span class="n">item_type</span> <span class="o">==</span> <span class="s2">&quot;vm&quot;</span><span class="p">:</span>
+            <span class="n">delete_single_vm_with_display</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># user</span>
+            <span class="n">delete_single_user_with_display</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+
+        <span class="n">global_progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">global_task</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Pause si pas le dernier élément</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">global_progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="n">global_task</span><span class="p">,</span>
+                <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Pause </span><span class="si">{</span><span class="n">delay</span><span class="si">}</span><span class="s2">s avant le prochain </span><span class="si">{</span><span class="n">item_type</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay</span><span class="p">)</span>
+
+    <span class="c1"># Affichage du résultat</span>
+    <span class="n">display_deletion_result</span><span class="p">(</span><span class="n">item_type</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">))</span>
+
+    <span class="c1"># Pause supplémentaire avant prochaine section</span>
+    <span class="k">if</span> <span class="n">item_type</span> <span class="o">==</span> <span class="s2">&quot;vm&quot;</span><span class="p">:</span>
+        <span class="n">display_pause_message</span><span class="p">(</span><span class="n">delay</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Pause avant les utilisateurs&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="delete_single_vm_with_display">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.delete_single_vm_with_display">[docs]</a>
+<span class="k">def</span> <span class="nf">delete_single_vm_with_display</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">vm</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Supprime une VM avec affichage&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">console</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Suppression VM </span><span class="si">{</span><span class="n">vm</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">vm</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">):</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">vms</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">vm</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+    <span class="n">display_success_message</span><span class="p">(</span><span class="s2">&quot;VM&quot;</span><span class="p">,</span> <span class="n">vm</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+
+<div class="viewcode-block" id="delete_single_user_with_display">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.delete_single_user_with_display">[docs]</a>
+<span class="k">def</span> <span class="nf">delete_single_user_with_display</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Supprime un utilisateur avec affichage&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">console</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Suppression utilisateur </span><span class="si">{</span><span class="n">user</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">user</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">):</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">delete_user</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+    <span class="n">display_success_message</span><span class="p">(</span><span class="s2">&quot;Utilisateur&quot;</span><span class="p">,</span> <span class="n">user</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># LOGIQUE MÉTIER PRINCIPALE</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="cleanup_data">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.cleanup_data">[docs]</a>
+<span class="k">def</span> <span class="nf">cleanup_data</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">vms</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">users</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">delay</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Logique métier principale de nettoyage avec barre de progression globale</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        client: Client API</span>
+<span class="sd">        vms: Liste des VMs</span>
+<span class="sd">        users: Liste des utilisateurs</span>
+<span class="sd">        delay: Délai entre suppressions</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple (deleted_vms, deleted_users)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">total_items</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vms</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">users</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">total_items</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[yellow]⚠️  Aucun élément à supprimer[/yellow]&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+
+    <span class="c1"># Affichage du résumé global</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+        <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;[bold cyan]🚀 DÉBUT DU NETTOYAGE[/bold cyan]</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Total: [bold]</span><span class="si">{</span><span class="n">total_items</span><span class="si">}</span><span class="s2">[/bold] éléments à supprimer</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;VMs: [bold]</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">vms</span><span class="p">)</span><span class="si">}</span><span class="s2">[/bold] | Utilisateurs: [bold]</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">users</span><span class="p">)</span><span class="si">}</span><span class="s2">[/bold]&quot;</span><span class="p">,</span>
+            <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;cyan&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+
+    <span class="c1"># Barre de progression globale</span>
+    <span class="k">with</span> <span class="n">Progress</span><span class="p">(</span>
+        <span class="n">SpinnerColumn</span><span class="p">(),</span>
+        <span class="n">TextColumn</span><span class="p">(</span><span class="s2">&quot;[progress.description]</span><span class="si">{task.description}</span><span class="s2">&quot;</span><span class="p">),</span>
+        <span class="n">BarColumn</span><span class="p">(</span><span class="n">bar_width</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+        <span class="n">MofNCompleteColumn</span><span class="p">(),</span>
+        <span class="n">TextColumn</span><span class="p">(</span><span class="s2">&quot;•&quot;</span><span class="p">),</span>
+        <span class="n">TimeElapsedColumn</span><span class="p">(),</span>
+        <span class="n">TextColumn</span><span class="p">(</span><span class="s2">&quot;•&quot;</span><span class="p">),</span>
+        <span class="n">TimeRemainingColumn</span><span class="p">(),</span>
+        <span class="n">console</span><span class="o">=</span><span class="n">console</span><span class="p">,</span>
+        <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="k">as</span> <span class="n">global_progress</span><span class="p">:</span>
+        <span class="n">global_task</span> <span class="o">=</span> <span class="n">global_progress</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="s2">&quot;Nettoyage global&quot;</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="n">total_items</span><span class="p">)</span>
+
+        <span class="c1"># Suppression des VMs</span>
+        <span class="n">deleted_vms</span> <span class="o">=</span> <span class="n">delete_items_with_progress_and_global</span><span class="p">(</span>
+            <span class="n">client</span><span class="p">,</span> <span class="n">vms</span><span class="p">,</span> <span class="s2">&quot;vm&quot;</span><span class="p">,</span> <span class="n">delay</span><span class="p">,</span> <span class="n">global_progress</span><span class="p">,</span> <span class="n">global_task</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Suppression des utilisateurs</span>
+        <span class="n">deleted_users</span> <span class="o">=</span> <span class="n">delete_items_with_progress_and_global</span><span class="p">(</span>
+            <span class="n">client</span><span class="p">,</span> <span class="n">users</span><span class="p">,</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">delay</span><span class="p">,</span> <span class="n">global_progress</span><span class="p">,</span> <span class="n">global_task</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">deleted_vms</span><span class="p">,</span> <span class="n">deleted_users</span></div>
+
+
+
+<div class="viewcode-block" id="show_summary">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.show_summary">[docs]</a>
+<span class="k">def</span> <span class="nf">show_summary</span><span class="p">(</span><span class="n">vms</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">users</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">deleted_vms</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">deleted_users</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Affiche le résumé final&quot;&quot;&quot;</span>
+    <span class="n">total_deleted</span> <span class="o">=</span> <span class="n">deleted_vms</span> <span class="o">+</span> <span class="n">deleted_users</span>
+
+    <span class="n">summary_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;🎯 Résumé du nettoyage&quot;</span><span class="p">)</span>
+    <span class="n">summary_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Type&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;cyan&quot;</span><span class="p">)</span>
+    <span class="n">summary_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Supprimé&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
+    <span class="n">summary_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Total&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;yellow&quot;</span><span class="p">)</span>
+
+    <span class="n">summary_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="s2">&quot;VMs&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">deleted_vms</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vms</span><span class="p">)))</span>
+    <span class="n">summary_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="s2">&quot;Utilisateurs&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">deleted_users</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">users</span><span class="p">)))</span>
+    <span class="n">summary_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span>
+        <span class="s2">&quot;**TOTAL**&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;[bold]</span><span class="si">{</span><span class="n">total_deleted</span><span class="si">}</span><span class="s2">[/bold]&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;[bold]</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">vms</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">users</span><span class="p">)</span><span class="si">}</span><span class="s2">[/bold]&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">summary_table</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+        <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+            <span class="s2">&quot;[bold green]✅ NETTOYAGE TERMINÉ AVEC SUCCÈS ![/bold green]&quot;</span><span class="p">,</span>
+            <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># FONCTION PRINCIPALE ORCHESTRANT TOUT</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="quick_cleanup">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.quick_cleanup">[docs]</a>
+<span class="k">def</span> <span class="nf">quick_cleanup</span><span class="p">(</span>
+    <span class="n">base_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">email</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">password</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">simulate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.5</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fonction principale orchestrant le nettoyage&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># 1. AFFICHAGE - En-tête selon le mode</span>
+        <span class="n">display_header</span><span class="p">(</span><span class="n">simulate</span><span class="p">)</span>
+
+        <span class="c1"># 2. DONNÉES - Connexion et récupération</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">connect_to_api</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+        <span class="n">display_api_config</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+        <span class="n">vms</span><span class="p">,</span> <span class="n">users</span> <span class="o">=</span> <span class="n">fetch_data</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+
+        <span class="c1"># 3. AFFICHAGE - Configuration des opérations</span>
+        <span class="n">display_operation_config</span><span class="p">(</span><span class="n">delay</span><span class="p">,</span> <span class="n">simulate</span><span class="p">)</span>
+
+        <span class="c1"># 4. LOGIQUE MÉTIER - Si simulation, arrêt ici</span>
+        <span class="k">if</span> <span class="n">simulate</span><span class="p">:</span>
+            <span class="n">display_simulation_message</span><span class="p">()</span>
+            <span class="k">return</span>
+
+        <span class="c1"># 5. LOGIQUE MÉTIER - Suppressions réelles</span>
+        <span class="n">deleted_vms</span><span class="p">,</span> <span class="n">deleted_users</span> <span class="o">=</span> <span class="n">cleanup_data</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">vms</span><span class="p">,</span> <span class="n">users</span><span class="p">,</span> <span class="n">delay</span><span class="p">)</span>
+
+        <span class="c1"># 6. AFFICHAGE - Résumé final</span>
+        <span class="n">show_summary</span><span class="p">(</span><span class="n">vms</span><span class="p">,</span> <span class="n">users</span><span class="p">,</span> <span class="n">deleted_vms</span><span class="p">,</span> <span class="n">deleted_users</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold red]❌ Erreur critique: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">[/bold red]&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="cleanup">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.cleanup">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">cleanup</span><span class="p">(</span>
+    <span class="n">base_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;--base-url&quot;</span><span class="p">,</span> <span class="s2">&quot;-u&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;URL de base de l&#39;API&quot;</span>
+    <span class="p">),</span>
+    <span class="n">email</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;--email&quot;</span><span class="p">,</span> <span class="s2">&quot;-e&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Email pour l&#39;authentification&quot;</span>
+    <span class="p">),</span>
+    <span class="n">password</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;--password&quot;</span><span class="p">,</span> <span class="s2">&quot;-p&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Mot de passe pour l&#39;authentification&quot;</span>
+    <span class="p">),</span>
+    <span class="n">real</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;--real&quot;</span><span class="p">,</span> <span class="s2">&quot;-r&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Effectue la suppression réelle&quot;</span>
+    <span class="p">),</span>
+    <span class="n">delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;--delay&quot;</span><span class="p">,</span> <span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Délai en secondes entre les opérations&quot;</span>
+    <span class="p">),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Script de nettoyage pour les VMs et utilisateurs</span>
+
+<span class="sd">    💡 Exemples d&#39;usage:</span>
+
+<span class="sd">    • Mode simulation (par défaut):</span>
+<span class="sd">       python quick_cleanup_simplified.py</span>
+
+<span class="sd">    • Suppression réelle:</span>
+<span class="sd">       python quick_cleanup_simplified.py --real</span>
+
+<span class="sd">    • Avec délai personnalisé:</span>
+<span class="sd">       python quick_cleanup_simplified.py --real --delay 3</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">simulate</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">real</span>
+    <span class="n">quick_cleanup</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">simulate</span><span class="p">,</span> <span class="n">delay</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../../api/scripts/quick_cleanup.html#scripts.quick_cleanup.main">[docs]</a>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Point d&#39;entrée principal&quot;&quot;&quot;</span>
+    <span class="n">app</span><span class="p">()</span></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Demo API Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

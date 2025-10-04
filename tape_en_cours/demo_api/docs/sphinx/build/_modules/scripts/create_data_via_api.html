@@ -1,0 +1,1067 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>scripts.create_data_via_api &mdash; Demo API 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Demo API
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenu:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Guide de démarrage rapide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">Modules API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">Interface en ligne de commande</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Exemples d’utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Journal des modifications</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Demo API</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">scripts.create_data_via_api</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for scripts.create_data_via_api</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Script pour créer des données via l&#39;API en utilisant le générateur Faker.</span>
+
+<span class="sd">Ce script utilise l&#39;API unifiée pour créer des utilisateurs et des VMs</span>
+<span class="sd">avec des données générées par Faker, permettant de peupler la base de données</span>
+<span class="sd">avec des données réalistes.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">typer</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">rich.console</span> <span class="kn">import</span> <span class="n">Console</span>
+<span class="kn">from</span> <span class="nn">rich.progress</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Progress</span><span class="p">,</span>
+    <span class="n">SpinnerColumn</span><span class="p">,</span>
+    <span class="n">TextColumn</span><span class="p">,</span>
+    <span class="n">BarColumn</span><span class="p">,</span>
+    <span class="n">TimeElapsedColumn</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">rich.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">rich.panel</span> <span class="kn">import</span> <span class="n">Panel</span>
+
+<span class="c1"># Ajouter le répertoire parent au path pour les imports</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="p">))</span>
+
+<span class="kn">from</span> <span class="nn">utils.api</span> <span class="kn">import</span> <span class="n">ApiClient</span><span class="p">,</span> <span class="n">create_authenticated_client</span>
+<span class="kn">from</span> <span class="nn">utils.data_generator</span> <span class="kn">import</span> <span class="n">UserDataGenerator</span><span class="p">,</span> <span class="n">VMDataGenerator</span>
+<span class="kn">from</span> <span class="nn">utils.logging_config</span> <span class="kn">import</span> <span class="n">get_logger</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Typer</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;create-data-via-api&quot;</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s2">&quot;🚀 Créateur de données via API avec Faker&quot;</span><span class="p">,</span>
+    <span class="n">rich_markup_mode</span><span class="o">=</span><span class="s2">&quot;rich&quot;</span><span class="p">,</span>
+    <span class="n">add_completion</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">no_args_is_help</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># PARTIE REPRÉSENTATION / AFFICHAGE</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="display_header">
+<a class="viewcode-back" href="../../api/scripts/create_data_via_api.html#scripts.create_data_via_api.display_header">[docs]</a>
+<span class="k">def</span> <span class="nf">display_header</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">subtitle</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Affiche l&#39;en-tête principal&quot;&quot;&quot;</span>
+    <span class="n">header_text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;[bold blue]</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">[/bold blue]&quot;</span>
+    <span class="k">if</span> <span class="n">subtitle</span><span class="p">:</span>
+        <span class="n">header_text</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[dim]</span><span class="si">{</span><span class="n">subtitle</span><span class="si">}</span><span class="s2">[/dim]&quot;</span>
+
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+        <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+            <span class="n">header_text</span><span class="p">,</span>
+            <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="display_api_config">
+<a class="viewcode-back" href="../../api/scripts/create_data_via_api.html#scripts.create_data_via_api.display_api_config">[docs]</a>
+<span class="k">def</span> <span class="nf">display_api_config</span><span class="p">(</span><span class="n">client</span><span class="p">:</span> <span class="n">ApiClient</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Affiche la configuration de l&#39;API&quot;&quot;&quot;</span>
+    <span class="n">config_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;🔗 Configuration API&quot;</span><span class="p">)</span>
+    <span class="n">config_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Paramètre&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;cyan&quot;</span><span class="p">)</span>
+    <span class="n">config_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Valeur&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;magenta&quot;</span><span class="p">)</span>
+
+    <span class="n">config_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="s2">&quot;Base URL&quot;</span><span class="p">,</span> <span class="n">client</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span>
+    <span class="n">config_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="s2">&quot;Mode&quot;</span><span class="p">,</span> <span class="s2">&quot;Client simple&quot;</span><span class="p">)</span>
+
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">config_table</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="display_operation_config">
+<a class="viewcode-back" href="../../api/scripts/create_data_via_api.html#scripts.create_data_via_api.display_operation_config">[docs]</a>
+<span class="k">def</span> <span class="nf">display_operation_config</span><span class="p">(</span>
+    <span class="n">operation</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">delay</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Affiche la configuration des opérations&quot;&quot;&quot;</span>
+    <span class="n">config_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;🔧 Configuration - </span><span class="si">{</span><span class="n">operation</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">config_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Paramètre&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;cyan&quot;</span><span class="p">)</span>
+    <span class="n">config_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Valeur&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;magenta&quot;</span><span class="p">)</span>
+
+    <span class="n">config_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="s2">&quot;Nombre total&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">))</span>
+    <span class="n">config_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="s2">&quot;Taille des lots&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">batch_size</span><span class="p">))</span>
+    <span class="n">config_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="s2">&quot;Délai entre lots&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">delay</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">config_table</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="display_batch_progress">
+<a class="viewcode-back" href="../../api/scripts/create_data_via_api.html#scripts.create_data_via_api.display_batch_progress">[docs]</a>
+<span class="k">def</span> <span class="nf">display_batch_progress</span><span class="p">(</span><span class="n">batch_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">end</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">total</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Affiche le progrès d&#39;un lot&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;[bold cyan]📝 Lot </span><span class="si">{</span><span class="n">batch_num</span><span class="si">}</span><span class="s2">:[/bold cyan] éléments </span><span class="si">{</span><span class="n">start</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">end</span><span class="si">}</span><span class="s2"> sur </span><span class="si">{</span><span class="n">total</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="display_success_message">
+<a class="viewcode-back" href="../../api/scripts/create_data_via_api.html#scripts.create_data_via_api.display_success_message">[docs]</a>
+<span class="k">def</span> <span class="nf">display_success_message</span><span class="p">(</span>
+    <span class="n">item_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">item_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">item_details</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Affiche un message de succès&quot;&quot;&quot;</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;[green]✅ </span><span class="si">{</span><span class="n">item_type</span><span class="si">}</span><span class="s2"> créé:[/green] [bold]</span><span class="si">{</span><span class="n">item_name</span><span class="si">}</span><span class="s2">[/bold]&quot;</span>
+    <span class="k">if</span> <span class="n">item_details</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; [dim](</span><span class="si">{</span><span class="n">item_details</span><span class="si">}</span><span class="s2">)[/dim]&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="display_error_message">
+<a class="viewcode-back" href="../../api/scripts/create_data_via_api.html#scripts.create_data_via_api.display_error_message">[docs]</a>
+<span class="k">def</span> <span class="nf">display_error_message</span><span class="p">(</span><span class="n">item_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">item_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Affiche un message d&#39;erreur&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[red]❌ Erreur </span><span class="si">{</span><span class="n">item_type</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">item_index</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">:[/red] </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="display_statistics">
+<a class="viewcode-back" href="../../api/scripts/create_data_via_api.html#scripts.create_data_via_api.display_statistics">[docs]</a>
+<span class="k">def</span> <span class="nf">display_statistics</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">stats</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Affiche les statistiques dans un tableau&quot;&quot;&quot;</span>
+    <span class="n">stats_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;📊 </span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">stats_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Métrique&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;cyan&quot;</span><span class="p">)</span>
+    <span class="n">stats_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Valeur&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">stats</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">stats_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">stats_table</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="display_preview">
+<a class="viewcode-back" href="../../api/scripts/create_data_via_api.html#scripts.create_data_via_api.display_preview">[docs]</a>
+<span class="k">def</span> <span class="nf">display_preview</span><span class="p">(</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span> <span class="n">max_items</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Affiche un aperçu des éléments créés&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[bold cyan]🔍 </span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">:[/bold cyan]&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">items</span><span class="p">[:</span><span class="n">max_items</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="s2">&quot;name&quot;</span> <span class="ow">in</span> <span class="n">item</span> <span class="ow">and</span> <span class="s2">&quot;email&quot;</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
+            <span class="c1"># Utilisateur</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   </span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">. [bold]</span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">[/bold] (</span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s2">&quot;name&quot;</span> <span class="ow">in</span> <span class="n">item</span> <span class="ow">and</span> <span class="s2">&quot;operating_system&quot;</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
+            <span class="c1"># VM</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;   </span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">. [bold]</span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">[/bold] (</span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;operating_system&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   </span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_items</span><span class="p">:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   ... et </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">max_items</span><span class="si">}</span><span class="s2"> autres éléments&quot;</span><span class="p">)</span>
+
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="display_dataset_saved">
+<a class="viewcode-back" href="../../api/scripts/create_data_via_api.html#scripts.create_data_via_api.display_dataset_saved">[docs]</a>
+<span class="k">def</span> <span class="nf">display_dataset_saved</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Affiche le message de sauvegarde du dataset&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+        <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;[bold green]💾 Dataset sauvegardé:[/bold green]</span><span class="se">\n</span><span class="si">{</span><span class="n">file_path</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="display_api_status">
+<a class="viewcode-back" href="../../api/scripts/create_data_via_api.html#scripts.create_data_via_api.display_api_status">[docs]</a>
+<span class="k">def</span> <span class="nf">display_api_status</span><span class="p">(</span><span class="n">all_data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">api_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Affiche le statut de l&#39;API&quot;&quot;&quot;</span>
+    <span class="n">status_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;📊 Statut de l&#39;API&quot;</span><span class="p">)</span>
+    <span class="n">status_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Métrique&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;cyan&quot;</span><span class="p">)</span>
+    <span class="n">status_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Valeur&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
+
+    <span class="n">status_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="s2">&quot;URL de l&#39;API&quot;</span><span class="p">,</span> <span class="n">api_url</span><span class="p">)</span>
+    <span class="n">status_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="s2">&quot;Utilisateurs total&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">all_data</span><span class="p">[</span><span class="s2">&quot;total_users&quot;</span><span class="p">]))</span>
+    <span class="n">status_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="s2">&quot;VMs totales&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">all_data</span><span class="p">[</span><span class="s2">&quot;total_vms&quot;</span><span class="p">]))</span>
+    <span class="n">status_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="s2">&quot;Utilisateurs avec VMs&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">all_data</span><span class="p">[</span><span class="s2">&quot;users_with_vms&quot;</span><span class="p">]))</span>
+
+    <span class="k">if</span> <span class="n">all_data</span><span class="p">[</span><span class="s2">&quot;total_users&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">avg_vms</span> <span class="o">=</span> <span class="n">all_data</span><span class="p">[</span><span class="s2">&quot;total_vms&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">all_data</span><span class="p">[</span><span class="s2">&quot;total_users&quot;</span><span class="p">]</span>
+        <span class="n">status_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="s2">&quot;Moyenne VMs/utilisateur&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">avg_vms</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">status_table</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">()</span></div>
+
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># PARTIE LOGIQUE MÉTIER / DONNÉES</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="create_users_via_api">
+<a class="viewcode-back" href="../../api/scripts/create_data_via_api.html#scripts.create_data_via_api.create_users_via_api">[docs]</a>
+<span class="k">def</span> <span class="nf">create_users_via_api</span><span class="p">(</span>
+    <span class="n">api_client</span><span class="p">:</span> <span class="n">ApiClient</span><span class="p">,</span>
+    <span class="n">user_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">delay_between_batches</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Crée des utilisateurs via l&#39;API en utilisant le générateur Faker.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        api_client: Client API authentifié</span>
+<span class="sd">        user_count: Nombre d&#39;utilisateurs à créer</span>
+<span class="sd">        batch_size: Nombre d&#39;utilisateurs à créer par lot</span>
+<span class="sd">        delay_between_batches: Délai entre les lots (en secondes)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Liste des utilisateurs créés</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="s2">&quot;Création d&#39;utilisateurs via API&quot;</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">user_count</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span>
+    <span class="p">)</span>
+
+    <span class="n">created_users</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">created_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">with</span> <span class="n">Progress</span><span class="p">(</span>
+        <span class="n">SpinnerColumn</span><span class="p">(),</span>
+        <span class="n">TextColumn</span><span class="p">(</span><span class="s2">&quot;[progress.description]</span><span class="si">{task.description}</span><span class="s2">&quot;</span><span class="p">),</span>
+        <span class="n">BarColumn</span><span class="p">(),</span>
+        <span class="n">TextColumn</span><span class="p">(</span><span class="s2">&quot;[progress.percentage]</span><span class="si">{task.percentage:&gt;3.0f}</span><span class="s2">%&quot;</span><span class="p">),</span>
+        <span class="n">TimeElapsedColumn</span><span class="p">(),</span>
+        <span class="n">console</span><span class="o">=</span><span class="n">console</span><span class="p">,</span>
+    <span class="p">)</span> <span class="k">as</span> <span class="n">progress</span><span class="p">:</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">progress</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Création de </span><span class="si">{</span><span class="n">user_count</span><span class="si">}</span><span class="s2"> utilisateurs...&quot;</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="n">user_count</span>
+        <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">batch_start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">user_count</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+            <span class="n">batch_end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">batch_start</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">user_count</span><span class="p">)</span>
+            <span class="n">batch_size_actual</span> <span class="o">=</span> <span class="n">batch_end</span> <span class="o">-</span> <span class="n">batch_start</span>
+
+            <span class="n">display_batch_progress</span><span class="p">(</span>
+                <span class="n">batch_start</span> <span class="o">//</span> <span class="n">batch_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">batch_start</span><span class="p">,</span> <span class="n">batch_end</span><span class="p">,</span> <span class="n">user_count</span>
+            <span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">batch_size_actual</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="c1"># Générer les données utilisateur avec Faker</span>
+                    <span class="n">user_data</span> <span class="o">=</span> <span class="n">UserDataGenerator</span><span class="o">.</span><span class="n">generate_user</span><span class="p">(</span><span class="n">created_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">created_user</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span>
+                        <span class="n">name</span><span class="o">=</span><span class="n">user_data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
+                        <span class="n">email</span><span class="o">=</span><span class="n">user_data</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">],</span>
+                        <span class="n">password</span><span class="o">=</span><span class="s2">&quot;password123&quot;</span><span class="p">,</span>  <span class="c1"># Mot de passe par défaut</span>
+                    <span class="p">)</span>
+
+                    <span class="c1"># Vérifier que l&#39;utilisateur a été créé avec succès</span>
+                    <span class="k">if</span> <span class="p">(</span>
+                        <span class="n">created_user</span>
+                        <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">created_user</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
+                        <span class="ow">and</span> <span class="s2">&quot;id&quot;</span> <span class="ow">in</span> <span class="n">created_user</span>
+                    <span class="p">):</span>
+                        <span class="n">created_users</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">created_user</span><span class="p">)</span>
+                        <span class="n">created_count</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">display_success_message</span><span class="p">(</span>
+                            <span class="s2">&quot;Utilisateur&quot;</span><span class="p">,</span> <span class="n">user_data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">user_data</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">]</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                            <span class="s2">&quot;Échec de création d&#39;utilisateur - données invalides&quot;</span><span class="p">,</span>
+                            <span class="n">user_data</span><span class="o">=</span><span class="n">user_data</span><span class="p">,</span>
+                            <span class="n">created_user</span><span class="o">=</span><span class="n">created_user</span><span class="p">,</span>
+                            <span class="n">created_user_type</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="n">created_user</span><span class="p">),</span>
+                        <span class="p">)</span>
+                        <span class="n">display_error_message</span><span class="p">(</span>
+                            <span class="s2">&quot;utilisateur&quot;</span><span class="p">,</span>
+                            <span class="n">i</span><span class="p">,</span>
+                            <span class="sa">f</span><span class="s2">&quot;Données utilisateur invalides: </span><span class="si">{</span><span class="n">created_user</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="p">)</span>
+
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                        <span class="s2">&quot;Erreur lors de la création d&#39;un utilisateur&quot;</span><span class="p">,</span>
+                        <span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
+                        <span class="n">error_type</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">display_error_message</span><span class="p">(</span>
+                        <span class="s2">&quot;utilisateur&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
+
+                <span class="n">progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+                <span class="c1"># Délai entre chaque création d&#39;utilisateur</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">batch_size_actual</span> <span class="o">-</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">batch_end</span> <span class="o">&lt;</span> <span class="n">user_count</span><span class="p">:</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay_between_batches</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+            <span class="c1"># Délai entre les lots pour éviter de surcharger l&#39;API</span>
+            <span class="k">if</span> <span class="n">batch_end</span> <span class="o">&lt;</span> <span class="n">user_count</span><span class="p">:</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay_between_batches</span><span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Utilisateurs créés avec succès&quot;</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">created_users</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">created_users</span></div>
+
+
+
+<div class="viewcode-block" id="create_vms_via_api">
+<a class="viewcode-back" href="../../api/scripts/create_data_via_api.html#scripts.create_data_via_api.create_vms_via_api">[docs]</a>
+<span class="k">def</span> <span class="nf">create_vms_via_api</span><span class="p">(</span>
+    <span class="n">api_client</span><span class="p">:</span> <span class="n">ApiClient</span><span class="p">,</span>
+    <span class="n">vm_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">user_ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+    <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">delay_between_batches</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Crée des VMs via l&#39;API en utilisant le générateur Faker.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        api_client: Client API authentifié</span>
+<span class="sd">        vm_count: Nombre de VMs à créer</span>
+<span class="sd">        user_ids: Liste des IDs d&#39;utilisateurs disponibles</span>
+<span class="sd">        batch_size: Nombre de VMs à créer par lot</span>
+<span class="sd">        delay_between_batches: Délai entre les lots (en secondes)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Liste des VMs créées</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Vérifier que user_ids est valide</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">user_ids</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Liste d&#39;IDs d&#39;utilisateurs vide ou None&quot;</span><span class="p">,</span> <span class="n">user_ids</span><span class="o">=</span><span class="n">user_ids</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Aucun ID d&#39;utilisateur valide fourni pour la création de VMs&quot;</span><span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="s2">&quot;Création de VMs via API&quot;</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">vm_count</span><span class="p">,</span> <span class="n">available_users</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">user_ids</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">created_vms</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">created_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">with</span> <span class="n">Progress</span><span class="p">(</span>
+        <span class="n">SpinnerColumn</span><span class="p">(),</span>
+        <span class="n">TextColumn</span><span class="p">(</span><span class="s2">&quot;[progress.description]</span><span class="si">{task.description}</span><span class="s2">&quot;</span><span class="p">),</span>
+        <span class="n">BarColumn</span><span class="p">(),</span>
+        <span class="n">TextColumn</span><span class="p">(</span><span class="s2">&quot;[progress.percentage]</span><span class="si">{task.percentage:&gt;3.0f}</span><span class="s2">%&quot;</span><span class="p">),</span>
+        <span class="n">TimeElapsedColumn</span><span class="p">(),</span>
+        <span class="n">console</span><span class="o">=</span><span class="n">console</span><span class="p">,</span>
+    <span class="p">)</span> <span class="k">as</span> <span class="n">progress</span><span class="p">:</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">progress</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Création de </span><span class="si">{</span><span class="n">vm_count</span><span class="si">}</span><span class="s2"> VMs...&quot;</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="n">vm_count</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">batch_start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">vm_count</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+            <span class="n">batch_end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">batch_start</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">vm_count</span><span class="p">)</span>
+            <span class="n">batch_size_actual</span> <span class="o">=</span> <span class="n">batch_end</span> <span class="o">-</span> <span class="n">batch_start</span>
+
+            <span class="n">display_batch_progress</span><span class="p">(</span>
+                <span class="n">batch_start</span> <span class="o">//</span> <span class="n">batch_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">batch_start</span><span class="p">,</span> <span class="n">batch_end</span><span class="p">,</span> <span class="n">vm_count</span>
+            <span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">batch_size_actual</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="c1"># Vérifier que user_ids est valide avant utilisation</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">user_ids</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">user_ids</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;user_ids invalide: </span><span class="si">{</span><span class="n">user_ids</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Liste d&#39;IDs d&#39;utilisateurs vide ou None&quot;</span><span class="p">)</span>
+
+                    <span class="n">selected_user_id</span> <span class="o">=</span> <span class="n">user_ids</span><span class="p">[</span><span class="n">created_count</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">user_ids</span><span class="p">)]</span>
+
+                    <span class="k">if</span> <span class="n">selected_user_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">&quot;ID utilisateur None trouvé dans user_ids: </span><span class="si">{</span><span class="n">user_ids</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="p">)</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;ID utilisateur None trouvé&quot;</span><span class="p">)</span>
+
+                    <span class="c1"># Générer les données VM avec Faker</span>
+                    <span class="n">vm_data</span> <span class="o">=</span> <span class="n">VMDataGenerator</span><span class="o">.</span><span class="n">generate_vm</span><span class="p">(</span>
+                        <span class="n">user_id</span><span class="o">=</span><span class="n">selected_user_id</span><span class="p">,</span>
+                        <span class="n">vm_id</span><span class="o">=</span><span class="n">created_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">created_vm</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">vms</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                        <span class="n">user_id</span><span class="o">=</span><span class="n">vm_data</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">],</span>
+                        <span class="n">name</span><span class="o">=</span><span class="n">vm_data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
+                        <span class="n">operating_system</span><span class="o">=</span><span class="n">vm_data</span><span class="p">[</span><span class="s2">&quot;operating_system&quot;</span><span class="p">],</span>
+                        <span class="n">cpu_cores</span><span class="o">=</span><span class="n">vm_data</span><span class="p">[</span><span class="s2">&quot;cpu_cores&quot;</span><span class="p">],</span>
+                        <span class="n">ram_gb</span><span class="o">=</span><span class="n">vm_data</span><span class="p">[</span><span class="s2">&quot;ram_gb&quot;</span><span class="p">],</span>
+                        <span class="n">disk_gb</span><span class="o">=</span><span class="n">vm_data</span><span class="p">[</span><span class="s2">&quot;disk_gb&quot;</span><span class="p">],</span>
+                        <span class="n">status</span><span class="o">=</span><span class="n">vm_data</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">],</span>
+                    <span class="p">)</span>
+
+                    <span class="c1"># Vérifier que la VM a été créée avec succès</span>
+                    <span class="k">if</span> <span class="p">(</span>
+                        <span class="n">created_vm</span>
+                        <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">created_vm</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
+                        <span class="ow">and</span> <span class="s2">&quot;id&quot;</span> <span class="ow">in</span> <span class="n">created_vm</span>
+                    <span class="p">):</span>
+                        <span class="n">created_vms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">created_vm</span><span class="p">)</span>
+                        <span class="n">created_count</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">vm_details</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">vm_data</span><span class="p">[</span><span class="s1">&#39;operating_system&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">vm_data</span><span class="p">[</span><span class="s1">&#39;cpu_cores&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">c/</span><span class="si">{</span><span class="n">vm_data</span><span class="p">[</span><span class="s1">&#39;ram_gb&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">GB&quot;</span>
+                        <span class="n">display_success_message</span><span class="p">(</span><span class="s2">&quot;VM&quot;</span><span class="p">,</span> <span class="n">vm_data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">vm_details</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                            <span class="s2">&quot;Échec de création de VM - données invalides&quot;</span><span class="p">,</span>
+                            <span class="n">vm_data</span><span class="o">=</span><span class="n">vm_data</span><span class="p">,</span>
+                            <span class="n">created_vm</span><span class="o">=</span><span class="n">created_vm</span><span class="p">,</span>
+                            <span class="n">created_vm_type</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="n">created_vm</span><span class="p">),</span>
+                        <span class="p">)</span>
+                        <span class="n">display_error_message</span><span class="p">(</span>
+                            <span class="s2">&quot;VM&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Données VM invalides: </span><span class="si">{</span><span class="n">created_vm</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="p">)</span>
+
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                        <span class="s2">&quot;Erreur lors de la création d&#39;une VM&quot;</span><span class="p">,</span>
+                        <span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
+                        <span class="n">error_type</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">display_error_message</span><span class="p">(</span><span class="s2">&quot;VM&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                <span class="n">progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+                <span class="c1"># Délai entre chaque création de VM</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">batch_size_actual</span> <span class="o">-</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">batch_end</span> <span class="o">&lt;</span> <span class="n">vm_count</span><span class="p">:</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay_between_batches</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+            <span class="c1"># Délai entre les lots pour éviter de surcharger l&#39;API</span>
+            <span class="k">if</span> <span class="n">batch_end</span> <span class="o">&lt;</span> <span class="n">vm_count</span><span class="p">:</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay_between_batches</span><span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;VMs créées avec succès&quot;</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">created_vms</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">created_vms</span></div>
+
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># COMMANDES TYPER AVEC AFFICHAGE RICH</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="users">
+<a class="viewcode-back" href="../../api/scripts/create_data_via_api.html#scripts.create_data_via_api.users">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">users</span><span class="p">(</span>
+    <span class="n">count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;--count&quot;</span><span class="p">,</span> <span class="s2">&quot;-c&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Nombre d&#39;utilisateurs à créer&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">100</span>
+    <span class="p">),</span>
+    <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;--batch-size&quot;</span><span class="p">,</span> <span class="s2">&quot;-b&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Taille des lots&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">20</span>
+    <span class="p">),</span>
+    <span class="n">delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="mf">2.0</span><span class="p">,</span> <span class="s2">&quot;--delay&quot;</span><span class="p">,</span> <span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Délai entre les lots (secondes)&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mf">10.0</span>
+    <span class="p">),</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;--verbose&quot;</span><span class="p">,</span> <span class="s2">&quot;-v&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Mode verbeux&quot;</span><span class="p">),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    👥 Créer des utilisateurs via l&#39;API avec des données Faker</span>
+
+<span class="sd">    Génère des utilisateurs réalistes avec Faker et les crée via l&#39;API.</span>
+
+<span class="sd">    Exemples:</span>
+
+<span class="sd">    \b</span>
+<span class="sd">    python create_data_via_api.py users --count 20</span>
+<span class="sd">    python create_data_via_api.py users -c 50 --batch-size 10 --delay 3.0 --max-retries 7</span>
+<span class="sd">    python create_data_via_api.py users --verbose</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">display_header</span><span class="p">(</span>
+        <span class="s2">&quot;👥 Création d&#39;utilisateurs via l&#39;API&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;Génération de </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> utilisateurs avec Faker&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Créer le client API avec authentification automatique</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="s2">&quot;[bold yellow]🔐 Authentification automatique en cours...[/bold yellow]&quot;</span>
+        <span class="p">)</span>
+        <span class="n">api_client</span> <span class="o">=</span> <span class="n">create_authenticated_client</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">api_client</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">():</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[bold green]✅ Authentification réussie ![/bold green]&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[bold red]❌ Échec de l&#39;authentification[/bold red]&quot;</span><span class="p">)</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+                <span class="s2">&quot;[dim]💡 Configurez DEMO_API_EMAIL et DEMO_API_PASSWORD dans votre fichier .env[/dim]&quot;</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;[bold green]🔗 Connexion à l&#39;API sur </span><span class="si">{</span><span class="n">api_client</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">[/bold green]&quot;</span>
+        <span class="p">)</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+
+        <span class="c1"># Afficher la configuration</span>
+        <span class="n">display_api_config</span><span class="p">(</span><span class="n">api_client</span><span class="p">)</span>
+        <span class="n">display_operation_config</span><span class="p">(</span><span class="s2">&quot;Utilisateurs&quot;</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">delay</span><span class="p">)</span>
+
+        <span class="c1"># Créer les utilisateurs</span>
+        <span class="n">created_users</span> <span class="o">=</span> <span class="n">create_users_via_api</span><span class="p">(</span>
+            <span class="n">api_client</span><span class="o">=</span><span class="n">api_client</span><span class="p">,</span>
+            <span class="n">user_count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span>
+            <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+            <span class="n">delay_between_batches</span><span class="o">=</span><span class="n">delay</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Statistiques</span>
+        <span class="n">stats</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;Utilisateurs créés&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">created_users</span><span class="p">),</span>
+            <span class="s2">&quot;Taux de succès&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">created_users</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">display_statistics</span><span class="p">(</span><span class="s2">&quot;Résultat de la création&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">verbose</span> <span class="ow">and</span> <span class="n">created_users</span><span class="p">:</span>
+            <span class="n">display_preview</span><span class="p">(</span><span class="s2">&quot;Aperçu des utilisateurs créés&quot;</span><span class="p">,</span> <span class="n">created_users</span><span class="p">)</span>
+
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                <span class="s2">&quot;[bold green]✅ CRÉATION TERMINÉE AVEC SUCCÈS ![/bold green]&quot;</span><span class="p">,</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Erreur lors de la création des utilisateurs&quot;</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;[bold red]❌ Erreur lors de la création:[/bold red]</span><span class="se">\n</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="vms">
+<a class="viewcode-back" href="../../api/scripts/create_data_via_api.html#scripts.create_data_via_api.vms">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">vms</span><span class="p">(</span>
+    <span class="n">count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;--count&quot;</span><span class="p">,</span> <span class="s2">&quot;-c&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Nombre de VMs à créer&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">200</span>
+    <span class="p">),</span>
+    <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;--batch-size&quot;</span><span class="p">,</span> <span class="s2">&quot;-b&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Taille des lots&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">20</span>
+    <span class="p">),</span>
+    <span class="n">delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="mf">2.0</span><span class="p">,</span> <span class="s2">&quot;--delay&quot;</span><span class="p">,</span> <span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Délai entre les lots (secondes)&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mf">10.0</span>
+    <span class="p">),</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;--verbose&quot;</span><span class="p">,</span> <span class="s2">&quot;-v&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Mode verbeux&quot;</span><span class="p">),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    🖥️ Créer des VMs via l&#39;API avec des données Faker</span>
+
+<span class="sd">    Génère des VMs réalistes avec Faker et les crée via l&#39;API.</span>
+<span class="sd">    Les VMs sont associées à des utilisateurs existants.</span>
+
+<span class="sd">    Exemples:</span>
+
+<span class="sd">    \b</span>
+<span class="sd">    python create_data_via_api.py vms --count 50</span>
+<span class="sd">    python create_data_via_api.py vms -c 100 --batch-size 10 --delay 3.0</span>
+<span class="sd">    python create_data_via_api.py vms --verbose</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">display_header</span><span class="p">(</span>
+        <span class="s2">&quot;🖥️ Création de VMs via l&#39;API&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Génération de </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> VMs avec Faker&quot;</span>
+    <span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Créer le client API avec authentification automatique</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="s2">&quot;[bold yellow]🔐 Authentification automatique en cours...[/bold yellow]&quot;</span>
+        <span class="p">)</span>
+        <span class="n">api_client</span> <span class="o">=</span> <span class="n">create_authenticated_client</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">api_client</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">():</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[bold green]✅ Authentification réussie ![/bold green]&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[bold red]❌ Échec de l&#39;authentification[/bold red]&quot;</span><span class="p">)</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+                <span class="s2">&quot;[dim]💡 Configurez DEMO_API_EMAIL et DEMO_API_PASSWORD dans votre fichier .env[/dim]&quot;</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;[bold green]🔗 Connexion à l&#39;API sur </span><span class="si">{</span><span class="n">api_client</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">[/bold green]&quot;</span>
+        <span class="p">)</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+
+        <span class="c1"># Afficher la configuration</span>
+        <span class="n">display_api_config</span><span class="p">(</span><span class="n">api_client</span><span class="p">)</span>
+
+        <span class="c1"># Récupérer les utilisateurs existants</span>
+        <span class="k">with</span> <span class="n">console</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="s2">&quot;[bold green]Récupération des utilisateurs existants...&quot;</span><span class="p">):</span>
+            <span class="n">existing_users</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">existing_users</span><span class="p">:</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+                <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                    <span class="s2">&quot;[bold red]❌ Aucun utilisateur trouvé dans l&#39;API[/bold red]</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;[dim]💡 Créez d&#39;abord des utilisateurs avec la commande &#39;users&#39;[/dim]&quot;</span><span class="p">,</span>
+                    <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">user_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">user</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">existing_users</span><span class="p">]</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;[bold cyan]👥 </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">user_ids</span><span class="p">)</span><span class="si">}</span><span class="s2"> utilisateurs disponibles pour l&#39;association des VMs[/bold cyan]&quot;</span>
+        <span class="p">)</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+
+        <span class="n">display_operation_config</span><span class="p">(</span><span class="s2">&quot;VMs&quot;</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">delay</span><span class="p">)</span>
+
+        <span class="c1"># Créer les VMs</span>
+        <span class="n">created_vms</span> <span class="o">=</span> <span class="n">create_vms_via_api</span><span class="p">(</span>
+            <span class="n">api_client</span><span class="o">=</span><span class="n">api_client</span><span class="p">,</span>
+            <span class="n">vm_count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span>
+            <span class="n">user_ids</span><span class="o">=</span><span class="n">user_ids</span><span class="p">,</span>
+            <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+            <span class="n">delay_between_batches</span><span class="o">=</span><span class="n">delay</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Statistiques</span>
+        <span class="n">stats</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;VMs créées&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">created_vms</span><span class="p">),</span>
+            <span class="s2">&quot;Taux de succès&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">created_vms</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Utilisateurs concernés&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">user_ids</span><span class="p">),</span>
+        <span class="p">}</span>
+        <span class="n">display_statistics</span><span class="p">(</span><span class="s2">&quot;Résultat de la création&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">verbose</span> <span class="ow">and</span> <span class="n">created_vms</span><span class="p">:</span>
+            <span class="n">display_preview</span><span class="p">(</span><span class="s2">&quot;Aperçu des VMs créées&quot;</span><span class="p">,</span> <span class="n">created_vms</span><span class="p">)</span>
+
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                <span class="s2">&quot;[bold green]✅ CRÉATION TERMINÉE AVEC SUCCÈS ![/bold green]&quot;</span><span class="p">,</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Erreur lors de la création des VMs&quot;</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;[bold red]❌ Erreur lors de la création:[/bold red]</span><span class="se">\n</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="full_dataset">
+<a class="viewcode-back" href="../../api/scripts/create_data_via_api.html#scripts.create_data_via_api.full_dataset">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">full_dataset</span><span class="p">(</span>
+    <span class="n">user_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;--users&quot;</span><span class="p">,</span> <span class="s2">&quot;-u&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Nombre d&#39;utilisateurs à créer&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">100</span>
+    <span class="p">),</span>
+    <span class="n">vm_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;--vms&quot;</span><span class="p">,</span> <span class="s2">&quot;-v&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Nombre de VMs à créer&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">200</span>
+    <span class="p">),</span>
+    <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;--batch-size&quot;</span><span class="p">,</span> <span class="s2">&quot;-b&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Taille des lots&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">20</span>
+    <span class="p">),</span>
+    <span class="n">delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="mf">2.0</span><span class="p">,</span> <span class="s2">&quot;--delay&quot;</span><span class="p">,</span> <span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Délai entre les lots (secondes)&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mf">10.0</span>
+    <span class="p">),</span>
+    <span class="n">output_file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;--output&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Fichier de sortie pour sauvegarder les données créées&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;--verbose&quot;</span><span class="p">,</span> <span class="s2">&quot;-v&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Mode verbeux&quot;</span><span class="p">),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    🎯 Créer un dataset complet via l&#39;API avec des données Faker</span>
+
+<span class="sd">    Crée des utilisateurs et des VMs réalistes avec Faker via l&#39;API.</span>
+<span class="sd">    Optionnellement sauvegarde les données créées dans un fichier JSON.</span>
+
+<span class="sd">    Exemples:</span>
+
+<span class="sd">    \b</span>
+<span class="sd">    python create_data_via_api.py full-dataset --users 20 --vms 50</span>
+<span class="sd">    python create_data_via_api.py full-dataset -u 30 -v 100 --delay 3.0 --output dataset.json</span>
+<span class="sd">    python create_data_via_api.py full-dataset --verbose</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">display_header</span><span class="p">(</span>
+        <span class="s2">&quot;🎯 Création d&#39;un dataset complet&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">user_count</span><span class="si">}</span><span class="s2"> utilisateurs + </span><span class="si">{</span><span class="n">vm_count</span><span class="si">}</span><span class="s2"> VMs avec Faker&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Créer le client API avec authentification automatique</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="s2">&quot;[bold yellow]🔐 Authentification automatique en cours...[/bold yellow]&quot;</span>
+        <span class="p">)</span>
+        <span class="n">api_client</span> <span class="o">=</span> <span class="n">create_authenticated_client</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">api_client</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">():</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[bold green]✅ Authentification réussie ![/bold green]&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[bold red]❌ Échec de l&#39;authentification[/bold red]&quot;</span><span class="p">)</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+                <span class="s2">&quot;[dim]💡 Configurez DEMO_API_EMAIL et DEMO_API_PASSWORD dans votre fichier .env[/dim]&quot;</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;[bold green]🔗 Connexion à l&#39;API sur </span><span class="si">{</span><span class="n">api_client</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">[/bold green]&quot;</span>
+        <span class="p">)</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+
+        <span class="c1"># Afficher la configuration</span>
+        <span class="n">display_api_config</span><span class="p">(</span><span class="n">api_client</span><span class="p">)</span>
+        <span class="n">display_operation_config</span><span class="p">(</span>
+            <span class="s2">&quot;Dataset complet&quot;</span><span class="p">,</span> <span class="n">user_count</span> <span class="o">+</span> <span class="n">vm_count</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">delay</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Étape 1: Créer les utilisateurs</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;[bold blue]👥 Étape 1/2: Création de </span><span class="si">{</span><span class="n">user_count</span><span class="si">}</span><span class="s2"> utilisateurs[/bold blue]&quot;</span><span class="p">,</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">created_users</span> <span class="o">=</span> <span class="n">create_users_via_api</span><span class="p">(</span>
+            <span class="n">api_client</span><span class="o">=</span><span class="n">api_client</span><span class="p">,</span>
+            <span class="n">user_count</span><span class="o">=</span><span class="n">user_count</span><span class="p">,</span>
+            <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+            <span class="n">delay_between_batches</span><span class="o">=</span><span class="n">delay</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Étape 2: Créer les VMs</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;[bold blue]🖥️ Étape 2/2: Création de </span><span class="si">{</span><span class="n">vm_count</span><span class="si">}</span><span class="s2"> VMs[/bold blue]&quot;</span><span class="p">,</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">created_users</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;created_users est None!&quot;</span><span class="p">)</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+                <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                    <span class="s2">&quot;[bold red]❌ Erreur: created_users est None[/bold red]</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;[dim]💡 Problème dans la création des utilisateurs[/dim]&quot;</span><span class="p">,</span>
+                    <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Vérifier qu&#39;on a des utilisateurs créés avec succès</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">created_users</span><span class="p">:</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+                <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                    <span class="s2">&quot;[bold red]❌ Aucun utilisateur créé avec succès[/bold red]</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;[dim]💡 Impossible de créer des VMs sans utilisateurs[/dim]&quot;</span><span class="p">,</span>
+                    <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Analyser chaque utilisateur avant extraction des IDs</span>
+        <span class="n">valid_users</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">user</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">created_users</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">user</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;id&quot;</span> <span class="ow">in</span> <span class="n">user</span><span class="p">:</span>
+                <span class="n">valid_users</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Utilisateur </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> invalide: </span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2"> (type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+        <span class="n">user_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">user</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">valid_users</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">user_ids</span><span class="p">:</span>
+            <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+                <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                    <span class="s2">&quot;[bold red]❌ Aucun ID d&#39;utilisateur valide trouvé[/bold red]</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;[dim]💡 Impossible de créer des VMs[/dim]&quot;</span><span class="p">,</span>
+                    <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">created_vms</span> <span class="o">=</span> <span class="n">create_vms_via_api</span><span class="p">(</span>
+            <span class="n">api_client</span><span class="o">=</span><span class="n">api_client</span><span class="p">,</span>
+            <span class="n">vm_count</span><span class="o">=</span><span class="n">vm_count</span><span class="p">,</span>
+            <span class="n">user_ids</span><span class="o">=</span><span class="n">user_ids</span><span class="p">,</span>
+            <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+            <span class="n">delay_between_batches</span><span class="o">=</span><span class="n">delay</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Statistiques finales</span>
+        <span class="n">stats</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;Utilisateurs créés&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">created_users</span><span class="p">),</span>
+            <span class="s2">&quot;VMs créées&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">created_vms</span><span class="p">),</span>
+            <span class="s2">&quot;Taux de succès utilisateurs&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">created_users</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">user_count</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Taux de succès VMs&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">created_vms</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">vm_count</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">display_statistics</span><span class="p">(</span><span class="s2">&quot;Statistiques finales&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">)</span>
+
+        <span class="c1"># Sauvegarder les données si demandé</span>
+        <span class="k">if</span> <span class="n">output_file</span><span class="p">:</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+                <span class="s2">&quot;users&quot;</span><span class="p">:</span> <span class="n">created_users</span><span class="p">,</span>
+                <span class="s2">&quot;vms&quot;</span><span class="p">:</span> <span class="n">created_vms</span><span class="p">,</span>
+                <span class="s2">&quot;statistics&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;total_users&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">created_users</span><span class="p">),</span>
+                    <span class="s2">&quot;total_vms&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">created_vms</span><span class="p">),</span>
+                    <span class="s2">&quot;user_success_rate&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">created_users</span><span class="p">)</span> <span class="o">/</span> <span class="n">user_count</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
+                    <span class="s2">&quot;vm_success_rate&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">created_vms</span><span class="p">)</span> <span class="o">/</span> <span class="n">vm_count</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">}</span>
+
+            <span class="n">output_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+
+            <span class="n">display_dataset_saved</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="n">display_preview</span><span class="p">(</span><span class="s2">&quot;Aperçu des utilisateurs créés&quot;</span><span class="p">,</span> <span class="n">created_users</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="n">display_preview</span><span class="p">(</span><span class="s2">&quot;Aperçu des VMs créées&quot;</span><span class="p">,</span> <span class="n">created_vms</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                <span class="s2">&quot;[bold green]✅ DATASET CRÉÉ AVEC SUCCÈS ![/bold green]&quot;</span><span class="p">,</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Erreur lors de la création du dataset&quot;</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;[bold red]❌ Erreur lors de la création:[/bold red]</span><span class="se">\n</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="status">
+<a class="viewcode-back" href="../../api/scripts/create_data_via_api.html#scripts.create_data_via_api.status">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">status</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    📊 Afficher le statut actuel de l&#39;API</span>
+
+<span class="sd">    Récupère et affiche les statistiques actuelles des utilisateurs et VMs.</span>
+
+<span class="sd">    Exemples:</span>
+
+<span class="sd">    \b</span>
+<span class="sd">    python create_data_via_api.py status</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">display_header</span><span class="p">(</span><span class="s2">&quot;📊 Statut de l&#39;API&quot;</span><span class="p">,</span> <span class="s2">&quot;Récupération des statistiques actuelles&quot;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Créer le client API simple</span>
+        <span class="n">api_client</span> <span class="o">=</span> <span class="n">ApiClient</span><span class="p">()</span>
+
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;[bold green]🔗 Connexion à l&#39;API sur </span><span class="si">{</span><span class="n">api_client</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">[/bold green]&quot;</span>
+        <span class="p">)</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+
+        <span class="c1"># Afficher la configuration</span>
+        <span class="n">display_api_config</span><span class="p">(</span><span class="n">api_client</span><span class="p">)</span>
+
+        <span class="c1"># Récupérer toutes les données</span>
+        <span class="k">with</span> <span class="n">console</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="s2">&quot;[bold green]Récupération des données...&quot;</span><span class="p">):</span>
+            <span class="n">all_data</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">get_all_data</span><span class="p">()</span>
+
+        <span class="c1"># Afficher les statistiques</span>
+        <span class="n">display_api_status</span><span class="p">(</span><span class="n">all_data</span><span class="p">,</span> <span class="n">api_client</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span>
+
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                <span class="s2">&quot;[bold green]✅ STATUT RÉCUPÉRÉ AVEC SUCCÈS ![/bold green]&quot;</span><span class="p">,</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Erreur lors de la récupération du statut&quot;</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;[bold red]❌ Erreur lors de la récupération:[/bold red]</span><span class="se">\n</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="version">
+<a class="viewcode-back" href="../../api/scripts/create_data_via_api.html#scripts.create_data_via_api.version">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">version</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;📋 Afficher la version du créateur de données&quot;&quot;&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+        <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+            <span class="s2">&quot;[bold blue]create-data-via-api v1.0.0[/bold blue]</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;[dim]Powered by Faker 🎲 + API unifiée 🚀[/dim]&quot;</span><span class="p">,</span>
+            <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../../api/scripts/create_data_via_api.html#scripts.create_data_via_api.main">[docs]</a>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Point d&#39;entrée principal&quot;&quot;&quot;</span>
+
+    <span class="c1"># Gérer -h comme alias pour --help</span>
+    <span class="k">if</span> <span class="s2">&quot;-h&quot;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="ow">and</span> <span class="s2">&quot;--help&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;-h&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="s2">&quot;--help&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">app</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                <span class="s2">&quot;[bold yellow]⚠️ Création interrompue[/bold yellow]&quot;</span><span class="p">,</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;yellow&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="n">Panel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;[bold red]❌ Erreur:[/bold red]</span><span class="se">\n</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Demo API Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

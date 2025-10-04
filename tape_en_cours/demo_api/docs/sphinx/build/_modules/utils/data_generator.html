@@ -1,0 +1,416 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>utils.data_generator &mdash; Demo API 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Demo API
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenu:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Guide de démarrage rapide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">Modules API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">Interface en ligne de commande</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Exemples d’utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Journal des modifications</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Demo API</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">utils.data_generator</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for utils.data_generator</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module de génération de données factices avec Faker.</span>
+<span class="sd">Génère des données réalistes pour les utilisateurs et les machines virtuelles.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">unicodedata</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+<span class="kn">from</span> <span class="nn">faker.providers</span> <span class="kn">import</span> <span class="n">internet</span><span class="p">,</span> <span class="n">company</span><span class="p">,</span> <span class="n">lorem</span><span class="p">,</span> <span class="n">date_time</span>
+
+<span class="kn">from</span> <span class="nn">utils.logging_config</span> <span class="kn">import</span> <span class="n">get_logger</span>
+
+<span class="c1"># Logger pour ce module</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="c1"># Initialisation de Faker avec la locale française</span>
+<span class="n">fake</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">(</span><span class="s2">&quot;fr_FR&quot;</span><span class="p">)</span>
+<span class="n">fake</span><span class="o">.</span><span class="n">add_provider</span><span class="p">(</span><span class="n">internet</span><span class="p">)</span>
+<span class="n">fake</span><span class="o">.</span><span class="n">add_provider</span><span class="p">(</span><span class="n">company</span><span class="p">)</span>
+<span class="n">fake</span><span class="o">.</span><span class="n">add_provider</span><span class="p">(</span><span class="n">lorem</span><span class="p">)</span>
+<span class="n">fake</span><span class="o">.</span><span class="n">add_provider</span><span class="p">(</span><span class="n">date_time</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="VMDataGenerator">
+<a class="viewcode-back" href="../../api/utils/data_generator.html#utils.data_generator.VMDataGenerator">[docs]</a>
+<span class="k">class</span> <span class="nc">VMDataGenerator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Générateur de données pour les machines virtuelles.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Systèmes d&#39;exploitation réalistes</span>
+    <span class="n">OPERATING_SYSTEMS</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;Ubuntu 22.04 LTS&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Ubuntu 20.04 LTS&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CentOS 8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Red Hat Enterprise Linux 8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Windows Server 2022&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Windows Server 2019&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Debian 11&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;SUSE Linux Enterprise Server 15&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;AlmaLinux 8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Rocky Linux 8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Fedora 38&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;openSUSE Leap 15.4&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="c1"># Statuts possibles des VMs</span>
+    <span class="n">VM_STATUSES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;running&quot;</span><span class="p">,</span> <span class="s2">&quot;stopped&quot;</span><span class="p">,</span> <span class="s2">&quot;paused&quot;</span><span class="p">,</span> <span class="s2">&quot;provisioning&quot;</span><span class="p">,</span> <span class="s2">&quot;deleting&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Probabilités de statut (plus réalistes)</span>
+    <span class="n">STATUS_PROBABILITIES</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;running&quot;</span><span class="p">:</span> <span class="mf">0.6</span><span class="p">,</span>  <span class="c1"># 60% des VMs sont en cours d&#39;exécution</span>
+        <span class="s2">&quot;stopped&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span>  <span class="c1"># 25% sont arrêtées</span>
+        <span class="s2">&quot;paused&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>  <span class="c1"># 5% sont en pause</span>
+        <span class="s2">&quot;provisioning&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>  <span class="c1"># 5% sont en cours de création</span>
+        <span class="s2">&quot;deleting&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>  <span class="c1"># 5% sont en cours de suppression</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="VMDataGenerator.generate_vm_name">
+<a class="viewcode-back" href="../../api/utils/data_generator.html#utils.data_generator.VMDataGenerator.generate_vm_name">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">generate_vm_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Génère un nom réaliste pour une VM.&quot;&quot;&quot;</span>
+        <span class="n">prefixes</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;web&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;db&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;app&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;api&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;cache&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;monitor&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;backup&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;dev&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;prod&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="n">fake</span><span class="o">.</span><span class="n">word</span><span class="p">()</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">prefixes</span><span class="p">)</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+
+<div class="viewcode-block" id="VMDataGenerator.generate_cpu_cores">
+<a class="viewcode-back" href="../../api/utils/data_generator.html#utils.data_generator.VMDataGenerator.generate_cpu_cores">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">generate_cpu_cores</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Génère un nombre réaliste de cœurs CPU.&quot;&quot;&quot;</span>
+        <span class="c1"># Distribution réaliste : plus de VMs avec peu de cœurs</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>  <span class="c1"># 1-2, 4, 8, 16+ cœurs</span>
+        <span class="n">ranges</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">)]</span>
+        <span class="n">range_choice</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="n">ranges</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">range_choice</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">range_choice</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="VMDataGenerator.generate_ram_gb">
+<a class="viewcode-back" href="../../api/utils/data_generator.html#utils.data_generator.VMDataGenerator.generate_ram_gb">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">generate_ram_gb</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Génère une quantité réaliste de RAM.&quot;&quot;&quot;</span>
+        <span class="c1"># Distribution réaliste : plus de VMs avec peu de RAM</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]</span>  <span class="c1"># 2-4, 8, 16, 32+ GB</span>
+        <span class="n">ranges</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)]</span>
+        <span class="n">range_choice</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="n">ranges</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">range_choice</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">range_choice</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="VMDataGenerator.generate_disk_gb">
+<a class="viewcode-back" href="../../api/utils/data_generator.html#utils.data_generator.VMDataGenerator.generate_disk_gb">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">generate_disk_gb</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Génère une taille réaliste de disque.&quot;&quot;&quot;</span>
+        <span class="c1"># Distribution réaliste : plus de VMs avec des disques moyens</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]</span>  <span class="c1"># 20-50, 100, 200, 500+ GB</span>
+        <span class="n">ranges</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)]</span>
+        <span class="n">range_choice</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="n">ranges</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">range_choice</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">range_choice</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="VMDataGenerator.generate_status">
+<a class="viewcode-back" href="../../api/utils/data_generator.html#utils.data_generator.VMDataGenerator.generate_status">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">generate_status</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Génère un statut réaliste basé sur les probabilités.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span>
+            <span class="nb">list</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">STATUS_PROBABILITIES</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span>
+            <span class="n">weights</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">STATUS_PROBABILITIES</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
+        <span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="VMDataGenerator.generate_vm">
+<a class="viewcode-back" href="../../api/utils/data_generator.html#utils.data_generator.VMDataGenerator.generate_vm">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">generate_vm</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">vm_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Génère une VM complète avec des données réalistes.&quot;&quot;&quot;</span>
+        <span class="c1"># Date de création dans les 6 derniers mois</span>
+        <span class="n">created_at</span> <span class="o">=</span> <span class="n">fake</span><span class="o">.</span><span class="n">date_time_between</span><span class="p">(</span><span class="n">start_date</span><span class="o">=</span><span class="s2">&quot;-6M&quot;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s2">&quot;now&quot;</span><span class="p">)</span>
+
+        <span class="n">vm_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">vm_id</span><span class="p">,</span>
+            <span class="s2">&quot;user_id&quot;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">generate_vm_name</span><span class="p">(),</span>
+            <span class="s2">&quot;operating_system&quot;</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">OPERATING_SYSTEMS</span><span class="p">),</span>
+            <span class="s2">&quot;cpu_cores&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">generate_cpu_cores</span><span class="p">(),</span>
+            <span class="s2">&quot;ram_gb&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">generate_ram_gb</span><span class="p">(),</span>
+            <span class="s2">&quot;disk_gb&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">generate_disk_gb</span><span class="p">(),</span>
+            <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">generate_status</span><span class="p">(),</span>
+            <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="n">created_at</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;VM générée&quot;</span><span class="p">,</span> <span class="n">vm_id</span><span class="o">=</span><span class="n">vm_id</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">vm_data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">vm_data</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="UserDataGenerator">
+<a class="viewcode-back" href="../../api/utils/data_generator.html#utils.data_generator.UserDataGenerator">[docs]</a>
+<span class="k">class</span> <span class="nc">UserDataGenerator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Générateur de données pour les utilisateurs.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Domaines d&#39;entreprise réalistes</span>
+    <span class="n">COMPANY_DOMAINS</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;gmail.com&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;outlook.com&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;yahoo.com&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;hotmail.com&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;company.com&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;entreprise.fr&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;corp.com&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;business.org&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;tech.io&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;startup.com&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;innovation.fr&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;digital.net&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+<div class="viewcode-block" id="UserDataGenerator.generate_email">
+<a class="viewcode-back" href="../../api/utils/data_generator.html#utils.data_generator.UserDataGenerator.generate_email">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">generate_email</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Génère un email réaliste basé sur le nom.&quot;&quot;&quot;</span>
+        <span class="c1"># Nettoyer le nom pour l&#39;email : supprimer les accents et caractères spéciaux</span>
+        <span class="c1"># Normaliser les caractères Unicode</span>
+        <span class="n">normalized</span> <span class="o">=</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s2">&quot;NFD&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="c1"># Supprimer les caractères diacritiques (accents)</span>
+        <span class="n">clean_name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">normalized</span> <span class="k">if</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">category</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;Mn&quot;</span><span class="p">)</span>
+        <span class="c1"># Remplacer les espaces par des points et supprimer autres caractères spéciaux</span>
+        <span class="n">clean_name</span> <span class="o">=</span> <span class="n">clean_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="c1"># Garder seulement les caractères alphanumériques et les points</span>
+        <span class="n">clean_name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">clean_name</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">isalnum</span><span class="p">()</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+
+        <span class="n">domain</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">COMPANY_DOMAINS</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">clean_name</span><span class="si">}</span><span class="s2">@</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+
+<div class="viewcode-block" id="UserDataGenerator.generate_user">
+<a class="viewcode-back" href="../../api/utils/data_generator.html#utils.data_generator.UserDataGenerator.generate_user">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">generate_user</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Génère un utilisateur complet avec des données réalistes.&quot;&quot;&quot;</span>
+        <span class="c1"># Générer un nom français réaliste</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">fake</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+
+        <span class="c1"># Date de création dans les 12 derniers mois</span>
+        <span class="n">created_at</span> <span class="o">=</span> <span class="n">fake</span><span class="o">.</span><span class="n">date_time_between</span><span class="p">(</span><span class="n">start_date</span><span class="o">=</span><span class="s2">&quot;-12M&quot;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s2">&quot;now&quot;</span><span class="p">)</span>
+
+        <span class="n">user_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">generate_email</span><span class="p">(</span><span class="n">name</span><span class="p">),</span>
+            <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="n">created_at</span><span class="p">,</span>
+            <span class="s2">&quot;vms&quot;</span><span class="p">:</span> <span class="p">[],</span>  <span class="c1"># Les VMs seront ajoutées séparément</span>
+        <span class="p">}</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s2">&quot;Utilisateur généré&quot;</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">user_data</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">user_data</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="DataGenerator">
+<a class="viewcode-back" href="../../api/utils/data_generator.html#utils.data_generator.DataGenerator">[docs]</a>
+<span class="k">class</span> <span class="nc">DataGenerator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Générateur principal pour créer des datasets complets.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DataGenerator.generate_users_with_vms">
+<a class="viewcode-back" href="../../api/utils/data_generator.html#utils.data_generator.DataGenerator.generate_users_with_vms">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">generate_users_with_vms</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">user_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">vm_per_user_range</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Génère un dataset complet d&#39;utilisateurs avec leurs VMs.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            user_count: Nombre d&#39;utilisateurs à générer</span>
+<span class="sd">            vm_per_user_range: Tuple (min, max) du nombre de VMs par utilisateur</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Liste des utilisateurs avec leurs VMs associées</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Génération du dataset&quot;</span><span class="p">,</span> <span class="n">user_count</span><span class="o">=</span><span class="n">user_count</span><span class="p">,</span> <span class="n">vm_range</span><span class="o">=</span><span class="n">vm_per_user_range</span>
+        <span class="p">)</span>
+
+        <span class="n">users</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">vm_counter</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">user_id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">user_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="c1"># Générer l&#39;utilisateur</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">UserDataGenerator</span><span class="o">.</span><span class="n">generate_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+
+            <span class="c1"># Générer les VMs pour cet utilisateur</span>
+            <span class="n">vm_count</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">vm_per_user_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">vm_per_user_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">user_vms</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">vm_count</span><span class="p">):</span>
+                <span class="n">vm</span> <span class="o">=</span> <span class="n">VMDataGenerator</span><span class="o">.</span><span class="n">generate_vm</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">vm_counter</span><span class="p">)</span>
+                <span class="n">user_vms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vm</span><span class="p">)</span>
+                <span class="n">vm_counter</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="n">user</span><span class="p">[</span><span class="s2">&quot;vms&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">user_vms</span>
+            <span class="n">users</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="s2">&quot;Utilisateur généré avec VMs&quot;</span><span class="p">,</span>
+                <span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span>
+                <span class="n">vm_count</span><span class="o">=</span><span class="n">vm_count</span><span class="p">,</span>
+                <span class="n">user_name</span><span class="o">=</span><span class="n">user</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
+
+        <span class="n">total_vms</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="s2">&quot;vms&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Dataset généré avec succès&quot;</span><span class="p">,</span>
+            <span class="n">total_users</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">users</span><span class="p">),</span>
+            <span class="n">total_vms</span><span class="o">=</span><span class="n">total_vms</span><span class="p">,</span>
+            <span class="n">avg_vms_per_user</span><span class="o">=</span><span class="n">total_vms</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">users</span><span class="p">)</span> <span class="k">if</span> <span class="n">users</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">users</span></div>
+
+
+<div class="viewcode-block" id="DataGenerator.generate_vms_only">
+<a class="viewcode-back" href="../../api/utils/data_generator.html#utils.data_generator.DataGenerator.generate_vms_only">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">generate_vms_only</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">vm_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">user_ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Génère uniquement des VMs pour des utilisateurs existants.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            vm_count: Nombre de VMs à générer</span>
+<span class="sd">            user_ids: Liste des IDs d&#39;utilisateurs existants</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Liste des VMs générées</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Génération de VMs&quot;</span><span class="p">,</span> <span class="n">vm_count</span><span class="o">=</span><span class="n">vm_count</span><span class="p">,</span> <span class="n">available_users</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">user_ids</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">vms</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">vm_id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">vm_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">user_id</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">user_ids</span><span class="p">)</span>
+            <span class="n">vm</span> <span class="o">=</span> <span class="n">VMDataGenerator</span><span class="o">.</span><span class="n">generate_vm</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">vm_id</span><span class="p">)</span>
+            <span class="n">vms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vm</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;VMs générées avec succès&quot;</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">vms</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">vms</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Demo API Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

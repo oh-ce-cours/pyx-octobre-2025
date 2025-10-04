@@ -50,8 +50,29 @@
 <li class="toctree-l2"><a class="reference internal" href="../index.html#modules-principaux">Modules principaux</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#modules-reports">Modules reports</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#modules-scripts">Modules scripts</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Module scripts.create_data_via_api</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Module scripts.create_data_via_api</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.create_data_via_api.display_header"><code class="docutils literal notranslate"><span class="pre">display_header()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.create_data_via_api.display_api_config"><code class="docutils literal notranslate"><span class="pre">display_api_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.create_data_via_api.display_operation_config"><code class="docutils literal notranslate"><span class="pre">display_operation_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.create_data_via_api.display_batch_progress"><code class="docutils literal notranslate"><span class="pre">display_batch_progress()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.create_data_via_api.display_success_message"><code class="docutils literal notranslate"><span class="pre">display_success_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.create_data_via_api.display_error_message"><code class="docutils literal notranslate"><span class="pre">display_error_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.create_data_via_api.display_statistics"><code class="docutils literal notranslate"><span class="pre">display_statistics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.create_data_via_api.display_preview"><code class="docutils literal notranslate"><span class="pre">display_preview()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.create_data_via_api.display_dataset_saved"><code class="docutils literal notranslate"><span class="pre">display_dataset_saved()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.create_data_via_api.display_api_status"><code class="docutils literal notranslate"><span class="pre">display_api_status()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.create_data_via_api.create_users_via_api"><code class="docutils literal notranslate"><span class="pre">create_users_via_api()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.create_data_via_api.create_vms_via_api"><code class="docutils literal notranslate"><span class="pre">create_vms_via_api()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.create_data_via_api.users"><code class="docutils literal notranslate"><span class="pre">users()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.create_data_via_api.vms"><code class="docutils literal notranslate"><span class="pre">vms()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.create_data_via_api.full_dataset"><code class="docutils literal notranslate"><span class="pre">full_dataset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.create_data_via_api.status"><code class="docutils literal notranslate"><span class="pre">status()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.create_data_via_api.version"><code class="docutils literal notranslate"><span class="pre">version()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts.create_data_via_api.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="generate_data.html">Module scripts.generate_data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generate_docs.html">Module scripts.generate_docs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="quick_cleanup.html">Module scripts.quick_cleanup</a></li>
 </ul>
 </li>
@@ -90,8 +111,339 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-scripts-create-data-via-api">
-<h1>Module scripts.create_data_via_api<a class="headerlink" href="#module-scripts-create-data-via-api" title="Link to this heading"></a></h1>
+  <section id="module-scripts.create_data_via_api">
+<span id="module-scripts-create-data-via-api"></span><h1>Module scripts.create_data_via_api<a class="headerlink" href="#module-scripts.create_data_via_api" title="Link to this heading"></a></h1>
+<p>Script pour créer des données via l’API en utilisant le générateur Faker.</p>
+<p>Ce script utilise l’API unifiée pour créer des utilisateurs et des VMs
+avec des données générées par Faker, permettant de peupler la base de données
+avec des données réalistes.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.create_data_via_api.display_header">
+<span class="sig-prename descclassname"><span class="pre">scripts.create_data_via_api.</span></span><span class="sig-name descname"><span class="pre">display_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtitle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/create_data_via_api.html#display_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.create_data_via_api.display_header" title="Link to this definition"></a></dt>
+<dd><p>Affiche l’en-tête principal</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>subtitle</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.create_data_via_api.display_api_config">
+<span class="sig-prename descclassname"><span class="pre">scripts.create_data_via_api.</span></span><span class="sig-name descname"><span class="pre">display_api_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/create_data_via_api.html#display_api_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.create_data_via_api.display_api_config" title="Link to this definition"></a></dt>
+<dd><p>Affiche la configuration de l’API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>client</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiClient</span></code></span>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.create_data_via_api.display_operation_config">
+<span class="sig-prename descclassname"><span class="pre">scripts.create_data_via_api.</span></span><span class="sig-name descname"><span class="pre">display_operation_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/create_data_via_api.html#display_operation_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.create_data_via_api.display_operation_config" title="Link to this definition"></a></dt>
+<dd><p>Affiche la configuration des opérations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>operation</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>count</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>batch_size</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>delay</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.create_data_via_api.display_batch_progress">
+<span class="sig-prename descclassname"><span class="pre">scripts.create_data_via_api.</span></span><span class="sig-name descname"><span class="pre">display_batch_progress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/create_data_via_api.html#display_batch_progress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.create_data_via_api.display_batch_progress" title="Link to this definition"></a></dt>
+<dd><p>Affiche le progrès d’un lot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch_num</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>start</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>end</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>total</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.create_data_via_api.display_success_message">
+<span class="sig-prename descclassname"><span class="pre">scripts.create_data_via_api.</span></span><span class="sig-name descname"><span class="pre">display_success_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_details</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/create_data_via_api.html#display_success_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.create_data_via_api.display_success_message" title="Link to this definition"></a></dt>
+<dd><p>Affiche un message de succès</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>item_name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>item_details</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.create_data_via_api.display_error_message">
+<span class="sig-prename descclassname"><span class="pre">scripts.create_data_via_api.</span></span><span class="sig-name descname"><span class="pre">display_error_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/create_data_via_api.html#display_error_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.create_data_via_api.display_error_message" title="Link to this definition"></a></dt>
+<dd><p>Affiche un message d’erreur</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>item_index</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>error</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.create_data_via_api.display_statistics">
+<span class="sig-prename descclassname"><span class="pre">scripts.create_data_via_api.</span></span><span class="sig-name descname"><span class="pre">display_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stats</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/create_data_via_api.html#display_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.create_data_via_api.display_statistics" title="Link to this definition"></a></dt>
+<dd><p>Affiche les statistiques dans un tableau</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>stats</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.create_data_via_api.display_preview">
+<span class="sig-prename descclassname"><span class="pre">scripts.create_data_via_api.</span></span><span class="sig-name descname"><span class="pre">display_preview</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_items</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/create_data_via_api.html#display_preview"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.create_data_via_api.display_preview" title="Link to this definition"></a></dt>
+<dd><p>Affiche un aperçu des éléments créés</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>items</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]</span>)</p></li>
+<li><p><strong>max_items</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.create_data_via_api.display_dataset_saved">
+<span class="sig-prename descclassname"><span class="pre">scripts.create_data_via_api.</span></span><span class="sig-name descname"><span class="pre">display_dataset_saved</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/create_data_via_api.html#display_dataset_saved"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.create_data_via_api.display_dataset_saved" title="Link to this definition"></a></dt>
+<dd><p>Affiche le message de sauvegarde du dataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a></span>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.create_data_via_api.display_api_status">
+<span class="sig-prename descclassname"><span class="pre">scripts.create_data_via_api.</span></span><span class="sig-name descname"><span class="pre">display_api_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/create_data_via_api.html#display_api_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.create_data_via_api.display_api_status" title="Link to this definition"></a></dt>
+<dd><p>Affiche le statut de l’API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>all_data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>)</p></li>
+<li><p><strong>api_url</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.create_data_via_api.create_users_via_api">
+<span class="sig-prename descclassname"><span class="pre">scripts.create_data_via_api.</span></span><span class="sig-name descname"><span class="pre">create_users_via_api</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay_between_batches</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/create_data_via_api.html#create_users_via_api"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.create_data_via_api.create_users_via_api" title="Link to this definition"></a></dt>
+<dd><p>Crée des utilisateurs via l’API en utilisant le générateur Faker.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>api_client</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiClient</span></code></span>) – Client API authentifié</p></li>
+<li><p><strong>user_count</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Nombre d’utilisateurs à créer</p></li>
+<li><p><strong>batch_size</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Nombre d’utilisateurs à créer par lot</p></li>
+<li><p><strong>delay_between_batches</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Délai entre les lots (en secondes)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Liste des utilisateurs créés</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.create_data_via_api.create_vms_via_api">
+<span class="sig-prename descclassname"><span class="pre">scripts.create_data_via_api.</span></span><span class="sig-name descname"><span class="pre">create_vms_via_api</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vm_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay_between_batches</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/create_data_via_api.html#create_vms_via_api"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.create_data_via_api.create_vms_via_api" title="Link to this definition"></a></dt>
+<dd><p>Crée des VMs via l’API en utilisant le générateur Faker.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>api_client</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiClient</span></code></span>) – Client API authentifié</p></li>
+<li><p><strong>vm_count</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Nombre de VMs à créer</p></li>
+<li><p><strong>user_ids</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Liste des IDs d’utilisateurs disponibles</p></li>
+<li><p><strong>batch_size</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Nombre de VMs à créer par lot</p></li>
+<li><p><strong>delay_between_batches</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Délai entre les lots (en secondes)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Liste des VMs créées</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.create_data_via_api.users">
+<span class="sig-prename descclassname"><span class="pre">scripts.create_data_via_api.</span></span><span class="sig-name descname"><span class="pre">users</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/create_data_via_api.html#users"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.create_data_via_api.users" title="Link to this definition"></a></dt>
+<dd><p>👥 Créer des utilisateurs via l’API avec des données Faker</p>
+<p>Génère des utilisateurs réalistes avec Faker et les crée via l’API.</p>
+<p>Exemples:</p>
+<p>
+python create_data_via_api.py users –count 20
+python create_data_via_api.py users -c 50 –batch-size 10 –delay 3.0 –max-retries 7
+python create_data_via_api.py users –verbose</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>count</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>batch_size</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>delay</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>verbose</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.create_data_via_api.vms">
+<span class="sig-prename descclassname"><span class="pre">scripts.create_data_via_api.</span></span><span class="sig-name descname"><span class="pre">vms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/create_data_via_api.html#vms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.create_data_via_api.vms" title="Link to this definition"></a></dt>
+<dd><p>🖥️ Créer des VMs via l’API avec des données Faker</p>
+<p>Génère des VMs réalistes avec Faker et les crée via l’API.
+Les VMs sont associées à des utilisateurs existants.</p>
+<p>Exemples:</p>
+<p>
+python create_data_via_api.py vms –count 50
+python create_data_via_api.py vms -c 100 –batch-size 10 –delay 3.0
+python create_data_via_api.py vms –verbose</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>count</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>batch_size</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>delay</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>verbose</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.create_data_via_api.full_dataset">
+<span class="sig-prename descclassname"><span class="pre">scripts.create_data_via_api.</span></span><span class="sig-name descname"><span class="pre">full_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_count=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vm_count=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose=&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/create_data_via_api.html#full_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.create_data_via_api.full_dataset" title="Link to this definition"></a></dt>
+<dd><p>🎯 Créer un dataset complet via l’API avec des données Faker</p>
+<p>Crée des utilisateurs et des VMs réalistes avec Faker via l’API.
+Optionnellement sauvegarde les données créées dans un fichier JSON.</p>
+<p>Exemples:</p>
+<p>
+python create_data_via_api.py full-dataset –users 20 –vms 50
+python create_data_via_api.py full-dataset -u 30 -v 100 –delay 3.0 –output dataset.json
+python create_data_via_api.py full-dataset –verbose</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_count</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>vm_count</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>batch_size</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>delay</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>output_file</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>verbose</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.create_data_via_api.status">
+<span class="sig-prename descclassname"><span class="pre">scripts.create_data_via_api.</span></span><span class="sig-name descname"><span class="pre">status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/create_data_via_api.html#status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.create_data_via_api.status" title="Link to this definition"></a></dt>
+<dd><p>📊 Afficher le statut actuel de l’API</p>
+<p>Récupère et affiche les statistiques actuelles des utilisateurs et VMs.</p>
+<p>Exemples:</p>
+<p>
+python create_data_via_api.py status</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.create_data_via_api.version">
+<span class="sig-prename descclassname"><span class="pre">scripts.create_data_via_api.</span></span><span class="sig-name descname"><span class="pre">version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/create_data_via_api.html#version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.create_data_via_api.version" title="Link to this definition"></a></dt>
+<dd><p>📋 Afficher la version du créateur de données</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.create_data_via_api.main">
+<span class="sig-prename descclassname"><span class="pre">scripts.create_data_via_api.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/create_data_via_api.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.create_data_via_api.main" title="Link to this definition"></a></dt>
+<dd><p>Point d’entrée principal</p>
+</dd></dl>
+
 </section>
 
 

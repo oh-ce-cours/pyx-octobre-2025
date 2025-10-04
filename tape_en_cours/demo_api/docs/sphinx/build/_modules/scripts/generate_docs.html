@@ -1,0 +1,206 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>scripts.generate_docs &mdash; Demo API 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Demo API
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenu:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Guide de démarrage rapide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">Modules API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">Interface en ligne de commande</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Exemples d’utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Journal des modifications</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Demo API</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">scripts.generate_docs</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for scripts.generate_docs</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Script de génération de documentation complète.</span>
+
+<span class="sd">Ce script génère automatiquement la documentation avec Sphinx et pydoc.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+
+<div class="viewcode-block" id="run_command">
+<a class="viewcode-back" href="../../api/scripts/generate_docs.html#scripts.generate_docs.run_command">[docs]</a>
+<span class="k">def</span> <span class="nf">run_command</span><span class="p">(</span><span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exécute une commande et affiche le résultat.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        command: Commande à exécuter</span>
+<span class="sd">        description: Description de la commande</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        True si la commande a réussi, False sinon</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🔄 </span><span class="si">{</span><span class="n">description</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📝 Commande: </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ </span><span class="si">{</span><span class="n">description</span><span class="si">}</span><span class="s2"> - Succès&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📤 Sortie: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;❌ </span><span class="si">{</span><span class="n">description</span><span class="si">}</span><span class="s2"> - Erreur&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📤 Sortie: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">stdout</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📤 Erreur: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../../api/scripts/generate_docs.html#scripts.generate_docs.main">[docs]</a>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fonction principale.&quot;&quot;&quot;</span>
+    <span class="n">project_root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;📚 Génération de la documentation Demo API&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+    
+    <span class="c1"># Vérifier que nous sommes dans le bon répertoire</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">project_root</span> <span class="o">/</span> <span class="s2">&quot;main.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;❌ Erreur: Ce script doit être exécuté depuis la racine du projet&quot;</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="n">success_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">total_commands</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="c1"># 1. Générer les modules avec le script d&#39;auto-découverte</span>
+    <span class="n">total_commands</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">run_command</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2"> &amp;&amp; python docs/sphinx/source/generate_modules.py&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Auto-découverte des modules Sphinx&quot;</span>
+    <span class="p">):</span>
+        <span class="n">success_count</span> <span class="o">+=</span> <span class="mi">1</span>
+    
+    <span class="c1"># 2. Générer la documentation Sphinx</span>
+    <span class="n">total_commands</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">run_command</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2">/docs/sphinx &amp;&amp; sphinx-build -b html source build&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Génération de la documentation Sphinx&quot;</span>
+    <span class="p">):</span>
+        <span class="n">success_count</span> <span class="o">+=</span> <span class="mi">1</span>
+    
+    <span class="c1"># 3. Générer la documentation pydoc</span>
+    <span class="n">total_commands</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">run_command</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2"> &amp;&amp; python docs/pydoc/generate_pydoc.py&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Génération de la documentation pydoc&quot;</span>
+    <span class="p">):</span>
+        <span class="n">success_count</span> <span class="o">+=</span> <span class="mi">1</span>
+    
+    <span class="c1"># Résumé</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📊 Résumé: </span><span class="si">{</span><span class="n">success_count</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">total_commands</span><span class="si">}</span><span class="s2"> commandes réussies&quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">success_count</span> <span class="o">==</span> <span class="n">total_commands</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;🎉 Toute la documentation a été générée avec succès!&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📖 Documentation disponible:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   • Sphinx: </span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2">/docs/sphinx/build/index.html&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   • pydoc: </span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2">/docs/pydoc/html/index.html&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;⚠️  Certaines commandes ont échoué. Vérifiez les erreurs ci-dessus.&quot;</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Demo API Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

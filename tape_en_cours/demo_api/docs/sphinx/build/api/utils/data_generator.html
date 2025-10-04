@@ -77,8 +77,191 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-utils-data-generator">
-<h1>Module utils.data_generator<a class="headerlink" href="#module-utils-data-generator" title="Link to this heading"></a></h1>
+  <section id="module-utils.data_generator">
+<span id="module-utils-data-generator"></span><h1>Module utils.data_generator<a class="headerlink" href="#module-utils.data_generator" title="Link to this heading"></a></h1>
+<p>Module de génération de données factices avec Faker.
+Génère des données réalistes pour les utilisateurs et les machines virtuelles.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="utils.data_generator.VMDataGenerator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">utils.data_generator.</span></span><span class="sig-name descname"><span class="pre">VMDataGenerator</span></span><a class="reference internal" href="../../_modules/utils/data_generator.html#VMDataGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.data_generator.VMDataGenerator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Générateur de données pour les machines virtuelles.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="utils.data_generator.VMDataGenerator.OPERATING_SYSTEMS">
+<span class="sig-name descname"><span class="pre">OPERATING_SYSTEMS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['Ubuntu</span> <span class="pre">22.04</span> <span class="pre">LTS',</span> <span class="pre">'Ubuntu</span> <span class="pre">20.04</span> <span class="pre">LTS',</span> <span class="pre">'CentOS</span> <span class="pre">8',</span> <span class="pre">'Red</span> <span class="pre">Hat</span> <span class="pre">Enterprise</span> <span class="pre">Linux</span> <span class="pre">8',</span> <span class="pre">'Windows</span> <span class="pre">Server</span> <span class="pre">2022',</span> <span class="pre">'Windows</span> <span class="pre">Server</span> <span class="pre">2019',</span> <span class="pre">'Debian</span> <span class="pre">11',</span> <span class="pre">'SUSE</span> <span class="pre">Linux</span> <span class="pre">Enterprise</span> <span class="pre">Server</span> <span class="pre">15',</span> <span class="pre">'AlmaLinux</span> <span class="pre">8',</span> <span class="pre">'Rocky</span> <span class="pre">Linux</span> <span class="pre">8',</span> <span class="pre">'Fedora</span> <span class="pre">38',</span> <span class="pre">'openSUSE</span> <span class="pre">Leap</span> <span class="pre">15.4']</span></em><a class="headerlink" href="#utils.data_generator.VMDataGenerator.OPERATING_SYSTEMS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="utils.data_generator.VMDataGenerator.VM_STATUSES">
+<span class="sig-name descname"><span class="pre">VM_STATUSES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['running',</span> <span class="pre">'stopped',</span> <span class="pre">'paused',</span> <span class="pre">'provisioning',</span> <span class="pre">'deleting']</span></em><a class="headerlink" href="#utils.data_generator.VMDataGenerator.VM_STATUSES" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="utils.data_generator.VMDataGenerator.STATUS_PROBABILITIES">
+<span class="sig-name descname"><span class="pre">STATUS_PROBABILITIES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'deleting':</span> <span class="pre">0.05,</span> <span class="pre">'paused':</span> <span class="pre">0.05,</span> <span class="pre">'provisioning':</span> <span class="pre">0.05,</span> <span class="pre">'running':</span> <span class="pre">0.6,</span> <span class="pre">'stopped':</span> <span class="pre">0.25}</span></em><a class="headerlink" href="#utils.data_generator.VMDataGenerator.STATUS_PROBABILITIES" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utils.data_generator.VMDataGenerator.generate_vm_name">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_vm_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/utils/data_generator.html#VMDataGenerator.generate_vm_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.data_generator.VMDataGenerator.generate_vm_name" title="Link to this definition"></a></dt>
+<dd><p>Génère un nom réaliste pour une VM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utils.data_generator.VMDataGenerator.generate_cpu_cores">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_cpu_cores</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/utils/data_generator.html#VMDataGenerator.generate_cpu_cores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.data_generator.VMDataGenerator.generate_cpu_cores" title="Link to this definition"></a></dt>
+<dd><p>Génère un nombre réaliste de cœurs CPU.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utils.data_generator.VMDataGenerator.generate_ram_gb">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_ram_gb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/utils/data_generator.html#VMDataGenerator.generate_ram_gb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.data_generator.VMDataGenerator.generate_ram_gb" title="Link to this definition"></a></dt>
+<dd><p>Génère une quantité réaliste de RAM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utils.data_generator.VMDataGenerator.generate_disk_gb">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_disk_gb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/utils/data_generator.html#VMDataGenerator.generate_disk_gb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.data_generator.VMDataGenerator.generate_disk_gb" title="Link to this definition"></a></dt>
+<dd><p>Génère une taille réaliste de disque.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utils.data_generator.VMDataGenerator.generate_status">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/utils/data_generator.html#VMDataGenerator.generate_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.data_generator.VMDataGenerator.generate_status" title="Link to this definition"></a></dt>
+<dd><p>Génère un statut réaliste basé sur les probabilités.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utils.data_generator.VMDataGenerator.generate_vm">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_vm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vm_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/utils/data_generator.html#VMDataGenerator.generate_vm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.data_generator.VMDataGenerator.generate_vm" title="Link to this definition"></a></dt>
+<dd><p>Génère une VM complète avec des données réalistes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_id</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>vm_id</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="utils.data_generator.UserDataGenerator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">utils.data_generator.</span></span><span class="sig-name descname"><span class="pre">UserDataGenerator</span></span><a class="reference internal" href="../../_modules/utils/data_generator.html#UserDataGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.data_generator.UserDataGenerator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Générateur de données pour les utilisateurs.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="utils.data_generator.UserDataGenerator.COMPANY_DOMAINS">
+<span class="sig-name descname"><span class="pre">COMPANY_DOMAINS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['gmail.com',</span> <span class="pre">'outlook.com',</span> <span class="pre">'yahoo.com',</span> <span class="pre">'hotmail.com',</span> <span class="pre">'company.com',</span> <span class="pre">'entreprise.fr',</span> <span class="pre">'corp.com',</span> <span class="pre">'business.org',</span> <span class="pre">'tech.io',</span> <span class="pre">'startup.com',</span> <span class="pre">'innovation.fr',</span> <span class="pre">'digital.net']</span></em><a class="headerlink" href="#utils.data_generator.UserDataGenerator.COMPANY_DOMAINS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utils.data_generator.UserDataGenerator.generate_email">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/utils/data_generator.html#UserDataGenerator.generate_email"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.data_generator.UserDataGenerator.generate_email" title="Link to this definition"></a></dt>
+<dd><p>Génère un email réaliste basé sur le nom.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utils.data_generator.UserDataGenerator.generate_user">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/utils/data_generator.html#UserDataGenerator.generate_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.data_generator.UserDataGenerator.generate_user" title="Link to this definition"></a></dt>
+<dd><p>Génère un utilisateur complet avec des données réalistes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>user_id</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="utils.data_generator.DataGenerator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">utils.data_generator.</span></span><span class="sig-name descname"><span class="pre">DataGenerator</span></span><a class="reference internal" href="../../_modules/utils/data_generator.html#DataGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.data_generator.DataGenerator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Générateur principal pour créer des datasets complets.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="utils.data_generator.DataGenerator.generate_users_with_vms">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_users_with_vms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vm_per_user_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">5)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/utils/data_generator.html#DataGenerator.generate_users_with_vms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.data_generator.DataGenerator.generate_users_with_vms" title="Link to this definition"></a></dt>
+<dd><p>Génère un dataset complet d’utilisateurs avec leurs VMs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_count</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Nombre d’utilisateurs à générer</p></li>
+<li><p><strong>vm_per_user_range</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></span>) – Tuple (min, max) du nombre de VMs par utilisateur</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Liste des utilisateurs avec leurs VMs associées</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utils.data_generator.DataGenerator.generate_vms_only">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_vms_only</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vm_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_ids</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/utils/data_generator.html#DataGenerator.generate_vms_only"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.data_generator.DataGenerator.generate_vms_only" title="Link to this definition"></a></dt>
+<dd><p>Génère uniquement des VMs pour des utilisateurs existants.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vm_count</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Nombre de VMs à générer</p></li>
+<li><p><strong>user_ids</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Liste des IDs d’utilisateurs existants</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Liste des VMs générées</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

@@ -27,7 +27,7 @@ Permet&nbsp;de&nbsp;générer&nbsp;des&nbsp;utilisateurs&nbsp;et&nbsp;VMs&nbsp;r
     
 <tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
 <td class="singlecolumn"><dl><dt><a name="-main"><strong>main</strong></a>()</dt><dd><span class="code">Point&nbsp;d'entrée&nbsp;principal</span></dd></dl>
- <dl><dt><a name="-preview"><strong>preview</strong></a>(user_count: int = &lt;typer.models.OptionInfo object at 0x104ae09b0&gt;, max_vms: int = &lt;typer.models.OptionInfo object at 0x104ae0c50&gt;) -&gt; None</dt><dd><span class="code">👀&nbsp;Prévisualiser&nbsp;les&nbsp;données&nbsp;générées&nbsp;sans&nbsp;les&nbsp;sauvegarder<br>
+ <dl><dt><a name="-preview"><strong>preview</strong></a>(user_count: int = &lt;typer.models.OptionInfo object at 0x103614b60&gt;, max_vms: int = &lt;typer.models.OptionInfo object at 0x103614c80&gt;) -&gt; None</dt><dd><span class="code">👀&nbsp;Prévisualiser&nbsp;les&nbsp;données&nbsp;générées&nbsp;sans&nbsp;les&nbsp;sauvegarder<br>
 &nbsp;<br>
 Affiche&nbsp;un&nbsp;aperçu&nbsp;des&nbsp;données&nbsp;qui&nbsp;seraient&nbsp;générées.<br>
 &nbsp;<br>
@@ -36,7 +36,7 @@ Exemples:<br>
 <br>
 python&nbsp;generate_data.py&nbsp;preview<br>
 python&nbsp;generate_data.py&nbsp;preview&nbsp;--users&nbsp;10&nbsp;--max-vms&nbsp;2</span></dd></dl>
- <dl><dt><a name="-users_with_vms"><strong>users_with_vms</strong></a>(user_count: int = &lt;typer.models.OptionInfo object at 0x104ae0830&gt;, min_vms: int = &lt;typer.models.OptionInfo object at 0x104ae0aa0&gt;, max_vms: int = &lt;typer.models.OptionInfo object at 0x104ae0950&gt;, output_file: str = &lt;typer.models.OptionInfo object at 0x104ae0980&gt;, verbose: bool = &lt;typer.models.OptionInfo object at 0x104ae0740&gt;) -&gt; None</dt><dd><span class="code">🎯&nbsp;Générer&nbsp;des&nbsp;utilisateurs&nbsp;avec&nbsp;leurs&nbsp;VMs<br>
+ <dl><dt><a name="-users_with_vms"><strong>users_with_vms</strong></a>(user_count: int = &lt;typer.models.OptionInfo object at 0x103614800&gt;, min_vms: int = &lt;typer.models.OptionInfo object at 0x103614a40&gt;, max_vms: int = &lt;typer.models.OptionInfo object at 0x103614a10&gt;, output_file: str = &lt;typer.models.OptionInfo object at 0x103614950&gt;, verbose: bool = &lt;typer.models.OptionInfo object at 0x103614bc0&gt;) -&gt; None</dt><dd><span class="code">🎯&nbsp;Générer&nbsp;des&nbsp;utilisateurs&nbsp;avec&nbsp;leurs&nbsp;VMs<br>
 &nbsp;<br>
 Génère&nbsp;un&nbsp;dataset&nbsp;complet&nbsp;d'utilisateurs&nbsp;français&nbsp;avec&nbsp;des&nbsp;VMs&nbsp;réalistes.<br>
 Les&nbsp;données&nbsp;sont&nbsp;sauvegardées&nbsp;dans&nbsp;un&nbsp;fichier&nbsp;JSON.<br>
@@ -48,7 +48,7 @@ python&nbsp;generate_data.py&nbsp;users-with-vms<br>
 python&nbsp;generate_data.py&nbsp;users-with-vms&nbsp;--users&nbsp;100&nbsp;--max-vms&nbsp;3<br>
 python&nbsp;generate_data.py&nbsp;users-with-vms&nbsp;-u&nbsp;25&nbsp;-o&nbsp;mon_dataset.json&nbsp;--verbose</span></dd></dl>
  <dl><dt><a name="-version"><strong>version</strong></a>() -&gt; None</dt><dd><span class="code">📋&nbsp;Afficher&nbsp;la&nbsp;version&nbsp;du&nbsp;générateur</span></dd></dl>
- <dl><dt><a name="-vms_only"><strong>vms_only</strong></a>(vm_count: int = &lt;typer.models.OptionInfo object at 0x104ae0b30&gt;, user_ids: str = &lt;typer.models.OptionInfo object at 0x104ae0ad0&gt;, output_file: str = &lt;typer.models.OptionInfo object at 0x104ae0a40&gt;, verbose: bool = &lt;typer.models.OptionInfo object at 0x104ae0b60&gt;) -&gt; None</dt><dd><span class="code">🖥️&nbsp;Générer&nbsp;uniquement&nbsp;des&nbsp;VMs&nbsp;pour&nbsp;des&nbsp;utilisateurs&nbsp;existants<br>
+ <dl><dt><a name="-vms_only"><strong>vms_only</strong></a>(vm_count: int = &lt;typer.models.OptionInfo object at 0x103614aa0&gt;, user_ids: str = &lt;typer.models.OptionInfo object at 0x103614860&gt;, output_file: str = &lt;typer.models.OptionInfo object at 0x103614b90&gt;, verbose: bool = &lt;typer.models.OptionInfo object at 0x103614c50&gt;) -&gt; None</dt><dd><span class="code">🖥️&nbsp;Générer&nbsp;uniquement&nbsp;des&nbsp;VMs&nbsp;pour&nbsp;des&nbsp;utilisateurs&nbsp;existants<br>
 &nbsp;<br>
 Génère&nbsp;des&nbsp;VMs&nbsp;réalistes&nbsp;et&nbsp;les&nbsp;associe&nbsp;à&nbsp;des&nbsp;utilisateurs&nbsp;existants.<br>
 &nbsp;<br>
