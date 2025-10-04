@@ -46,33 +46,23 @@ json.dump(
 logger.info("Sauvegarde terminée avec succès")
 
 
-# Récupération sécurisée des identifiants
+# Gestion intelligente des tokens d'authentification
 logger.info("Début du processus d'authentification")
-user_email, user_password = get_credentials(email="jean@dupont21.com")
-logger.info("Identifiants récupérés", email=user_email, password_source="secure_input")
+token = get_or_create_token(
+    base_url=BASE_URL,
+    email="jean@dupont21.com",
+    token_env_var="DEMO_API_TOKEN"
+)
 
-# Initialisation de l'authentification
-auth = Auth(BASE_URL)
-
-# Tentative de création d'utilisateur, puis connexion si l'utilisateur existe déjà
-logger.info("Tentative de création d'utilisateur", email=user_email, name="Jean Dupont")
-token = auth.create_user("Jean Dupont", user_email, user_password)
 if not token:
-    logger.warning(
-        "Utilisateur déjà existant, tentative de connexion", email=user_email
+    logger.error("Échec complet de l'authentification")
+    logger.info(
+        "💡 Conseil: Vérifiez que vos identifiants sont corrects dans les variables d'environnement ou la saisie interactive"
     )
-    token = auth.login_user(user_email, user_password)
-
-    if not token:
-        logger.error(
-            "Échec de l'authentification - vérifiez vos identifiants", email=user_email
-        )
-        logger.info(
-            "💡 Conseil: Vérifiez que vos identifiants sont corrects dans les variables d'environnement ou la saisie interactive"
-        )
 
 if token:
     logger.info("Récupération des informations utilisateur authentifié")
+    auth = Auth(BASE_URL)
     user = auth.get_logged_user_info(token)
     if user:
         logger.info(
