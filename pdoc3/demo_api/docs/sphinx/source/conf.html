@@ -97,8 +97,19 @@ el.replaceWith(d);
                     if js_file[0].startswith(&#34;_static/&#34;):
                         js_files[i] = (f&#34;{base_url}/{js_file[0]}&#34;,) + js_file[1:]
 
+    def fix_static_paths_in_html(app, pagename, templatename, context, doctree):
+        &#34;&#34;&#34;Corrige les chemins statiques dans le contexte HTML.&#34;&#34;&#34;
+        if app.builder.name == &#34;html&#34;:
+            base_url = app.config.html_baseurl.rstrip(&#34;/&#34;)
+            
+            # Force les chemins absolus pour tous les assets statiques
+            context[&#34;pathto&#34;] = lambda other, *args, **kwargs: f&#34;{base_url}/{other.lstrip(&#39;/&#39;)}&#34;
+            context[&#34;static_url&#34;] = f&#34;{base_url}/_static&#34;
+            context[&#34;base_url&#34;] = base_url
+
     app.connect(&#34;html-page-context&#34;, fix_html_output)
-    app.connect(&#34;html-page-context&#34;, fix_css_js_paths)</code></pre>
+    app.connect(&#34;html-page-context&#34;, fix_css_js_paths)
+    app.connect(&#34;html-page-context&#34;, fix_static_paths_in_html)</code></pre>
 </details>
 <div class="desc"><p>Configuration personnalisée pour forcer les chemins absolus.</p></div>
 </dd>
