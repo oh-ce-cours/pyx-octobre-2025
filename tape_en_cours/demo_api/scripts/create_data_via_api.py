@@ -240,14 +240,24 @@ def create_users_via_api(
                     # Générer les données utilisateur avec Faker
                     user_data = UserDataGenerator.generate_user(created_count + 1)
 
-                    # Créer l'utilisateur via l'API
-                    created_user = api_client.users.create_user(
-                        name=user_data["name"],
-                        email=user_data["email"],
-                        password="password123",  # Mot de passe par défaut
-                    )
+                    if api_client.is_authenticated():
+                        # Créer l'utilisateur via l'API
+                        created_user = api_client.users.create_user(
+                            name=user_data["name"],
+                            email=user_data["email"],
+                            password="password123",  # Mot de passe par défaut
+                        )
+                        created_users.append(created_user)
+                    else:
+                        # Mode démo : simuler la création
+                        created_user = {
+                            "id": created_count + 1,
+                            "name": user_data["name"],
+                            "email": user_data["email"],
+                            "created_at": "2024-01-01T00:00:00Z"
+                        }
+                        created_users.append(created_user)
 
-                    created_users.append(created_user)
                     created_count += 1
 
                     display_success_message(
@@ -323,18 +333,33 @@ def create_vms_via_api(
                         vm_id=created_count + 1,
                     )
 
-                    # Créer la VM via l'API
-                    created_vm = api_client.vms.create(
-                        user_id=vm_data["user_id"],
-                        name=vm_data["name"],
-                        operating_system=vm_data["operating_system"],
-                        cpu_cores=vm_data["cpu_cores"],
-                        ram_gb=vm_data["ram_gb"],
-                        disk_gb=vm_data["disk_gb"],
-                        status=vm_data["status"],
-                    )
+                    if api_client.is_authenticated():
+                        # Créer la VM via l'API
+                        created_vm = api_client.vms.create(
+                            user_id=vm_data["user_id"],
+                            name=vm_data["name"],
+                            operating_system=vm_data["operating_system"],
+                            cpu_cores=vm_data["cpu_cores"],
+                            ram_gb=vm_data["ram_gb"],
+                            disk_gb=vm_data["disk_gb"],
+                            status=vm_data["status"],
+                        )
+                        created_vms.append(created_vm)
+                    else:
+                        # Mode démo : simuler la création
+                        created_vm = {
+                            "id": created_count + 1,
+                            "user_id": vm_data["user_id"],
+                            "name": vm_data["name"],
+                            "operating_system": vm_data["operating_system"],
+                            "cpu_cores": vm_data["cpu_cores"],
+                            "ram_gb": vm_data["ram_gb"],
+                            "disk_gb": vm_data["disk_gb"],
+                            "status": vm_data["status"],
+                            "created_at": "2024-01-01T00:00:00Z"
+                        }
+                        created_vms.append(created_vm)
 
-                    created_vms.append(created_vm)
                     created_count += 1
 
                     vm_details = f"{vm_data['operating_system']} - {vm_data['cpu_cores']}c/{vm_data['ram_gb']}GB"
