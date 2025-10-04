@@ -1,7 +1,6 @@
 {
     "data": {
-        "metadata": {
-            "generated_at": "now",
+        "summary": {
             "total_users": 35,
             "total_vms": 21
         },
@@ -14,7 +13,7 @@
         }
     },
     "metadata": {
-        "generated_at": "2025-10-04T15:32:02.606501",
+        "generated_at": "2025-10-04T15:32:43.394510",
         "generator": "JSONReportGenerator",
         "version": "1.0.0"
     }
