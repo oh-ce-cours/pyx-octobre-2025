@@ -119,7 +119,7 @@ def signup(
             
             # Récupérer les informations complètes de l'utilisateur
             typer.echo("📋 Récupération des informations utilisateur...")
-            user_info = api.auth.get_user_info(token)
+            user_info = api.auth.get_logged_user_info(token)
             
             if user_info:
                 typer.echo("✅ Informations utilisateur récupérées:")
@@ -229,8 +229,8 @@ def generate(
         total_vms = sum(len(user["vms"]) for user in users_data)
         users_with_vms_count = len([u for u in users_data if u["vms"]])
 
-        typer.echo(f"✅ Données générées avec succès !")
-        typer.echo(f"📊 Statistiques:")
+        typer.echo("✅ Données générées avec succès !")
+        typer.echo("📊 Statistiques:")
         typer.echo(f"   • Utilisateurs: {len(users_data)}")
         typer.echo(f"   • VMs totales: {total_vms}")
         typer.echo(f"   • Utilisateurs avec VMs: {users_with_vms_count}")

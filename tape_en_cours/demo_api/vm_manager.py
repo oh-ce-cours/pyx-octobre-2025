@@ -102,7 +102,41 @@ def create_vm(
         raise typer.Exit(1)
 
 
+def create_vm_cli(
+    name: Optional[str] = typer.Option(None, "--name", "-n", help="Nom de la VM"),
+    email: str = typer.Option(
+        "jean@dupont21.com", "--email", "-e", help="Email de l'utilisateur existant"
+    ),
+    password: str = typer.Option(
+        "password123", "--password", "-p", help="Mot de passe de l'utilisateur"
+    ),
+    os: str = typer.Option("Ubuntu 22.04", "--os", "-o", help="Système d'exploitation"),
+    cores: int = typer.Option(
+        2, "--cores", "-c", help="Nombre de cœurs CPU", min=1, max=16
+    ),
+    ram: int = typer.Option(4, "--ram", "-r", help="RAM en GB", min=1, max=128),
+    disk: int = typer.Option(50, "--disk", "-d", help="Disque en GB", min=10, max=2048),
+    status: str = typer.Option(
+        "stopped", "--status", "-s", help="Statut initial de la VM"
+    ),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Mode verbeux"),
+) -> None:
+    """
+    🖥️ Créer une VM pour un utilisateur existant
+
+    Authentifie un utilisateur existant et crée une VM pour lui.
+
+    Exemples:
+
+    \b
+    python vm_manager.py create
+    python vm_manager.py create --name "Ma VM" --email "alice@example.com" --password "motdepasse"
+    python vm_manager.py create -n "VM Test" --ram 8 --disk 100 --verbose
+    """
+    create_vm(name, email, password, os, cores, ram, disk, status, verbose)
+
+
 if __name__ == "__main__":
     app = typer.Typer(help="Créer des VMs pour l'API demo")
-    app.command()(create_vm)
+    app.command()(create_vm_cli)
     app()
