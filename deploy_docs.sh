@@ -18,6 +18,10 @@ mkdir -p docs-deploy/pdoc3
 cp -r tape_en_cours/demo_api/docs/sphinx/build/* docs-deploy/sphinx/
 cp -r tape_en_cours/demo_api/docs/pdoc3/* docs-deploy/pdoc3/
 
+# Copier les fichiers statiques à la racine pour GitHub Pages
+echo "📁 Copie des fichiers statiques à la racine..."
+cp -r docs-deploy/sphinx/_static docs-deploy/
+
 # Ajouter les fichiers nécessaires pour GitHub Pages
 touch docs-deploy/.nojekyll
 
@@ -32,9 +36,9 @@ fix_css_paths() {
     
     # Déterminer le chemin relatif selon le dossier
     if [[ "$file" == *"/sphinx/"* ]]; then
-        relative_path="${BASE_URL}/sphinx"
+        relative_path="${BASE_URL}"
     elif [[ "$file" == *"/pdoc3/"* ]]; then
-        relative_path="${BASE_URL}/pdoc3"
+        relative_path="${BASE_URL}"
     else
         relative_path="${BASE_URL}"
     fi
