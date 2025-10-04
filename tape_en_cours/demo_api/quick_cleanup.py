@@ -1,42 +1,81 @@
 #!/usr/bin/env python3
 """
 Script de nettoyage rapide et simple pour les VMs et utilisateurs
-
-Usage simple:
-    python quick_cleanup.py                    # Mode simulation
-    python quick_cleanup.py --real             # Suppression réelle (délai par défaut 2.5s)
-    python quick_cleanup.py --real --delay 3   # Suppression réelle avec délai personnalisé
+Refactorisé avec Typer pour une interface CLI moderne et intuitive.
 """
 
-import sys
 import time
+from typing import Optional
+import typer
+from rich.console import Console
+from rich.progress import Progress, SpinnerColumn, TextColumn
+from rich.table import Table
+from rich.panel import Panel
+
 from utils.api import create_authenticated_client
 from utils.logging_config import get_logger
+
+# Configuration Rich et Typer
+app = typer.Typer(
+    name="cleanup",
+    help="🧹 Script de nettoyage pour les VMs et utilisateurs",
+    rich_markup_mode="rich"
+)
+console = Console()
 
 logger = get_logger(__name__)
 
 
-def quick_cleanup(simulate: bool = True, delay: float = 2.5):
+def quick_cleanup(
+    base_url: Optional[str] = None,
+    email: Optional[str] = None, 
+    password: Optional[str] = None,
+    simulate: bool = True, 
+    delay: float = 2.5
+) -> None:
     """
     Nettoie rapidement toutes les données avec respect des limites de taux
-
+ 
     Args:
+        base_url: URL de base de l'API (optionnel)
+        email: Email pour l'authentification (optionnel)
+        password: Mot de passe pour l'authentification (optionnel)
         simulate: Si True, mode simulation (aucune suppression réelle)
         delay: Délai en secondes entre les suppressions pour éviter les 429
     """
-
+    
+    # Affichage du mode avec Rich
     if simulate:
-        print("🧹 NETTOYAGE SIMULATION")
-        print("=" * 30)
+        console.print(Panel.fit(
+            "[bold blue]🧹 MODE SIMULATION[/bold blue]\n"
+            "Aucune donnée ne sera supprimée",
+            border_style="blue"
+        ))
     else:
-        print("🗑️  NETTOYAGE RÁEL!")
-        print("=" * 30)
+        console.print(Panel.fit(
+            "[bold red]🗑️  MODE SUPPRESSION RÉELLE[/bold red]\n"
+            "⚠️  TOUTES LES DONNÉES SERONT SUPPRIMÉES !",
+            border_style="red"
+        ))
 
     try:
-        # Connexion à l'API
-        client = create_authenticated_client()
-        print(f"✅ Connexion API établie: {client.base_url}")
-        print(f"✅ Authentifié: {client.is_authenticated()}")
+        # Connexion à l'API avec spinner
+        with console.status("[bold green]Connexion à l'API...") as status:
+            client = create_authenticated_client(base_url, email, password)
+            status.update("[bold green]Connexion établie !")
+            
+        # Affichage des infos de connexion
+        table = Table(title="🔗 Configuration API")
+        table.add_column("Paramètre", style="cyan")
+        table.add_column("Valeur", style="magenta")
+        
+        table.add_row("Base URL", client.base_url)
+        table.add_row("Authentifié", "✅ Oui" if client.is_authenticated() else "❌ Non")
+        table.add_row("Délai entre opérations", f"{delay}s")
+        table.add_row("Mode", "Simulation" if simulate else "Suppression réelle")
+        
+        console.print(table)
+        console.print()
 
         # Récupérer les données actuelles
         print("\n📊 Données actuelles:")
