@@ -597,8 +597,9 @@ def full_dataset(
     python create_data_via_api.py full-dataset -u 30 -v 100 --output dataset.json
     python create_data_via_api.py full-dataset --email admin@example.com --password secret
     """
-    typer.echo(
-        f"🎯 Création d'un dataset complet: {user_count} utilisateurs + {vm_count} VMs"
+    display_header(
+        "🎯 Création d'un dataset complet",
+        f"{user_count} utilisateurs + {vm_count} VMs avec Faker"
     )
 
     try:
@@ -606,16 +607,29 @@ def full_dataset(
         api_client = create_authenticated_client(email=email, password=password)
 
         if not api_client.is_authenticated():
-            typer.echo("❌ Impossible de s'authentifier avec l'API")
-            typer.echo(
-                "💡 Utilisez --email et --password ou configurez les identifiants dans la config"
+            console.print(
+                Panel.fit(
+                    "[bold red]❌ Impossible de s'authentifier avec l'API[/bold red]\n"
+                    "[dim]💡 Utilisez --email et --password ou configurez les identifiants dans la config[/dim]",
+                    border_style="red",
+                )
             )
             raise typer.Exit(1)
 
-        typer.echo(f"🔐 Authentifié avec succès sur {api_client.base_url}")
+        console.print(f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]")
+        console.print()
+
+        # Afficher la configuration
+        display_api_config(api_client)
+        display_operation_config("Dataset complet", user_count + vm_count, batch_size, delay)
 
         # Étape 1: Créer les utilisateurs
-        typer.echo(f"\n👥 Étape 1/2: Création de {user_count} utilisateurs...")
+        console.print(
+            Panel.fit(
+                f"[bold blue]👥 Étape 1/2: Création de {user_count} utilisateurs[/bold blue]",
+                border_style="blue",
+            )
+        )
         created_users = create_users_via_api(
             api_client=api_client,
             user_count=user_count,
@@ -624,7 +638,12 @@ def full_dataset(
         )
 
         # Étape 2: Créer les VMs
-        typer.echo(f"\n🖥️ Étape 2/2: Création de {vm_count} VMs...")
+        console.print(
+            Panel.fit(
+                f"[bold blue]🖥️ Étape 2/2: Création de {vm_count} VMs[/bold blue]",
+                border_style="blue",
+            )
+        )
         user_ids = [user["id"] for user in created_users]
         created_vms = create_vms_via_api(
             api_client=api_client,
@@ -635,14 +654,13 @@ def full_dataset(
         )
 
         # Statistiques finales
-        typer.echo(f"\n✅ Dataset créé avec succès !")
-        typer.echo(f"📊 Statistiques finales:")
-        typer.echo(f"   • Utilisateurs créés: {len(created_users)}")
-        typer.echo(f"   • VMs créées: {len(created_vms)}")
-        typer.echo(
-            f"   • Taux de succès utilisateurs: {len(created_users) / user_count * 100:.1f}%"
-        )
-        typer.echo(f"   • Taux de succès VMs: {len(created_vms) / vm_count * 100:.1f}%")
+        stats = {
+            "Utilisateurs créés": len(created_users),
+            "VMs créées": len(created_vms),
+            "Taux de succès utilisateurs": f"{len(created_users) / user_count * 100:.1f}%",
+            "Taux de succès VMs": f"{len(created_vms) / vm_count * 100:.1f}%",
+        }
+        display_statistics("Statistiques finales", stats)
 
         # Sauvegarder les données si demandé
         if output_file:
@@ -662,25 +680,27 @@ def full_dataset(
             with open(output_path, "w", encoding="utf-8") as f:
                 json.dump(dataset, f, indent=4, ensure_ascii=False, default=str)
 
-            typer.echo(f"💾 Dataset sauvegardé: {output_path.absolute()}")
+            display_dataset_saved(output_path)
 
         if verbose:
-            typer.echo(f"\n🔍 Aperçu des données créées:")
-            typer.echo(f"👥 Utilisateurs (premiers 3):")
-            for i, user in enumerate(created_users[:3]):
-                typer.echo(
-                    f"   {i + 1}. {user.get('name', 'N/A')} ({user.get('email', 'N/A')})"
-                )
+            display_preview("Aperçu des utilisateurs créés", created_users, 3)
+            display_preview("Aperçu des VMs créées", created_vms, 3)
 
-            typer.echo(f"🖥️ VMs (premiers 3):")
-            for i, vm in enumerate(created_vms[:3]):
-                typer.echo(
-                    f"   {i + 1}. {vm.get('name', 'N/A')} ({vm.get('operating_system', 'N/A')})"
-                )
+        console.print(
+            Panel.fit(
+                "[bold green]✅ DATASET CRÉÉ AVEC SUCCÈS ![/bold green]",
+                border_style="green",
+            )
+        )
 
     except Exception as e:
         logger.error("Erreur lors de la création du dataset", error=str(e))
-        typer.echo(f"❌ Erreur lors de la création: {e}")
+        console.print(
+            Panel.fit(
+                f"[bold red]❌ Erreur lors de la création:[/bold red]\n{e}",
+                border_style="red",
+            )
+        )
         raise typer.Exit(1)
 
 
