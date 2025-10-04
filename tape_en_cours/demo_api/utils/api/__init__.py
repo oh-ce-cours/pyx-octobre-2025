@@ -31,11 +31,28 @@ from .exceptions import (
     UserCreationError,
     UserLoginError,
     TokenError,
+    UsersFetchError,
+    UserUpdateError,
+    UserDeleteError,
+    VMsFetchError,
+    VMCreationError,
+    VMUpdateError,
+    VMDeleteError,
+    UserInfoError,
 )
 from ..config import config
 from ..logging_config import get_logger
 
 logger = get_logger(__name__)
+
+# Exports publics de ce module
+__all__ = [
+    "ApiClient", "Api", "UsersAPI", "VMsAPI", "AuthAPI", "create_authenticated_client",
+    # Exceptions principales
+    "UserCreationError", "UserLoginError", "TokenError", "UsersFetchError", 
+    "UserUpdateError", "UserDeleteError", "VMsFetchError", "VMCreationError",
+    "VMUpdateError", "VMDeleteError", "UserInfoError"
+]
 
 
 class UsersAPI:
@@ -379,6 +396,79 @@ class ApiClient:
         """Supprime le token d'authentification"""
         self.token = None
         logger.info("Token supprimé du client API")
+
+    # Méthodes de convenance pour un accès direct aux fonctionnalités principales
+    def get_all_data(self) -> Dict[str, Any]:
+        """Récupère toutes les données (utilisateurs et VMs) et les associe
+        
+        Returns:
+            Dict contenant les utilisateurs avec leurs VMs associées
+            
+        Raises:
+            VMsFetchError: Si la récupération des données échoue
+        """
+        logger.info("Récupération de toutes les données via API unifiée")
+        users = self.users.get()
+        vms = self.vms.get()
+        self.users.add_vms_to_users(users, vms)
+        return {
+            "users": users,
+            "vms": vms,
+            "total_users": len(users),
+            "total_vms": len(vms),
+            "users_with_vms": len([u for u in users if u.get("vms")])
+        }
+
+    def get_user_data(self, user_id: int) -> Dict[str, Any]:
+        """Récupère un utilisateur avec ses VMs associées
+        
+        Args:
+            user_id: ID de l'utilisateur
+            
+        Returns:
+            Dict contenant l'utilisateur avec ses VMs
+            
+        Raises:
+            UsersFetchError: Si l'utilisateur n'existe pas
+        """
+        logger.info("Récupération des données d'un utilisateur via API unifiée", user_id=user_id)
+        user = self.users.get_user(user_id)
+        
+        # Récupérer toutes les VMs et trouver celles de cet utilisateur
+        all_vms = self.vms.get()
+        user_vms = [vm for vm in all_vms if vm.get("user_id") == user_id]
+        user["vms"] = user_vms
+        
+        return {
+            "user": user,
+            "vm_count": len(user_vms),
+            "vms": user_vms
+        }
+
+    def get_vm_data(self, vm_id: int) -> Dict[str, Any]:
+        """Récupère une VM avec les informations de son utilisateur
+        
+        Args:
+            vm_id: ID de la VM
+            
+        Returns:
+            Dict contenant la VM avec les infos utilisateur
+            
+        Raises:
+            VMsFetchError: Si la VM n'existe pas
+        """
+        logger.info("Récupération des données d'une VM via API unifiée", vm_id=vm_id)
+        vm = self.vms.get_vm(vm_id)
+        
+        # Récupérer les informations de l'utilisateur propriétaire
+        if vm.get("user_id"):
+            try:
+                owner = self.users.get_user(vm["user_id"])
+                vm["owner"] = owner
+            except Exception:
+                vm["owner"] = None
+        
+        return vm
 
     def __repr__(self) -> str:
         """Représentation du client API"""
