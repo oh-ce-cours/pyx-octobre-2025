@@ -10,9 +10,7 @@
 # ...
 
 
-from utils.api.user import get_users, add_vms_to_users
-from utils.api.vm import get_vms, create_vm
-from utils.api.auth import Auth
+from utils.api import Api, create_authenticated_client
 from utils.password_utils import get_or_create_token
 from utils.logging_config import get_logger
 from utils.config import config
@@ -21,21 +19,21 @@ import json
 # Configuration du logger pour ce module
 logger = get_logger(__name__)
 
-# Utiliser la configuration centralisée
-BASE_URL = config.DEMO_API_BASE_URL
+# Initialisation du client API unifié
+api = Api(config.DEMO_API_BASE_URL)
 
-logger.info("Début de l'exécution de demo_api", base_url=BASE_URL)
+logger.info("Début de l'exécution de demo_api", base_url=api.base_url)
 
 logger.info("Récupération des utilisateurs depuis l'API")
-users = get_users(BASE_URL)
+users = api.users.get()
 logger.info("Utilisateurs récupérés", count=len(users))
 
 logger.info("Récupération des VMs depuis l'API")
-vms = get_vms(BASE_URL)
+vms = api.vms.get()
 logger.info("VMs récupérées", count=len(vms))
 
 logger.info("Association des VMs aux utilisateurs")
-add_vms_to_users(users, vms)
+api.users.add_vms_to_users(users, vms)
 
 logger.info(
     "Sauvegarde des données utilisateurs/VMs en JSON",
