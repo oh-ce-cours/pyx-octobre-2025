@@ -103,6 +103,9 @@ class VMService:
 
         try:
             vm_result = self.api.users.create_vm(**vm_config)
+            if vm_result is None:
+                logger.error("vm_result est None après création")
+                return None
             logger.info(
                 "VM créée avec succès",
                 vm_id=vm_result.get("id"),
