@@ -1,0 +1,168 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exemples d’utilisation &mdash; Demo API 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Journal des modifications" href="changelog.html" />
+    <link rel="prev" title="Interface en ligne de commande" href="cli/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Demo API
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenu:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Guide de démarrage rapide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">Modules API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli/index.html">Interface en ligne de commande</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Exemples d’utilisation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#generation-de-donnees-de-test">Génération de données de test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gestion-des-vms">Gestion des VMs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generation-de-rapports">Génération de rapports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nettoyage-et-maintenance">Nettoyage et maintenance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Journal des modifications</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Demo API</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Exemples d’utilisation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/examples.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="exemples-d-utilisation">
+<h1>Exemples d’utilisation<a class="headerlink" href="#exemples-d-utilisation" title="Link to this heading"></a></h1>
+<p>Cette section contient des exemples pratiques d’utilisation de Demo API.</p>
+<section id="generation-de-donnees-de-test">
+<h2>Génération de données de test<a class="headerlink" href="#generation-de-donnees-de-test" title="Link to this heading"></a></h2>
+<p>Créer des utilisateurs et des VMs de test :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Générer 10 utilisateurs et 5 VMs</span>
+python<span class="w"> </span>main.py<span class="w"> </span>generate-data<span class="w"> </span>--count<span class="w"> </span><span class="m">10</span><span class="w"> </span>--vm-count<span class="w"> </span><span class="m">5</span>
+
+<span class="c1"># Générer avec des données spécifiques</span>
+python<span class="w"> </span>main.py<span class="w"> </span>generate-data<span class="w"> </span>--count<span class="w"> </span><span class="m">20</span><span class="w"> </span>--vm-count<span class="w"> </span><span class="m">10</span><span class="w"> </span>--os<span class="w"> </span>ubuntu-20.04
+</pre></div>
+</div>
+</section>
+<section id="gestion-des-vms">
+<h2>Gestion des VMs<a class="headerlink" href="#gestion-des-vms" title="Link to this heading"></a></h2>
+<p>Créer et gérer des machines virtuelles :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Créer une VM simple</span>
+python<span class="w"> </span>main.py<span class="w"> </span>create-vm<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;Serveur-Web&quot;</span><span class="w"> </span>--os<span class="w"> </span><span class="s2">&quot;ubuntu-20.04&quot;</span>
+
+<span class="c1"># Créer une VM avec des spécifications</span>
+python<span class="w"> </span>main.py<span class="w"> </span>create-vm<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;DB-Server&quot;</span><span class="w"> </span>--os<span class="w"> </span><span class="s2">&quot;centos-8&quot;</span><span class="w"> </span>--ram<span class="w"> </span><span class="m">8</span><span class="w"> </span>--cpu<span class="w"> </span><span class="m">4</span>
+</pre></div>
+</div>
+</section>
+<section id="generation-de-rapports">
+<h2>Génération de rapports<a class="headerlink" href="#generation-de-rapports" title="Link to this heading"></a></h2>
+<p>Créer des rapports dans différents formats :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Rapport complet en tous formats</span>
+python<span class="w"> </span>main.py<span class="w"> </span>report<span class="w"> </span>--type<span class="w"> </span>all<span class="w"> </span>--format<span class="w"> </span>all
+
+<span class="c1"># Rapport HTML uniquement</span>
+python<span class="w"> </span>main.py<span class="w"> </span>report<span class="w"> </span>--type<span class="w"> </span>users-vms<span class="w"> </span>--format<span class="w"> </span>html
+
+<span class="c1"># Rapport JSON pour intégration</span>
+python<span class="w"> </span>main.py<span class="w"> </span>report<span class="w"> </span>--type<span class="w"> </span>status<span class="w"> </span>--format<span class="w"> </span>json
+</pre></div>
+</div>
+</section>
+<section id="nettoyage-et-maintenance">
+<h2>Nettoyage et maintenance<a class="headerlink" href="#nettoyage-et-maintenance" title="Link to this heading"></a></h2>
+<p>Gérer les données de test :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Nettoyage complet (avec confirmation)</span>
+python<span class="w"> </span>main.py<span class="w"> </span>cleanup<span class="w"> </span>--confirm
+
+<span class="c1"># Nettoyage des VMs uniquement</span>
+python<span class="w"> </span>main.py<span class="w"> </span>cleanup<span class="w"> </span>--vm-only<span class="w"> </span>--confirm
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cli/index.html" class="btn btn-neutral float-left" title="Interface en ligne de commande" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="changelog.html" class="btn btn-neutral float-right" title="Journal des modifications" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Demo API Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

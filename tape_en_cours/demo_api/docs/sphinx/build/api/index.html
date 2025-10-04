@@ -1,0 +1,495 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modules API &mdash; Demo API 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Module main" href="main.html" />
+    <link rel="prev" title="Guide de démarrage rapide" href="../quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Demo API
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenu:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Guide de démarrage rapide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Modules API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#modules-principaux">Modules principaux</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="main.html">Module main</a></li>
+<li class="toctree-l3"><a class="reference internal" href="report_manager.html">Module report_manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vm_manager.html">Module vm_manager</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#modules-reports">Modules reports</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reports/base.html">Module reports.base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reports/html_reports.html">Module reports.html_reports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reports/json_reports.html">Module reports.json_reports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reports/markdown_reports.html">Module reports.markdown_reports</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#modules-scripts">Modules scripts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scripts/create_data_via_api.html">Module scripts.create_data_via_api</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scripts/generate_data.html">Module scripts.generate_data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scripts/quick_cleanup.html">Module scripts.quick_cleanup</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#modules-utils">Modules utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/config.html">Module utils.config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/data_generator.html">Module utils.data_generator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/date_utils.html">Module utils.date_utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/logging_config.html">Module utils.logging_config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/password_utils.html">Module utils.password_utils</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#modules-utils-api">Modules utils/api</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/auth.html">Module utils.api.auth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/decorators.html">Module utils.api.decorators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/exceptions.html">Module utils.api.exceptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/user.html">Module utils.api.user</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/vm.html">Module utils.api.vm</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#modules-utils-services">Modules utils/services</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/services/data_manager.html">Module utils.services.data_manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/services/report_service.html">Module utils.services.report_service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/services/vm_service.html">Module utils.services.vm_service</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cli/index.html">Interface en ligne de commande</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Exemples d’utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Journal des modifications</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Demo API</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Modules API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="modules-api">
+<h1>Modules API<a class="headerlink" href="#modules-api" title="Link to this heading"></a></h1>
+<section id="modules-principaux">
+<h2>Modules principaux<a class="headerlink" href="#modules-principaux" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="main.html">Module main</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="report_manager.html">Module report_manager</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="vm_manager.html">Module vm_manager</a></li>
+</ul>
+</div>
+</section>
+<section id="modules-reports">
+<h2>Modules reports<a class="headerlink" href="#modules-reports" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reports/base.html">Module reports.base</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reports/base.html#reports.base.BaseReportGenerator"><code class="docutils literal notranslate"><span class="pre">BaseReportGenerator</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reports/base.html#reports.base.BaseReportGenerator.__init__"><code class="docutils literal notranslate"><span class="pre">BaseReportGenerator.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reports/base.html#reports.base.BaseReportGenerator.generate"><code class="docutils literal notranslate"><span class="pre">BaseReportGenerator.generate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reports/base.html#reports.base.BaseReportGenerator.get_extension"><code class="docutils literal notranslate"><span class="pre">BaseReportGenerator.get_extension()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reports/html_reports.html">Module reports.html_reports</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reports/html_reports.html#reports.html_reports.HTMLReportGenerator"><code class="docutils literal notranslate"><span class="pre">HTMLReportGenerator</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reports/html_reports.html#reports.html_reports.HTMLReportGenerator.__init__"><code class="docutils literal notranslate"><span class="pre">HTMLReportGenerator.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reports/html_reports.html#reports.html_reports.HTMLReportGenerator.get_extension"><code class="docutils literal notranslate"><span class="pre">HTMLReportGenerator.get_extension()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reports/html_reports.html#reports.html_reports.HTMLReportGenerator.generate"><code class="docutils literal notranslate"><span class="pre">HTMLReportGenerator.generate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reports/html_reports.html#reports.html_reports.HTMLReportGenerator.generate_users_vms_report"><code class="docutils literal notranslate"><span class="pre">HTMLReportGenerator.generate_users_vms_report()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reports/html_reports.html#reports.html_reports.HTMLReportGenerator.generate_status_report"><code class="docutils literal notranslate"><span class="pre">HTMLReportGenerator.generate_status_report()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reports/json_reports.html">Module reports.json_reports</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reports/json_reports.html#reports.json_reports.JSONReportGenerator"><code class="docutils literal notranslate"><span class="pre">JSONReportGenerator</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reports/json_reports.html#reports.json_reports.JSONReportGenerator.__init__"><code class="docutils literal notranslate"><span class="pre">JSONReportGenerator.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reports/json_reports.html#reports.json_reports.JSONReportGenerator.get_extension"><code class="docutils literal notranslate"><span class="pre">JSONReportGenerator.get_extension()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reports/json_reports.html#reports.json_reports.JSONReportGenerator.generate"><code class="docutils literal notranslate"><span class="pre">JSONReportGenerator.generate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reports/json_reports.html#reports.json_reports.JSONReportGenerator.generate_users_vms_report"><code class="docutils literal notranslate"><span class="pre">JSONReportGenerator.generate_users_vms_report()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reports/json_reports.html#reports.json_reports.JSONReportGenerator.generate_api_summary_report"><code class="docutils literal notranslate"><span class="pre">JSONReportGenerator.generate_api_summary_report()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reports/markdown_reports.html">Module reports.markdown_reports</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reports/markdown_reports.html#reports.markdown_reports.MarkdownReportGenerator"><code class="docutils literal notranslate"><span class="pre">MarkdownReportGenerator</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reports/markdown_reports.html#reports.markdown_reports.MarkdownReportGenerator.__init__"><code class="docutils literal notranslate"><span class="pre">MarkdownReportGenerator.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reports/markdown_reports.html#reports.markdown_reports.MarkdownReportGenerator.get_extension"><code class="docutils literal notranslate"><span class="pre">MarkdownReportGenerator.get_extension()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reports/markdown_reports.html#reports.markdown_reports.MarkdownReportGenerator.generate"><code class="docutils literal notranslate"><span class="pre">MarkdownReportGenerator.generate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reports/markdown_reports.html#reports.markdown_reports.MarkdownReportGenerator.generate_users_vms_report"><code class="docutils literal notranslate"><span class="pre">MarkdownReportGenerator.generate_users_vms_report()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reports/markdown_reports.html#reports.markdown_reports.MarkdownReportGenerator.generate_status_report"><code class="docutils literal notranslate"><span class="pre">MarkdownReportGenerator.generate_status_report()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="modules-scripts">
+<h2>Modules scripts<a class="headerlink" href="#modules-scripts" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="scripts/create_data_via_api.html">Module scripts.create_data_via_api</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="scripts/generate_data.html">Module scripts.generate_data</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="scripts/quick_cleanup.html">Module scripts.quick_cleanup</a></li>
+</ul>
+</div>
+</section>
+<section id="modules-utils">
+<h2>Modules utils<a class="headerlink" href="#modules-utils" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utils/config.html">Module utils.config</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils/config.html#utils.config.load_env_files"><code class="docutils literal notranslate"><span class="pre">load_env_files()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/config.html#utils.config.Config"><code class="docutils literal notranslate"><span class="pre">Config</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/config.html#utils.config.Config.__init__"><code class="docutils literal notranslate"><span class="pre">Config.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/config.html#utils.config.Config.is_production"><code class="docutils literal notranslate"><span class="pre">Config.is_production</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/config.html#utils.config.Config.has_credentials"><code class="docutils literal notranslate"><span class="pre">Config.has_credentials</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/config.html#utils.config.Config.has_token"><code class="docutils literal notranslate"><span class="pre">Config.has_token</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/config.html#utils.config.Config.auth_headers"><code class="docutils literal notranslate"><span class="pre">Config.auth_headers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/config.html#utils.config.Config.client_config"><code class="docutils literal notranslate"><span class="pre">Config.client_config</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/config.html#utils.config.Config.to_dict"><code class="docutils literal notranslate"><span class="pre">Config.to_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/config.html#utils.config.Config.__str__"><code class="docutils literal notranslate"><span class="pre">Config.__str__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/config.html#utils.config.Config.save_to_env_file"><code class="docutils literal notranslate"><span class="pre">Config.save_to_env_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/config.html#utils.config.Config.update_token"><code class="docutils literal notranslate"><span class="pre">Config.update_token()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/config.html#utils.config.Config.__repr__"><code class="docutils literal notranslate"><span class="pre">Config.__repr__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utils/data_generator.html">Module utils.data_generator</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utils/date_utils.html">Module utils.date_utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils/date_utils.html#utils.date_utils.parse_unix_timestamp"><code class="docutils literal notranslate"><span class="pre">parse_unix_timestamp()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utils/logging_config.html">Module utils.logging_config</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils/logging_config.html#utils.logging_config.setup_logging"><code class="docutils literal notranslate"><span class="pre">setup_logging()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/logging_config.html#utils.logging_config.get_logger"><code class="docutils literal notranslate"><span class="pre">get_logger()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utils/password_utils.html">Module utils.password_utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils/password_utils.html#utils.password_utils.get_password_from_config"><code class="docutils literal notranslate"><span class="pre">get_password_from_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/password_utils.html#utils.password_utils.get_password_from_input"><code class="docutils literal notranslate"><span class="pre">get_password_from_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/password_utils.html#utils.password_utils.get_password"><code class="docutils literal notranslate"><span class="pre">get_password()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/password_utils.html#utils.password_utils.get_email_from_config"><code class="docutils literal notranslate"><span class="pre">get_email_from_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/password_utils.html#utils.password_utils.get_email_from_input"><code class="docutils literal notranslate"><span class="pre">get_email_from_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/password_utils.html#utils.password_utils.get_credentials_from_config"><code class="docutils literal notranslate"><span class="pre">get_credentials_from_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/password_utils.html#utils.password_utils.get_credentials_from_input"><code class="docutils literal notranslate"><span class="pre">get_credentials_from_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/password_utils.html#utils.password_utils.get_credentials"><code class="docutils literal notranslate"><span class="pre">get_credentials()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/password_utils.html#utils.password_utils.get_token_from_config"><code class="docutils literal notranslate"><span class="pre">get_token_from_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/password_utils.html#utils.password_utils.save_token_to_env"><code class="docutils literal notranslate"><span class="pre">save_token_to_env()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/password_utils.html#utils.password_utils.remove_token_from_env"><code class="docutils literal notranslate"><span class="pre">remove_token_from_env()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/password_utils.html#utils.password_utils.get_or_create_token"><code class="docutils literal notranslate"><span class="pre">get_or_create_token()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="modules-utils-api">
+<h2>Modules utils/api<a class="headerlink" href="#modules-utils-api" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utils/api/auth.html">Module utils.api.auth</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/auth.html#utils.api.auth.Auth"><code class="docutils literal notranslate"><span class="pre">Auth</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/auth.html#utils.api.auth.Auth.__init__"><code class="docutils literal notranslate"><span class="pre">Auth.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/auth.html#utils.api.auth.Auth.create_user"><code class="docutils literal notranslate"><span class="pre">Auth.create_user()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/auth.html#utils.api.auth.Auth.login_user"><code class="docutils literal notranslate"><span class="pre">Auth.login_user()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/auth.html#utils.api.auth.Auth.get_logged_user_info"><code class="docutils literal notranslate"><span class="pre">Auth.get_logged_user_info()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utils/api/decorators.html">Module utils.api.decorators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/decorators.html#utils.api.decorators.retry_on_429"><code class="docutils literal notranslate"><span class="pre">retry_on_429()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utils/api/exceptions.html">Module utils.api.exceptions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.DemoAPIException"><code class="docutils literal notranslate"><span class="pre">DemoAPIException</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.DemoAPIException.__init__"><code class="docutils literal notranslate"><span class="pre">DemoAPIException.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.AuthenticationError"><code class="docutils literal notranslate"><span class="pre">AuthenticationError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.AuthenticationError.__init__"><code class="docutils literal notranslate"><span class="pre">AuthenticationError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.UserCreationError"><code class="docutils literal notranslate"><span class="pre">UserCreationError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.UserCreationError.__init__"><code class="docutils literal notranslate"><span class="pre">UserCreationError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.UserLoginError"><code class="docutils literal notranslate"><span class="pre">UserLoginError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.UserLoginError.__init__"><code class="docutils literal notranslate"><span class="pre">UserLoginError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.UserInfoError"><code class="docutils literal notranslate"><span class="pre">UserInfoError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.UserInfoError.__init__"><code class="docutils literal notranslate"><span class="pre">UserInfoError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.UsersFetchError"><code class="docutils literal notranslate"><span class="pre">UsersFetchError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.UsersFetchError.__init__"><code class="docutils literal notranslate"><span class="pre">UsersFetchError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.VMsFetchError"><code class="docutils literal notranslate"><span class="pre">VMsFetchError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.VMsFetchError.__init__"><code class="docutils literal notranslate"><span class="pre">VMsFetchError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.VMCreationError"><code class="docutils literal notranslate"><span class="pre">VMCreationError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.VMCreationError.__init__"><code class="docutils literal notranslate"><span class="pre">VMCreationError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.TokenError"><code class="docutils literal notranslate"><span class="pre">TokenError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.TokenError.__init__"><code class="docutils literal notranslate"><span class="pre">TokenError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.CredentialsError"><code class="docutils literal notranslate"><span class="pre">CredentialsError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.CredentialsError.__init__"><code class="docutils literal notranslate"><span class="pre">CredentialsError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.NetworkError"><code class="docutils literal notranslate"><span class="pre">NetworkError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.NetworkError.__init__"><code class="docutils literal notranslate"><span class="pre">NetworkError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.UserUpdateError"><code class="docutils literal notranslate"><span class="pre">UserUpdateError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.UserUpdateError.__init__"><code class="docutils literal notranslate"><span class="pre">UserUpdateError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.UserDeleteError"><code class="docutils literal notranslate"><span class="pre">UserDeleteError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.UserDeleteError.__init__"><code class="docutils literal notranslate"><span class="pre">UserDeleteError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.VMUpdateError"><code class="docutils literal notranslate"><span class="pre">VMUpdateError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.VMUpdateError.__init__"><code class="docutils literal notranslate"><span class="pre">VMUpdateError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.VMDeleteError"><code class="docutils literal notranslate"><span class="pre">VMDeleteError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.VMDeleteError.__init__"><code class="docutils literal notranslate"><span class="pre">VMDeleteError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.APIRequestError"><code class="docutils literal notranslate"><span class="pre">APIRequestError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/api/exceptions.html#utils.api.exceptions.APIRequestError.__init__"><code class="docutils literal notranslate"><span class="pre">APIRequestError.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utils/api/user.html">Module utils.api.user</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/user.html#utils.api.user.get_users"><code class="docutils literal notranslate"><span class="pre">get_users()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/user.html#utils.api.user.add_vms_to_users"><code class="docutils literal notranslate"><span class="pre">add_vms_to_users()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/user.html#utils.api.user.create_user"><code class="docutils literal notranslate"><span class="pre">create_user()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/user.html#utils.api.user.get_user"><code class="docutils literal notranslate"><span class="pre">get_user()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/user.html#utils.api.user.update_user"><code class="docutils literal notranslate"><span class="pre">update_user()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/user.html#utils.api.user.delete_user"><code class="docutils literal notranslate"><span class="pre">delete_user()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utils/api/vm.html">Module utils.api.vm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/vm.html#utils.api.vm.parse_unix_timestamp"><code class="docutils literal notranslate"><span class="pre">parse_unix_timestamp()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/vm.html#utils.api.vm.get_vms"><code class="docutils literal notranslate"><span class="pre">get_vms()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/vm.html#utils.api.vm.create_vm"><code class="docutils literal notranslate"><span class="pre">create_vm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/vm.html#utils.api.vm.get_vm"><code class="docutils literal notranslate"><span class="pre">get_vm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/vm.html#utils.api.vm.update_vm"><code class="docutils literal notranslate"><span class="pre">update_vm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/vm.html#utils.api.vm.delete_vm"><code class="docutils literal notranslate"><span class="pre">delete_vm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/vm.html#utils.api.vm.attach_vm_to_user"><code class="docutils literal notranslate"><span class="pre">attach_vm_to_user()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/api/vm.html#utils.api.vm.stop_vm"><code class="docutils literal notranslate"><span class="pre">stop_vm()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="modules-utils-services">
+<h2>Modules utils/services<a class="headerlink" href="#modules-utils-services" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utils/services/data_manager.html">Module utils.services.data_manager</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils/services/data_manager.html#utils.services.data_manager.DataManager"><code class="docutils literal notranslate"><span class="pre">DataManager</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/services/data_manager.html#utils.services.data_manager.DataManager.__init__"><code class="docutils literal notranslate"><span class="pre">DataManager.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/services/data_manager.html#utils.services.data_manager.DataManager.fetch_all_data"><code class="docutils literal notranslate"><span class="pre">DataManager.fetch_all_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/services/data_manager.html#utils.services.data_manager.DataManager.get_users"><code class="docutils literal notranslate"><span class="pre">DataManager.get_users()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/services/data_manager.html#utils.services.data_manager.DataManager.get_vms"><code class="docutils literal notranslate"><span class="pre">DataManager.get_vms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/services/data_manager.html#utils.services.data_manager.DataManager.get_users_with_vms"><code class="docutils literal notranslate"><span class="pre">DataManager.get_users_with_vms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/services/data_manager.html#utils.services.data_manager.DataManager.clear_cache"><code class="docutils literal notranslate"><span class="pre">DataManager.clear_cache()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/services/data_manager.html#utils.services.data_manager.DataManager.is_data_loaded"><code class="docutils literal notranslate"><span class="pre">DataManager.is_data_loaded</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utils/services/report_service.html">Module utils.services.report_service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils/services/report_service.html#utils.services.report_service.ReportService"><code class="docutils literal notranslate"><span class="pre">ReportService</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/services/report_service.html#utils.services.report_service.ReportService.__init__"><code class="docutils literal notranslate"><span class="pre">ReportService.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/services/report_service.html#utils.services.report_service.ReportService.generate_users_vms_report"><code class="docutils literal notranslate"><span class="pre">ReportService.generate_users_vms_report()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/services/report_service.html#utils.services.report_service.ReportService.generate_status_report"><code class="docutils literal notranslate"><span class="pre">ReportService.generate_status_report()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/services/report_service.html#utils.services.report_service.ReportService.generate_users_vms_report_markdown"><code class="docutils literal notranslate"><span class="pre">ReportService.generate_users_vms_report_markdown()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/services/report_service.html#utils.services.report_service.ReportService.generate_users_vms_report_html"><code class="docutils literal notranslate"><span class="pre">ReportService.generate_users_vms_report_html()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/services/report_service.html#utils.services.report_service.ReportService.generate_status_report_markdown"><code class="docutils literal notranslate"><span class="pre">ReportService.generate_status_report_markdown()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/services/report_service.html#utils.services.report_service.ReportService.generate_status_report_html"><code class="docutils literal notranslate"><span class="pre">ReportService.generate_status_report_html()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utils/services/vm_service.html">Module utils.services.vm_service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils/services/vm_service.html#utils.services.vm_service.VMService"><code class="docutils literal notranslate"><span class="pre">VMService</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/services/vm_service.html#utils.services.vm_service.VMService.__init__"><code class="docutils literal notranslate"><span class="pre">VMService.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/services/vm_service.html#utils.services.vm_service.VMService.authenticate_user"><code class="docutils literal notranslate"><span class="pre">VMService.authenticate_user()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/services/vm_service.html#utils.services.vm_service.VMService.create_vm_for_user"><code class="docutils literal notranslate"><span class="pre">VMService.create_vm_for_user()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/services/vm_service.html#utils.services.vm_service.VMService.create_default_vm_for_user"><code class="docutils literal notranslate"><span class="pre">VMService.create_default_vm_for_user()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../quickstart.html" class="btn btn-neutral float-left" title="Guide de démarrage rapide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="main.html" class="btn btn-neutral float-right" title="Module main" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Demo API Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
