@@ -44,7 +44,13 @@ class VMService:
         logger.info("Début du processus d'authentification pour création de VM")
 
         try:
-            logger.info("Appel à get_or_create_token", base_url=self.api.base_url, email=email)
+            logger.info("Appel à get_or_create_token", base_url=self.api.base_url, email=email, has_api=self.api is not None)
+            if self.api is None:
+                logger.error("API est None")
+                return None
+            if self.api.base_url is None:
+                logger.error("API base_url est None")
+                return None
             token = get_or_create_token(
                 base_url=self.api.base_url,
                 email=email,
