@@ -124,18 +124,21 @@ html_sidebars = {
 # Cette configuration force Sphinx à utiliser des chemins absolus basés sur html_baseurl
 # pour tous les assets statiques (CSS, JS, images, etc.)
 
+
 # Force l'utilisation de chemins absolus pour les assets statiques
 def setup(app):
     """Configuration personnalisée pour forcer les chemins absolus."""
     from sphinx.builders.html import StandaloneHTMLBuilder
-    
+
     def add_github_pages_context(app, pagename, templatename, context, doctree):
         """Ajoute le contexte nécessaire pour GitHub Pages."""
-        if app.builder.name == 'html':
+        if app.builder.name == "html":
             # Force l'utilisation de chemins absolus pour les assets statiques
-            context['pathto'] = lambda other, *args, **kwargs: f"{app.config.html_baseurl}{other}"
-    
-    app.connect('html-page-context', add_github_pages_context)
+            base_url = app.config.html_baseurl.rstrip('/')
+            context["pathto"] = lambda other, *args, **kwargs: f"{base_url}/{other.lstrip('/')}"
+
+    app.connect("html-page-context", add_github_pages_context)
+
 
 # -- Extension configuration -------------------------------------------------
 
