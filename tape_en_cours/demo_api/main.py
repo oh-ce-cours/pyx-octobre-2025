@@ -7,6 +7,8 @@ Interface d'orchestration avec Typer pour le management des utilisateurs et VMs.
 
 import typer
 from utils.logging_config import get_logger
+from report_manager import generate_reports, ReportType
+from vm_manager import create_vm
 
 logger = get_logger(__name__)
 app = typer.Typer(
@@ -36,9 +38,6 @@ def report(
     python main.py report --type users-vms
     python main.py report -t status -o ./rapports --verbose
     """
-    # Importer et exécuter le gestionnaire de rapports
-    from report_manager import generate_reports, ReportType
-
     # Convertir le string en enum
     try:
         report_type_enum = ReportType(report_type)
@@ -78,9 +77,6 @@ def create(
     python main.py create --name "Ma VM" --cores 4
     python main.py create -n "VM Test" --ram 8 --disk 100 --verbose
     """
-    # Importer et exécuter le gestionnaire de VMs
-    from vm_manager import create_vm
-
     # Appeler directement la fonction
     create_vm(name, email, os, cores, ram, disk, status, verbose)
 
