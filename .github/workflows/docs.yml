@@ -22,11 +22,6 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Generate Documentation
-        working-directory: tape_en_cours/demo_api
-        run: |
-          python scripts/generate_docs.py
-
       - name: Deploy Documentation
         run: |
           ./deploy_docs.sh
