@@ -240,24 +240,14 @@ def create_users_via_api(
                     # Générer les données utilisateur avec Faker
                     user_data = UserDataGenerator.generate_user(created_count + 1)
 
-                    if api_client.is_authenticated():
-                        # Créer l'utilisateur via l'API
-                        created_user = api_client.users.create_user(
-                            name=user_data["name"],
-                            email=user_data["email"],
-                            password="password123",  # Mot de passe par défaut
-                        )
-                        created_users.append(created_user)
-                    else:
-                        # Mode démo : simuler la création
-                        created_user = {
-                            "id": created_count + 1,
-                            "name": user_data["name"],
-                            "email": user_data["email"],
-                            "created_at": "2024-01-01T00:00:00Z"
-                        }
-                        created_users.append(created_user)
+                    # Créer l'utilisateur via l'API
+                    created_user = api_client.users.create_user(
+                        name=user_data["name"],
+                        email=user_data["email"],
+                        password="password123",  # Mot de passe par défaut
+                    )
 
+                    created_users.append(created_user)
                     created_count += 1
 
                     display_success_message(
@@ -333,33 +323,18 @@ def create_vms_via_api(
                         vm_id=created_count + 1,
                     )
 
-                    if api_client.is_authenticated():
-                        # Créer la VM via l'API
-                        created_vm = api_client.vms.create(
-                            user_id=vm_data["user_id"],
-                            name=vm_data["name"],
-                            operating_system=vm_data["operating_system"],
-                            cpu_cores=vm_data["cpu_cores"],
-                            ram_gb=vm_data["ram_gb"],
-                            disk_gb=vm_data["disk_gb"],
-                            status=vm_data["status"],
-                        )
-                        created_vms.append(created_vm)
-                    else:
-                        # Mode démo : simuler la création
-                        created_vm = {
-                            "id": created_count + 1,
-                            "user_id": vm_data["user_id"],
-                            "name": vm_data["name"],
-                            "operating_system": vm_data["operating_system"],
-                            "cpu_cores": vm_data["cpu_cores"],
-                            "ram_gb": vm_data["ram_gb"],
-                            "disk_gb": vm_data["disk_gb"],
-                            "status": vm_data["status"],
-                            "created_at": "2024-01-01T00:00:00Z"
-                        }
-                        created_vms.append(created_vm)
+                    # Créer la VM via l'API
+                    created_vm = api_client.vms.create(
+                        user_id=vm_data["user_id"],
+                        name=vm_data["name"],
+                        operating_system=vm_data["operating_system"],
+                        cpu_cores=vm_data["cpu_cores"],
+                        ram_gb=vm_data["ram_gb"],
+                        disk_gb=vm_data["disk_gb"],
+                        status=vm_data["status"],
+                    )
 
+                    created_vms.append(created_vm)
                     created_count += 1
 
                     vm_details = f"{vm_data['operating_system']} - {vm_data['cpu_cores']}c/{vm_data['ram_gb']}GB"
@@ -427,12 +402,12 @@ def users(
         if not api_client.is_authenticated():
             console.print(
                 Panel.fit(
-                    "[bold yellow]⚠️ Non authentifié avec l'API[/bold yellow]\n"
-                    "[dim]💡 Les données seront créées sans authentification (mode démo)[/dim]",
-                    border_style="yellow",
+                    "[bold red]❌ Impossible de s'authentifier avec l'API[/bold red]\n"
+                    "[dim]💡 Utilisez --email et --password ou configurez les identifiants dans la config[/dim]",
+                    border_style="red",
                 )
             )
-            console.print()
+            raise typer.Exit(1)
 
         console.print(
             f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]"
@@ -522,12 +497,12 @@ def vms(
         if not api_client.is_authenticated():
             console.print(
                 Panel.fit(
-                    "[bold yellow]⚠️ Non authentifié avec l'API[/bold yellow]\n"
-                    "[dim]💡 Les données seront créées sans authentification (mode démo)[/dim]",
-                    border_style="yellow",
+                    "[bold red]❌ Impossible de s'authentifier avec l'API[/bold red]\n"
+                    "[dim]💡 Utilisez --email et --password ou configurez les identifiants dans la config[/dim]",
+                    border_style="red",
                 )
             )
-            console.print()
+            raise typer.Exit(1)
 
         console.print(
             f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]"
@@ -537,32 +512,24 @@ def vms(
         # Afficher la configuration
         display_api_config(api_client)
 
-        # Récupérer les utilisateurs existants ou utiliser des IDs fictifs
-        if api_client.is_authenticated():
-            with console.status("[bold green]Récupération des utilisateurs existants..."):
-                existing_users = api_client.users.get()
+        # Récupérer les utilisateurs existants
+        with console.status("[bold green]Récupération des utilisateurs existants..."):
+            existing_users = api_client.users.get()
 
-            if not existing_users:
-                console.print(
-                    Panel.fit(
-                        "[bold red]❌ Aucun utilisateur trouvé dans l'API[/bold red]\n"
-                        "[dim]💡 Créez d'abord des utilisateurs avec la commande 'users'[/dim]",
-                        border_style="red",
-                    )
+        if not existing_users:
+            console.print(
+                Panel.fit(
+                    "[bold red]❌ Aucun utilisateur trouvé dans l'API[/bold red]\n"
+                    "[dim]💡 Créez d'abord des utilisateurs avec la commande 'users'[/dim]",
+                    border_style="red",
                 )
-                raise typer.Exit(1)
+            )
+            raise typer.Exit(1)
 
-            user_ids = [user["id"] for user in existing_users]
-            console.print(
-                f"[bold cyan]👥 {len(user_ids)} utilisateurs disponibles pour l'association des VMs[/bold cyan]"
-            )
-        else:
-            # Mode démo : utiliser des IDs fictifs
-            user_ids = list(range(1, 6))  # IDs 1 à 5
-            console.print(
-                f"[bold yellow]👥 Mode démo : {len(user_ids)} utilisateurs fictifs pour l'association des VMs[/bold yellow]"
-            )
-        
+        user_ids = [user["id"] for user in existing_users]
+        console.print(
+            f"[bold cyan]👥 {len(user_ids)} utilisateurs disponibles pour l'association des VMs[/bold cyan]"
+        )
         console.print()
 
         display_operation_config("VMs", count, batch_size, delay)
@@ -611,7 +578,7 @@ def full_dataset(
         20, "--users", "-u", help="Nombre d'utilisateurs à créer", min=1, max=100
     ),
     vm_count: int = typer.Option(
-        50, "--vms", help="Nombre de VMs à créer", min=1, max=200
+        50, "--vms", "-v", help="Nombre de VMs à créer", min=1, max=200
     ),
     batch_size: int = typer.Option(
         5, "--batch-size", "-b", help="Taille des lots", min=1, max=20
@@ -658,12 +625,12 @@ def full_dataset(
         if not api_client.is_authenticated():
             console.print(
                 Panel.fit(
-                    "[bold yellow]⚠️ Non authentifié avec l'API[/bold yellow]\n"
-                    "[dim]💡 Les données seront créées sans authentification (mode démo)[/dim]",
-                    border_style="yellow",
+                    "[bold red]❌ Impossible de s'authentifier avec l'API[/bold red]\n"
+                    "[dim]💡 Utilisez --email et --password ou configurez les identifiants dans la config[/dim]",
+                    border_style="red",
                 )
             )
-            console.print()
+            raise typer.Exit(1)
 
         console.print(
             f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]"
@@ -786,12 +753,12 @@ def status(
         if not api_client.is_authenticated():
             console.print(
                 Panel.fit(
-                    "[bold yellow]⚠️ Non authentifié avec l'API[/bold yellow]\n"
-                    "[dim]💡 Les données seront créées sans authentification (mode démo)[/dim]",
-                    border_style="yellow",
+                    "[bold red]❌ Impossible de s'authentifier avec l'API[/bold red]\n"
+                    "[dim]💡 Utilisez --email et --password ou configurez les identifiants dans la config[/dim]",
+                    border_style="red",
                 )
             )
-            console.print()
+            raise typer.Exit(1)
 
         console.print(
             f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]"
