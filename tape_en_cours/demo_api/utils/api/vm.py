@@ -83,7 +83,7 @@ def create_vm(
         "disk_gb": disk_gb,
         "status": status,
     }
-    headers = {"Authorization": f"Bearer {token}"}
+    headers = {"Authorization": f"Bearer {token}"} if token else {}
     logger.debug(
         "Payload de création VM",
         user_id=user_id,
