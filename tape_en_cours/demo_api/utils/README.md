@@ -103,9 +103,10 @@ Le système dispose de fonctions avancées pour gérer les tokens d'authentifica
 - `save_token_to_env()` : Sauvegarde un token dans les variables d'environnement
 - `remove_token_from_env()` : Supprime un token des variables d'environnement
 
-#### **Fichier .env :**
+#### **Fichiers .env avec python-dotenv :**
 - `save_token_to_env_file()` : Sauvegarde un token dans un fichier .env
 - `load_token_from_env_file()` : Charge un token depuis un fichier .env
+- `load_env_files()` : Charge automatiquement plusieurs fichiers .env
 
 #### **Gestion intelligente :**
 - `get_or_create_token()` : Fonction tout-en-un qui essaie de récupérer un token existant ou en crée un nouveau
@@ -137,3 +138,50 @@ token = get_or_create_token(
 2. **Exécutions suivantes** : Utilise le token sauvegardé (plus rapide)
 3. **Token expiré** : Détecte automatiquement et recrée un nouveau token
 4. **Environnement de production** : Utilise uniquement les tokens des variables d'environnement
+
+## Organisation des fichiers .env avec python-dotenv
+
+Le système utilise `python-dotenv` pour une gestion robuste des fichiers de configuration :
+
+### Hiérarchie des fichiers .env
+
+```
+.env.defaults  ← Valeurs par défaut (peut être versionné)
+.env.local     ← Configuration locale (à ignorer dans git)
+.env          ← Configuration générale (peut être versionné)
+```
+
+### Chargement automatique
+
+Les fichiers sont chargés automatiquement dans cet ordre (chaque fichier surcharge le précédent) :
+
+```python
+# Chargement automatique au démarrage de password_utils
+load_env_files()  # Charge .env.defaults → .env.local → .env
+```
+
+### Utilisation pratique
+
+```bash
+# Workflow de développement typique :
+# 1. Copier env.example vers .env
+cp env.example .env
+
+# 2. Modifier vos vraies valeurs dans .env
+echo "DEMO_API_EMAIL=votre.email@domain.com" >> .env
+echo "DEMO_API_TOKEN=votre_token" >> .env
+
+# 3. Créer .env.local pour des valeurs sensibles (ignoré par git)
+echo "DEMO_API_PASSWORD=mot_de_passe_confidential" >> .env.local
+
+# 4. Lancer l'application (charge automatiquement tous les fichiers)
+python main.py
+```
+
+### Avantages de python-dotenv
+
+- **✅ Chargement automatique** : Pas besoin de configuration manuelle
+- **✅ Hiérarchie de configuration** : Fichiers par priorité
+- **✅ Format standard** : Compatible avec tous les outils
+- **✅ Sécurité** : Support des variables sensibles locales
+- **✅ Développement** : Configuration flexible par environnement
