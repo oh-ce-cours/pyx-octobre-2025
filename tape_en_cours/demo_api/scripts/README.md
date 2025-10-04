@@ -37,7 +37,7 @@ Créateur de données via l'API en utilisant le générateur Faker.
 
 **Exemples d'usage :**
 ```bash
-# Créer 20 utilisateurs via l'API
+# Créer 20 utilisateurs via l'API (client simple)
 python scripts/create_data_via_api.py users --count 20
 
 # Créer 50 VMs via l'API

@@ -675,8 +675,7 @@ def full_dataset(
 
 
 @app.command()
-def status(
-) -> None:
+def status() -> None:
     """
     📊 Afficher le statut actuel de l'API
 
