@@ -151,7 +151,6 @@ html_sidebars = {
 # Cette configuration force Sphinx à utiliser des chemins absolus basés sur html_baseurl
 # pour tous les assets statiques (CSS, JS, images, etc.)
 
-
 # Force l'utilisation de chemins absolus pour les assets statiques
 def setup(app):
     """Configuration personnalisée pour forcer les chemins absolus."""
@@ -198,8 +197,19 @@ def setup(app):
                     if js_file[0].startswith("_static/"):
                         js_files[i] = (f"{base_url}/{js_file[0]}",) + js_file[1:]
 
+    def fix_static_paths_in_html(app, pagename, templatename, context, doctree):
+        """Corrige les chemins statiques dans le contexte HTML."""
+        if app.builder.name == "html":
+            base_url = app.config.html_baseurl.rstrip("/")
+            
+            # Force les chemins absolus pour tous les assets statiques
+            context["pathto"] = lambda other, *args, **kwargs: f"{base_url}/{other.lstrip('/')}"
+            context["static_url"] = f"{base_url}/_static"
+            context["base_url"] = base_url
+
     app.connect("html-page-context", fix_html_output)
     app.connect("html-page-context", fix_css_js_paths)
+    app.connect("html-page-context", fix_static_paths_in_html)
 
 
 # -- Extension configuration -------------------------------------------------
