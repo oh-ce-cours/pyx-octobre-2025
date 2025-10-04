@@ -70,11 +70,11 @@ def main():
     ):
         success_count += 1
 
-    # 3. Générer la documentation pydoc
+    # 3. Générer la documentation pdoc3
     total_commands += 1
     if run_command(
-        f"cd {project_root} && python docs/pydoc/generate_pydoc.py",
-        "Génération de la documentation pydoc",
+        f"cd {project_root} && pdoc --html -o docs/pdoc3_html main report_manager utils.config",
+        "Génération de la documentation pdoc3",
     ):
         success_count += 1
 
@@ -85,8 +85,8 @@ def main():
     if success_count == total_commands:
         print("🎉 Toute la documentation a été générée avec succès!")
         print("\n📖 Documentation disponible:")
-        print(f"   • Sphinx: {project_root}/docs/sphinx/build/index.html")
-        print(f"   • pydoc: {project_root}/docs/pydoc/html/index.html")
+        print(f"   • Sphinx (complexe): {project_root}/docs/sphinx/build/index.html")
+        print(f"   • pdoc3 (moderne): {project_root}/docs/pdoc3_html/index.html")
     else:
         print("⚠️  Certaines commandes ont échoué. Vérifiez les erreurs ci-dessus.")
         sys.exit(1)
