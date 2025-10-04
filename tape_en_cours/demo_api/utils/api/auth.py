@@ -1,5 +1,12 @@
 import requests
 from utils.logging_config import get_logger
+from .exceptions import (
+    UserCreationError, 
+    UserLoginError, 
+    UserInfoError, 
+    TokenError,
+    NetworkError
+)
 
 # Logger pour ce module
 logger = get_logger(__name__)
