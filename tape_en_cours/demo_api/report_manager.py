@@ -49,6 +49,9 @@ def generate_reports(
     📊 Générer des rapports
 
     Exemples:
+
+    .. code-block:: shell
+
         python report_manager.py
         python report_manager.py --type users-vms --format markdown
         python report_manager.py -t status -f html -o ./rapports --verbose

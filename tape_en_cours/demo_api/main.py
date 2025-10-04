@@ -42,6 +42,9 @@ def report(
     📊 Générer des rapports
 
     Exemples:
+
+    .. code-block:: python
+
         python main.py report
         python main.py report --type users-vms --format markdown
         python main.py report -t status -f html -o ./rapports --verbose
