@@ -4,7 +4,6 @@ Service de génération de rapports
 
 from typing import Dict, Any, List, Optional
 from utils.api import Api
-from utils.api.exceptions import UsersFetchError, VMsFetchError
 from utils.logging_config import get_logger
 from reports import JSONReportGenerator, MarkdownReportGenerator, HTMLReportGenerator
 
@@ -23,32 +22,6 @@ class ReportService:
         """
         self.api = api_client
 
-    def fetch_data(self) -> tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
-        """
-        Récupère les données des utilisateurs et VMs depuis l'API
-
-        Returns:
-            Tuple contenant (users, vms) ou ([], []) en cas d'erreur
-        """
-        logger.info("Début de récupération des données pour rapport")
-
-        # Récupération des utilisateurs
-        try:
-            users = self.api.users.get()
-            logger.info("Utilisateurs récupérés", count=len(users))
-        except UsersFetchError as e:
-            logger.error("Impossible de récupérer les utilisateurs", error=str(e))
-            users = []
-
-        # Récupération des VMs
-        try:
-            vms = self.api.vms.get()
-            logger.info("VMs récupérées", count=len(vms))
-        except VMsFetchError as e:
-            logger.error("Impossible de récupérer les VMs", error=str(e))
-            vms = []
-
-        return users, vms
 
     def generate_users_vms_report(
         self, filename: str = "vm_users.json"
