@@ -377,6 +377,9 @@ def report(
     📊 Générer des rapports
 
     Exemples:
+
+    .. code-block:: python
+
         python main.py report
         python main.py report --type users-vms --format markdown
         python main.py report -t status -f html -o ./rapports --verbose
@@ -401,11 +404,13 @@ def report(
     generate_reports(report_type_enum, format_enum, output_dir, verbose)</code></pre>
 </details>
 <div class="desc"><p>📊 Générer des rapports</p>
-<h2 id="exemples">Exemples</h2>
-<p>python main.py report
-python main.py report &ndash;type users-vms &ndash;format markdown
-python main.py report -t status -f html -o ./rapports &ndash;verbose
-python main.py report &ndash;format all &ndash;type all</p></div>
+<p>Exemples:</p>
+<p>.. code-block:: python</p>
+<pre><code>python main.py report
+python main.py report --type users-vms --format markdown
+python main.py report -t status -f html -o ./rapports --verbose
+python main.py report --format all --type all
+</code></pre></div>
 </dd>
 <dt id="demo_api.main.signup"><code class="name flex">
 <span>def <span class="ident">signup</span></span>(<span>name: str = &lt;typer.models.OptionInfo object&gt;,<br>email: str = &lt;typer.models.OptionInfo object&gt;,<br>password: str = &lt;typer.models.OptionInfo object&gt;,<br>verbose: bool = &lt;typer.models.OptionInfo object&gt;) ‑> None</span>

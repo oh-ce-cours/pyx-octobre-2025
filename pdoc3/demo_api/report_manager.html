@@ -72,6 +72,9 @@ el.replaceWith(d);
     📊 Générer des rapports
 
     Exemples:
+
+    .. code-block:: shell
+
         python report_manager.py
         python report_manager.py --type users-vms --format markdown
         python report_manager.py -t status -f html -o ./rapports --verbose
@@ -191,11 +194,13 @@ el.replaceWith(d);
         raise typer.Exit(1)</code></pre>
 </details>
 <div class="desc"><p>📊 Générer des rapports</p>
-<h2 id="exemples">Exemples</h2>
-<p>python report_manager.py
-python report_manager.py &ndash;type users-vms &ndash;format markdown
-python report_manager.py -t status -f html -o ./rapports &ndash;verbose
-python report_manager.py &ndash;format all &ndash;type all</p></div>
+<p>Exemples:</p>
+<p>.. code-block:: shell</p>
+<pre><code>python report_manager.py
+python report_manager.py --type users-vms --format markdown
+python report_manager.py -t status -f html -o ./rapports --verbose
+python report_manager.py --format all --type all
+</code></pre></div>
 </dd>
 </dl>
 </section>
