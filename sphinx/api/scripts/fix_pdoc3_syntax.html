@@ -3,11 +3,11 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="https://oh-ce-cours.github.io/pyx-octobre-2025/sphinx/genindex"><link rel="search" title="Search" href="https://oh-ce-cours.github.io/pyx-octobre-2025/sphinx/search"><link rel="next" title="Module reports.html_reports" href="html_reports.html"><link rel="prev" title="Module vm_manager" href="../vm_manager.html">
-        <link rel="canonical" href="https://oh-ce-cours.github.io/pyx-octobre-2025/sphinx/api/reports/base.html">
+<link rel="index" title="Index" href="https://oh-ce-cours.github.io/pyx-octobre-2025/sphinx/genindex"><link rel="search" title="Search" href="https://oh-ce-cours.github.io/pyx-octobre-2025/sphinx/search"><link rel="next" title="Module scripts.generate_data" href="generate_data.html"><link rel="prev" title="Module scripts.deploy_docs" href="deploy_docs.html">
+        <link rel="canonical" href="https://oh-ce-cours.github.io/pyx-octobre-2025/sphinx/api/scripts/fix_pdoc3_syntax.html">
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2025.09.25 -->
-        <title>Module reports.base - Demo API - Documentation</title>
+        <title>Module scripts.fix_pdoc3_syntax - Demo API - Documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -203,16 +203,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../main.html">Module main</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../report_manager.html">Module report_manager</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../vm_manager.html">Module vm_manager</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Module reports.base</a></li>
-<li class="toctree-l2"><a class="reference internal" href="html_reports.html">Module reports.html_reports</a></li>
-<li class="toctree-l2"><a class="reference internal" href="json_reports.html">Module reports.json_reports</a></li>
-<li class="toctree-l2"><a class="reference internal" href="markdown_reports.html">Module reports.markdown_reports</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../scripts/create_data_via_api.html">Module scripts.create_data_via_api</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../scripts/deploy_docs.html">Module scripts.deploy_docs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../scripts/fix_pdoc3_syntax.html">Module scripts.fix_pdoc3_syntax</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../scripts/generate_data.html">Module scripts.generate_data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../scripts/generate_docs.html">Module scripts.generate_docs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../scripts/quick_cleanup.html">Module scripts.quick_cleanup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reports/base.html">Module reports.base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reports/html_reports.html">Module reports.html_reports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reports/json_reports.html">Module reports.json_reports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reports/markdown_reports.html">Module reports.markdown_reports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create_data_via_api.html">Module scripts.create_data_via_api</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deploy_docs.html">Module scripts.deploy_docs</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Module scripts.fix_pdoc3_syntax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generate_data.html">Module scripts.generate_data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generate_docs.html">Module scripts.generate_docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_cleanup.html">Module scripts.quick_cleanup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../utils/config.html">Module utils.config</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../utils/data_generator.html">Module utils.data_generator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../utils/date_utils.html">Module utils.date_utils</a></li>
@@ -264,64 +264,67 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="module-reports.base">
-<span id="module-reports-base"></span><h1>Module reports.base<a class="headerlink" href="#module-reports.base" title="Link to this heading">§</a></h1>
-<p>Classe de base pour tous les générateurs de rapports</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="reports.base.BaseReportGenerator">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reports.base.</span></span><span class="sig-name descname"><span class="pre">BaseReportGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'outputs'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/reports/base.html#BaseReportGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.base.BaseReportGenerator" title="Link to this definition">§</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
-<p>Classe de base abstraite pour tous les générateurs de rapports</p>
+          <section id="module-scripts.fix_pdoc3_syntax">
+<span id="module-scripts-fix-pdoc3-syntax"></span><h1>Module scripts.fix_pdoc3_syntax<a class="headerlink" href="#module-scripts.fix_pdoc3_syntax" title="Link to this heading">§</a></h1>
+<p>Script de refactoring pour corriger la syntaxe des blocs de code shell
+compatible avec pdoc3.</p>
+<p>Problème : pdoc3 interprète mal les blocs .. code-block:: shell
+Solution : Conversion vers la syntaxe Markdown compatible</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.fix_pdoc3_syntax.find_code_blocks">
+<span class="sig-prename descclassname"><span class="pre">scripts.fix_pdoc3_syntax.</span></span><span class="sig-name descname"><span class="pre">find_code_blocks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/fix_pdoc3_syntax.html#find_code_blocks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.fix_pdoc3_syntax.find_code_blocks" title="Link to this definition">§</a></dt>
+<dd><p>Trouve tous les blocs .. code-block:: shell dans le contenu.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>output_directory</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="reports.base.BaseReportGenerator.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'outputs'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/reports/base.html#BaseReportGenerator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.base.BaseReportGenerator.__init__" title="Link to this definition">§</a></dt>
-<dd><p>Initialise le générateur de rapport</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>output_directory</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Dossier de sortie pour les rapports</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="reports.base.BaseReportGenerator.generate">
-<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/reports/base.html#BaseReportGenerator.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.base.BaseReportGenerator.generate" title="Link to this definition">§</a></dt>
-<dd><p>Génère un rapport</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – Données à inclure dans le rapport</p></li>
-<li><p><strong>filename</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Nom de fichier personnalisé (optionnel)</p></li>
-</ul>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</span></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Chemin vers le fichier généré</p>
+<dd class="field-even"><p>List de tuples (start, end, block_content)</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>content</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="reports.base.BaseReportGenerator.get_extension">
-<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_extension</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/reports/base.html#BaseReportGenerator.get_extension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reports.base.BaseReportGenerator.get_extension" title="Link to this definition">§</a></dt>
-<dd><p>Retourne l’extension des fichiers générés par ce rapport</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.fix_pdoc3_syntax.convert_code_block">
+<span class="sig-prename descclassname"><span class="pre">scripts.fix_pdoc3_syntax.</span></span><span class="sig-name descname"><span class="pre">convert_code_block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block_content</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/fix_pdoc3_syntax.html#convert_code_block"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.fix_pdoc3_syntax.convert_code_block" title="Link to this definition">§</a></dt>
+<dd><p>Convertit un bloc de code shell en syntaxe Markdown.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Extension (ex: “json”, “html”, “md”)</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>block_content</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Le contenu du bloc de code (avec indentation)</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Le bloc converti en Markdown</p>
 </dd>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.fix_pdoc3_syntax.fix_file">
+<span class="sig-prename descclassname"><span class="pre">scripts.fix_pdoc3_syntax.</span></span><span class="sig-name descname"><span class="pre">fix_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/fix_pdoc3_syntax.html#fix_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.fix_pdoc3_syntax.fix_file" title="Link to this definition">§</a></dt>
+<dd><p>Corrige la syntaxe des blocs de code dans un fichier.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a></span>) – Chemin vers le fichier à corriger</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True si des modifications ont été apportées</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.fix_pdoc3_syntax.main">
+<span class="sig-prename descclassname"><span class="pre">scripts.fix_pdoc3_syntax.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/scripts/fix_pdoc3_syntax.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.fix_pdoc3_syntax.main" title="Link to this definition">§</a></dt>
+<dd><p>Fonction principale.</p>
 </dd></dl>
 
 </section>
@@ -331,23 +334,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="html_reports.html">
+          <a class="next-page" href="generate_data.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Module reports.html_reports</div>
+                <div class="title">Module scripts.generate_data</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../vm_manager.html">
+          <a class="prev-page" href="deploy_docs.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Module vm_manager</div>
+                <div class="title">Module scripts.deploy_docs</div>
                 
               </div>
             </a>
@@ -380,13 +383,11 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Module reports.base</a><ul>
-<li><a class="reference internal" href="#reports.base.BaseReportGenerator"><code class="docutils literal notranslate"><span class="pre">BaseReportGenerator</span></code></a><ul>
-<li><a class="reference internal" href="#reports.base.BaseReportGenerator.__init__"><code class="docutils literal notranslate"><span class="pre">BaseReportGenerator.__init__()</span></code></a></li>
-<li><a class="reference internal" href="#reports.base.BaseReportGenerator.generate"><code class="docutils literal notranslate"><span class="pre">BaseReportGenerator.generate()</span></code></a></li>
-<li><a class="reference internal" href="#reports.base.BaseReportGenerator.get_extension"><code class="docutils literal notranslate"><span class="pre">BaseReportGenerator.get_extension()</span></code></a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#">Module scripts.fix_pdoc3_syntax</a><ul>
+<li><a class="reference internal" href="#scripts.fix_pdoc3_syntax.find_code_blocks"><code class="docutils literal notranslate"><span class="pre">find_code_blocks()</span></code></a></li>
+<li><a class="reference internal" href="#scripts.fix_pdoc3_syntax.convert_code_block"><code class="docutils literal notranslate"><span class="pre">convert_code_block()</span></code></a></li>
+<li><a class="reference internal" href="#scripts.fix_pdoc3_syntax.fix_file"><code class="docutils literal notranslate"><span class="pre">fix_file()</span></code></a></li>
+<li><a class="reference internal" href="#scripts.fix_pdoc3_syntax.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
 </ul>
 </li>
 </ul>

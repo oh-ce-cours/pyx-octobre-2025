@@ -1,0 +1,8 @@
+Module scripts.fix_pdoc3_syntax
+===============================
+
+.. automodule:: scripts.fix_pdoc3_syntax
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :special-members: __init__

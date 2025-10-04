@@ -3,10 +3,10 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="https://oh-ce-cours.github.io/pyx-octobre-2025/sphinx/genindex"><link rel="search" title="Search" href="https://oh-ce-cours.github.io/pyx-octobre-2025/sphinx/search">
-        <link rel="canonical" href="https://oh-ce-cours.github.io/pyx-octobre-2025/sphinx/_modules/scripts/deploy_docs.html">
+        <link rel="canonical" href="https://oh-ce-cours.github.io/pyx-octobre-2025/sphinx/_modules/scripts/fix_pdoc3_syntax.html">
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2025.09.25 -->
-        <title>scripts.deploy_docs - Demo API - Documentation</title>
+        <title>scripts.fix_pdoc3_syntax - Demo API - Documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -261,110 +261,166 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <h1>Source code for scripts.deploy_docs</h1><div class="highlight"><pre>
+          <h1>Source code for scripts.fix_pdoc3_syntax</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Script de déploiement de documentation sur GitHub Pages.</span>
+<span class="sd">Script de refactoring pour corriger la syntaxe des blocs de code shell</span>
+<span class="sd">compatible avec pdoc3.</span>
 
-<span class="sd">Ce script prépare la documentation pour GitHub Pages et configure</span>
-<span class="sd">le dépôt pour servir les fichiers statiques.</span>
+<span class="sd">Problème : pdoc3 interprète mal les blocs .. code-block:: shell</span>
+<span class="sd">Solution : Conversion vers la syntaxe Markdown compatible</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
 
 
-<div class="viewcode-block" id="run_command">
-<a class="viewcode-back" href="../../api/scripts/deploy_docs.html#scripts.deploy_docs.run_command">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">run_command</span><span class="p">(</span><span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="find_code_blocks">
+<a class="viewcode-back" href="../../api/scripts/fix_pdoc3_syntax.html#scripts.fix_pdoc3_syntax.find_code_blocks">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_code_blocks</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Exécute une commande et affiche le résultat.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        command: Commande à exécuter</span>
-<span class="sd">        description: Description de la commande</span>
+<span class="sd">    Trouve tous les blocs .. code-block:: shell dans le contenu.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        True si la commande a réussi, False sinon</span>
+<span class="sd">        List de tuples (start, end, block_content)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🔄 </span><span class="si">{</span><span class="n">description</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📝 Commande: </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\.\. code-block:: shell\n\n((?:        .*\n?)*)&quot;</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
 
+    <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">MULTILINE</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">end</span><span class="p">()</span>
+        <span class="n">block_content</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">block_content</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">matches</span></div>
+
+
+
+<div class="viewcode-block" id="convert_code_block">
+<a class="viewcode-back" href="../../api/scripts/fix_pdoc3_syntax.html#scripts.fix_pdoc3_syntax.convert_code_block">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_code_block</span><span class="p">(</span><span class="n">block_content</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convertit un bloc de code shell en syntaxe Markdown.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        block_content: Le contenu du bloc de code (avec indentation)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Le bloc converti en Markdown</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Supprimer l&#39;indentation de 8 espaces</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">block_content</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">cleaned_lines</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>  <span class="c1"># Ignorer les lignes vides</span>
+            <span class="c1"># Supprimer les 8 premiers espaces</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;        &quot;</span><span class="p">):</span>
+                <span class="n">cleaned_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">8</span><span class="p">:])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cleaned_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cleaned_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Rejoindre et créer le bloc Markdown</span>
+    <span class="n">code_lines</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cleaned_lines</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;```shell</span><span class="se">\n</span><span class="si">{</span><span class="n">code_lines</span><span class="si">}</span><span class="se">\n</span><span class="s2">```&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="fix_file">
+<a class="viewcode-back" href="../../api/scripts/fix_pdoc3_syntax.html#scripts.fix_pdoc3_syntax.fix_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fix_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Corrige la syntaxe des blocs de code dans un fichier.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        file_path: Chemin vers le fichier à corriger</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True si des modifications ont été apportées</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-            <span class="n">command</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span>
-        <span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ </span><span class="si">{</span><span class="n">description</span><span class="si">}</span><span class="s2"> - Succès&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📤 Sortie: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+        <span class="c1"># Trouver tous les blocs code-block:: shell</span>
+        <span class="n">code_blocks</span> <span class="o">=</span> <span class="n">find_code_blocks</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">code_blocks</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  📝 </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">code_blocks</span><span class="p">)</span><span class="si">}</span><span class="s2"> bloc(s) trouvé(s) dans </span><span class="si">{</span><span class="n">file_path</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Convertir de la fin vers le début pour éviter les problèmes d&#39;index</span>
+        <span class="k">for</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">block_content</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">code_blocks</span><span class="p">):</span>
+            <span class="n">markdown_block</span> <span class="o">=</span> <span class="n">convert_code_block</span><span class="p">(</span><span class="n">block_content</span><span class="p">)</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="n">content</span><span class="p">[:</span><span class="n">start</span><span class="p">]</span> <span class="o">+</span> <span class="n">markdown_block</span> <span class="o">+</span> <span class="n">content</span><span class="p">[</span><span class="n">end</span><span class="p">:]</span>
+
+        <span class="c1"># Sauvegarder le fichier modifié</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;❌ </span><span class="si">{</span><span class="n">description</span><span class="si">}</span><span class="s2"> - Erreur&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📤 Sortie: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">stdout</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📤 Erreur: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  ❌ Erreur lors du traitement de </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span></div>
 
 
 
 <div class="viewcode-block" id="main">
-<a class="viewcode-back" href="../../api/scripts/deploy_docs.html#scripts.deploy_docs.main">[docs]</a>
+<a class="viewcode-back" href="../../api/scripts/fix_pdoc3_syntax.html#scripts.fix_pdoc3_syntax.main">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Fonction principale.&quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;🔧 Refactoring de la syntaxe des blocs de code pour pdoc3&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+
+    <span class="c1"># Répertoire du projet</span>
     <span class="n">project_root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📁 Répertoire du projet: </span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;🚀 Déploiement documentation Demo API&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="c1"># Fichiers Python à traiter</span>
+    <span class="n">python_files</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;main.py&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vm_manager.py&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;report_manager.py&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;scripts/generate_data.py&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;scripts/create_data_via_api.py&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
 
-    <span class="c1"># Vérifier que nous sommes dans le bon répertoire</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">project_root</span> <span class="o">/</span> <span class="s2">&quot;main.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;❌ Erreur: Ce script doit être exécuté depuis la racine du projet&quot;</span><span class="p">)</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">modified_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">total_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">python_files</span><span class="p">)</span>
 
-    <span class="n">success_count</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">total_commands</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="n">python_files</span><span class="p">:</span>
+        <span class="n">full_path</span> <span class="o">=</span> <span class="n">project_root</span> <span class="o">/</span> <span class="n">file_path</span>
 
-    <span class="c1"># 1. Générer la documentation complète</span>
-    <span class="n">total_commands</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="k">if</span> <span class="n">run_command</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2"> &amp;&amp; python scripts/generate_docs.py&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Génération de la documentation complète&quot;</span><span class="p">,</span>
-    <span class="p">):</span>
-        <span class="n">success_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">full_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;⚠️  Fichier non trouvé: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
 
-    <span class="c1"># 2. Préparer les fichiers pour GitHub Pages</span>
-    <span class="n">total_commands</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="k">if</span> <span class="n">run_command</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2"> &amp;&amp; mkdir -p docs-deploy &amp;&amp; cp -r docs/sphinx/build/* docs-deploy/&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Préparation des fichiers pour déploiement&quot;</span><span class="p">,</span>
-    <span class="p">):</span>
-        <span class="n">success_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🔍 Traitement de </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
 
-    <span class="c1"># 3. Ajouter .nojekyll pour GitHub Pages</span>
-    <span class="n">total_commands</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="k">if</span> <span class="n">run_command</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2"> &amp;&amp; touch docs-deploy/.nojekyll&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Ajout du fichier .nojekyll pour GitHub Pages&quot;</span><span class="p">,</span>
-    <span class="p">):</span>
-        <span class="n">success_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">fix_file</span><span class="p">(</span><span class="n">full_path</span><span class="p">):</span>
+            <span class="n">modified_count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  ✅ Fichier modifié avec succès&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  ℹ️  Aucun bloc code-block:: shell trouvé&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Résumé</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📊 Résumé: </span><span class="si">{</span><span class="n">success_count</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">total_commands</span><span class="si">}</span><span class="s2"> commandes réussies&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📊 Résumé: </span><span class="si">{</span><span class="n">modified_count</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">total_files</span><span class="si">}</span><span class="s2"> fichiers modifiés&quot;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">success_count</span> <span class="o">==</span> <span class="n">total_commands</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;🎉 Documentation prête pour GitHub Pages!&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">modified_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🎉 Refactoring terminé!&quot;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📖 Prochaines étapes:&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   1. Commitez le dossier docs-deploy/&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   2. Poussez vers GitHub&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   3. Activez GitHub Pages dans les settings du repo&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   4. Ouvrez : https://votrenom.github.io/votre-repo/&quot;</span><span class="p">)</span>
-
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">💡 Alternative : Utilisez l&#39;action GitHub CI/CD&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   - Un commit sur main déploiera automatiquement&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   - Cf. .github/workflows/docs.yml&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1. Tester la génération pdoc3: pdoc --html -o docs/pdoc3 . --force&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2. Vérifier que les blocs de code s&#39;affichent correctement&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;3. Régénérer la documentation complète si nécessaire&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;⚠️  Certaines commandes ont échoué. Vérifiez les erreurs ci-dessus.&quot;</span><span class="p">)</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">ℹ️  Aucun fichier n&#39;a nécessité de modification&quot;</span><span class="p">)</span></div>
 
 
 

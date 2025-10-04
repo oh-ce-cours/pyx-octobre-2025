@@ -58,6 +58,11 @@ Modules scripts
 .. toctree::
    :maxdepth: 4
 
+   scripts/fix_pdoc3_syntax.rst
+
+.. toctree::
+   :maxdepth: 4
+
    scripts/generate_data.rst
 
 .. toctree::

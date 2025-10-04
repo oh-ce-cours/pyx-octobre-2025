@@ -207,6 +207,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api/reports/markdown_reports.html">Module reports.markdown_reports</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/scripts/create_data_via_api.html">Module scripts.create_data_via_api</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/scripts/deploy_docs.html">Module scripts.deploy_docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/scripts/fix_pdoc3_syntax.html">Module scripts.fix_pdoc3_syntax</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/scripts/generate_data.html">Module scripts.generate_data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/scripts/generate_docs.html">Module scripts.generate_docs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/scripts/quick_cleanup.html">Module scripts.quick_cleanup</a></li>
@@ -388,12 +389,14 @@
 </li>
         <li><a href="api/scripts/quick_cleanup.html#scripts.quick_cleanup.connect_to_api">connect_to_api() (in module scripts.quick_cleanup)</a>
 </li>
-        <li><a href="api/main.html#main.create">create() (in module main)</a>
+        <li><a href="api/scripts/fix_pdoc3_syntax.html#scripts.fix_pdoc3_syntax.convert_code_block">convert_code_block() (in module scripts.fix_pdoc3_syntax)</a>
 </li>
-        <li><a href="api/utils/services/vm_service.html#utils.services.vm_service.VMService.create_default_vm_for_user">create_default_vm_for_user() (utils.services.vm_service.VMService method)</a>
+        <li><a href="api/main.html#main.create">create() (in module main)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/utils/services/vm_service.html#utils.services.vm_service.VMService.create_default_vm_for_user">create_default_vm_for_user() (utils.services.vm_service.VMService method)</a>
+</li>
         <li><a href="api/utils/api/user.html#utils.api.user.create_user">create_user() (in module utils.api.user)</a>
 
         <ul>
@@ -510,9 +513,13 @@
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api/utils/services/data_manager.html#utils.services.data_manager.DataManager.fetch_all_data">fetch_all_data() (utils.services.data_manager.DataManager method)</a>
 </li>
+        <li><a href="api/scripts/quick_cleanup.html#scripts.quick_cleanup.fetch_data">fetch_data() (in module scripts.quick_cleanup)</a>
+</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="api/scripts/quick_cleanup.html#scripts.quick_cleanup.fetch_data">fetch_data() (in module scripts.quick_cleanup)</a>
+        <li><a href="api/scripts/fix_pdoc3_syntax.html#scripts.fix_pdoc3_syntax.find_code_blocks">find_code_blocks() (in module scripts.fix_pdoc3_syntax)</a>
+</li>
+        <li><a href="api/scripts/fix_pdoc3_syntax.html#scripts.fix_pdoc3_syntax.fix_file">fix_file() (in module scripts.fix_pdoc3_syntax)</a>
 </li>
         <li><a href="api/scripts/create_data_via_api.html#scripts.create_data_via_api.full_dataset">full_dataset() (in module scripts.create_data_via_api)</a>
 </li>
@@ -722,6 +729,8 @@
 </li>
           <li><a href="api/scripts/deploy_docs.html#scripts.deploy_docs.main">(in module scripts.deploy_docs)</a>
 </li>
+          <li><a href="api/scripts/fix_pdoc3_syntax.html#scripts.fix_pdoc3_syntax.main">(in module scripts.fix_pdoc3_syntax)</a>
+</li>
           <li><a href="api/scripts/generate_data.html#scripts.generate_data.main">(in module scripts.generate_data)</a>
 </li>
           <li><a href="api/scripts/generate_docs.html#scripts.generate_docs.main">(in module scripts.generate_docs)</a>
@@ -752,6 +761,8 @@
           <li><a href="api/scripts/create_data_via_api.html#module-scripts.create_data_via_api">scripts.create_data_via_api</a>
 </li>
           <li><a href="api/scripts/deploy_docs.html#module-scripts.deploy_docs">scripts.deploy_docs</a>
+</li>
+          <li><a href="api/scripts/fix_pdoc3_syntax.html#module-scripts.fix_pdoc3_syntax">scripts.fix_pdoc3_syntax</a>
 </li>
           <li><a href="api/scripts/generate_data.html#module-scripts.generate_data">scripts.generate_data</a>
 </li>
@@ -922,12 +933,21 @@
 </li>
         </ul></li>
         <li>
+    scripts.fix_pdoc3_syntax
+
+        <ul>
+          <li><a href="api/scripts/fix_pdoc3_syntax.html#module-scripts.fix_pdoc3_syntax">module</a>
+</li>
+        </ul></li>
+        <li>
     scripts.generate_data
 
         <ul>
           <li><a href="api/scripts/generate_data.html#module-scripts.generate_data">module</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     scripts.generate_docs
 
@@ -935,8 +955,6 @@
           <li><a href="api/scripts/generate_docs.html#module-scripts.generate_docs">module</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     scripts.quick_cleanup
 
