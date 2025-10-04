@@ -315,10 +315,11 @@
 
 <span class="sd">    Exemples:</span>
 
-<span class="sd">    \b</span>
-<span class="sd">    python generate_data.py users-with-vms</span>
-<span class="sd">    python generate_data.py users-with-vms --users 100 --max-vms 3</span>
-<span class="sd">    python generate_data.py users-with-vms -u 25 -o mon_dataset.json --verbose</span>
+<span class="sd">    .. code-block:: shell</span>
+
+<span class="sd">        python generate_data.py users-with-vms</span>
+<span class="sd">        python generate_data.py users-with-vms --users 100 --max-vms 3</span>
+<span class="sd">        python generate_data.py users-with-vms -u 25 -o mon_dataset.json --verbose</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">min_vms</span> <span class="o">&gt;</span> <span class="n">max_vms</span><span class="p">:</span>
         <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;❌ Le nombre minimum de VMs ne peut pas être supérieur au maximum&quot;</span><span class="p">)</span>
@@ -392,10 +393,11 @@
 
 <span class="sd">    Exemples:</span>
 
-<span class="sd">    \b</span>
-<span class="sd">    python generate_data.py vms-only</span>
-<span class="sd">    python generate_data.py vms-only --vms 200 --user-ids &quot;1,2,3,4,5,6,7,8,9,10&quot;</span>
-<span class="sd">    python generate_data.py vms-only -v 50 -u &quot;1,2,3&quot; -o mes_vms.json</span>
+<span class="sd">    .. code-block:: shell</span>
+
+<span class="sd">        python generate_data.py vms-only</span>
+<span class="sd">        python generate_data.py vms-only --vms 200 --user-ids &quot;1,2,3,4,5,6,7,8,9,10&quot;</span>
+<span class="sd">        python generate_data.py vms-only -v 50 -u &quot;1,2,3&quot; -o mes_vms.json</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="c1"># Parser les IDs des utilisateurs</span>

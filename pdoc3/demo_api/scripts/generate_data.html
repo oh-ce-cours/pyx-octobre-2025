@@ -179,10 +179,11 @@ def users_with_vms(
 
     Exemples:
 
-    \b
-    python generate_data.py users-with-vms
-    python generate_data.py users-with-vms --users 100 --max-vms 3
-    python generate_data.py users-with-vms -u 25 -o mon_dataset.json --verbose
+    .. code-block:: shell
+
+        python generate_data.py users-with-vms
+        python generate_data.py users-with-vms --users 100 --max-vms 3
+        python generate_data.py users-with-vms -u 25 -o mon_dataset.json --verbose
     &#34;&#34;&#34;
     if min_vms &gt; max_vms:
         typer.echo(&#34;❌ Le nombre minimum de VMs ne peut pas être supérieur au maximum&#34;)
@@ -233,10 +234,11 @@ def users_with_vms(
 <p>Génère un dataset complet d'utilisateurs français avec des VMs réalistes.
 Les données sont sauvegardées dans un fichier JSON.</p>
 <p>Exemples:</p>
-<p>
-python generate_data.py users-with-vms
-python generate_data.py users-with-vms &ndash;users 100 &ndash;max-vms 3
-python generate_data.py users-with-vms -u 25 -o mon_dataset.json &ndash;verbose</p></div>
+<p>.. code-block:: shell</p>
+<pre><code>python generate_data.py users-with-vms
+python generate_data.py users-with-vms --users 100 --max-vms 3
+python generate_data.py users-with-vms -u 25 -o mon_dataset.json --verbose
+</code></pre></div>
 </dd>
 <dt id="demo_api.scripts.generate_data.version"><code class="name flex">
 <span>def <span class="ident">version</span></span>(<span>) ‑> None</span>
@@ -285,10 +287,11 @@ def vms_only(
 
     Exemples:
 
-    \b
-    python generate_data.py vms-only
-    python generate_data.py vms-only --vms 200 --user-ids &#34;1,2,3,4,5,6,7,8,9,10&#34;
-    python generate_data.py vms-only -v 50 -u &#34;1,2,3&#34; -o mes_vms.json
+    .. code-block:: shell
+
+        python generate_data.py vms-only
+        python generate_data.py vms-only --vms 200 --user-ids &#34;1,2,3,4,5,6,7,8,9,10&#34;
+        python generate_data.py vms-only -v 50 -u &#34;1,2,3&#34; -o mes_vms.json
     &#34;&#34;&#34;
     try:
         # Parser les IDs des utilisateurs
@@ -338,10 +341,11 @@ def vms_only(
 <div class="desc"><p>🖥️ Générer uniquement des VMs pour des utilisateurs existants</p>
 <p>Génère des VMs réalistes et les associe à des utilisateurs existants.</p>
 <p>Exemples:</p>
-<p>
-python generate_data.py vms-only
-python generate_data.py vms-only &ndash;vms 200 &ndash;user-ids "1,2,3,4,5,6,7,8,9,10"
-python generate_data.py vms-only -v 50 -u "1,2,3" -o mes_vms.json</p></div>
+<p>.. code-block:: shell</p>
+<pre><code>python generate_data.py vms-only
+python generate_data.py vms-only --vms 200 --user-ids "1,2,3,4,5,6,7,8,9,10"
+python generate_data.py vms-only -v 50 -u "1,2,3" -o mes_vms.json
+</code></pre></div>
 </dd>
 </dl>
 </section>

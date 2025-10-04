@@ -274,10 +274,11 @@ Permet de générer des utilisateurs et VMs réalistes pour les tests et démons
 <p>Génère un dataset complet d’utilisateurs français avec des VMs réalistes.
 Les données sont sauvegardées dans un fichier JSON.</p>
 <p>Exemples:</p>
-<p>
-python generate_data.py users-with-vms
-python generate_data.py users-with-vms –users 100 –max-vms 3
-python generate_data.py users-with-vms -u 25 -o mon_dataset.json –verbose</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>generate_data.py<span class="w"> </span>users-with-vms
+python<span class="w"> </span>generate_data.py<span class="w"> </span>users-with-vms<span class="w"> </span>--users<span class="w"> </span><span class="m">100</span><span class="w"> </span>--max-vms<span class="w"> </span><span class="m">3</span>
+python<span class="w"> </span>generate_data.py<span class="w"> </span>users-with-vms<span class="w"> </span>-u<span class="w"> </span><span class="m">25</span><span class="w"> </span>-o<span class="w"> </span>mon_dataset.json<span class="w"> </span>--verbose
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -300,10 +301,11 @@ python generate_data.py users-with-vms -u 25 -o mon_dataset.json –verbose</p>
 <dd><p>🖥️ Générer uniquement des VMs pour des utilisateurs existants</p>
 <p>Génère des VMs réalistes et les associe à des utilisateurs existants.</p>
 <p>Exemples:</p>
-<p>
-python generate_data.py vms-only
-python generate_data.py vms-only –vms 200 –user-ids “1,2,3,4,5,6,7,8,9,10”
-python generate_data.py vms-only -v 50 -u “1,2,3” -o mes_vms.json</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>generate_data.py<span class="w"> </span>vms-only
+python<span class="w"> </span>generate_data.py<span class="w"> </span>vms-only<span class="w"> </span>--vms<span class="w"> </span><span class="m">200</span><span class="w"> </span>--user-ids<span class="w"> </span><span class="s2">&quot;1,2,3,4,5,6,7,8,9,10&quot;</span>
+python<span class="w"> </span>generate_data.py<span class="w"> </span>vms-only<span class="w"> </span>-v<span class="w"> </span><span class="m">50</span><span class="w"> </span>-u<span class="w"> </span><span class="s2">&quot;1,2,3&quot;</span><span class="w"> </span>-o<span class="w"> </span>mes_vms.json
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
