@@ -66,8 +66,11 @@ html_use_opensearch = "https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deplo
 html_short_title = "Demo API Docs"
 
 # Configuration pour forcer les chemins absolus des assets statiques
-# Cette configuration indique à Sphinx d'utiliser des chemins absolus
 html_static_path = ["_static"]
+
+# Configuration cruciale pour GitHub Pages - force les chemins absolus
+html_show_sourcelink = False
+html_show_sphinx = False
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -90,6 +93,10 @@ html_theme_options = {
     "source_directory": None,
     "footer_icons": None,  # À configurer si vous ajoutez des liens GitHub/autres
 }
+
+# Configuration pour forcer les chemins absolus - CRUCIAL pour GitHub Pages
+# Cette option force Sphinx à utiliser des chemins absolus pour les assets statiques
+html_use_opensearch = "https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/"
 
 # Profondeur de titre pour la TdM de gauche et droite (Furo)
 toc_object_entries_show = False
