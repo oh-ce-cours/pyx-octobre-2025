@@ -22,6 +22,67 @@
     <div class="back-link">
         <a href="index.html">← Retour à l'index</a>
     </div>
-    'scripts.generate_data'
+    
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="scripts.html" class="white">scripts</a>.generate_data</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/Users/matthieufalce/Desktop/pyx-octobre-2025/tape_en_cours/demo_api/scripts/generate_data.py">/Users/matthieufalce/Desktop/pyx-octobre-2025/tape_en_cours/demo_api/scripts/generate_data.py</a></td></tr></table>
+    <p><span class="code">Script&nbsp;utilitaire&nbsp;pour&nbsp;générer&nbsp;des&nbsp;données&nbsp;factices&nbsp;avec&nbsp;Faker.<br>
+Permet&nbsp;de&nbsp;générer&nbsp;des&nbsp;utilisateurs&nbsp;et&nbsp;VMs&nbsp;réalistes&nbsp;pour&nbsp;les&nbsp;tests&nbsp;et&nbsp;démonstrations.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="json.html">json</a><br>
+</td><td class="multicolumn"><a href="sys.html">sys</a><br>
+</td><td class="multicolumn"><a href="typer.html">typer</a><br>
+</td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-main"><strong>main</strong></a>()</dt><dd><span class="code">Point&nbsp;d'entrée&nbsp;principal</span></dd></dl>
+ <dl><dt><a name="-preview"><strong>preview</strong></a>(user_count: int = &lt;typer.models.OptionInfo object at 0x1043605f0&gt;, max_vms: int = &lt;typer.models.OptionInfo object at 0x1043606b0&gt;) -&gt; None</dt><dd><span class="code">👀&nbsp;Prévisualiser&nbsp;les&nbsp;données&nbsp;générées&nbsp;sans&nbsp;les&nbsp;sauvegarder<br>
+&nbsp;<br>
+Affiche&nbsp;un&nbsp;aperçu&nbsp;des&nbsp;données&nbsp;qui&nbsp;seraient&nbsp;générées.<br>
+&nbsp;<br>
+Exemples:<br>
+&nbsp;<br>
+<br>
+python&nbsp;generate_data.py&nbsp;preview<br>
+python&nbsp;generate_data.py&nbsp;preview&nbsp;--users&nbsp;10&nbsp;--max-vms&nbsp;2</span></dd></dl>
+ <dl><dt><a name="-users_with_vms"><strong>users_with_vms</strong></a>(user_count: int = &lt;typer.models.OptionInfo object at 0x104360440&gt;, min_vms: int = &lt;typer.models.OptionInfo object at 0x104360320&gt;, max_vms: int = &lt;typer.models.OptionInfo object at 0x1043602f0&gt;, output_file: str = &lt;typer.models.OptionInfo object at 0x104360260&gt;, verbose: bool = &lt;typer.models.OptionInfo object at 0x1043604a0&gt;) -&gt; None</dt><dd><span class="code">🎯&nbsp;Générer&nbsp;des&nbsp;utilisateurs&nbsp;avec&nbsp;leurs&nbsp;VMs<br>
+&nbsp;<br>
+Génère&nbsp;un&nbsp;dataset&nbsp;complet&nbsp;d'utilisateurs&nbsp;français&nbsp;avec&nbsp;des&nbsp;VMs&nbsp;réalistes.<br>
+Les&nbsp;données&nbsp;sont&nbsp;sauvegardées&nbsp;dans&nbsp;un&nbsp;fichier&nbsp;JSON.<br>
+&nbsp;<br>
+Exemples:<br>
+&nbsp;<br>
+<br>
+python&nbsp;generate_data.py&nbsp;users-with-vms<br>
+python&nbsp;generate_data.py&nbsp;users-with-vms&nbsp;--users&nbsp;100&nbsp;--max-vms&nbsp;3<br>
+python&nbsp;generate_data.py&nbsp;users-with-vms&nbsp;-u&nbsp;25&nbsp;-o&nbsp;mon_dataset.json&nbsp;--verbose</span></dd></dl>
+ <dl><dt><a name="-version"><strong>version</strong></a>() -&gt; None</dt><dd><span class="code">📋&nbsp;Afficher&nbsp;la&nbsp;version&nbsp;du&nbsp;générateur</span></dd></dl>
+ <dl><dt><a name="-vms_only"><strong>vms_only</strong></a>(vm_count: int = &lt;typer.models.OptionInfo object at 0x1043603b0&gt;, user_ids: str = &lt;typer.models.OptionInfo object at 0x104360620&gt;, output_file: str = &lt;typer.models.OptionInfo object at 0x1043604d0&gt;, verbose: bool = &lt;typer.models.OptionInfo object at 0x104360500&gt;) -&gt; None</dt><dd><span class="code">🖥️&nbsp;Générer&nbsp;uniquement&nbsp;des&nbsp;VMs&nbsp;pour&nbsp;des&nbsp;utilisateurs&nbsp;existants<br>
+&nbsp;<br>
+Génère&nbsp;des&nbsp;VMs&nbsp;réalistes&nbsp;et&nbsp;les&nbsp;associe&nbsp;à&nbsp;des&nbsp;utilisateurs&nbsp;existants.<br>
+&nbsp;<br>
+Exemples:<br>
+&nbsp;<br>
+<br>
+python&nbsp;generate_data.py&nbsp;vms-only<br>
+python&nbsp;generate_data.py&nbsp;vms-only&nbsp;--vms&nbsp;200&nbsp;--user-ids&nbsp;"1,2,3,4,5,6,7,8,9,10"<br>
+python&nbsp;generate_data.py&nbsp;vms-only&nbsp;-v&nbsp;50&nbsp;-u&nbsp;"1,2,3"&nbsp;-o&nbsp;mes_vms.json</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>app</strong> = &lt;typer.main.Typer object&gt;<br>
+<strong>logger</strong> = &lt;BoundLoggerLazyProxy(logger=None, wrapper_class... logger_factory_args=('scripts.generate_data',))&gt;</td></tr></table>
 </body>
 </html>

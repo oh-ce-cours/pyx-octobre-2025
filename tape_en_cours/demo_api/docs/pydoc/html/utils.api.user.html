@@ -22,6 +22,100 @@
     <div class="back-link">
         <a href="index.html">← Retour à l'index</a>
     </div>
-    'utils.api.user'
+    
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="utils.html" class="white">utils</a>.<a href="utils.api.html" class="white">api</a>.user</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/Users/matthieufalce/Desktop/pyx-octobre-2025/tape_en_cours/demo_api/utils/api/user.py">/Users/matthieufalce/Desktop/pyx-octobre-2025/tape_en_cours/demo_api/utils/api/user.py</a></td></tr></table>
+    <p></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="requests.html">requests</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-add_vms_to_users"><strong>add_vms_to_users</strong></a>(users, vms)</dt><dd><span class="code">Ajoute&nbsp;les&nbsp;machines&nbsp;virtuelles&nbsp;à&nbsp;leurs&nbsp;utilisateurs&nbsp;respectifs.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;users&nbsp;(list):&nbsp;Liste&nbsp;des&nbsp;utilisateurs<br>
+&nbsp;&nbsp;&nbsp;&nbsp;vms&nbsp;(list):&nbsp;Liste&nbsp;des&nbsp;machines&nbsp;virtuelles<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;None:&nbsp;Modifie&nbsp;la&nbsp;liste&nbsp;des&nbsp;utilisateurs&nbsp;en&nbsp;place&nbsp;en&nbsp;ajoutant&nbsp;les&nbsp;VMs</span></dd></dl>
+ <dl><dt><a name="-create_user"><strong>create_user</strong></a>(base_url, token, name, email, password=None)</dt><dd><span class="code">Crée&nbsp;un&nbsp;nouvel&nbsp;utilisateur&nbsp;via&nbsp;l'API.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;base_url&nbsp;(str):&nbsp;L'URL&nbsp;de&nbsp;base&nbsp;de&nbsp;l'API<br>
+&nbsp;&nbsp;&nbsp;&nbsp;token&nbsp;(str):&nbsp;Token&nbsp;d'authentification<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;(str):&nbsp;Nom&nbsp;de&nbsp;l'utilisateur<br>
+&nbsp;&nbsp;&nbsp;&nbsp;email&nbsp;(str):&nbsp;Email&nbsp;de&nbsp;l'utilisateur<br>
+&nbsp;&nbsp;&nbsp;&nbsp;password&nbsp;(str,&nbsp;optional):&nbsp;Mot&nbsp;de&nbsp;passe&nbsp;(requis&nbsp;pour&nbsp;signup)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dict:&nbsp;Données&nbsp;de&nbsp;l'utilisateur&nbsp;créé<br>
+&nbsp;<br>
+Raises:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;UserCreationError:&nbsp;Si&nbsp;la&nbsp;création&nbsp;de&nbsp;l'utilisateur&nbsp;échoue</span></dd></dl>
+ <dl><dt><a name="-delete_user"><strong>delete_user</strong></a>(base_url, token, user_id)</dt><dd><span class="code">Supprime&nbsp;un&nbsp;utilisateur.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;base_url&nbsp;(str):&nbsp;L'URL&nbsp;de&nbsp;base&nbsp;de&nbsp;l'API<br>
+&nbsp;&nbsp;&nbsp;&nbsp;token&nbsp;(str):&nbsp;Token&nbsp;d'authentification<br>
+&nbsp;&nbsp;&nbsp;&nbsp;user_id&nbsp;(int):&nbsp;ID&nbsp;de&nbsp;l'utilisateur<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dict:&nbsp;Résultat&nbsp;de&nbsp;la&nbsp;suppression<br>
+&nbsp;<br>
+Raises:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;UserDeleteError:&nbsp;Si&nbsp;la&nbsp;suppression&nbsp;de&nbsp;l'utilisateur&nbsp;échoue</span></dd></dl>
+ <dl><dt><a name="-get_user"><strong>get_user</strong></a>(base_url, user_id)</dt><dd><span class="code">Récupère&nbsp;un&nbsp;utilisateur&nbsp;spécifique&nbsp;par&nbsp;son&nbsp;ID.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;base_url&nbsp;(str):&nbsp;L'URL&nbsp;de&nbsp;base&nbsp;de&nbsp;l'API<br>
+&nbsp;&nbsp;&nbsp;&nbsp;user_id&nbsp;(int):&nbsp;ID&nbsp;de&nbsp;l'utilisateur<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dict:&nbsp;Données&nbsp;de&nbsp;l'utilisateur<br>
+&nbsp;<br>
+Raises:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;UsersFetchError:&nbsp;Si&nbsp;la&nbsp;récupération&nbsp;de&nbsp;l'utilisateur&nbsp;échoue</span></dd></dl>
+ <dl><dt><a name="-get_users"><strong>get_users</strong></a>(base_url)</dt><dd><span class="code">Récupère&nbsp;la&nbsp;liste&nbsp;des&nbsp;utilisateurs&nbsp;depuis&nbsp;l'API.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;base_url&nbsp;(str):&nbsp;L'URL&nbsp;de&nbsp;base&nbsp;de&nbsp;l'API<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list:&nbsp;Liste&nbsp;des&nbsp;utilisateurs&nbsp;avec&nbsp;leurs&nbsp;dates&nbsp;de&nbsp;création&nbsp;converties<br>
+&nbsp;<br>
+Raises:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;UsersFetchError:&nbsp;Si&nbsp;la&nbsp;récupération&nbsp;des&nbsp;utilisateurs&nbsp;échoue</span></dd></dl>
+ <dl><dt><a name="-update_user"><strong>update_user</strong></a>(base_url, token, user_id, updates)</dt><dd><span class="code">Met&nbsp;à&nbsp;jour&nbsp;un&nbsp;utilisateur&nbsp;existant.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;base_url&nbsp;(str):&nbsp;L'URL&nbsp;de&nbsp;base&nbsp;de&nbsp;l'API<br>
+&nbsp;&nbsp;&nbsp;&nbsp;token&nbsp;(str):&nbsp;Token&nbsp;d'authentification<br>
+&nbsp;&nbsp;&nbsp;&nbsp;user_id&nbsp;(int):&nbsp;ID&nbsp;de&nbsp;l'utilisateur<br>
+&nbsp;&nbsp;&nbsp;&nbsp;updates&nbsp;(dict):&nbsp;Données&nbsp;à&nbsp;mettre&nbsp;à&nbsp;jour<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dict:&nbsp;Données&nbsp;de&nbsp;l'utilisateur&nbsp;mis&nbsp;à&nbsp;jour<br>
+&nbsp;<br>
+Raises:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;UserUpdateError:&nbsp;Si&nbsp;la&nbsp;mise&nbsp;à&nbsp;jour&nbsp;de&nbsp;l'utilisateur&nbsp;échoue</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>config</strong> = Config(base_url='https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt', debug=False, env_files=1)<br>
+<strong>logger</strong> = &lt;BoundLoggerLazyProxy(logger=None, wrapper_class...ues={}, logger_factory_args=('utils.api.user',))&gt;</td></tr></table>
 </body>
 </html>

@@ -22,6 +22,147 @@
     <div class="back-link">
         <a href="index.html">← Retour à l'index</a>
     </div>
-    'utils.data_generator'
+    
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="utils.html" class="white">utils</a>.data_generator</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/Users/matthieufalce/Desktop/pyx-octobre-2025/tape_en_cours/demo_api/utils/data_generator.py">/Users/matthieufalce/Desktop/pyx-octobre-2025/tape_en_cours/demo_api/utils/data_generator.py</a></td></tr></table>
+    <p><span class="code">Module&nbsp;de&nbsp;génération&nbsp;de&nbsp;données&nbsp;factices&nbsp;avec&nbsp;Faker.<br>
+Génère&nbsp;des&nbsp;données&nbsp;réalistes&nbsp;pour&nbsp;les&nbsp;utilisateurs&nbsp;et&nbsp;les&nbsp;machines&nbsp;virtuelles.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="faker.providers.company.html">faker.providers.company</a><br>
+<a href="faker.providers.date_time.html">faker.providers.date_time</a><br>
+</td><td class="multicolumn"><a href="faker.providers.internet.html">faker.providers.internet</a><br>
+<a href="faker.providers.lorem.html">faker.providers.lorem</a><br>
+</td><td class="multicolumn"><a href="random.html">random</a><br>
+<a href="unicodedata.html">unicodedata</a><br>
+</td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="utils.data_generator.html#DataGenerator">DataGenerator</a>
+</dt><dt class="heading-text"><a href="utils.data_generator.html#UserDataGenerator">UserDataGenerator</a>
+</dt><dt class="heading-text"><a href="utils.data_generator.html#VMDataGenerator">VMDataGenerator</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="DataGenerator">class <strong>DataGenerator</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">Générateur&nbsp;principal&nbsp;pour&nbsp;créer&nbsp;des&nbsp;datasets&nbsp;complets.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Class methods defined here:<br>
+<dl><dt><a name="DataGenerator-generate_users_with_vms"><strong>generate_users_with_vms</strong></a>(user_count: int = 50, vm_per_user_range: tuple = (0, 5)) -&gt; List[Dict[str, Any]]<span class="grey"><span class="heading-text"> from <a href="builtins.html#type">builtins.type</a></span></span></dt><dd><span class="code">Génère&nbsp;un&nbsp;dataset&nbsp;complet&nbsp;d'utilisateurs&nbsp;avec&nbsp;leurs&nbsp;VMs.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;user_count:&nbsp;Nombre&nbsp;d'utilisateurs&nbsp;à&nbsp;générer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;vm_per_user_range:&nbsp;Tuple&nbsp;(min,&nbsp;max)&nbsp;du&nbsp;nombre&nbsp;de&nbsp;VMs&nbsp;par&nbsp;utilisateur<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Liste&nbsp;des&nbsp;utilisateurs&nbsp;avec&nbsp;leurs&nbsp;VMs&nbsp;associées</span></dd></dl>
+
+<dl><dt><a name="DataGenerator-generate_vms_only"><strong>generate_vms_only</strong></a>(vm_count: int, user_ids: List[int]) -&gt; List[Dict[str, Any]]<span class="grey"><span class="heading-text"> from <a href="builtins.html#type">builtins.type</a></span></span></dt><dd><span class="code">Génère&nbsp;uniquement&nbsp;des&nbsp;VMs&nbsp;pour&nbsp;des&nbsp;utilisateurs&nbsp;existants.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;vm_count:&nbsp;Nombre&nbsp;de&nbsp;VMs&nbsp;à&nbsp;générer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;user_ids:&nbsp;Liste&nbsp;des&nbsp;IDs&nbsp;d'utilisateurs&nbsp;existants<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Liste&nbsp;des&nbsp;VMs&nbsp;générées</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="UserDataGenerator">class <strong>UserDataGenerator</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">Générateur&nbsp;de&nbsp;données&nbsp;pour&nbsp;les&nbsp;utilisateurs.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Class methods defined here:<br>
+<dl><dt><a name="UserDataGenerator-generate_email"><strong>generate_email</strong></a>(name: str) -&gt; str<span class="grey"><span class="heading-text"> from <a href="builtins.html#type">builtins.type</a></span></span></dt><dd><span class="code">Génère&nbsp;un&nbsp;email&nbsp;réaliste&nbsp;basé&nbsp;sur&nbsp;le&nbsp;nom.</span></dd></dl>
+
+<dl><dt><a name="UserDataGenerator-generate_user"><strong>generate_user</strong></a>(user_id: int) -&gt; Dict[str, Any]<span class="grey"><span class="heading-text"> from <a href="builtins.html#type">builtins.type</a></span></span></dt><dd><span class="code">Génère&nbsp;un&nbsp;utilisateur&nbsp;complet&nbsp;avec&nbsp;des&nbsp;données&nbsp;réalistes.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>COMPANY_DOMAINS</strong> = ['gmail.com', 'outlook.com', 'yahoo.com', 'hotmail.com', 'company.com', 'entreprise.fr', 'corp.com', 'business.org', 'tech.io', 'startup.com', 'innovation.fr', 'digital.net']</dl>
+
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="VMDataGenerator">class <strong>VMDataGenerator</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">Générateur&nbsp;de&nbsp;données&nbsp;pour&nbsp;les&nbsp;machines&nbsp;virtuelles.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Class methods defined here:<br>
+<dl><dt><a name="VMDataGenerator-generate_cpu_cores"><strong>generate_cpu_cores</strong></a>() -&gt; int<span class="grey"><span class="heading-text"> from <a href="builtins.html#type">builtins.type</a></span></span></dt><dd><span class="code">Génère&nbsp;un&nbsp;nombre&nbsp;réaliste&nbsp;de&nbsp;cœurs&nbsp;CPU.</span></dd></dl>
+
+<dl><dt><a name="VMDataGenerator-generate_disk_gb"><strong>generate_disk_gb</strong></a>() -&gt; int<span class="grey"><span class="heading-text"> from <a href="builtins.html#type">builtins.type</a></span></span></dt><dd><span class="code">Génère&nbsp;une&nbsp;taille&nbsp;réaliste&nbsp;de&nbsp;disque.</span></dd></dl>
+
+<dl><dt><a name="VMDataGenerator-generate_ram_gb"><strong>generate_ram_gb</strong></a>() -&gt; int<span class="grey"><span class="heading-text"> from <a href="builtins.html#type">builtins.type</a></span></span></dt><dd><span class="code">Génère&nbsp;une&nbsp;quantité&nbsp;réaliste&nbsp;de&nbsp;RAM.</span></dd></dl>
+
+<dl><dt><a name="VMDataGenerator-generate_status"><strong>generate_status</strong></a>() -&gt; str<span class="grey"><span class="heading-text"> from <a href="builtins.html#type">builtins.type</a></span></span></dt><dd><span class="code">Génère&nbsp;un&nbsp;statut&nbsp;réaliste&nbsp;basé&nbsp;sur&nbsp;les&nbsp;probabilités.</span></dd></dl>
+
+<dl><dt><a name="VMDataGenerator-generate_vm"><strong>generate_vm</strong></a>(user_id: int, vm_id: int) -&gt; Dict[str, Any]<span class="grey"><span class="heading-text"> from <a href="builtins.html#type">builtins.type</a></span></span></dt><dd><span class="code">Génère&nbsp;une&nbsp;VM&nbsp;complète&nbsp;avec&nbsp;des&nbsp;données&nbsp;réalistes.</span></dd></dl>
+
+<dl><dt><a name="VMDataGenerator-generate_vm_name"><strong>generate_vm_name</strong></a>() -&gt; str<span class="grey"><span class="heading-text"> from <a href="builtins.html#type">builtins.type</a></span></span></dt><dd><span class="code">Génère&nbsp;un&nbsp;nom&nbsp;réaliste&nbsp;pour&nbsp;une&nbsp;VM.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>OPERATING_SYSTEMS</strong> = ['Ubuntu 22.04 LTS', 'Ubuntu 20.04 LTS', 'CentOS 8', 'Red Hat Enterprise Linux 8', 'Windows Server 2022', 'Windows Server 2019', 'Debian 11', 'SUSE Linux Enterprise Server 15', 'AlmaLinux 8', 'Rocky Linux 8', 'Fedora 38', 'openSUSE Leap 15.4']</dl>
+
+<dl><dt><strong>STATUS_PROBABILITIES</strong> = {'deleting': 0.05, 'paused': 0.05, 'provisioning': 0.05, 'running': 0.6, 'stopped': 0.25}</dl>
+
+<dl><dt><strong>VM_STATUSES</strong> = ['running', 'stopped', 'paused', 'provisioning', 'deleting']</dl>
+
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>Dict</strong> = typing.Dict<br>
+<strong>List</strong> = typing.List<br>
+<strong>fake</strong> = &lt;faker.proxy.Faker object&gt;<br>
+<strong>logger</strong> = &lt;BoundLoggerLazyProxy(logger=None, wrapper_class..., logger_factory_args=('utils.data_generator',))&gt;</td></tr></table>
 </body>
 </html>

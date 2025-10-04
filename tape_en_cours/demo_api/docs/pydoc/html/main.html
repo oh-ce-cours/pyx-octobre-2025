@@ -22,6 +22,80 @@
     <div class="back-link">
         <a href="index.html">← Retour à l'index</a>
     </div>
-    'main'
+    
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">main</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/Users/matthieufalce/Desktop/pyx-octobre-2025/tape_en_cours/demo_api/main.py">/Users/matthieufalce/Desktop/pyx-octobre-2025/tape_en_cours/demo_api/main.py</a></td></tr></table>
+    <p><span class="code">Point&nbsp;d'entrée&nbsp;principal&nbsp;pour&nbsp;demo_api<br>
+&nbsp;<br>
+Interface&nbsp;d'orchestration&nbsp;avec&nbsp;Typer&nbsp;pour&nbsp;le&nbsp;management&nbsp;des&nbsp;utilisateurs&nbsp;et&nbsp;VMs.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="json.html">json</a><br>
+</td><td class="multicolumn"><a href="typer.html">typer</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-create"><strong>create</strong></a>(name: str = &lt;typer.models.OptionInfo object at 0x1041d98e0&gt;, email: str = &lt;typer.models.OptionInfo object at 0x1041d9a60&gt;, password: str = &lt;typer.models.OptionInfo object at 0x1041d8e60&gt;, use_saved_token: bool = &lt;typer.models.OptionInfo object at 0x1041d94c0&gt;, os: str = &lt;typer.models.OptionInfo object at 0x1041d9640&gt;, cores: int = &lt;typer.models.OptionInfo object at 0x1041d9280&gt;, ram: int = &lt;typer.models.OptionInfo object at 0x1041d9b80&gt;, disk: int = &lt;typer.models.OptionInfo object at 0x1041d8dd0&gt;, status: str = &lt;typer.models.OptionInfo object at 0x1041d90a0&gt;, verbose: bool = &lt;typer.models.OptionInfo object at 0x1041d9370&gt;) -&gt; None</dt><dd><span class="code">🖥️&nbsp;Créer&nbsp;une&nbsp;VM&nbsp;pour&nbsp;un&nbsp;utilisateur&nbsp;existant<br>
+&nbsp;<br>
+Authentifie&nbsp;un&nbsp;utilisateur&nbsp;existant&nbsp;et&nbsp;crée&nbsp;une&nbsp;VM&nbsp;pour&nbsp;lui.<br>
+Peut&nbsp;utiliser&nbsp;un&nbsp;token&nbsp;sauvegardé&nbsp;ou&nbsp;des&nbsp;identifiants&nbsp;email/mot&nbsp;de&nbsp;passe.<br>
+&nbsp;<br>
+Exemples:<br>
+&nbsp;<br>
+<br>
+python&nbsp;main.py&nbsp;create<br>
+python&nbsp;main.py&nbsp;create&nbsp;--name&nbsp;"Ma&nbsp;VM"&nbsp;--email&nbsp;"alice@example.com"&nbsp;--password&nbsp;"motdepasse"<br>
+python&nbsp;main.py&nbsp;create&nbsp;-n&nbsp;"VM&nbsp;Test"&nbsp;--ram&nbsp;8&nbsp;--disk&nbsp;100&nbsp;--verbose<br>
+python&nbsp;main.py&nbsp;create&nbsp;--name&nbsp;"Ma&nbsp;VM"&nbsp;--use-token</span></dd></dl>
+ <dl><dt><a name="-debug"><strong>debug</strong></a>() -&gt; None</dt><dd><span class="code">🔍&nbsp;Afficher&nbsp;les&nbsp;informations&nbsp;de&nbsp;debug&nbsp;sur&nbsp;la&nbsp;configuration</span></dd></dl>
+ <dl><dt><a name="-generate"><strong>generate</strong></a>(user_count: int = &lt;typer.models.OptionInfo object at 0x1041d9a00&gt;, min_vms: int = &lt;typer.models.OptionInfo object at 0x1041d9820&gt;, max_vms: int = &lt;typer.models.OptionInfo object at 0x1041d8e00&gt;, output_file: str = &lt;typer.models.OptionInfo object at 0x1041d98b0&gt;, verbose: bool = &lt;typer.models.OptionInfo object at 0x1041d9700&gt;) -&gt; None</dt><dd><span class="code">🎲&nbsp;Générer&nbsp;des&nbsp;données&nbsp;factices&nbsp;avec&nbsp;Faker<br>
+&nbsp;<br>
+Génère&nbsp;un&nbsp;dataset&nbsp;complet&nbsp;d'utilisateurs&nbsp;français&nbsp;avec&nbsp;des&nbsp;VMs&nbsp;réalistes.<br>
+Les&nbsp;données&nbsp;sont&nbsp;sauvegardées&nbsp;dans&nbsp;un&nbsp;fichier&nbsp;JSON.<br>
+&nbsp;<br>
+Exemples:<br>
+&nbsp;<br>
+<br>
+python&nbsp;main.py&nbsp;generate<br>
+python&nbsp;main.py&nbsp;generate&nbsp;--users&nbsp;100&nbsp;--max-vms&nbsp;3<br>
+python&nbsp;main.py&nbsp;generate&nbsp;-u&nbsp;25&nbsp;-o&nbsp;mon_dataset.json&nbsp;--verbose</span></dd></dl>
+ <dl><dt><a name="-main"><strong>main</strong></a>()</dt><dd><span class="code">Point&nbsp;d'entrée&nbsp;principal</span></dd></dl>
+ <dl><dt><a name="-report"><strong>report</strong></a>(report_type: str = &lt;typer.models.OptionInfo object at 0x1041d94f0&gt;, report_format: str = &lt;typer.models.OptionInfo object at 0x1041d8e30&gt;, output_dir: str = &lt;typer.models.OptionInfo object at 0x1041d9a90&gt;, verbose: bool = &lt;typer.models.OptionInfo object at 0x1041d9430&gt;) -&gt; None</dt><dd><span class="code">📊&nbsp;Générer&nbsp;des&nbsp;rapports<br>
+&nbsp;<br>
+Exemples:<br>
+&nbsp;<br>
+<br>
+python&nbsp;main.py&nbsp;report<br>
+python&nbsp;main.py&nbsp;report&nbsp;--type&nbsp;users-vms&nbsp;--format&nbsp;markdown<br>
+python&nbsp;main.py&nbsp;report&nbsp;-t&nbsp;status&nbsp;-f&nbsp;html&nbsp;-o&nbsp;./rapports&nbsp;--verbose<br>
+python&nbsp;main.py&nbsp;report&nbsp;--format&nbsp;all&nbsp;--type&nbsp;all</span></dd></dl>
+ <dl><dt><a name="-signup"><strong>signup</strong></a>(name: str = &lt;typer.models.OptionInfo object at 0x1041d9340&gt;, email: str = &lt;typer.models.OptionInfo object at 0x1041d91f0&gt;, password: str = &lt;typer.models.OptionInfo object at 0x1041d95b0&gt;, verbose: bool = &lt;typer.models.OptionInfo object at 0x1041d96d0&gt;) -&gt; None</dt><dd><span class="code">👤&nbsp;Créer&nbsp;un&nbsp;nouvel&nbsp;utilisateur&nbsp;avec&nbsp;authentification<br>
+&nbsp;<br>
+Crée&nbsp;un&nbsp;utilisateur&nbsp;via&nbsp;/auth/signup&nbsp;et&nbsp;récupère&nbsp;son&nbsp;token&nbsp;d'authentification.<br>
+&nbsp;<br>
+Exemples:<br>
+&nbsp;<br>
+<br>
+python&nbsp;main.py&nbsp;signup<br>
+python&nbsp;main.py&nbsp;signup&nbsp;--name&nbsp;"Alice&nbsp;Martin"&nbsp;--email&nbsp;"alice@example.com"<br>
+python&nbsp;main.py&nbsp;signup&nbsp;-n&nbsp;"Bob&nbsp;Dupont"&nbsp;-e&nbsp;"bob@test.com"&nbsp;-p&nbsp;"monmotdepasse"&nbsp;--verbose</span></dd></dl>
+ <dl><dt><a name="-version"><strong>version</strong></a>() -&gt; None</dt><dd><span class="code">📋&nbsp;Afficher&nbsp;la&nbsp;version</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>app</strong> = &lt;typer.main.Typer object&gt;<br>
+<strong>logger</strong> = &lt;BoundLoggerLazyProxy(logger=None, wrapper_class...nitial_values={}, logger_factory_args=('main',))&gt;</td></tr></table>
 </body>
 </html>
