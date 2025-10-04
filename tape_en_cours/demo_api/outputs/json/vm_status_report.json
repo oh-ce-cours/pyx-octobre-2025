@@ -1,0 +1,21 @@
+{
+    "data": {
+        "metadata": {
+            "generated_at": "now",
+            "total_users": 35,
+            "total_vms": 21
+        },
+        "vm_status_summary": {
+            "deleting": 6,
+            "paused": 4,
+            "provisioning": 3,
+            "running": 5,
+            "stopped": 3
+        }
+    },
+    "metadata": {
+        "generated_at": "2025-10-04T15:32:02.606501",
+        "generator": "JSONReportGenerator",
+        "version": "1.0.0"
+    }
+}
