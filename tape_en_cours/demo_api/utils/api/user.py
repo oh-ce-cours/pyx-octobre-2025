@@ -142,7 +142,7 @@ def create_user(base_url, token, name, email, password=None):
 
         user_data = resp.json()
         logger.debug(f"Réponse JSON de l'API: {user_data} (type: {type(user_data)})")
-        
+
         # Vérifier que user_data est valide
         if not user_data or not isinstance(user_data, dict):
             logger.error(
@@ -150,15 +150,21 @@ def create_user(base_url, token, name, email, password=None):
                 user_data=user_data,
                 user_data_type=type(user_data),
                 status_code=resp.status_code,
-                response_text=resp.text[:200] if resp.text else "Pas de texte de réponse"
+                response_text=resp.text[:200]
+                if resp.text
+                else "Pas de texte de réponse",
             )
             raise UserCreationError(
                 f"Réponse API invalide lors de la création de l'utilisateur '{name}' ({email})",
                 status_code=resp.status_code,
-                response_data={"error": "invalid_response", "name": name, "email": email},
+                response_data={
+                    "error": "invalid_response",
+                    "name": name,
+                    "email": email,
+                },
                 email=email,
             )
-        
+
         logger.info(
             "Utilisateur créé avec succès",
             user_id=user_data.get("id"),
