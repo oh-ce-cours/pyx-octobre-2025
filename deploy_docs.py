@@ -76,7 +76,7 @@ def fix_static_paths(file_path: Path) -> bool:
         else:
             base_url = BASE_URL
 
-        # Patterns à remplacer - Version corrigée pour GitHub Pages
+        # Patterns à remplacer - Version simplifiée pour GitHub Pages
         patterns = [
             # Chemins directs _static/ vers chemins absolus
             (r'href="_static/', f'href="{base_url}/_static/'),
@@ -145,8 +145,6 @@ def clean_deploy_directory():
         print("✅ Dossier docs-deploy complètement supprimé")
     else:
         print("ℹ️  Dossier docs-deploy n'existe pas encore")
-
-
 
 
 def main():
@@ -251,8 +249,7 @@ def main():
     create_nojekyll_file()
     create_robots_txt()
 
-
-    # 10. Corriger les chemins dans tous les fichiers
+    # 9. Corriger les chemins dans tous les fichiers
     print("\n🔧 Correction des chemins CSS pour GitHub Pages...")
     files_to_fix = []
 
