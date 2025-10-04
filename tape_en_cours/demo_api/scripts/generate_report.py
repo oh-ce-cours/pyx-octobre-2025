@@ -8,7 +8,8 @@ Ce script génère les rapports disponibles :
 """
 
 import sys
-import argparse
+import typer
+from enum import Enum
 from pathlib import Path
 
 # Ajouter le répertoire parent au path pour les imports
@@ -20,6 +21,14 @@ from utils.logging_config import get_logger
 from utils.config import config
 
 logger = get_logger("generate_report")
+app = typer.Typer(help="Générer les rapports de l'API demo")
+
+
+class ReportType(str, Enum):
+    """Types de rapport disponibles"""
+    USERS_VMS = "users-vms"
+    STATUS = "status"
+    ALL = "all"
 
 
 def main():
