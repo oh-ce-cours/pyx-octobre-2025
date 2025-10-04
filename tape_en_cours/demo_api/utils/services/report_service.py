@@ -2,7 +2,7 @@
 Service de génération de rapports
 """
 
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from utils.api import Api
 from utils.api.exceptions import UsersFetchError, VMsFetchError
 from utils.logging_config import get_logger
