@@ -1,5 +1,4 @@
 import requests
-import datetime
 from utils.logging_config import get_logger
 
 # Logger pour ce module
