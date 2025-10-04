@@ -56,15 +56,24 @@ def get_credentials(
     Returns:
         tuple: (email, password)
     """
+    logger.info("Récupération des identifiants", email_provided=bool(email), env_email=env_email)
+    
     # Récupérer l'email
     if email:
         user_email = email
+        logger.info("Email fourni directement", email=user_email)
     else:
         user_email = os.environ.get(env_email)
         if not user_email:
+            logger.warning("Email non trouvé dans les variables d'environnement. Saisie interactive nécessaire.", 
+                          env_var=env_email)
             user_email = input(f"Email (ou définir {env_email}): ").strip()
+        else:
+            logger.info("Email récupéré depuis la variable d'environnement", 
+                      email=user_email, env_var=env_email)
 
     # Récupérer le mot de passe
     password = get_password(env_var=env_password)
 
+    logger.info("Identifiants récupérés avec succès", email=user_email, password_source="smart_detection")
     return user_email, password

@@ -1,4 +1,13 @@
-# Guide d'utilisation sécurisée des mots de passe
+# Guide d'utilisation pour demo_api
+
+## Fonctionnalités
+
+- ✓ Gestion sécurisée des mots de passe avec variables d'environnement et saisie interactive
+- ✓ Logging structuré avec structlog pour debugging et monitoring
+- ✓ API unifiée pour les utilisateurs et VMs
+- ✓ Sauvegarde automatique en JSON des données récupérées
+
+## Installation des dépendances
 
 ## Variables d'environnement
 
