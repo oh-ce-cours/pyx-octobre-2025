@@ -66,11 +66,14 @@ class Config:
 
         # Configuration des fichiers
         self.DEMO_API_OUTPUT_FILE = self._get_env_with_default(
-            "DEMO_API_OUTPUT_FILE", "vm_users.json"
+            "DEMO_API_OUTPUT_FILE", "output/vm_users.json"
         )
 
         # Validation de la configuration
         self._validate_config()
+        
+        # Créer le dossier de sortie s'il n'existe pas
+        self._ensure_output_directory()
 
     def _get_env(self, key: str) -> Optional[str]:
         """Récupère une variable d'environnement optionnelle"""
