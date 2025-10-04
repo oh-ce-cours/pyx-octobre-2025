@@ -94,7 +94,15 @@ def create_vm(
     )
 
     try:
+        logger.debug(f"Envoi de la requête POST vers {base_url}/vm")
+        logger.debug(f"Headers: {headers}")
+        logger.debug(f"Payload: {payload}")
+        
         resp = requests.post(f"{base_url}/vm", json=payload, timeout=5, headers=headers)
+        logger.debug(f"Réponse reçue - Status: {resp.status_code}")
+        logger.debug(f"Headers de réponse: {dict(resp.headers)}")
+        logger.debug(f"Contenu de la réponse: {resp.text[:500]}...")
+        
         resp.raise_for_status()
 
         vm_result = resp.json()
