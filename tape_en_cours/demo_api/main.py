@@ -305,7 +305,7 @@ def generate(
 
     Exemples:
 
-        \b
+    .. code-block:: shell
         python main.py generate
         python main.py generate --users 100 --max-vms 3
         python main.py generate -u 25 -o mon_dataset.json --verbose
