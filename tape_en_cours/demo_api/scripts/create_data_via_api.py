@@ -237,13 +237,16 @@ def create_users_via_api(
                 try:
                     # Générer les données utilisateur avec Faker
                     user_data = UserDataGenerator.generate_user(created_count + 1)
+                    logger.debug(f"Données utilisateur générées: {user_data}")
 
                     # Créer l'utilisateur via l'API (retry automatique via décorateur)
+                    logger.debug(f"Tentative de création d'utilisateur: {user_data['name']} ({user_data['email']})")
                     created_user = api_client.users.create_user(
                         name=user_data["name"],
                         email=user_data["email"],
                         password="password123",  # Mot de passe par défaut
                     )
+                    logger.debug(f"Résultat de création d'utilisateur: {created_user} (type: {type(created_user)})")
 
                     # Vérifier que l'utilisateur a été créé avec succès
                     if (
@@ -253,6 +256,7 @@ def create_users_via_api(
                     ):
                         created_users.append(created_user)
                         created_count += 1
+                        logger.debug(f"Utilisateur ajouté à la liste. Total créés: {len(created_users)}")
                         display_success_message(
                             "Utilisateur", user_data["name"], user_data["email"]
                         )
@@ -261,16 +265,20 @@ def create_users_via_api(
                             "Échec de création d'utilisateur - données invalides",
                             user_data=user_data,
                             created_user=created_user,
+                            created_user_type=type(created_user),
                         )
                         display_error_message(
-                            "utilisateur", i, "Données utilisateur invalides"
+                            "utilisateur", i, f"Données utilisateur invalides: {created_user}"
                         )
 
-                except (ValueError, KeyError, ConnectionError) as e:
+                except Exception as e:
                     logger.error(
-                        "Erreur lors de la création d'un utilisateur", error=str(e)
+                        "Erreur lors de la création d'un utilisateur", 
+                        error=str(e), 
+                        error_type=type(e).__name__,
+                        user_data=user_data if 'user_data' in locals() else None
                     )
-                    display_error_message("utilisateur", i, str(e))
+                    display_error_message("utilisateur", i, f"{type(e).__name__}: {str(e)}")
 
                 progress.update(task, advance=1)
 
@@ -648,6 +656,12 @@ def full_dataset(
                 border_style="blue",
             )
         )
+        # Debug: Afficher le contenu de created_users
+        logger.debug(f"Liste created_users: {created_users}")
+        logger.debug(f"Nombre d'utilisateurs dans created_users: {len(created_users)}")
+        for i, user in enumerate(created_users):
+            logger.debug(f"Utilisateur {i}: {user} (type: {type(user)})")
+        
         # Vérifier qu'on a des utilisateurs créés avec succès
         if not created_users:
             console.print(
@@ -659,11 +673,19 @@ def full_dataset(
             )
             raise typer.Exit(1)
 
-        user_ids = [
-            user["id"]
-            for user in created_users
-            if user and isinstance(user, dict) and "id" in user
-        ]
+        # Debug: Analyser chaque utilisateur avant extraction des IDs
+        valid_users = []
+        for i, user in enumerate(created_users):
+            logger.debug(f"Analyse utilisateur {i}: {user}")
+            if user and isinstance(user, dict) and "id" in user:
+                valid_users.append(user)
+                logger.debug(f"Utilisateur {i} valide, ID: {user['id']}")
+            else:
+                logger.warning(f"Utilisateur {i} invalide: {user} (type: {type(user)})")
+        
+        user_ids = [user["id"] for user in valid_users]
+        logger.debug(f"IDs d'utilisateurs extraits: {user_ids}")
+        
         if not user_ids:
             console.print(
                 Panel.fit(
