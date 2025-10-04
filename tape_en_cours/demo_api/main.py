@@ -130,11 +130,21 @@ def signup(
                 typer.echo(f"   📧 Email: {user_info.get('email')}")
 
                 # Formater la date de création de manière plus lisible
-                from utils.date_utils import format_timestamp_for_display
-
                 created_at = user_info.get("created_at")
-                formatted_date = format_timestamp_for_display(created_at)
-                typer.echo(f"   📅 Créé le: {formatted_date}")
+                if created_at:
+                    if isinstance(created_at, (int, float)):
+                        # Si c'est un timestamp, le convertir
+                        from utils.date_utils import parse_unix_timestamp
+
+                        formatted_date = parse_unix_timestamp(created_at).strftime(
+                            "%d/%m/%Y à %H:%M:%S"
+                        )
+                    else:
+                        # Si c'est déjà un objet datetime ou une chaîne
+                        formatted_date = str(created_at)
+                    typer.echo(f"   📅 Créé le: {formatted_date}")
+                else:
+                    typer.echo("   📅 Créé le: N/A")
 
                 typer.echo()
                 typer.echo("✨ Utilisateur prêt à utiliser!")
