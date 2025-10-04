@@ -84,6 +84,11 @@ html_js_files = []
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
 
+# Configuration pour renommer _static en static pour GitHub Pages
+# GitHub Pages peut avoir des problèmes avec les dossiers commençant par _
+html_static_path = ["_static"]
+html_extra_path = []
+
 # Configuration cruciale pour GitHub Pages - force les chemins absolus
 html_show_sourcelink = False
 html_show_sphinx = False

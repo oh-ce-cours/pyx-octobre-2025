@@ -18,6 +18,15 @@ mkdir -p docs-deploy/pdoc3
 cp -r tape_en_cours/demo_api/docs/sphinx/build/* docs-deploy/sphinx/
 cp -r tape_en_cours/demo_api/docs/pdoc3/* docs-deploy/pdoc3/
 
+# Créer une copie du dossier _static en static pour GitHub Pages
+echo "📁 Création d'une copie static/ pour GitHub Pages..."
+if [ -d "docs-deploy/sphinx/_static" ]; then
+    cp -r docs-deploy/sphinx/_static docs-deploy/sphinx/static
+    echo "✅ Dossier static/ créé à partir de _static/"
+else
+    echo "⚠️  Dossier _static non trouvé"
+fi
+
 # Les fichiers statiques restent dans leurs dossiers respectifs
 
 # Ajouter les fichiers nécessaires pour GitHub Pages
