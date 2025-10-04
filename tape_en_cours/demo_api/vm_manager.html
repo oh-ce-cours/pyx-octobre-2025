@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module vm_manager</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">vm_manager</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/Users/matthieufalce/Desktop/pyx-octobre-2025/tape_en_cours/demo_api/vm_manager.py">/Users/matthieufalce/Desktop/pyx-octobre-2025/tape_en_cours/demo_api/vm_manager.py</a></td></tr></table>
+    <p><span class="code">Gestionnaire&nbsp;de&nbsp;VMs&nbsp;pour&nbsp;demo_api</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="typer.html">typer</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-create_vm"><strong>create_vm</strong></a>(name: Optional[str] = None, email: str = 'jean@dupont21.com', password: str = 'password123', os: str = 'Ubuntu 22.04', cores: int = 2, ram: int = 4, disk: int = 50, status: str = 'stopped', verbose: bool = False) -&gt; None</dt><dd><span class="code">🖥️&nbsp;Créer&nbsp;une&nbsp;VM&nbsp;pour&nbsp;un&nbsp;utilisateur&nbsp;existant<br>
+&nbsp;<br>
+Authentifie&nbsp;un&nbsp;utilisateur&nbsp;existant&nbsp;et&nbsp;crée&nbsp;une&nbsp;VM&nbsp;pour&nbsp;lui.<br>
+&nbsp;<br>
+Exemples:<br>
+&nbsp;<br>
+<br>
+python&nbsp;vm_manager.py&nbsp;create<br>
+python&nbsp;vm_manager.py&nbsp;create&nbsp;--name&nbsp;"Ma&nbsp;VM"&nbsp;--email&nbsp;"alice@example.com"&nbsp;--password&nbsp;"motdepasse"<br>
+python&nbsp;vm_manager.py&nbsp;create&nbsp;-n&nbsp;"VM&nbsp;Test"&nbsp;--ram&nbsp;8&nbsp;--disk&nbsp;100&nbsp;--verbose</span></dd></dl>
+ <dl><dt><a name="-create_vm_cli"><strong>create_vm_cli</strong></a>(name: Optional[str] = &lt;typer.models.OptionInfo object at 0x104b9db50&gt;, email: str = &lt;typer.models.OptionInfo object at 0x104b9da60&gt;, password: str = &lt;typer.models.OptionInfo object at 0x104b9d7c0&gt;, os: str = &lt;typer.models.OptionInfo object at 0x104b9d8e0&gt;, cores: int = &lt;typer.models.OptionInfo object at 0x104b9f980&gt;, ram: int = &lt;typer.models.OptionInfo object at 0x104b9fb00&gt;, disk: int = &lt;typer.models.OptionInfo object at 0x104b9f6e0&gt;, status: str = &lt;typer.models.OptionInfo object at 0x104b9fad0&gt;, verbose: bool = &lt;typer.models.OptionInfo object at 0x104b9fb90&gt;) -&gt; None</dt><dd><span class="code">🖥️&nbsp;Créer&nbsp;une&nbsp;VM&nbsp;pour&nbsp;un&nbsp;utilisateur&nbsp;existant<br>
+&nbsp;<br>
+Authentifie&nbsp;un&nbsp;utilisateur&nbsp;existant&nbsp;et&nbsp;crée&nbsp;une&nbsp;VM&nbsp;pour&nbsp;lui.<br>
+&nbsp;<br>
+Exemples:<br>
+&nbsp;<br>
+<br>
+python&nbsp;vm_manager.py&nbsp;create<br>
+python&nbsp;vm_manager.py&nbsp;create&nbsp;--name&nbsp;"Ma&nbsp;VM"&nbsp;--email&nbsp;"alice@example.com"&nbsp;--password&nbsp;"motdepasse"<br>
+python&nbsp;vm_manager.py&nbsp;create&nbsp;-n&nbsp;"VM&nbsp;Test"&nbsp;--ram&nbsp;8&nbsp;--disk&nbsp;100&nbsp;--verbose</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>Optional</strong> = typing.Optional<br>
+<strong>config</strong> = Config(base_url='https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt', debug=False, env_files=1)<br>
+<strong>logger</strong> = &lt;BoundLoggerLazyProxy(logger=None, wrapper_class..._values={}, logger_factory_args=('vm_manager',))&gt;</td></tr></table>
+</body></html>

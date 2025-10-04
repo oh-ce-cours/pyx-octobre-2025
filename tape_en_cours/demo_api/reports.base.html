@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module reports.base</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="reports.html" class="white">reports</a>.base</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/Users/matthieufalce/Desktop/pyx-octobre-2025/tape_en_cours/demo_api/reports/base.py">/Users/matthieufalce/Desktop/pyx-octobre-2025/tape_en_cours/demo_api/reports/base.py</a></td></tr></table>
+    <p><span class="code">Classe&nbsp;de&nbsp;base&nbsp;pour&nbsp;tous&nbsp;les&nbsp;générateurs&nbsp;de&nbsp;rapports</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="os.html">os</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="abc.html#ABC">abc.ABC</a>(<a href="builtins.html#object">builtins.object</a>)
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="reports.base.html#BaseReportGenerator">BaseReportGenerator</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="BaseReportGenerator">class <strong>BaseReportGenerator</strong></a>(<a href="abc.html#ABC">abc.ABC</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#BaseReportGenerator">BaseReportGenerator</a>(output_directory:&nbsp;str&nbsp;=&nbsp;'outputs')<br>
+&nbsp;<br>
+Classe&nbsp;de&nbsp;base&nbsp;abstraite&nbsp;pour&nbsp;tous&nbsp;les&nbsp;générateurs&nbsp;de&nbsp;rapports<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="reports.base.html#BaseReportGenerator">BaseReportGenerator</a></dd>
+<dd><a href="abc.html#ABC">abc.ABC</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="BaseReportGenerator-__init__"><strong>__init__</strong></a>(self, output_directory: str = 'outputs')</dt><dd><span class="code">Initialise&nbsp;le&nbsp;générateur&nbsp;de&nbsp;rapport<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;output_directory:&nbsp;Dossier&nbsp;de&nbsp;sortie&nbsp;pour&nbsp;les&nbsp;rapports</span></dd></dl>
+
+<dl><dt><a name="BaseReportGenerator-generate"><strong>generate</strong></a>(self, data: Any, filename: Optional[str] = None) -&gt; str</dt><dd><span class="code">Génère&nbsp;un&nbsp;rapport<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;data:&nbsp;Données&nbsp;à&nbsp;inclure&nbsp;dans&nbsp;le&nbsp;rapport<br>
+&nbsp;&nbsp;&nbsp;&nbsp;filename:&nbsp;Nom&nbsp;de&nbsp;fichier&nbsp;personnalisé&nbsp;(optionnel)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str:&nbsp;Chemin&nbsp;vers&nbsp;le&nbsp;fichier&nbsp;généré</span></dd></dl>
+
+<dl><dt><a name="BaseReportGenerator-get_extension"><strong>get_extension</strong></a>(self) -&gt; str</dt><dd><span class="code">Retourne&nbsp;l'extension&nbsp;des&nbsp;fichiers&nbsp;générés&nbsp;par&nbsp;ce&nbsp;rapport<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str:&nbsp;Extension&nbsp;(ex:&nbsp;"json",&nbsp;"html",&nbsp;"md")</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__abstractmethods__</strong> = frozenset({'generate', 'get_extension'})</dl>
+
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>Dict</strong> = typing.Dict<br>
+<strong>List</strong> = typing.List<br>
+<strong>Optional</strong> = typing.Optional<br>
+<strong>logger</strong> = &lt;BoundLoggerLazyProxy(logger=None, wrapper_class...alues={}, logger_factory_args=('reports.base',))&gt;</td></tr></table>
+</body></html>

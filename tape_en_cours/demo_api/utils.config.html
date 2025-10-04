@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module utils.config</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="utils.html" class="white">utils</a>.config</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/Users/matthieufalce/Desktop/pyx-octobre-2025/tape_en_cours/demo_api/utils/config.py">/Users/matthieufalce/Desktop/pyx-octobre-2025/tape_en_cours/demo_api/utils/config.py</a></td></tr></table>
+    <p><span class="code">Configuration&nbsp;centralisée&nbsp;pour&nbsp;demo_api<br>
+&nbsp;<br>
+Ce&nbsp;module&nbsp;gère&nbsp;toutes&nbsp;les&nbsp;variables&nbsp;de&nbsp;configuration&nbsp;de&nbsp;l'application<br>
+depuis&nbsp;les&nbsp;fichiers&nbsp;.env&nbsp;et&nbsp;les&nbsp;variables&nbsp;d'environnement.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="os.html">os</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="utils.config.html#Config">Config</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Config">class <strong>Config</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">Classe&nbsp;de&nbsp;configuration&nbsp;centralisée&nbsp;pour&nbsp;demo_api.<br>
+&nbsp;<br>
+Cette&nbsp;classe&nbsp;utilise&nbsp;python-dotenv&nbsp;pour&nbsp;charger&nbsp;automatiquement<br>
+les&nbsp;configurations&nbsp;depuis&nbsp;les&nbsp;fichiers&nbsp;.env&nbsp;et&nbsp;les&nbsp;variables&nbsp;d'environnement.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="Config-__init__"><strong>__init__</strong></a>(self)</dt><dd><span class="code">Initialise&nbsp;la&nbsp;configuration&nbsp;en&nbsp;chargeant&nbsp;les&nbsp;fichiers&nbsp;.env</span></dd></dl>
+
+<dl><dt><a name="Config-__repr__"><strong>__repr__</strong></a>(self) -&gt; str</dt><dd><span class="code">Représentation&nbsp;détaillée&nbsp;pour&nbsp;le&nbsp;debugging</span></dd></dl>
+
+<dl><dt><a name="Config-__str__"><strong>__str__</strong></a>(self) -&gt; str</dt><dd><span class="code">Représentation&nbsp;string&nbsp;de&nbsp;la&nbsp;configuration&nbsp;(sans&nbsp;les&nbsp;secrets)</span></dd></dl>
+
+<dl><dt><a name="Config-save_to_env_file"><strong>save_to_env_file</strong></a>(self, key: str, value: str, env_file: str = '.env.local') -&gt; bool</dt><dd><span class="code">Sauvegarde&nbsp;une&nbsp;valeur&nbsp;dans&nbsp;un&nbsp;fichier&nbsp;.env<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;key&nbsp;(str):&nbsp;Clé&nbsp;de&nbsp;la&nbsp;variable&nbsp;d'environnement<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value&nbsp;(str):&nbsp;Valeur&nbsp;à&nbsp;sauvegarder<br>
+&nbsp;&nbsp;&nbsp;&nbsp;env_file&nbsp;(str):&nbsp;Fichier&nbsp;.env&nbsp;cible&nbsp;(par&nbsp;défaut&nbsp;.env.local)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool:&nbsp;True&nbsp;si&nbsp;sauvegardé&nbsp;avec&nbsp;succès</span></dd></dl>
+
+<dl><dt><a name="Config-to_dict"><strong>to_dict</strong></a>(self) -&gt; Dict[str, Any]</dt><dd><span class="code">Retourne&nbsp;la&nbsp;configuration&nbsp;sous&nbsp;forme&nbsp;de&nbsp;dictionnaire&nbsp;(sans&nbsp;les&nbsp;secrets)</span></dd></dl>
+
+<dl><dt><a name="Config-update_token"><strong>update_token</strong></a>(self, token: str) -&gt; bool</dt><dd><span class="code">Met&nbsp;à&nbsp;jour&nbsp;le&nbsp;token&nbsp;d'authentification&nbsp;dans&nbsp;la&nbsp;configuration<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;token&nbsp;(str):&nbsp;Nouveau&nbsp;token<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool:&nbsp;True&nbsp;si&nbsp;mis&nbsp;à&nbsp;jour&nbsp;avec&nbsp;succès</span></dd></dl>
+
+<hr>
+Readonly properties defined here:<br>
+<dl><dt><strong>auth_headers</strong></dt>
+<dd><span class="code">Retourne&nbsp;les&nbsp;headers&nbsp;d'authentification&nbsp;si&nbsp;token&nbsp;disponible</span></dd>
+</dl>
+<dl><dt><strong>client_config</strong></dt>
+<dd><span class="code">Retourne&nbsp;la&nbsp;configuration&nbsp;client&nbsp;pour&nbsp;les&nbsp;appels&nbsp;API</span></dd>
+</dl>
+<dl><dt><strong>has_credentials</strong></dt>
+<dd><span class="code">Vérifie&nbsp;si&nbsp;les&nbsp;identifiants&nbsp;sont&nbsp;disponibles</span></dd>
+</dl>
+<dl><dt><strong>has_token</strong></dt>
+<dd><span class="code">Vérifie&nbsp;si&nbsp;un&nbsp;token&nbsp;est&nbsp;disponible</span></dd>
+</dl>
+<dl><dt><strong>is_production</strong></dt>
+<dd><span class="code">Détermine&nbsp;si&nbsp;on&nbsp;est&nbsp;en&nbsp;environnement&nbsp;de&nbsp;production</span></dd>
+</dl>
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-load_env_files"><strong>load_env_files</strong></a>() -&gt; int</dt><dd><span class="code">Charge&nbsp;les&nbsp;fichiers&nbsp;de&nbsp;configuration&nbsp;.env&nbsp;dans&nbsp;l'ordre&nbsp;de&nbsp;priorité.<br>
+&nbsp;<br>
+Priorité&nbsp;(du&nbsp;plus&nbsp;bas&nbsp;au&nbsp;plus&nbsp;haut)&nbsp;:<br>
+1.&nbsp;.env.defaults&nbsp;(valeurs&nbsp;par&nbsp;défaut)<br>
+2.&nbsp;.env.local&nbsp;(configuration&nbsp;locale,&nbsp;pas&nbsp;dans&nbsp;git)<br>
+3.&nbsp;.env&nbsp;(configuration&nbsp;générale)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;int:&nbsp;Nombre&nbsp;de&nbsp;fichiers&nbsp;.env&nbsp;chargés</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>Dict</strong> = typing.Dict<br>
+<strong>Optional</strong> = typing.Optional<br>
+<strong>config</strong> = Config(base_url='https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt', debug=False, env_files=1)</td></tr></table>
+</body></html>

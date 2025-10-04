@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module utils.services.data_manager</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="utils.html" class="white">utils</a>.<a href="utils.services.html" class="white">services</a>.data_manager</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/Users/matthieufalce/Desktop/pyx-octobre-2025/tape_en_cours/demo_api/utils/services/data_manager.py">/Users/matthieufalce/Desktop/pyx-octobre-2025/tape_en_cours/demo_api/utils/services/data_manager.py</a></td></tr></table>
+    <p><span class="code">Gestionnaire&nbsp;de&nbsp;données&nbsp;centralisé&nbsp;pour&nbsp;éviter&nbsp;les&nbsp;requêtes&nbsp;multiples</span></p>
+<p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="utils.services.data_manager.html#DataManager">DataManager</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="DataManager">class <strong>DataManager</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#DataManager">DataManager</a>(api_client:&nbsp;utils.api.ApiClient)<br>
+&nbsp;<br>
+Gestionnaire&nbsp;centralisé&nbsp;des&nbsp;données&nbsp;pour&nbsp;éviter&nbsp;les&nbsp;requêtes&nbsp;multiples<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="DataManager-__init__"><strong>__init__</strong></a>(self, api_client: utils.api.ApiClient)</dt><dd><span class="code">Initialise&nbsp;le&nbsp;gestionnaire&nbsp;de&nbsp;données<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;api_client:&nbsp;Client&nbsp;API&nbsp;unifié</span></dd></dl>
+
+<dl><dt><a name="DataManager-clear_cache"><strong>clear_cache</strong></a>(self) -&gt; None</dt><dd><span class="code">Vide&nbsp;le&nbsp;cache&nbsp;des&nbsp;données</span></dd></dl>
+
+<dl><dt><a name="DataManager-fetch_all_data"><strong>fetch_all_data</strong></a>(self) -&gt; Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]</dt><dd><span class="code">Récupère&nbsp;toutes&nbsp;les&nbsp;données&nbsp;nécessaires&nbsp;(utilisateurs&nbsp;et&nbsp;VMs)&nbsp;en&nbsp;une&nbsp;seule&nbsp;fois<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Tuple&nbsp;contenant&nbsp;(users,&nbsp;vms)&nbsp;ou&nbsp;([],&nbsp;[])&nbsp;en&nbsp;cas&nbsp;d'erreur</span></dd></dl>
+
+<dl><dt><a name="DataManager-get_users"><strong>get_users</strong></a>(self) -&gt; List[Dict[str, Any]]</dt><dd><span class="code">Retourne&nbsp;les&nbsp;utilisateurs&nbsp;(doit&nbsp;être&nbsp;appelé&nbsp;après&nbsp;fetch_all_data)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Liste&nbsp;des&nbsp;utilisateurs</span></dd></dl>
+
+<dl><dt><a name="DataManager-get_users_with_vms"><strong>get_users_with_vms</strong></a>(self) -&gt; List[Dict[str, Any]]</dt><dd><span class="code">Retourne&nbsp;les&nbsp;utilisateurs&nbsp;avec&nbsp;leurs&nbsp;VMs&nbsp;associées<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Liste&nbsp;des&nbsp;utilisateurs&nbsp;avec&nbsp;leurs&nbsp;VMs</span></dd></dl>
+
+<dl><dt><a name="DataManager-get_vms"><strong>get_vms</strong></a>(self) -&gt; List[Dict[str, Any]]</dt><dd><span class="code">Retourne&nbsp;les&nbsp;VMs&nbsp;(doit&nbsp;être&nbsp;appelé&nbsp;après&nbsp;fetch_all_data)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Liste&nbsp;des&nbsp;VMs</span></dd></dl>
+
+<hr>
+Readonly properties defined here:<br>
+<dl><dt><strong>is_data_loaded</strong></dt>
+<dd><span class="code">Indique&nbsp;si&nbsp;les&nbsp;données&nbsp;sont&nbsp;chargées</span></dd>
+</dl>
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>Dict</strong> = typing.Dict<br>
+<strong>List</strong> = typing.List<br>
+<strong>Optional</strong> = typing.Optional<br>
+<strong>Tuple</strong> = typing.Tuple<br>
+<strong>logger</strong> = &lt;BoundLoggerLazyProxy(logger=None, wrapper_class...r_factory_args=('utils.services.data_manager',))&gt;</td></tr></table>
+</body></html>

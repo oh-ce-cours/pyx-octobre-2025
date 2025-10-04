@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module reports.html_reports</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="reports.html" class="white">reports</a>.html_reports</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/Users/matthieufalce/Desktop/pyx-octobre-2025/tape_en_cours/demo_api/reports/html_reports.py">/Users/matthieufalce/Desktop/pyx-octobre-2025/tape_en_cours/demo_api/reports/html_reports.py</a></td></tr></table>
+    <p><span class="code">Générateur&nbsp;de&nbsp;rapports&nbsp;HTML&nbsp;pour&nbsp;demo_api</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="os.html">os</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="reports.base.html#BaseReportGenerator">reports.base.BaseReportGenerator</a>(<a href="abc.html#ABC">abc.ABC</a>)
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="reports.html_reports.html#HTMLReportGenerator">HTMLReportGenerator</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="HTMLReportGenerator">class <strong>HTMLReportGenerator</strong></a>(<a href="reports.base.html#BaseReportGenerator">reports.base.BaseReportGenerator</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#HTMLReportGenerator">HTMLReportGenerator</a>(output_directory:&nbsp;str&nbsp;=&nbsp;'outputs')<br>
+&nbsp;<br>
+Générateur&nbsp;de&nbsp;rapports&nbsp;au&nbsp;format&nbsp;HTML&nbsp;avec&nbsp;templates&nbsp;Jinja2<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="reports.html_reports.html#HTMLReportGenerator">HTMLReportGenerator</a></dd>
+<dd><a href="reports.base.html#BaseReportGenerator">reports.base.BaseReportGenerator</a></dd>
+<dd><a href="abc.html#ABC">abc.ABC</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="HTMLReportGenerator-__init__"><strong>__init__</strong></a>(self, output_directory: str = 'outputs')</dt><dd><span class="code">Initialise&nbsp;le&nbsp;générateur&nbsp;de&nbsp;rapports&nbsp;HTML<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;output_directory:&nbsp;Dossier&nbsp;de&nbsp;sortie&nbsp;pour&nbsp;les&nbsp;rapports&nbsp;HTML</span></dd></dl>
+
+<dl><dt><a name="HTMLReportGenerator-generate"><strong>generate</strong></a>(self, data: Any, filename: Optional[str] = None, template_name: str = 'default.html.j2') -&gt; str</dt><dd><span class="code">Génère&nbsp;un&nbsp;rapport&nbsp;HTML<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;data:&nbsp;Données&nbsp;à&nbsp;inclure&nbsp;dans&nbsp;le&nbsp;rapport&nbsp;HTML<br>
+&nbsp;&nbsp;&nbsp;&nbsp;filename:&nbsp;Nom&nbsp;de&nbsp;fichier&nbsp;personnalisé&nbsp;(optionnel)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;template_name:&nbsp;Nom&nbsp;du&nbsp;template&nbsp;Jinja2&nbsp;à&nbsp;utiliser<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str:&nbsp;Chemin&nbsp;vers&nbsp;le&nbsp;fichier&nbsp;HTML&nbsp;généré</span></dd></dl>
+
+<dl><dt><a name="HTMLReportGenerator-generate_status_report"><strong>generate_status_report</strong></a>(self, status_data: Dict[str, Any], filename: str = 'vm_status_report.html') -&gt; str</dt><dd><span class="code">Génère&nbsp;un&nbsp;rapport&nbsp;de&nbsp;statut&nbsp;des&nbsp;VMs<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;status_data:&nbsp;Données&nbsp;de&nbsp;statut&nbsp;des&nbsp;VMs<br>
+&nbsp;&nbsp;&nbsp;&nbsp;filename:&nbsp;Nom&nbsp;du&nbsp;fichier&nbsp;de&nbsp;sortie<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str:&nbsp;Chemin&nbsp;vers&nbsp;le&nbsp;fichier&nbsp;généré</span></dd></dl>
+
+<dl><dt><a name="HTMLReportGenerator-generate_users_vms_report"><strong>generate_users_vms_report</strong></a>(self, users: List[Dict[str, Any]], filename: str = 'vm_users.html') -&gt; str</dt><dd><span class="code">Génère&nbsp;un&nbsp;rapport&nbsp;spécifique&nbsp;pour&nbsp;les&nbsp;utilisateurs&nbsp;et&nbsp;VMs<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;users:&nbsp;Liste&nbsp;des&nbsp;utilisateurs&nbsp;avec&nbsp;leurs&nbsp;VMs&nbsp;associées<br>
+&nbsp;&nbsp;&nbsp;&nbsp;filename:&nbsp;Nom&nbsp;du&nbsp;fichier&nbsp;de&nbsp;sortie<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str:&nbsp;Chemin&nbsp;vers&nbsp;le&nbsp;fichier&nbsp;généré</span></dd></dl>
+
+<dl><dt><a name="HTMLReportGenerator-get_extension"><strong>get_extension</strong></a>(self) -&gt; str</dt><dd><span class="code">Retourne&nbsp;l'extension&nbsp;des&nbsp;fichiers&nbsp;HTML</span></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__abstractmethods__</strong> = frozenset()</dl>
+
+<hr>
+Data descriptors inherited from <a href="reports.base.html#BaseReportGenerator">reports.base.BaseReportGenerator</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>Dict</strong> = typing.Dict<br>
+<strong>List</strong> = typing.List<br>
+<strong>Optional</strong> = typing.Optional<br>
+<strong>logger</strong> = &lt;BoundLoggerLazyProxy(logger=None, wrapper_class..., logger_factory_args=('reports.html_reports',))&gt;</td></tr></table>
+</body></html>

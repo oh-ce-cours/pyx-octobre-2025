@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module utils.api.vm</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="utils.html" class="white">utils</a>.<a href="utils.api.html" class="white">api</a>.vm</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/Users/matthieufalce/Desktop/pyx-octobre-2025/tape_en_cours/demo_api/utils/api/vm.py">/Users/matthieufalce/Desktop/pyx-octobre-2025/tape_en_cours/demo_api/utils/api/vm.py</a></td></tr></table>
+    <p></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="datetime.html">datetime</a><br>
+</td><td class="multicolumn"><a href="requests.html">requests</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-attach_vm_to_user"><strong>attach_vm_to_user</strong></a>(base_url, token, vm_id, user_id)</dt><dd><span class="code">Associe&nbsp;une&nbsp;VM&nbsp;à&nbsp;un&nbsp;utilisateur.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;base_url&nbsp;(str):&nbsp;L'URL&nbsp;de&nbsp;base&nbsp;de&nbsp;l'API<br>
+&nbsp;&nbsp;&nbsp;&nbsp;token&nbsp;(str):&nbsp;Token&nbsp;d'authentification<br>
+&nbsp;&nbsp;&nbsp;&nbsp;vm_id&nbsp;(int):&nbsp;ID&nbsp;de&nbsp;la&nbsp;VM<br>
+&nbsp;&nbsp;&nbsp;&nbsp;user_id&nbsp;(int):&nbsp;ID&nbsp;de&nbsp;l'utilisateur<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dict:&nbsp;Résultat&nbsp;de&nbsp;l'association<br>
+&nbsp;<br>
+Raises:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;VMUpdateError:&nbsp;Si&nbsp;l'association&nbsp;échoue</span></dd></dl>
+ <dl><dt><a name="-create_vm"><strong>create_vm</strong></a>(token, base_url, user_id, name, operating_system, cpu_cores, ram_gb, disk_gb, status='running')</dt></dl>
+ <dl><dt><a name="-delete_vm"><strong>delete_vm</strong></a>(base_url, token, vm_id)</dt><dd><span class="code">Supprime&nbsp;une&nbsp;VM.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;base_url&nbsp;(str):&nbsp;L'URL&nbsp;de&nbsp;base&nbsp;de&nbsp;l'API<br>
+&nbsp;&nbsp;&nbsp;&nbsp;token&nbsp;(str):&nbsp;Token&nbsp;d'authentification<br>
+&nbsp;&nbsp;&nbsp;&nbsp;vm_id&nbsp;(int):&nbsp;ID&nbsp;de&nbsp;la&nbsp;VM<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dict:&nbsp;Résultat&nbsp;de&nbsp;la&nbsp;suppression<br>
+&nbsp;<br>
+Raises:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;VMDeleteError:&nbsp;Si&nbsp;la&nbsp;suppression&nbsp;de&nbsp;la&nbsp;VM&nbsp;échoue</span></dd></dl>
+ <dl><dt><a name="-get_vm"><strong>get_vm</strong></a>(base_url, vm_id)</dt><dd><span class="code">Récupère&nbsp;une&nbsp;VM&nbsp;spécifique&nbsp;par&nbsp;son&nbsp;ID.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;base_url&nbsp;(str):&nbsp;L'URL&nbsp;de&nbsp;base&nbsp;de&nbsp;l'API<br>
+&nbsp;&nbsp;&nbsp;&nbsp;vm_id&nbsp;(int):&nbsp;ID&nbsp;de&nbsp;la&nbsp;VM<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dict:&nbsp;Données&nbsp;de&nbsp;la&nbsp;VM<br>
+&nbsp;<br>
+Raises:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;VMsFetchError:&nbsp;Si&nbsp;la&nbsp;récupération&nbsp;de&nbsp;la&nbsp;VM&nbsp;échoue</span></dd></dl>
+ <dl><dt><a name="-get_vms"><strong>get_vms</strong></a>(base_url)</dt></dl>
+ <dl><dt><a name="-parse_unix_timestamp"><strong>parse_unix_timestamp</strong></a>(ts)</dt></dl>
+ <dl><dt><a name="-stop_vm"><strong>stop_vm</strong></a>(base_url, token, vm_id)</dt><dd><span class="code">Arrête&nbsp;une&nbsp;VM.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;base_url&nbsp;(str):&nbsp;L'URL&nbsp;de&nbsp;base&nbsp;de&nbsp;l'API<br>
+&nbsp;&nbsp;&nbsp;&nbsp;token&nbsp;(str):&nbsp;Token&nbsp;d'authentification<br>
+&nbsp;&nbsp;&nbsp;&nbsp;vm_id&nbsp;(int):&nbsp;ID&nbsp;de&nbsp;la&nbsp;VM<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dict:&nbsp;Résultat&nbsp;de&nbsp;l'arrêt<br>
+&nbsp;<br>
+Raises:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;VMUpdateError:&nbsp;Si&nbsp;l'arrêt&nbsp;de&nbsp;la&nbsp;VM&nbsp;échoue</span></dd></dl>
+ <dl><dt><a name="-update_vm"><strong>update_vm</strong></a>(base_url, token, vm_id, updates)</dt><dd><span class="code">Met&nbsp;à&nbsp;jour&nbsp;une&nbsp;VM&nbsp;existante.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;base_url&nbsp;(str):&nbsp;L'URL&nbsp;de&nbsp;base&nbsp;de&nbsp;l'API<br>
+&nbsp;&nbsp;&nbsp;&nbsp;token&nbsp;(str):&nbsp;Token&nbsp;d'authentification<br>
+&nbsp;&nbsp;&nbsp;&nbsp;vm_id&nbsp;(int):&nbsp;ID&nbsp;de&nbsp;la&nbsp;VM<br>
+&nbsp;&nbsp;&nbsp;&nbsp;updates&nbsp;(dict):&nbsp;Données&nbsp;à&nbsp;mettre&nbsp;à&nbsp;jour<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dict:&nbsp;Données&nbsp;de&nbsp;la&nbsp;VM&nbsp;mise&nbsp;à&nbsp;jour<br>
+&nbsp;<br>
+Raises:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;VMUpdateError:&nbsp;Si&nbsp;la&nbsp;mise&nbsp;à&nbsp;jour&nbsp;de&nbsp;la&nbsp;VM&nbsp;échoue</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>logger</strong> = &lt;BoundLoggerLazyProxy(logger=None, wrapper_class...alues={}, logger_factory_args=('utils.api.vm',))&gt;</td></tr></table>
+</body></html>
