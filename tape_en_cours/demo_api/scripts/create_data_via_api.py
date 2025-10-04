@@ -280,12 +280,19 @@ def create_users_via_api(
                         )
 
                 except Exception as e:
+                    import traceback
+
+                    stacktrace = traceback.format_exc()
                     logger.error(
                         "Erreur lors de la création d'un utilisateur",
                         error=str(e),
                         error_type=type(e).__name__,
                         user_data=user_data if "user_data" in locals() else None,
+                        stacktrace=stacktrace,
                     )
+                    print(f"\n🔍 STACKTRACE COMPLÈTE (Utilisateur):")
+                    print(stacktrace)
+                    print(f"🔍 FIN STACKTRACE\n")
                     display_error_message(
                         "utilisateur", i, f"{type(e).__name__}: {str(e)}"
                     )
@@ -422,6 +429,7 @@ def create_vms_via_api(
 
                 except Exception as e:
                     import traceback
+
                     stacktrace = traceback.format_exc()
                     logger.error(
                         "Erreur lors de la création d'une VM",
