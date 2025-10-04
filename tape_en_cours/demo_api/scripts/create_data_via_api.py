@@ -284,47 +284,60 @@ def create_vms_via_api(
     created_vms = []
     created_count = 0
 
-    for batch_start in range(0, vm_count, batch_size):
-        batch_end = min(batch_start + batch_size, vm_count)
-        batch_size_actual = batch_end - batch_start
-
-        typer.echo(
-            f"🖥️ Création du lot {batch_start // batch_size + 1}: VMs {batch_start + 1}-{batch_end}"
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        BarColumn(),
+        TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
+        TimeElapsedColumn(),
+        console=console,
+    ) as progress:
+        task = progress.add_task(
+            f"Création de {vm_count} VMs...", total=vm_count
         )
 
-        for i in range(batch_size_actual):
-            try:
-                # Générer les données VM avec Faker
-                vm_data = VMDataGenerator.generate_vm(
-                    user_id=user_ids[created_count % len(user_ids)],
-                    vm_id=created_count + 1,
-                )
+        for batch_start in range(0, vm_count, batch_size):
+            batch_end = min(batch_start + batch_size, vm_count)
+            batch_size_actual = batch_end - batch_start
 
-                # Créer la VM via l'API
-                created_vm = api_client.vms.create(
-                    user_id=vm_data["user_id"],
-                    name=vm_data["name"],
-                    operating_system=vm_data["operating_system"],
-                    cpu_cores=vm_data["cpu_cores"],
-                    ram_gb=vm_data["ram_gb"],
-                    disk_gb=vm_data["disk_gb"],
-                    status=vm_data["status"],
-                )
+            display_batch_progress(
+                batch_start // batch_size + 1, batch_start, batch_end, vm_count
+            )
 
-                created_vms.append(created_vm)
-                created_count += 1
+            for i in range(batch_size_actual):
+                try:
+                    # Générer les données VM avec Faker
+                    vm_data = VMDataGenerator.generate_vm(
+                        user_id=user_ids[created_count % len(user_ids)],
+                        vm_id=created_count + 1,
+                    )
 
-                typer.echo(
-                    f"   ✅ {vm_data['name']} ({vm_data['operating_system']}) - {vm_data['cpu_cores']}c/{vm_data['ram_gb']}GB"
-                )
+                    # Créer la VM via l'API
+                    created_vm = api_client.vms.create(
+                        user_id=vm_data["user_id"],
+                        name=vm_data["name"],
+                        operating_system=vm_data["operating_system"],
+                        cpu_cores=vm_data["cpu_cores"],
+                        ram_gb=vm_data["ram_gb"],
+                        disk_gb=vm_data["disk_gb"],
+                        status=vm_data["status"],
+                    )
 
-            except (ValueError, KeyError, ConnectionError) as e:
-                logger.error("Erreur lors de la création d'une VM", error=str(e))
-                typer.echo(f"   ❌ Erreur pour la VM {i + 1}: {e}")
+                    created_vms.append(created_vm)
+                    created_count += 1
 
-        # Délai entre les lots pour éviter de surcharger l'API
-        if batch_end < vm_count:
-            time.sleep(delay_between_batches)
+                    vm_details = f"{vm_data['operating_system']} - {vm_data['cpu_cores']}c/{vm_data['ram_gb']}GB"
+                    display_success_message("VM", vm_data['name'], vm_details)
+
+                except (ValueError, KeyError, ConnectionError) as e:
+                    logger.error("Erreur lors de la création d'une VM", error=str(e))
+                    display_error_message("VM", i, str(e))
+
+                progress.update(task, advance=1)
+
+            # Délai entre les lots pour éviter de surcharger l'API
+            if batch_end < vm_count:
+                time.sleep(delay_between_batches)
 
     logger.info("VMs créées avec succès", count=len(created_vms))
     return created_vms
