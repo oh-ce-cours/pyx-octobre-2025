@@ -90,7 +90,7 @@ def main():
         print(f"   2. Poussez vers GitHub")
         print(f"   3. Activez GitHub Pages dans les settings du repo")
         print(f"   4. Ouvrez : https://votrenom.github.io/votre-repo/")
-        
+
         print(f"\n💡 Alternative : Utilisez l'action GitHub CI/CD")
         print(f"   - Un commit sur main déploiera automatiquement")
         print(f"   - Cf. .github/workflows/docs.yml")
