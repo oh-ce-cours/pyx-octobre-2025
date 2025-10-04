@@ -1,6 +1,9 @@
 # Demo API - Système de gestion des utilisateurs et VMs
 
-Ce projet est une démo API pour la gestion d'utilisateurs et de machines virtuelles avec génération de données Faker, documentation automatique et scripts utilitaires.
+Ce projet est une démo API pour la gestion d'utilisateurs et de machines virtuelles avec :
+- 🎲 **Génération de données** réalistes avec Faker
+- 📚 **Documentation automatique** avec Sphinx et pdoc3
+- 🛠️ **Scripts utilitaires** pour développement et tests
 
 ## 🚀 Démarrage rapide
 
