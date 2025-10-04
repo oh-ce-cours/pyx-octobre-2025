@@ -473,6 +473,7 @@ def users(
             user_count=count,
             batch_size=batch_size,
             delay_between_batches=delay,
+            max_retries=max_retries,
         )
 
         # Statistiques
@@ -581,6 +582,7 @@ def vms(
             user_ids=user_ids,
             batch_size=batch_size,
             delay_between_batches=delay,
+            max_retries=max_retries,
         )
 
         # Statistiques
