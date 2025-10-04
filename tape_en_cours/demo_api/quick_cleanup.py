@@ -183,7 +183,7 @@ def quick_cleanup(
                         try:
                             with console.status(
                                 f"Suppression VM {vm['id']}: {vm['name']}..."
-                            ) as delete_status:
+                            ):
                                 client.vms.delete(vm["id"])
 
                             console.print(
@@ -250,7 +250,7 @@ def quick_cleanup(
                         try:
                             with console.status(
                                 f"Suppression utilisateur {user['id']}: {user['name']}..."
-                            ) as delete_status:
+                            ):
                                 client.users.delete_user(user["id"])
 
                             console.print(
