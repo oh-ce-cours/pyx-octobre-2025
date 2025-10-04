@@ -121,6 +121,6 @@ else:
 
 # ✓ Implémenté : passage de mot de passe via CLI et variables d'environnement
 # ✓ Implémenté : logging structuré avec structlog
-# ✓ Implémenté : documentation avec sphinx
+# ✓ Implémenté : docstrings
 # sphinx
 # jinja pour des rapports
