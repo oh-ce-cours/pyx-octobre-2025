@@ -98,6 +98,27 @@ def create_vm(
         resp.raise_for_status()
 
         vm_result = resp.json()
+        logger.debug(f"Réponse JSON de l'API VM: {vm_result} (type: {type(vm_result)})")
+        
+        # Vérifier que vm_result est valide
+        if not vm_result or not isinstance(vm_result, dict):
+            logger.error(
+                "Réponse API invalide pour la création de VM",
+                vm_result=vm_result,
+                vm_result_type=type(vm_result),
+                status_code=resp.status_code,
+                response_text=resp.text[:200] if resp.text else "Pas de texte de réponse",
+                user_id=user_id,
+                name=name,
+            )
+            raise VMCreationError(
+                f"Réponse API invalide lors de la création de la VM '{name}' pour l'utilisateur {user_id}",
+                status_code=resp.status_code,
+                response_data={"error": "invalid_response", "user_id": user_id, "name": name},
+                user_id=user_id,
+                vm_name=name,
+            )
+        
         logger.info(
             "VM créée avec succès",
             vm_id=vm_result.get("id"),
