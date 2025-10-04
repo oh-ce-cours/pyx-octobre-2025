@@ -306,7 +306,7 @@ def create_users_via_api(
                     display_error_message("utilisateur", i, str(e))
 
                 progress.update(task, advance=1)
-                
+
                 # Délai entre chaque création d'utilisateur
                 if i < batch_size_actual - 1 or batch_end < user_count:
                     time.sleep(delay_between_batches / 2)
@@ -384,7 +384,9 @@ def create_vms_via_api(
                             status=vm_data["status"],
                         )
 
-                    created_vm = retry_with_backoff(create_vm_call, max_retries=3, base_delay=2.0)
+                    created_vm = retry_with_backoff(
+                        create_vm_call, max_retries=3, base_delay=2.0
+                    )
                     created_vms.append(created_vm)
                     created_count += 1
 
@@ -396,7 +398,7 @@ def create_vms_via_api(
                     display_error_message("VM", i, str(e))
 
                 progress.update(task, advance=1)
-                
+
                 # Délai entre chaque création de VM
                 if i < batch_size_actual - 1 or batch_end < vm_count:
                     time.sleep(delay_between_batches / 2)
