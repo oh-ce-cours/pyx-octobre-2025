@@ -174,7 +174,9 @@ class ReportService:
             logger.info("Rapport Markdown généré avec succès", filename=report_file)
             return report_file
         except (IOError, TypeError) as e:
-            logger.error("Erreur lors de la génération du rapport Markdown", error=str(e))
+            logger.error(
+                "Erreur lors de la génération du rapport Markdown", error=str(e)
+            )
             return None
 
     def generate_users_vms_report_html(
@@ -256,12 +258,17 @@ class ReportService:
 
         try:
             markdown_generator = MarkdownReportGenerator()
-            report_file = markdown_generator.generate_status_report(status_report, filename)
-            logger.info("Rapport de statut Markdown généré avec succès", filename=report_file)
+            report_file = markdown_generator.generate_status_report(
+                status_report, filename
+            )
+            logger.info(
+                "Rapport de statut Markdown généré avec succès", filename=report_file
+            )
             return report_file
         except (IOError, TypeError) as e:
             logger.error(
-                "Erreur lors de la génération du rapport de statut Markdown", error=str(e)
+                "Erreur lors de la génération du rapport de statut Markdown",
+                error=str(e),
             )
             return None
 
@@ -306,7 +313,9 @@ class ReportService:
         try:
             html_generator = HTMLReportGenerator()
             report_file = html_generator.generate_status_report(status_report, filename)
-            logger.info("Rapport de statut HTML généré avec succès", filename=report_file)
+            logger.info(
+                "Rapport de statut HTML généré avec succès", filename=report_file
+            )
             return report_file
         except (IOError, TypeError) as e:
             logger.error(
