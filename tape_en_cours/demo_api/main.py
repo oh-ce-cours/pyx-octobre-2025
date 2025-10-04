@@ -9,6 +9,9 @@ import typer
 from utils.logging_config import get_logger
 from report_manager import generate_reports, ReportType, ReportFormat
 from vm_manager import create_vm
+from utils.data_generator import DataGenerator
+import json
+from pathlib import Path
 
 logger = get_logger(__name__)
 
