@@ -54,7 +54,7 @@ logger.info("Début du processus d'authentification")
 logger.info("Configuration chargée", config_summary=config.to_dict())
 
 token = get_or_create_token(
-    base_url=BASE_URL,
+    base_url=api.base_url,
     email=config.DEMO_API_EMAIL or "jean@dupont21.com",
     password=config.DEMO_API_PASSWORD,
     token_env_var="DEMO_API_TOKEN",
@@ -65,11 +65,14 @@ if not token:
     logger.info(
         "💡 Conseil: Vérifiez que vos identifiants sont corrects dans les variables d'environnement ou la saisie interactive"
     )
+else:
+    # Définir le token dans le client API
+    api.set_token(token)
+    logger.info("Token défini dans le client API unifié")
 
-if token:
+if api.is_authenticated():
     logger.info("Récupération des informations utilisateur authentifié")
-    auth = Auth(BASE_URL)
-    user = auth.get_logged_user_info(token)
+    user = api.get_user_info()
     if user:
         logger.info(
             "Informations utilisateur récupérées",
@@ -83,7 +86,7 @@ else:
     logger.error("Aucun token disponible pour récupérer les informations utilisateur")
     user = None
 
-if token and user:
+if api.is_authenticated() and user:
     logger.info(
         "Début de création de VM",
         user_id=user["id"],
@@ -94,9 +97,7 @@ if token and user:
         disk_gb=50,
     )
 
-    vm_result = create_vm(
-        token,
-        BASE_URL,
+    vm_result = api.users.create_vm(
         user_id=user["id"],
         name="VM de Jean",
         operating_system="Ubuntu 22.04",
@@ -113,7 +114,7 @@ if token and user:
 else:
     logger.error(
         "Impossible de créer la VM: authentification échouée",
-        token_available=bool(token),
+        api_authenticated=api.is_authenticated(),
         user_available=bool(user),
     )
 
