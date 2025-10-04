@@ -211,20 +211,14 @@ def display_error_message(item_type: str, item_id: str, error: str) -> None:
 
 def delete_vm_data(client, vm: dict) -> bool:
     """Supprime une VM (logique pure sans affichage)"""
-    try:
-        client.vms.delete(vm["id"])
-        return True
-    except Exception:
-        return False
+    client.vms.delete(vm["id"])
+    return True
 
 
 def delete_user_data(client, user: dict) -> bool:
     """Supprime un utilisateur (logique pure sans affichage)"""
-    try:
-        client.users.delete_user(user["id"])
-        return True
-    except Exception:
-        return False
+    client.users.delete_user(user["id"])
+    return True
 
 
 def delete_items_batch(client, items: list, item_type: str, delay: float) -> int:
@@ -321,14 +315,10 @@ def delete_items_with_progress(
 
 def delete_single_vm_with_display(client, vm: dict) -> bool:
     """Supprime une VM avec affichage"""
-    try:
-        with console.status(f"Suppression VM {vm['id']}: {vm['name']}..."):
-            client.vms.delete(vm["id"])
-        display_success_message("VM", vm["name"])
-        return True
-    except Exception as e:
-        display_error_message("VM", vm["id"], str(e))
-        return False
+    with console.status(f"Suppression VM {vm['id']}: {vm['name']}..."):
+        client.vms.delete(vm["id"])
+    display_success_message("VM", vm["name"])
+    return True
 
 
 def delete_single_user_with_display(client, user: dict) -> bool:
