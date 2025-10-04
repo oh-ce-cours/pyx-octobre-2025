@@ -22,9 +22,11 @@ class ReportService:
         """
         self.api = api_client
 
-
     def generate_users_vms_report(
-        self, users: List[Dict[str, Any]], vms: List[Dict[str, Any]], filename: str = "vm_users.json"
+        self,
+        users: List[Dict[str, Any]],
+        vms: List[Dict[str, Any]],
+        filename: str = "vm_users.json",
     ) -> Optional[str]:
         """
         Génère un rapport utilisateurs/VMs
@@ -62,7 +64,10 @@ class ReportService:
             return None
 
     def generate_status_report(
-        self, users: List[Dict[str, Any]], vms: List[Dict[str, Any]], filename: str = "vm_status_report.json"
+        self,
+        users: List[Dict[str, Any]],
+        vms: List[Dict[str, Any]],
+        filename: str = "vm_status_report.json",
     ) -> Optional[str]:
         """
         Génère un rapport des VMs par statut
@@ -110,7 +115,10 @@ class ReportService:
             return None
 
     def generate_users_vms_report_markdown(
-        self, users: List[Dict[str, Any]], vms: List[Dict[str, Any]], filename: str = "vm_users.md"
+        self,
+        users: List[Dict[str, Any]],
+        vms: List[Dict[str, Any]],
+        filename: str = "vm_users.md",
     ) -> Optional[str]:
         """
         Génère un rapport utilisateurs/VMs en Markdown
@@ -150,7 +158,10 @@ class ReportService:
             return None
 
     def generate_users_vms_report_html(
-        self, users: List[Dict[str, Any]], vms: List[Dict[str, Any]], filename: str = "vm_users.html"
+        self,
+        users: List[Dict[str, Any]],
+        vms: List[Dict[str, Any]],
+        filename: str = "vm_users.html",
     ) -> Optional[str]:
         """
         Génère un rapport utilisateurs/VMs en HTML
@@ -188,7 +199,10 @@ class ReportService:
             return None
 
     def generate_status_report_markdown(
-        self, users: List[Dict[str, Any]], vms: List[Dict[str, Any]], filename: str = "vm_status_report.md"
+        self,
+        users: List[Dict[str, Any]],
+        vms: List[Dict[str, Any]],
+        filename: str = "vm_status_report.md",
     ) -> Optional[str]:
         """
         Génère un rapport de statut des VMs en Markdown
@@ -241,7 +255,10 @@ class ReportService:
             return None
 
     def generate_status_report_html(
-        self, users: List[Dict[str, Any]], vms: List[Dict[str, Any]], filename: str = "vm_status_report.html"
+        self,
+        users: List[Dict[str, Any]],
+        vms: List[Dict[str, Any]],
+        filename: str = "vm_status_report.html",
     ) -> Optional[str]:
         """
         Génère un rapport de statut des VMs en HTML
