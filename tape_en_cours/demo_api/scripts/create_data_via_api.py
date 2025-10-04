@@ -493,34 +493,16 @@ def users(
     )
 
     try:
-        # Créer le client API simple
-        api_client = ApiClient()
-
-        # Vérifier si on a un token, sinon essayer l'authentification automatique
-        if not api_client.is_authenticated():
-            console.print(
-                "[bold yellow]⚠️ Aucun token disponible, tentative d'authentification automatique...[/bold yellow]"
-            )
-            try:
-                # Essayer l'authentification avec les identifiants de configuration
-                if config.has_credentials:
-                    api_client.login(config.DEMO_API_EMAIL, config.DEMO_API_PASSWORD)
-                    console.print(
-                        "[bold green]✅ Authentification réussie ![/bold green]"
-                    )
-                else:
-                    console.print(
-                        "[bold red]❌ Aucun identifiant configuré pour l'authentification[/bold red]"
-                    )
-                    console.print(
-                        "[dim]💡 Configurez DEMO_API_EMAIL et DEMO_API_PASSWORD dans votre fichier .env[/dim]"
-                    )
-                    raise typer.Exit(1)
-            except Exception as auth_error:
-                console.print(
-                    f"[bold red]❌ Échec de l'authentification: {auth_error}[/bold red]"
-                )
-                raise typer.Exit(1)
+        # Créer le client API avec authentification automatique
+        console.print("[bold yellow]🔐 Authentification automatique en cours...[/bold yellow]")
+        api_client = create_authenticated_client()
+        
+        if api_client.is_authenticated():
+            console.print("[bold green]✅ Authentification réussie ![/bold green]")
+        else:
+            console.print("[bold red]❌ Échec de l'authentification[/bold red]")
+            console.print("[dim]💡 Configurez DEMO_API_EMAIL et DEMO_API_PASSWORD dans votre fichier .env[/dim]")
+            raise typer.Exit(1)
 
         console.print(
             f"[bold green]🔗 Connexion à l'API sur {api_client.base_url}[/bold green]"
@@ -598,34 +580,16 @@ def vms(
     )
 
     try:
-        # Créer le client API simple
-        api_client = ApiClient()
-
-        # Vérifier si on a un token, sinon essayer l'authentification automatique
-        if not api_client.is_authenticated():
-            console.print(
-                "[bold yellow]⚠️ Aucun token disponible, tentative d'authentification automatique...[/bold yellow]"
-            )
-            try:
-                # Essayer l'authentification avec les identifiants de configuration
-                if config.has_credentials:
-                    api_client.login(config.DEMO_API_EMAIL, config.DEMO_API_PASSWORD)
-                    console.print(
-                        "[bold green]✅ Authentification réussie ![/bold green]"
-                    )
-                else:
-                    console.print(
-                        "[bold red]❌ Aucun identifiant configuré pour l'authentification[/bold red]"
-                    )
-                    console.print(
-                        "[dim]💡 Configurez DEMO_API_EMAIL et DEMO_API_PASSWORD dans votre fichier .env[/dim]"
-                    )
-                    raise typer.Exit(1)
-            except Exception as auth_error:
-                console.print(
-                    f"[bold red]❌ Échec de l'authentification: {auth_error}[/bold red]"
-                )
-                raise typer.Exit(1)
+        # Créer le client API avec authentification automatique
+        console.print("[bold yellow]🔐 Authentification automatique en cours...[/bold yellow]")
+        api_client = create_authenticated_client()
+        
+        if api_client.is_authenticated():
+            console.print("[bold green]✅ Authentification réussie ![/bold green]")
+        else:
+            console.print("[bold red]❌ Échec de l'authentification[/bold red]")
+            console.print("[dim]💡 Configurez DEMO_API_EMAIL et DEMO_API_PASSWORD dans votre fichier .env[/dim]")
+            raise typer.Exit(1)
 
         console.print(
             f"[bold green]🔗 Connexion à l'API sur {api_client.base_url}[/bold green]"
@@ -736,34 +700,16 @@ def full_dataset(
     )
 
     try:
-        # Créer le client API simple
-        api_client = ApiClient()
-
-        # Vérifier si on a un token, sinon essayer l'authentification automatique
-        if not api_client.is_authenticated():
-            console.print(
-                "[bold yellow]⚠️ Aucun token disponible, tentative d'authentification automatique...[/bold yellow]"
-            )
-            try:
-                # Essayer l'authentification avec les identifiants de configuration
-                if config.has_credentials:
-                    api_client.login(config.DEMO_API_EMAIL, config.DEMO_API_PASSWORD)
-                    console.print(
-                        "[bold green]✅ Authentification réussie ![/bold green]"
-                    )
-                else:
-                    console.print(
-                        "[bold red]❌ Aucun identifiant configuré pour l'authentification[/bold red]"
-                    )
-                    console.print(
-                        "[dim]💡 Configurez DEMO_API_EMAIL et DEMO_API_PASSWORD dans votre fichier .env[/dim]"
-                    )
-                    raise typer.Exit(1)
-            except Exception as auth_error:
-                console.print(
-                    f"[bold red]❌ Échec de l'authentification: {auth_error}[/bold red]"
-                )
-                raise typer.Exit(1)
+        # Créer le client API avec authentification automatique
+        console.print("[bold yellow]🔐 Authentification automatique en cours...[/bold yellow]")
+        api_client = create_authenticated_client()
+        
+        if api_client.is_authenticated():
+            console.print("[bold green]✅ Authentification réussie ![/bold green]")
+        else:
+            console.print("[bold red]❌ Échec de l'authentification[/bold red]")
+            console.print("[dim]💡 Configurez DEMO_API_EMAIL et DEMO_API_PASSWORD dans votre fichier .env[/dim]")
+            raise typer.Exit(1)
 
         console.print(
             f"[bold green]🔗 Connexion à l'API sur {api_client.base_url}[/bold green]"
