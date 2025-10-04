@@ -290,9 +290,7 @@ def create_users_via_api(
                             password="password123",  # Mot de passe par défaut
                         )
 
-                    created_user = retry_with_backoff(
-                        create_user_call, max_retries=3, base_delay=2.0
-                    )
+                    created_user = retry_with_backoff(create_user_call)
                     created_users.append(created_user)
                     created_count += 1
 
