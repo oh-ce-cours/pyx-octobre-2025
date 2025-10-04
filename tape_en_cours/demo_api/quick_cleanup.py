@@ -8,6 +8,7 @@ Usage simple:
 """
 
 import sys
+import time
 from utils.api import create_authenticated_client
 from utils.logging_config import get_logger
 
