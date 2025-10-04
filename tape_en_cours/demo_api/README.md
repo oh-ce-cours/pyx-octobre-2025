@@ -106,7 +106,7 @@ python scripts/generate_docs.py
 
 Cette commande génère :
 - Documentation Sphinx (HTML moderne) : `docs/sphinx/build/index.html`
-- Documentation pydoc (HTML simple) : `docs/pydoc/html/index.html`
+- Documentation pdoc3 (moderne avec index) : `docs/pdoc3/index.html`
 
 ## 🏗️ Architecture du projet
 
@@ -135,8 +135,8 @@ demo_api/
 │   ├── quick_cleanup.py       # Script de nettoyage
 │   └── generate_docs.py       # Générateur de documentation
 └── docs/                       # Documentation
-    ├── sphinx/                 # Documentation Sphinx
-    └── pydoc/                  # Documentation pydoc
+    ├── sphinx/                 # Documentation Sphinx complète
+    └── pdoc3/                  # Documentation pdoc3 moderne avec index
 ```
 
 ## 📋 Configuration des scripts
@@ -163,7 +163,7 @@ Tous les scripts utilisent la configuration définie dans `utils/config.py` pour
 ### Scénario 2 : Démonstrations
 1. Créer un dataset complet : `create_data_via_api.py full-dataset --users 50 --vms 200`
 2. Générer la documentation : `generate_docs.py`
-3. Utiliser l'interface web pour explorer les données
+3. Accéder à l'index pdoc3 : `docs/pdoc3/index.html`
 
 ### Scénario 3 : Maintenance
 1. Vérifier le statut : `create_data_via_api.py status`
