@@ -421,12 +421,18 @@ def create_vms_via_api(
                         )
 
                 except Exception as e:
+                    import traceback
+                    stacktrace = traceback.format_exc()
                     logger.error(
                         "Erreur lors de la création d'une VM",
                         error=str(e),
                         error_type=type(e).__name__,
                         vm_data=vm_data if "vm_data" in locals() else None,
+                        stacktrace=stacktrace,
                     )
+                    print(f"\n🔍 STACKTRACE COMPLÈTE:")
+                    print(stacktrace)
+                    print(f"🔍 FIN STACKTRACE\n")
                     display_error_message("VM", i, f"{type(e).__name__}: {str(e)}")
 
                 progress.update(task, advance=1)
