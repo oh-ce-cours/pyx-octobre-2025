@@ -71,10 +71,7 @@ docs/
 │   │   ├── generate_modules.py # Auto-découverte
 │   │   └── api/                # Documentation des modules
 │   └── build/                   # Documentation générée (HTML)
-├── pdoc3/                       # Documentation pdoc3
-│   ├── README.md               # Guide pdoc3
-│   └── serve_pdoc3.py         # Script serveur
-└── pdoc3_html/                  # Documentation pdoc3 générée
+└── pdoc3/                      # Documentation pdoc3 complète avec index
 ```
 
 ## ✨ Fonctionnalités
