@@ -94,9 +94,6 @@ class Auth:
             )
 
             token = resp.json()["authToken"]
-            logger.debug(
-                "Token généré pour connexion", email=email, token_length=len(token)
-            )
             return token
 
         except requests.RequestException as e:
