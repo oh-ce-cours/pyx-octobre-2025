@@ -1,6 +1,7 @@
 import requests
 import datetime
 from utils.logging_config import get_logger
+from utils.data_generator import retry_on_429
 from .exceptions import VMsFetchError, VMCreationError, VMUpdateError, VMDeleteError
 
 # Logger pour ce module
