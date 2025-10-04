@@ -31,28 +31,36 @@ class ReportType(str, Enum):
     ALL = "all"
 
 
-def main():
-    """Point d'entrée principal du script de génération de rapports"""
-
-    parser = argparse.ArgumentParser(description="Générer les rapports de l'API demo")
-    parser.add_argument(
-        "--report-type",
-        choices=["users-vms", "status", "all"],
-        default="all",
-        help="Type de rapport à générer (défaut: all)",
-    )
-    parser.add_argument(
-        "--output-dir",
-        default="outputs",
-        help="Répertoire de sortie pour les rapports (défaut: outputs)",
-    )
-
-    args = parser.parse_args()
-
+def generate_reports(
+    report_type: ReportType = typer.Option(
+        ReportType.ALL, "--report-type", "-t", help="Type de rapport à générer"
+    ),
+        output_dir: str = typer.Option(
+        "outputs", "--output-dir", "-o", help="Répertoire de sortie pour les rapports"
+    ),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Mode verbeux"),
+) -> None:
+    """
+    Générer les rapports de l'API demo
+    
+    Exemples:
+    
+    \b
+    python scripts/generate_report.py
+    python scripts/generate_report.py --report-type users-vms
+    python scripts/generate_report.py -t all -o ./rapports
+    """
+    
+    if verbose:
+        print(f"🔧 Configuration:")
+        print(f"   Type de rapport: {report_type.value}")
+        print(f"   Répertoire de sortie: {output_dir}")
+        print()
+    
     logger.info(
         "Début de génération des rapports",
-        report_type=args.report_type,
-        output_dir=args.output_dir,
+        report_type=report_type.value,
+        output_dir=output_dir,
     )
 
     # Initialisation du client API et du service
@@ -62,21 +70,31 @@ def main():
     # Génération des rapports selon le type demandé
     generated_files = []
 
-    if args.report_type in ["users-vms", "all"]:
+    if report_type in [ReportType.USERS_VMS, ReportType.ALL]:
         logger.info("Génération du rapport utilisateurs/VMs")
+        typer.echo("📊 Génération du rapport utilisateurs/VMs...")
+        
         report_file = report_service.generate_users_vms_report("vm_users.json")
         if report_file:
             generated_files.append(report_file)
+            if verbose:
+                typer.echo(f"   ✅ Généré: {report_file}")
         else:
             logger.error("Échec de la génération du rapport utilisateurs/VMs")
+            typer.echo("❌ Échec de la génération du rapport utilisateurs/VMs")
 
-    if args.report_type in ["status", "all"]:
+    if report_type in [ReportType.STATUS, ReportType.ALL]:
         logger.info("Génération du rapport de statut des VMs")
+        typer.echo("📈 Génération du rapport de statut des VMs...")
+        
         status_file = report_service.generate_status_report("vm_status_report.json")
         if status_file:
             generated_files.append(status_file)
+            if verbose:
+                typer.echo(f"   ✅ Généré: {status_file}")
         else:
             logger.error("Échec de la génération du rapport de statut")
+            typer.echo("❌ Échec de la génération du rapport de statut")
 
     # Résumé
     if generated_files:
