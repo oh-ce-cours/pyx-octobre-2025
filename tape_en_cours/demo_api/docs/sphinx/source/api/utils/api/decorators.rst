@@ -5,3 +5,4 @@ Module utils.api.decorators
    :members:
    :undoc-members:
    :show-inheritance:
+   :special-members: __init__

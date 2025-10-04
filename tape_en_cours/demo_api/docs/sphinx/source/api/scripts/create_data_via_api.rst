@@ -1,7 +1,7 @@
-Module utils.services.data_manager
+Module scripts.create_data_via_api
 ==================================
 
-.. automodule:: utils.services.data_manager
+.. automodule:: scripts.create_data_via_api
    :members:
    :undoc-members:
    :show-inheritance:

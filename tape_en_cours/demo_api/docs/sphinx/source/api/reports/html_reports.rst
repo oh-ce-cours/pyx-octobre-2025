@@ -5,3 +5,4 @@ Module reports.html_reports
    :members:
    :undoc-members:
    :show-inheritance:
+   :special-members: __init__

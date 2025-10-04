@@ -5,3 +5,4 @@ Module utils.password_utils
    :members:
    :undoc-members:
    :show-inheritance:
+   :special-members: __init__

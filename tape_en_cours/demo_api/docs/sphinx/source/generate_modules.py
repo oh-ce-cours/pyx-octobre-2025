@@ -130,7 +130,7 @@ def generate_index_rst(modules: list, output_dir: Path) -> None:
 def main():
     """Fonction principale."""
     # Définir les chemins
-    project_root = Path(__file__).parent.parent.parent
+    project_root = Path(__file__).parent.parent.parent.parent
     output_dir = Path(__file__).parent / "api"
 
     print(f"🔍 Exploration du projet: {project_root}")
