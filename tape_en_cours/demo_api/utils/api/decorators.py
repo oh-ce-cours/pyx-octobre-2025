@@ -15,14 +15,14 @@ logger = get_logger(__name__)
 config = Config()
 
 
-def retry_on_429(max_retries: int = None, base_delay: float = 7.0):
+def retry_on_429(max_retries: int | None = None, base_delay: float = 7.0):
     """
     Décorateur pour gérer automatiquement les erreurs 429 (Too Many Requests)
     avec retry et backoff exponentiel.
 
     Args:
-        max_retries: Nombre maximum de tentatives (défaut: 5)
-        base_delay: Délai de base en secondes (défaut: 2.0)
+        max_retries: Nombre maximum de tentatives (défaut: utilise DEMO_API_MAX_RETRIES de la config)
+        base_delay: Délai de base en secondes (défaut: 7.0)
     """
 
     def decorator(func: Callable) -> Callable:
@@ -42,12 +42,12 @@ def retry_on_429(max_retries: int = None, base_delay: float = 7.0):
 
                     # Si c'est une erreur 429 (Too Many Requests), on retry avec backoff
                     if "429" in error_str and "too many requests" in error_str:
-                        if attempt < max_retries:
+                        if attempt < actual_max_retries:
                             # Backoff exponentiel avec délai maximum de 30s
                             delay = min(base_delay * (2**attempt), 30.0)
                             logger.warning(
                                 f"Limite API atteinte pour {func.__name__}, "
-                                f"attente {delay:.1f}s avant retry {attempt + 1}/{max_retries}"
+                                f"attente {delay:.1f}s avant retry {attempt + 1}/{actual_max_retries}"
                             )
                             time.sleep(delay)
                             continue
