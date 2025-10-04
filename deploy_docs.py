@@ -120,8 +120,6 @@ def fix_static_paths(file_path: Path) -> bool:
         return False
 
 
-
-
 def create_robots_txt():
     """Crée le fichier robots.txt pour éviter l'indexation des dossiers techniques."""
     robots_path = DOCS_DEPLOY_DIR / "robots.txt"
@@ -240,8 +238,7 @@ def main():
         f.write(index_content)
     print("✅ Page d'accueil créée")
 
-    # 8. Créer les fichiers de configuration GitHub Pages
-    create_nojekyll_file()
+    # 8. Créer le fichier robots.txt
     create_robots_txt()
 
     # 9. Corriger les chemins dans tous les fichiers
