@@ -603,18 +603,28 @@ def vms(
 
         # Vérifier si on a un token, sinon essayer l'authentification automatique
         if not api_client.is_authenticated():
-            console.print("[bold yellow]⚠️ Aucun token disponible, tentative d'authentification automatique...[/bold yellow]")
+            console.print(
+                "[bold yellow]⚠️ Aucun token disponible, tentative d'authentification automatique...[/bold yellow]"
+            )
             try:
                 # Essayer l'authentification avec les identifiants de configuration
                 if config.has_credentials:
                     api_client.login(config.DEMO_API_EMAIL, config.DEMO_API_PASSWORD)
-                    console.print("[bold green]✅ Authentification réussie ![/bold green]")
+                    console.print(
+                        "[bold green]✅ Authentification réussie ![/bold green]"
+                    )
                 else:
-                    console.print("[bold red]❌ Aucun identifiant configuré pour l'authentification[/bold red]")
-                    console.print("[dim]💡 Configurez DEMO_API_EMAIL et DEMO_API_PASSWORD dans votre fichier .env[/dim]")
+                    console.print(
+                        "[bold red]❌ Aucun identifiant configuré pour l'authentification[/bold red]"
+                    )
+                    console.print(
+                        "[dim]💡 Configurez DEMO_API_EMAIL et DEMO_API_PASSWORD dans votre fichier .env[/dim]"
+                    )
                     raise typer.Exit(1)
             except Exception as auth_error:
-                console.print(f"[bold red]❌ Échec de l'authentification: {auth_error}[/bold red]")
+                console.print(
+                    f"[bold red]❌ Échec de l'authentification: {auth_error}[/bold red]"
+                )
                 raise typer.Exit(1)
 
         console.print(
