@@ -176,15 +176,17 @@ class Config:
             config_items.append(f"{key}={value}")
         return f"Config({', '.join(config_items)})"
 
-    def save_to_env_file(self, key: str, value: str, env_file: str = ".env.local") -> bool:
+    def save_to_env_file(
+        self, key: str, value: str, env_file: str = ".env.local"
+    ) -> bool:
         """
         Sauvegarde une valeur dans un fichier .env
-        
+
         Args:
             key (str): Clé de la variable d'environnement
             value (str): Valeur à sauvegarder
             env_file (str): Fichier .env cible (par défaut .env.local)
-            
+
         Returns:
             bool: True si sauvegardé avec succès
         """
@@ -195,25 +197,25 @@ class Config:
             return True
         except (OSError, IOError, PermissionError):
             return False
-    
+
     def update_token(self, token: str) -> bool:
         """
         Met à jour le token d'authentification dans la configuration
-        
+
         Args:
             token (str): Nouveau token
-            
+
         Returns:
             bool: True si mis à jour avec succès
         """
         if not token:
             return False
-            
+
         success = self.save_to_env_file("DEMO_API_TOKEN", token)
         if success:
             self.DEMO_API_TOKEN = token
         return success
-    
+
     def __repr__(self) -> str:
         """Représentation détaillée pour le debugging"""
         return f"Config(base_url='{self.DEMO_API_BASE_URL}', debug={self.DEMO_API_DEBUG}, env_files={self.env_files_loaded})"

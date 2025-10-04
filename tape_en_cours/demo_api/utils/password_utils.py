@@ -279,7 +279,7 @@ def save_token_to_env(token, env_var="DEMO_API_TOKEN"):
 
     # Utiliser le gestionnaire de configuration pour sauvegarder
     from .config import config
-    
+
     if env_var == "DEMO_API_TOKEN":
         success = config.update_token(token)
     else:
