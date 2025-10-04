@@ -69,11 +69,7 @@ class JSONReportGenerator(BaseReportGenerator):
                     ensure_ascii=False,
                 )
 
-            logger.info(
-                "Rapport JSON généré avec succès",
-                filename=filename,
-                data_size=len(str(data)),
-            )
+            logger.info("Rapport JSON généré avec succès", filename=filename, data_size=len(str(data)))
 
             return filename
 
