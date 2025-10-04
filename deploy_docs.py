@@ -147,40 +147,6 @@ def clean_deploy_directory():
         print("ℹ️  Dossier docs-deploy n'existe pas encore")
 
 
-def copy_static_folder():
-    """Copie le dossier _static vers static pour GitHub Pages."""
-    sphinx_static_src = DOCS_DEPLOY_DIR / "sphinx" / "_static"
-    sphinx_static_dst = DOCS_DEPLOY_DIR / "sphinx" / "static"
-
-    if sphinx_static_src.exists():
-        if sphinx_static_dst.exists():
-            shutil.rmtree(sphinx_static_dst)
-        shutil.copytree(sphinx_static_src, sphinx_static_dst)
-        css_files = list(sphinx_static_dst.glob("**/*.css"))
-        js_files = list(sphinx_static_dst.glob("**/*.js"))
-        print(
-            f"✅ Dossier static/ créé avec {len(css_files)} fichiers CSS et {len(js_files)} fichiers JS"
-        )
-        return True
-    else:
-        print("⚠️  Dossier _static non trouvé - les styles ne se chargeront pas")
-        return False
-
-
-def verify_static_folder():
-    """Vérifie que le dossier _static existe et contient les fichiers nécessaires."""
-    sphinx_static_dir = DOCS_DEPLOY_DIR / "sphinx" / "_static"
-
-    if sphinx_static_dir.exists():
-        css_files = list(sphinx_static_dir.glob("**/*.css"))
-        js_files = list(sphinx_static_dir.glob("**/*.js"))
-        print(
-            f"✅ Dossier _static trouvé avec {len(css_files)} fichiers CSS et {len(js_files)} fichiers JS"
-        )
-        return True
-    else:
-        print("⚠️  Dossier _static non trouvé - les styles ne se chargeront pas")
-        return False
 
 
 def main():
@@ -285,8 +251,6 @@ def main():
     create_nojekyll_file()
     create_robots_txt()
 
-    # 9. Copier le dossier _static vers static pour GitHub Pages
-    copy_static_folder()
 
     # 10. Corriger les chemins dans tous les fichiers
     print("\n🔧 Correction des chemins CSS pour GitHub Pages...")
