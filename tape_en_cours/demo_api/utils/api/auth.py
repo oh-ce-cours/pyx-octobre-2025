@@ -87,6 +87,10 @@ class Auth:
         return token
 
     def get_logged_user_info(self, token):
+        if not token:
+            logger.error("Token manquant pour récupérer les informations utilisateur")
+            return None
+            
         logger.info(
             "Récupération des informations utilisateur", token_length=len(token)
         )
