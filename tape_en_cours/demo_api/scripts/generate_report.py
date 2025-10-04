@@ -97,20 +97,23 @@ def generate_reports(
             typer.echo("❌ Échec de la génération du rapport de statut")
 
     # Résumé
+    print()
     if generated_files:
         logger.info(
             "Génération terminée avec succès",
             files_generated=len(generated_files),
             files=generated_files,
         )
-        print(f"✅ {len(generated_files)} rapport(s) généré(s) avec succès")
+        typer.echo(f"🎉 {len(generated_files)} rapport(s) généré(s) avec succès")
         for file in generated_files:
-            print(f"   📄 {file}")
+            typer.echo(f"   📄 {file}")
+        typer.echo()
+        typer.echo("✨ Génération terminée!")
     else:
         logger.error("Aucun rapport n'a pu être généré")
-        print("❌ Aucun rapport n'a pu être généré")
-        sys.exit(1)
+        typer.echo("❌ Aucun rapport n'a pu être généré")
+        raise typer.Exit(1)
 
 
 if __name__ == "__main__":
-    main()
+    app()

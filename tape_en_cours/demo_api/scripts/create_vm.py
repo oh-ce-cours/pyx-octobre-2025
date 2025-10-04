@@ -6,7 +6,7 @@ Ce script authentifie un utilisateur et crée une VM selon la configuration spé
 """
 
 import sys
-import argparse
+import typer
 from pathlib import Path
 
 # Ajouter le répertoire parent au path pour les imports
@@ -18,6 +18,7 @@ from utils.logging_config import get_logger
 from utils.config import config
 
 logger = get_logger("create_vm")
+app = typer.Typer(help="Créer une VM pour un utilisateur")
 
 
 def main():
