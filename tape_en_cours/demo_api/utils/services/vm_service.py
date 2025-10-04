@@ -23,7 +23,7 @@ class VMService:
         """
         self.api = api_client
     
-    def authenticate_user(self, email: str = "jean@dupont21.com", password: str = None) -> Optional[Dict[str, Any]]]:
+    def authenticate_user(self, email: str = "jean@dupont21.com", password: str = None) -> "Optional[Dict[str, Any]]":
         """
         Authentifie un utilisateur et retourne ses informations
         
