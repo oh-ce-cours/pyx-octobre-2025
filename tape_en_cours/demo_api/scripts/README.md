@@ -1,6 +1,6 @@
-# Scripts Utilitaires
+# Scripts Utilitaires Demo API
 
-Ce dossier contient tous les scripts utilitaires pour la démo API.
+Ce dossier contient tous les scripts utilitaires pour la démo API, incluant la **génération automatique de documentation**.
 
 ## Scripts Disponibles
 

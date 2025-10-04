@@ -183,13 +183,33 @@ Tous les scripts utilisent la configuration définie dans `utils/config.py` pour
 
 ## 📖 Documentation complète
 
-La documentation complète du projet est disponible après génération :
+### 🚀 Génération automatique
+```bash
+# Génération complète (Sphinx + pdoc3)
+python scripts/generate_docs.py
+```
 
-- **Documentation Sphinx** : Ouvrez `docs/sphinx/build/index.html` dans votre navigateur
-- **Documentation pydoc** : Ouvrez `docs/pydoc/html/index.html` dans votre navigateur
-- **Guide d'amélioration des barres de progression** : `docs/AMELIORATIONS_PROGRESS_BAR.md`
-- **Architecture simplifiée** : `docs/ARCHITECTURE_SIMPLE.md`
-- **Guide de refactoring** : `docs/REFACTORING_GUIDE.md`
+### 📚 Documentation interactive
+
+#### ⚡ pdoc3 - Moderne et rapide (recommandé pour développement)
+```bash
+# Serveur de développement avec CSS moderne
+pdoc --http :8080 main utils.config
+# Accès : http://localhost:8080
+```
+
+#### 📖 Sphinx - Complète et professionnelle (pour documentation finale)
+```bash
+cd docs/sphinx && sphinx-build -b html source build
+# Accès : docs/sphinx/build/index.html
+```
+
+### 📁 Guides techniques disponibles
+
+- **📋 Architecture simplifiée** : `docs/ARCHITECTURE_SIMPLE.md`
+- **🔧 Guide de refactoring** : `docs/REFACTORING_GUIDE.md`
+- **⚡ Améliorations barres de progression** : `docs/AMELIORATIONS_PROGRESS_BAR.md`
+- **🔄 Migration vers Typer** : `docs/MIGRATION_TYPER.md`
 
 ## 🤝 Contribution
 
