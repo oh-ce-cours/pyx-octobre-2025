@@ -124,7 +124,9 @@ def create_vm(
 
         try:
             vm_result = resp.json()
-            logger.debug(f"Réponse JSON de l'API VM: {vm_result} (type: {type(vm_result)})")
+            logger.debug(
+                f"Réponse JSON de l'API VM: {vm_result} (type: {type(vm_result)})"
+            )
         except Exception as json_error:
             logger.error(
                 "Erreur lors du parsing JSON de la réponse VM",
@@ -137,7 +139,11 @@ def create_vm(
             raise VMCreationError(
                 f"Erreur de parsing JSON lors de la création de la VM '{name}' pour l'utilisateur {user_id}: {str(json_error)}",
                 status_code=resp.status_code,
-                response_data={"error": "json_parse_error", "user_id": user_id, "name": name},
+                response_data={
+                    "error": "json_parse_error",
+                    "user_id": user_id,
+                    "name": name,
+                },
                 user_id=user_id,
                 vm_name=name,
             )

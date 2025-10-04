@@ -708,7 +708,7 @@ def full_dataset(
         # Debug: Afficher le contenu de created_users
         logger.debug(f"Liste created_users: {created_users}")
         logger.debug(f"Type de created_users: {type(created_users)}")
-        
+
         if created_users is None:
             logger.error("created_users est None!")
             console.print(
@@ -719,7 +719,7 @@ def full_dataset(
                 )
             )
             raise typer.Exit(1)
-        
+
         logger.debug(f"Nombre d'utilisateurs dans created_users: {len(created_users)}")
         for i, user in enumerate(created_users):
             logger.debug(f"Utilisateur {i}: {user} (type: {type(user)})")
