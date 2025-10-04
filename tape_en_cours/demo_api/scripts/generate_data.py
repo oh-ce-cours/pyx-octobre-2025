@@ -6,10 +6,15 @@ Permet de générer des utilisateurs et VMs réalistes pour les tests et démons
 
 import json
 import typer
+import sys
 from pathlib import Path
 from typing import Optional
-from ..utils.data_generator import DataGenerator
-from ..utils.logging_config import get_logger
+
+# Ajouter le répertoire parent au path pour les imports
+sys.path.append(str(Path(__file__).parent.parent))
+
+from utils.data_generator import DataGenerator
+from utils.logging_config import get_logger
 
 logger = get_logger(__name__)
 
