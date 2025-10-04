@@ -91,11 +91,11 @@ html_permalinks_icon = "§"
 # Configuration alternative pour GitHub Pages - Force les chemins absolus
 # Cette configuration est cruciale pour que les CSS se chargent correctement
 html_context = {
-    'display_github': False,
-    'github_user': 'oh-ce-cours',
-    'github_repo': 'pyx-octobre-2025',
-    'github_version': 'main',
-    'conf_py_path': '/tape_en_cours/demo_api/docs/sphinx/source/',
+    "display_github": False,
+    "github_user": "oh-ce-cours",
+    "github_repo": "pyx-octobre-2025",
+    "github_version": "main",
+    "conf_py_path": "/tape_en_cours/demo_api/docs/sphinx/source/",
 }
 
 # -- Options for Furo theme ------------------------------------------------
@@ -144,8 +144,10 @@ def setup(app):
         """Ajoute le contexte nécessaire pour GitHub Pages."""
         if app.builder.name == "html":
             # Force l'utilisation de chemins absolus pour les assets statiques
-            base_url = app.config.html_baseurl.rstrip('/')
-            context["pathto"] = lambda other, *args, **kwargs: f"{base_url}/{other.lstrip('/')}"
+            base_url = app.config.html_baseurl.rstrip("/")
+            context["pathto"] = (
+                lambda other, *args, **kwargs: f"{base_url}/{other.lstrip('/')}"
+            )
 
     app.connect("html-page-context", add_github_pages_context)
 
