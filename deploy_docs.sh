@@ -41,24 +41,41 @@ fix_css_paths() {
         relative_path="${BASE_URL}"
     fi
     
+    echo "🔧 Correction des chemins dans: $file"
+    echo "   Base URL: $relative_path"
+    
     # Détecter le système d'exploitation pour la compatibilité sed
     if [[ "$OSTYPE" == "darwin"* ]]; then
         # macOS
         sed -i '' \
             -e "s|href=\"_static/|href=\"${relative_path}/_static/|g" \
             -e "s|src=\"_static/|src=\"${relative_path}/_static/|g" \
+            -e "s|url(\"_static/|url(\"${relative_path}/_static/|g" \
+            -e "s|url('_static/|url('${relative_path}/_static/|g" \
             "$file"
     else
         # Linux/Unix
         sed -i \
             -e "s|href=\"_static/|href=\"${relative_path}/_static/|g" \
             -e "s|src=\"_static/|src=\"${relative_path}/_static/|g" \
+            -e "s|url(\"_static/|url(\"${relative_path}/_static/|g" \
+            -e "s|url('_static/|url('${relative_path}/_static/|g" \
             "$file"
     fi
 }
 
 # Appliquer la correction à tous les fichiers HTML (Sphinx et pdoc3)
 find docs-deploy -name "*.html" -type f | while read -r file; do
+    fix_css_paths "$file"
+done
+
+# Appliquer la correction aux fichiers CSS également
+find docs-deploy -name "*.css" -type f | while read -r file; do
+    fix_css_paths "$file"
+done
+
+# Appliquer la correction aux fichiers JS également
+find docs-deploy -name "*.js" -type f | while read -r file; do
     fix_css_paths "$file"
 done
 
