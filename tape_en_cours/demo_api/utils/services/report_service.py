@@ -118,10 +118,9 @@ class ReportService:
             status = vm.get("status", "unknown")
             status_counts[status] = status_counts.get(status, 0) + 1
 
-        # Créer le rapport
+        # Créer le rapport (sans métadonnées redondantes)
         status_report = {
-            "metadata": {
-                "generated_at": "now",  # Le générateur ajoutera le timestamp
+            "summary": {
                 "total_vms": len(vms),
                 "total_users": len(users),
             },
