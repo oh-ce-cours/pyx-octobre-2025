@@ -13,7 +13,7 @@ from pathlib import Path
 
 
 # Configuration
-BASE_URL = "https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy"
+BASE_URL = "https://oh-ce-cours.github.io/pyx-octobre-2025"
 PROJECT_ROOT = Path(__file__).parent
 DEMO_API_DIR = PROJECT_ROOT / "tape_en_cours" / "demo_api"
 DOCS_DEPLOY_DIR = PROJECT_ROOT / "docs-deploy"
@@ -151,14 +151,16 @@ def copy_static_folder():
     """Copie le dossier _static vers static pour GitHub Pages."""
     sphinx_static_src = DOCS_DEPLOY_DIR / "sphinx" / "_static"
     sphinx_static_dst = DOCS_DEPLOY_DIR / "sphinx" / "static"
-    
+
     if sphinx_static_src.exists():
         if sphinx_static_dst.exists():
             shutil.rmtree(sphinx_static_dst)
         shutil.copytree(sphinx_static_src, sphinx_static_dst)
         css_files = list(sphinx_static_dst.glob("**/*.css"))
         js_files = list(sphinx_static_dst.glob("**/*.js"))
-        print(f"✅ Dossier static/ créé avec {len(css_files)} fichiers CSS et {len(js_files)} fichiers JS")
+        print(
+            f"✅ Dossier static/ créé avec {len(css_files)} fichiers CSS et {len(js_files)} fichiers JS"
+        )
         return True
     else:
         print("⚠️  Dossier _static non trouvé - les styles ne se chargeront pas")
@@ -283,8 +285,8 @@ def main():
     create_nojekyll_file()
     create_robots_txt()
 
-    # 9. Vérifier le dossier _static
-    verify_static_folder()
+    # 9. Copier le dossier _static vers static pour GitHub Pages
+    copy_static_folder()
 
     # 10. Corriger les chemins dans tous les fichiers
     print("\n🔧 Correction des chemins CSS pour GitHub Pages...")
