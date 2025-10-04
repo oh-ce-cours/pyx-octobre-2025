@@ -11,10 +11,10 @@ logger = get_logger(__name__)
 def parse_unix_timestamp(ts):
     """
     Convertit un timestamp Unix (en millisecondes) en objet datetime.
-    
+
     Args:
         ts (int): Timestamp Unix en millisecondes
-        
+
     Returns:
         datetime.datetime: Objet datetime correspondant
     """
@@ -25,13 +25,13 @@ def parse_unix_timestamp(ts):
 def get_vms(base_url):
     """
     Récupère la liste des VMs depuis l'API.
-    
+
     Args:
         base_url (str): URL de base de l'API
-        
+
     Returns:
         list: Liste des VMs avec leurs dates de création converties
-        
+
     Raises:
         VMsFetchError: Si la récupération des VMs échoue
     """
@@ -87,7 +87,7 @@ def create_vm(
 ):
     """
     Crée une nouvelle VM via l'API.
-    
+
     Args:
         token (str): Token d'authentification
         base_url (str): URL de base de l'API
@@ -98,10 +98,10 @@ def create_vm(
         ram_gb (int): Quantité de RAM en GB
         disk_gb (int): Taille du disque en GB
         status (str): Statut initial de la VM (défaut: "running")
-        
+
     Returns:
         dict: Données de la VM créée
-        
+
     Raises:
         VMCreationError: Si la création de la VM échoue
     """
