@@ -42,16 +42,12 @@ def generate_reports(
     """
 
     if verbose:
-        print(f"🔧 Configuration:")
-        print(f"   Type de rapport: {report_type.value}")
-        print(f"   Répertoire de sortie: {output_dir}")
-        print()
+        typer.echo(f"🔧 Configuration:")
+        typer.echo(f"   Type de rapport: {report_type.value}")
+        typer.echo(f"   Répertoire de sortie: {output_dir}")
+        typer.echo()
 
-    logger.info(
-        "Début de génération des rapports",
-        report_type=report_type.value,
-        output_dir=output_dir,
-    )
+    logger.info("Début de génération des rapports", report_type=report_type.value, output_dir=output_dir)
 
     # Initialisation du client API et du service
     api = Api(config.DEMO_API_BASE_URL)
