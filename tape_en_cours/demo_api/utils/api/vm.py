@@ -51,6 +51,7 @@ def get_vms(base_url):
         )
 
 
+@retry_on_429(max_retries=5, base_delay=2.0)
 def create_vm(
     token,
     base_url,

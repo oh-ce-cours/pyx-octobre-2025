@@ -189,48 +189,6 @@ def display_api_status(all_data: Dict[str, Any], api_url: str) -> None:
 # =============================================================================
 
 
-def retry_with_backoff(
-    func: Callable[[], Any], max_retries: int = 5, base_delay: float = 2.0
-) -> Any:
-    """
-    Exécute une fonction avec retry et backoff exponentiel pour les errores 429.
-
-    Args:
-        func: Fonction à exécuter
-        max_retries: Nombre maximum de tentatives
-        base_delay: Délai de base en secondes
-
-    Returns:
-        Résultat de la fonction si elle réussit
-
-    Raises:
-        Exception: Si toutes les tentatives échouent
-    """
-    last_exception = None
-
-    for attempt in range(max_retries + 1):
-        try:
-            return func()
-        except Exception as e:
-            last_exception = e
-            error_str = str(e).lower()
-
-            # Si c'est une erreur 429 (Too Many Requests), on retry avec backoff
-            if "429" in error_str and "too many requests" in error_str:
-                if attempt < max_retries:
-                    # Backoff exponentiel avec délai maximum de 30s
-                    delay = min(base_delay * (2**attempt), 30.0)
-                    console.print(
-                        f"[yellow]⚠️ Limite API atteinte, attente {delay:.1f}s avant retry {attempt + 1}/{max_retries}[/yellow]"
-                    )
-                    time.sleep(delay)
-                    continue
-            else:
-                # Pour les autres erreurs, on ne retry pas
-                raise e
-
-    # Si on arrive ici, toutes les tentatives ont échoué
-    raise last_exception
 
 
 def create_users_via_api(
