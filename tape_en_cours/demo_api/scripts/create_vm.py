@@ -22,20 +22,26 @@ app = typer.Typer(help="Créer une VM pour un utilisateur")
 
 
 def create_vm(
-    email: str = typer.Option("jean@dupont21.com", "--email", "-e", help="Email de l'utilisateur"),
+    email: str = typer.Option(
+        "jean@dupont21.com", "--email", "-e", help="Email de l'utilisateur"
+    ),
     name: str = typer.Option("VM de Jean", "--name", "-n", help="Nom de la VM"),
     os: str = typer.Option("Ubuntu 22.04", "--os", "-o", help="Système d'exploitation"),
-    cores: int = typer.Option(2, "--cores", "-c", help="Nombre de cœurs CPU", min=1, max=16),
+    cores: int = typer.Option(
+        2, "--cores", "-c", help="Nombre de cœurs CPU", min=1, max=16
+    ),
     ram: int = typer.Option(4, "--ram", "-r", help="RAM en GB", min=1, max=128),
     disk: int = typer.Option(50, "--disk", "-d", help="Disque en GB", min=10, max=2048),
-    status: str = typer.Option("stopped", "--status", "-s", help="Statut initial de la VM"),
+    status: str = typer.Option(
+        "stopped", "--status", "-s", help="Statut initial de la VM"
+    ),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Mode verbeux"),
 ) -> None:
     """
     Créer une VM pour un utilisateur
-    
+
     Exemples:
-    
+
     \b
     python scripts/create_vm.py
     python scripts/create_vm.py --name "Ma VM" --cores 4
