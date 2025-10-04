@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>demo_api.reports.json_reports API documentation</title>
+<meta name="description" content="Générateur de rapports JSON pour demo_api">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>demo_api.reports.json_reports</code></h1>
+</header>
+<section id="section-intro">
+<p>Générateur de rapports JSON pour demo_api</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="demo_api.reports.json_reports.JSONReportGenerator"><code class="flex name class">
+<span>class <span class="ident">JSONReportGenerator</span></span>
+<span>(</span><span>output_directory: str = 'outputs')</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class JSONReportGenerator(BaseReportGenerator):
+    &#34;&#34;&#34;Générateur de rapports au format JSON&#34;&#34;&#34;
+
+    def __init__(self, output_directory: str = &#34;outputs&#34;):
+        &#34;&#34;&#34;
+        Initialise le générateur de rapports JSON
+
+        Args:
+            output_directory: Dossier de sortie pour les rapports JSON
+        &#34;&#34;&#34;
+        super().__init__(output_directory)
+        self.json_directory = os.path.join(output_directory, &#34;json&#34;)
+        self._ensure_json_directory()
+
+    def _ensure_json_directory(self) -&gt; None:
+        &#34;&#34;&#34;Crée le dossier JSON s&#39;il n&#39;existe pas&#34;&#34;&#34;
+        if not os.path.exists(self.json_directory):
+            os.makedirs(self.json_directory, exist_ok=True)
+            logger.info(f&#34;Dossier JSON créé: {self.json_directory}&#34;)
+
+    def get_extension(self) -&gt; str:
+        &#34;&#34;&#34;Retourne l&#39;extension des fichiers JSON&#34;&#34;&#34;
+        return &#34;json&#34;
+
+    def generate(self, data: Any, filename: Optional[str] = None) -&gt; str:
+        &#34;&#34;&#34;
+        Génère un rapport JSON
+
+        Args:
+            data: Données à inclure dans le rapport JSON
+            filename: Nom de fichier personnalisé (optionnel)
+
+        Returns:
+            str: Chemin vers le fichier JSON généré
+        &#34;&#34;&#34;
+        if filename is None:
+            filename = self._generate_filename(&#34;report&#34;, self.get_extension())
+        else:
+            # S&#39;assurer que le fichier a la bonne extension
+            if not filename.endswith(f&#34;.{self.get_extension()}&#34;):
+                filename = f&#34;{filename}.{self.get_extension()}&#34;
+            filename = os.path.join(self.json_directory, filename)
+
+        # Préparer les données avec métadonnées
+        report_data = {&#34;metadata&#34;: self._get_metadata(), &#34;data&#34;: data}
+
+        # Générer le fichier JSON
+        try:
+            with open(filename, &#34;w&#34;, encoding=&#34;utf-8&#34;) as f:
+                json.dump(
+                    report_data,
+                    f,
+                    indent=4,
+                    sort_keys=True,
+                    default=str,
+                    ensure_ascii=False,
+                )
+
+            logger.info(&#34;Rapport JSON généré avec succès&#34;, filename=filename, data_size=len(str(data)))
+
+            return filename
+
+        except Exception as e:
+            logger.error(&#34;Erreur lors de la génération du rapport JSON&#34;, filename=filename, error=str(e))
+            raise
+
+    def generate_users_vms_report(
+        self, users: List[Dict[str, Any]], filename: str = &#34;vm_users.json&#34;
+    ) -&gt; str:
+        &#34;&#34;&#34;
+        Génère un rapport spécifique pour les utilisateurs et VMs
+
+        Args:
+            users: Liste des utilisateurs avec leurs VMs associées
+            filename: Nom du fichier de sortie
+
+        Returns:
+            str: Chemin vers le fichier généré
+        &#34;&#34;&#34;
+        logger.info(&#34;Génération du rapport utilisateurs/VMs&#34;, users_count=len(users), filename=filename)
+
+        # Statistiques supplémentaires
+        stats = self._calculate_users_vms_stats(users)
+
+        report_data = {
+            &#34;summary&#34;: {
+                &#34;total_users&#34;: len(users),
+                &#34;total_vms&#34;: stats[&#34;total_vms&#34;],
+                &#34;vms_by_status&#34;: stats[&#34;vms_by_status&#34;],
+                &#34;users_with_vms&#34;: stats[&#34;users_with_vms&#34;],
+                &#34;users_without_vms&#34;: stats[&#34;users_without_vms&#34;],
+            },
+            &#34;users&#34;: users,
+        }
+
+        return self.generate(report_data, filename)
+
+    def _calculate_users_vms_stats(self, users: List[Dict[str, Any]]) -&gt; Dict[str, Any]:
+        &#34;&#34;&#34;Calcule les statistiques des utilisateurs et VMs&#34;&#34;&#34;
+        total_vms: int = 0
+        vms_by_status: Dict[str, int] = {}
+        users_with_vms: int = 0
+        users_without_vms: int = 0
+
+        for user in users:
+            user_vms = user.get(&#34;vms&#34;, [])
+            if user_vms:
+                users_with_vms += 1
+                total_vms += len(user_vms)
+
+                # Compter les VMs par statut
+                for vm in user_vms:
+                    status = vm.get(&#34;status&#34;, &#34;unknown&#34;)
+                    vms_by_status[status] = vms_by_status.get(status, 0) + 1
+            else:
+                users_without_vms += 1
+
+        return {
+            &#34;total_vms&#34;: total_vms,
+            &#34;vms_by_status&#34;: vms_by_status,
+            &#34;users_with_vms&#34;: users_with_vms,
+            &#34;users_without_vms&#34;: users_without_vms,
+        }
+
+    def generate_api_summary_report(
+        self, api_data: Dict[str, Any], filename: str = &#34;api_summary.json&#34;
+    ) -&gt; str:
+        &#34;&#34;&#34;
+        Génère un rapport de résumé de l&#39;API
+
+        Args:
+            api_data: Données de l&#39;API (utilisateurs, VMs, etc.)
+            filename: Nom du fichier de sortie
+
+        Returns:
+            str: Chemin vers le fichier généré
+        &#34;&#34;&#34;
+        logger.info(&#34;Génération du rapport de résumé API&#34;, filename=filename)
+
+        summary_data = {
+            &#34;api_info&#34;: {
+                &#34;base_url&#34;: api_data.get(&#34;base_url&#34;, &#34;unknown&#34;),
+                &#34;timestamp&#34;: api_data.get(&#34;timestamp&#34;, &#34;unknown&#34;),
+                &#34;status&#34;: &#34;success&#34;,
+            },
+            &#34;counts&#34;: {
+                &#34;users&#34;: len(api_data.get(&#34;users&#34;, [])),
+                &#34;vms&#34;: len(api_data.get(&#34;vms&#34;, [])),
+            },
+            &#34;raw_data&#34;: api_data,
+        }
+
+        return self.generate(summary_data, filename)</code></pre>
+</details>
+<div class="desc"><p>Générateur de rapports au format JSON</p>
+<p>Initialise le générateur de rapports JSON</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>output_directory</code></strong></dt>
+<dd>Dossier de sortie pour les rapports JSON</dd>
+</dl></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="demo_api.reports.base.BaseReportGenerator" href="base.html#demo_api.reports.base.BaseReportGenerator">BaseReportGenerator</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="demo_api.reports.json_reports.JSONReportGenerator.generate"><code class="name flex">
+<span>def <span class="ident">generate</span></span>(<span>self, data: Any, filename: str | None = None) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate(self, data: Any, filename: Optional[str] = None) -&gt; str:
+    &#34;&#34;&#34;
+    Génère un rapport JSON
+
+    Args:
+        data: Données à inclure dans le rapport JSON
+        filename: Nom de fichier personnalisé (optionnel)
+
+    Returns:
+        str: Chemin vers le fichier JSON généré
+    &#34;&#34;&#34;
+    if filename is None:
+        filename = self._generate_filename(&#34;report&#34;, self.get_extension())
+    else:
+        # S&#39;assurer que le fichier a la bonne extension
+        if not filename.endswith(f&#34;.{self.get_extension()}&#34;):
+            filename = f&#34;{filename}.{self.get_extension()}&#34;
+        filename = os.path.join(self.json_directory, filename)
+
+    # Préparer les données avec métadonnées
+    report_data = {&#34;metadata&#34;: self._get_metadata(), &#34;data&#34;: data}
+
+    # Générer le fichier JSON
+    try:
+        with open(filename, &#34;w&#34;, encoding=&#34;utf-8&#34;) as f:
+            json.dump(
+                report_data,
+                f,
+                indent=4,
+                sort_keys=True,
+                default=str,
+                ensure_ascii=False,
+            )
+
+        logger.info(&#34;Rapport JSON généré avec succès&#34;, filename=filename, data_size=len(str(data)))
+
+        return filename
+
+    except Exception as e:
+        logger.error(&#34;Erreur lors de la génération du rapport JSON&#34;, filename=filename, error=str(e))
+        raise</code></pre>
+</details>
+<div class="desc"><p>Génère un rapport JSON</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>data</code></strong></dt>
+<dd>Données à inclure dans le rapport JSON</dd>
+<dt><strong><code>filename</code></strong></dt>
+<dd>Nom de fichier personnalisé (optionnel)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>Chemin vers le fichier JSON généré</dd>
+</dl></div>
+</dd>
+<dt id="demo_api.reports.json_reports.JSONReportGenerator.generate_api_summary_report"><code class="name flex">
+<span>def <span class="ident">generate_api_summary_report</span></span>(<span>self, api_data: Dict[str, Any], filename: str = 'api_summary.json') ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate_api_summary_report(
+    self, api_data: Dict[str, Any], filename: str = &#34;api_summary.json&#34;
+) -&gt; str:
+    &#34;&#34;&#34;
+    Génère un rapport de résumé de l&#39;API
+
+    Args:
+        api_data: Données de l&#39;API (utilisateurs, VMs, etc.)
+        filename: Nom du fichier de sortie
+
+    Returns:
+        str: Chemin vers le fichier généré
+    &#34;&#34;&#34;
+    logger.info(&#34;Génération du rapport de résumé API&#34;, filename=filename)
+
+    summary_data = {
+        &#34;api_info&#34;: {
+            &#34;base_url&#34;: api_data.get(&#34;base_url&#34;, &#34;unknown&#34;),
+            &#34;timestamp&#34;: api_data.get(&#34;timestamp&#34;, &#34;unknown&#34;),
+            &#34;status&#34;: &#34;success&#34;,
+        },
+        &#34;counts&#34;: {
+            &#34;users&#34;: len(api_data.get(&#34;users&#34;, [])),
+            &#34;vms&#34;: len(api_data.get(&#34;vms&#34;, [])),
+        },
+        &#34;raw_data&#34;: api_data,
+    }
+
+    return self.generate(summary_data, filename)</code></pre>
+</details>
+<div class="desc"><p>Génère un rapport de résumé de l'API</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>api_data</code></strong></dt>
+<dd>Données de l'API (utilisateurs, VMs, etc.)</dd>
+<dt><strong><code>filename</code></strong></dt>
+<dd>Nom du fichier de sortie</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>Chemin vers le fichier généré</dd>
+</dl></div>
+</dd>
+<dt id="demo_api.reports.json_reports.JSONReportGenerator.generate_users_vms_report"><code class="name flex">
+<span>def <span class="ident">generate_users_vms_report</span></span>(<span>self, users: List[Dict[str, Any]], filename: str = 'vm_users.json') ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate_users_vms_report(
+    self, users: List[Dict[str, Any]], filename: str = &#34;vm_users.json&#34;
+) -&gt; str:
+    &#34;&#34;&#34;
+    Génère un rapport spécifique pour les utilisateurs et VMs
+
+    Args:
+        users: Liste des utilisateurs avec leurs VMs associées
+        filename: Nom du fichier de sortie
+
+    Returns:
+        str: Chemin vers le fichier généré
+    &#34;&#34;&#34;
+    logger.info(&#34;Génération du rapport utilisateurs/VMs&#34;, users_count=len(users), filename=filename)
+
+    # Statistiques supplémentaires
+    stats = self._calculate_users_vms_stats(users)
+
+    report_data = {
+        &#34;summary&#34;: {
+            &#34;total_users&#34;: len(users),
+            &#34;total_vms&#34;: stats[&#34;total_vms&#34;],
+            &#34;vms_by_status&#34;: stats[&#34;vms_by_status&#34;],
+            &#34;users_with_vms&#34;: stats[&#34;users_with_vms&#34;],
+            &#34;users_without_vms&#34;: stats[&#34;users_without_vms&#34;],
+        },
+        &#34;users&#34;: users,
+    }
+
+    return self.generate(report_data, filename)</code></pre>
+</details>
+<div class="desc"><p>Génère un rapport spécifique pour les utilisateurs et VMs</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>users</code></strong></dt>
+<dd>Liste des utilisateurs avec leurs VMs associées</dd>
+<dt><strong><code>filename</code></strong></dt>
+<dd>Nom du fichier de sortie</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>Chemin vers le fichier généré</dd>
+</dl></div>
+</dd>
+<dt id="demo_api.reports.json_reports.JSONReportGenerator.get_extension"><code class="name flex">
+<span>def <span class="ident">get_extension</span></span>(<span>self) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_extension(self) -&gt; str:
+    &#34;&#34;&#34;Retourne l&#39;extension des fichiers JSON&#34;&#34;&#34;
+    return &#34;json&#34;</code></pre>
+</details>
+<div class="desc"><p>Retourne l'extension des fichiers JSON</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="demo_api.reports" href="index.html">demo_api.reports</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="demo_api.reports.json_reports.JSONReportGenerator" href="#demo_api.reports.json_reports.JSONReportGenerator">JSONReportGenerator</a></code></h4>
+<ul class="">
+<li><code><a title="demo_api.reports.json_reports.JSONReportGenerator.generate" href="#demo_api.reports.json_reports.JSONReportGenerator.generate">generate</a></code></li>
+<li><code><a title="demo_api.reports.json_reports.JSONReportGenerator.generate_api_summary_report" href="#demo_api.reports.json_reports.JSONReportGenerator.generate_api_summary_report">generate_api_summary_report</a></code></li>
+<li><code><a title="demo_api.reports.json_reports.JSONReportGenerator.generate_users_vms_report" href="#demo_api.reports.json_reports.JSONReportGenerator.generate_users_vms_report">generate_users_vms_report</a></code></li>
+<li><code><a title="demo_api.reports.json_reports.JSONReportGenerator.get_extension" href="#demo_api.reports.json_reports.JSONReportGenerator.get_extension">get_extension</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>
