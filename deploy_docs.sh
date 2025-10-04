@@ -19,10 +19,6 @@ cp -r tape_en_cours/demo_api/docs/sphinx/build/* docs-deploy/sphinx/
 cp -r tape_en_cours/demo_api/docs/pdoc3/* docs-deploy/pdoc3/
 
 # Les fichiers statiques restent dans leurs dossiers respectifs
-# Mais copier les fichiers JS spécifiques à la racine pour GitHub Pages
-echo "📁 Copie des fichiers JS spécifiques à la racine..."
-mkdir -p docs-deploy/_static
-cp docs-deploy/sphinx/_static/documentation_options.js docs-deploy/_static/ 2>/dev/null || true
 
 # Ajouter les fichiers nécessaires pour GitHub Pages
 touch docs-deploy/.nojekyll
