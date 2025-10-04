@@ -89,7 +89,8 @@ def signup(
 
     Exemples:
 
-    \b
+    .. code-block:: shell
+
     python main.py signup
     python main.py signup --name "Alice Martin" --email "alice@example.com"
     python main.py signup -n "Bob Dupont" -e "bob@test.com" -p "monmotdepasse" --verbose
