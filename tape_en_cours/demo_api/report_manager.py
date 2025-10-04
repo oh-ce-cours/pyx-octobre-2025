@@ -35,7 +35,10 @@ def generate_reports(
         ReportType.ALL, "--type", "-t", help="Type de rapport à générer"
     ),
     report_format: ReportFormat = typer.Option(
-        ReportFormat.ALL, "--format", "-f", help="Format de rapport (json, markdown, html, all)"
+        ReportFormat.ALL,
+        "--format",
+        "-f",
+        help="Format de rapport (json, markdown, html, all)",
     ),
     output_dir: str = typer.Option(
         "outputs", "--output-dir", "-o", help="Répertoire de sortie pour les rapports"
@@ -78,7 +81,11 @@ def generate_reports(
     # Déterminer les formats à générer
     formats_to_generate = []
     if report_format == ReportFormat.ALL:
-        formats_to_generate = [ReportFormat.JSON, ReportFormat.MARKDOWN, ReportFormat.HTML]
+        formats_to_generate = [
+            ReportFormat.JSON,
+            ReportFormat.MARKDOWN,
+            ReportFormat.HTML,
+        ]
     else:
         formats_to_generate = [report_format]
 
@@ -91,16 +98,22 @@ def generate_reports(
             if fmt == ReportFormat.JSON:
                 report_file = report_service.generate_users_vms_report("vm_users.json")
             elif fmt == ReportFormat.MARKDOWN:
-                report_file = report_service.generate_users_vms_report_markdown("vm_users.md")
+                report_file = report_service.generate_users_vms_report_markdown(
+                    "vm_users.md"
+                )
             elif fmt == ReportFormat.HTML:
-                report_file = report_service.generate_users_vms_report_html("vm_users.html")
-            
+                report_file = report_service.generate_users_vms_report_html(
+                    "vm_users.html"
+                )
+
             if report_file:
                 generated_files.append(report_file)
                 if verbose:
                     typer.echo(f"   ✅ Généré ({fmt.value}): {report_file}")
             else:
-                typer.echo(f"❌ Échec de la génération du rapport utilisateurs/VMs ({fmt.value})")
+                typer.echo(
+                    f"❌ Échec de la génération du rapport utilisateurs/VMs ({fmt.value})"
+                )
 
     # Génération des rapports de statut
     if report_type in [ReportType.STATUS, ReportType.ALL]:
@@ -109,18 +122,26 @@ def generate_reports(
         for fmt in formats_to_generate:
             status_file = None
             if fmt == ReportFormat.JSON:
-                status_file = report_service.generate_status_report("vm_status_report.json")
+                status_file = report_service.generate_status_report(
+                    "vm_status_report.json"
+                )
             elif fmt == ReportFormat.MARKDOWN:
-                status_file = report_service.generate_status_report_markdown("vm_status_report.md")
+                status_file = report_service.generate_status_report_markdown(
+                    "vm_status_report.md"
+                )
             elif fmt == ReportFormat.HTML:
-                status_file = report_service.generate_status_report_html("vm_status_report.html")
-            
+                status_file = report_service.generate_status_report_html(
+                    "vm_status_report.html"
+                )
+
             if status_file:
                 generated_files.append(status_file)
                 if verbose:
                     typer.echo(f"   ✅ Généré ({fmt.value}): {status_file}")
             else:
-                typer.echo(f"❌ Échec de la génération du rapport de statut ({fmt.value})")
+                typer.echo(
+                    f"❌ Échec de la génération du rapport de statut ({fmt.value})"
+                )
 
     # Résumé
     typer.echo()
