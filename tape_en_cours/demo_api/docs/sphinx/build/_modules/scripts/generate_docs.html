@@ -91,19 +91,21 @@
 <span class="k">def</span> <span class="nf">run_command</span><span class="p">(</span><span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exécute une commande et affiche le résultat.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Args:</span>
 <span class="sd">        command: Commande à exécuter</span>
 <span class="sd">        description: Description de la commande</span>
-<span class="sd">    </span>
+
 <span class="sd">    Returns:</span>
 <span class="sd">        True si la commande a réussi, False sinon</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🔄 </span><span class="si">{</span><span class="n">description</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📝 Commande: </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    
+
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="n">command</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ </span><span class="si">{</span><span class="n">description</span><span class="si">}</span><span class="s2"> - Succès&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📤 Sortie: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -121,46 +123,46 @@
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Fonction principale.&quot;&quot;&quot;</span>
     <span class="n">project_root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span>
-    
+
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;📚 Génération de la documentation Demo API&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
-    
+
     <span class="c1"># Vérifier que nous sommes dans le bon répertoire</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">project_root</span> <span class="o">/</span> <span class="s2">&quot;main.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;❌ Erreur: Ce script doit être exécuté depuis la racine du projet&quot;</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    
+
     <span class="n">success_count</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">total_commands</span> <span class="o">=</span> <span class="mi">0</span>
-    
+
     <span class="c1"># 1. Générer les modules avec le script d&#39;auto-découverte</span>
     <span class="n">total_commands</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="k">if</span> <span class="n">run_command</span><span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2"> &amp;&amp; python docs/sphinx/source/generate_modules.py&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Auto-découverte des modules Sphinx&quot;</span>
+        <span class="s2">&quot;Auto-découverte des modules Sphinx&quot;</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="n">success_count</span> <span class="o">+=</span> <span class="mi">1</span>
-    
+
     <span class="c1"># 2. Générer la documentation Sphinx</span>
     <span class="n">total_commands</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="k">if</span> <span class="n">run_command</span><span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2">/docs/sphinx &amp;&amp; sphinx-build -b html source build&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Génération de la documentation Sphinx&quot;</span>
+        <span class="s2">&quot;Génération de la documentation Sphinx&quot;</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="n">success_count</span> <span class="o">+=</span> <span class="mi">1</span>
-    
+
     <span class="c1"># 3. Générer la documentation pydoc</span>
     <span class="n">total_commands</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="k">if</span> <span class="n">run_command</span><span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2"> &amp;&amp; python docs/pydoc/generate_pydoc.py&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Génération de la documentation pydoc&quot;</span>
+        <span class="s2">&quot;Génération de la documentation pydoc&quot;</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="n">success_count</span> <span class="o">+=</span> <span class="mi">1</span>
-    
+
     <span class="c1"># Résumé</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📊 Résumé: </span><span class="si">{</span><span class="n">success_count</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">total_commands</span><span class="si">}</span><span class="s2"> commandes réussies&quot;</span><span class="p">)</span>
-    
+
     <span class="k">if</span> <span class="n">success_count</span> <span class="o">==</span> <span class="n">total_commands</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;🎉 Toute la documentation a été générée avec succès!&quot;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📖 Documentation disponible:&quot;</span><span class="p">)</span>
