@@ -29,6 +29,7 @@ logger = get_logger(__name__)
 # PARTIE REPRÉSENTATION / AFFICHAGE
 # =============================================================================
 
+
 def display_header(simulate: bool) -> None:
     """Affiche l'en-tête selon le mode"""
     if simulate:
@@ -89,6 +90,7 @@ def display_simulation_message() -> None:
 # =============================================================================
 # PARTIE MANIPULATION DES DONNÉES
 # =============================================================================
+
 
 def connect_to_api(
     base_url: Optional[str], email: Optional[str], password: Optional[str]
@@ -170,7 +172,9 @@ def display_deletion_progress(item_type: str, delay: float) -> None:
     )
 
 
-def display_deletion_result(item_type: str, deleted_count: int, total_count: int) -> None:
+def display_deletion_result(
+    item_type: str, deleted_count: int, total_count: int
+) -> None:
     """Affiche le résultat de suppression"""
     console.print(
         f"[bold cyan]📊 {item_type}s supprimés: [green]{deleted_count}/{total_count}[/green][/bold cyan]"
@@ -199,6 +203,7 @@ def display_error_message(item_type: str, item_id: str, error: str) -> None:
 # FONCTIONS PURES DE MANIPULATION DES DONNÉES
 # =============================================================================
 
+
 def delete_vm_data(client, vm: dict) -> bool:
     """Supprime une VM (logique pure sans affichage)"""
     try:
@@ -219,13 +224,13 @@ def delete_user_data(client, user: dict) -> bool:
 
 def delete_items_batch(client, items: list, item_type: str, delay: float) -> int:
     """Supprime une liste d'éléments avec gestion des pauses
-    
+
     Args:
         client: Client API
         items: Liste des éléments à supprimer
         item_type: Type d'élément ('vm' ou 'user')
         delay: Délai entre suppressions
-        
+
     Returns:
         Nombre d'éléments supprimés
     """
@@ -233,31 +238,32 @@ def delete_items_batch(client, items: list, item_type: str, delay: float) -> int
         return 0
 
     deleted_count = 0
-    
+
     for i, item in enumerate(items):
         # Suppression selon le type
         if item_type == "vm":
             success = delete_vm_data(client, item)
         else:  # user
             success = delete_user_data(client, item)
-            
+
         if success:
             deleted_count += 1
-            
+
         # Pause si pas le dernier élément
         if i < len(items) - 1:
             time.sleep(delay)
-    
+
     # Pause supplémentaire avant prochaine section
     if deleted_count > 0 and item_type == "vm":
         time.sleep(delay + 1)
-    
+
     return deleted_count
 
 
 # =============================================================================
 # FONCTIONS DE SUPPRESSION AVEC AFFICHAGE
 # =============================================================================
+
 
 def delete_items_with_progress(
     client, items: list, item_type: str, delay: float
@@ -313,10 +319,10 @@ def delete_single_vm_with_display(client, vm: dict) -> bool:
     try:
         with console.status(f"Suppression VM {vm['id']}: {vm['name']}..."):
             client.vms.delete(vm["id"])
-        display_success_message("VM", vm['name'])
+        display_success_message("VM", vm["name"])
         return True
     except Exception as e:
-        display_error_message("VM", vm['id'], str(e))
+        display_error_message("VM", vm["id"], str(e))
         return False
 
 
@@ -325,10 +331,10 @@ def delete_single_user_with_display(client, user: dict) -> bool:
     try:
         with console.status(f"Suppression utilisateur {user['id']}: {user['name']}..."):
             client.users.delete_user(user["id"])
-        display_success_message("Utilisateur", user['name'])
+        display_success_message("Utilisateur", user["name"])
         return True
     except Exception as e:
-        display_error_message("User", user['id'], str(e))
+        display_error_message("User", user["id"], str(e))
         return False
 
 
@@ -336,22 +342,23 @@ def delete_single_user_with_display(client, user: dict) -> bool:
 # LOGIQUE MÉTIER PRINCIPALE
 # =============================================================================
 
+
 def cleanup_data(client, vms: list, users: list, delay: float) -> Tuple[int, int]:
     """Logique métier principale de nettoyage
-    
+
     Args:
         client: Client API
         vms: Liste des VMs
         users: Liste des utilisateurs
         delay: Délai entre suppressions
-        
+
     Returns:
         Tuple (deleted_vms, deleted_users)
     """
     # Suppression des VMs puis des utilisateurs
     deleted_vms = delete_items_with_progress(client, vms, "vm", delay)
     deleted_users = delete_items_with_progress(client, users, "user", delay)
-    
+
     return deleted_vms, deleted_users
 
 
@@ -384,6 +391,7 @@ def show_summary(vms: list, users: list, deleted_vms: int, deleted_users: int) -
 # =============================================================================
 # FONCTION PRINCIPALE ORCHESTRANT TOUT
 # =============================================================================
+
 
 def quick_cleanup(
     base_url: Optional[str] = None,
