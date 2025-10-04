@@ -128,7 +128,13 @@ def signup(
                 typer.echo(f"   🆔 ID: {user_info.get('id')}")
                 typer.echo(f"   👤 Nom: {user_info.get('name')}")
                 typer.echo(f"   📧 Email: {user_info.get('email')}")
-                typer.echo(f"   📅 Créé le: {user_info.get('created_at', 'N/A')}")
+                
+                # Formater la date de création de manière plus lisible
+                from utils.date_utils import format_timestamp_for_display
+                created_at = user_info.get('created_at')
+                formatted_date = format_timestamp_for_display(created_at)
+                typer.echo(f"   📅 Créé le: {formatted_date}")
+                
                 typer.echo()
                 typer.echo("✨ Utilisateur prêt à utiliser!")
             else:
