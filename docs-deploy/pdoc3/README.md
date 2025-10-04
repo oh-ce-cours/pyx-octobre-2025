@@ -54,7 +54,7 @@ pdoc --http :8080 .
 
 | Module | Description |
 |--------|-------------|
-| `main` | 🎮 Application principale FastAPI |
+| `main` | 🎮 Application principale en python |
 | `report_manager` | 📊 Gestionnaire des rapports |
 | `vm_manager` | 🖥️ Gestionnaire des VMs |
 | `scripts/` | 🔨 Scripts de développement |
