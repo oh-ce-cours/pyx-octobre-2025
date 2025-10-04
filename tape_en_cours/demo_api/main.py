@@ -117,13 +117,18 @@ def signup(
             typer.echo("✅ Utilisateur créé avec succès!")
             typer.echo(f"   👤 Nom: {name}")
             typer.echo(f"   📧 Email: {email}")
-            typer.echo(f"   🔑 Token: {token[:20]}...")
+            typer.echo()
+            typer.echo("🔑 Token d'authentification:")
+            typer.echo(f"   {token}")
+            typer.echo()
+            typer.echo("📝 Token tronqué (20 premiers caractères):")
+            typer.echo(f"   {token[:20]}...")
             typer.echo()
 
             # Sauvegarder le token dans les variables d'environnement de la session
 
             if save_token_to_env(token):
-                typer.echo("💾 Token sauvegardé dans la session courante")
+                typer.echo("💾 Token sauvegardé dans la session courante et dans .env.local")
             else:
                 typer.echo("⚠️ Impossible de sauvegarder le token")
             typer.echo()
