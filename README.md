@@ -16,7 +16,6 @@
 
 #### 🔥 **`tape_en_cours/demo_api/` - ⭐ MIS À JOUR ET FONCTIONNEL**
 
-> **🎯 Disponible pour les élèves dès maintenant !**
 
 Cette API de démonstration complète présente une interface CLI moderne pour la gestion d'utilisateurs et de machines virtuelles :
 
