@@ -2,6 +2,7 @@ import requests
 from utils.date_utils import parse_unix_timestamp
 from utils.logging_config import get_logger
 from utils.config import config
+from utils.data_generator import retry_on_429
 from .exceptions import (
     UsersFetchError,
     UserCreationError,
@@ -104,6 +105,7 @@ def add_vms_to_users(users, vms):
     )
 
 
+@retry_on_429(max_retries=5, base_delay=2.0)
 def create_user(base_url, token, name, email, password=None):
     """Crée un nouvel utilisateur via l'API.
 
