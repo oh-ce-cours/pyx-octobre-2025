@@ -103,18 +103,15 @@ def get_email_from_config():
     return email
 
 
-def get_email_from_input(env_var="DEMO_API_EMAIL"):
+def get_email_from_input():
     """
     Demande la saisie de l'email à l'utilisateur.
-
-    Args:
-        env_var (str): Nom de la variable d'environnement pour l'aide
 
     Returns:
         str: L'email saisi
     """
     logger.info("Demande de saisie d'email")
-    email = input(f"Email (ou définir {env_var}): ").strip()
+    email = input("Email: ").strip()
 
     if not email:
         logger.error("Erreur: email vide fourni")
