@@ -113,7 +113,7 @@ class VMService:
             )
             return vm_result
         except VMCreationError as e:
-            logger.error("Échec de la création de VM", error=str(e), user_id=user["id"])
+            logger.error("Échec de la création de VM", error=str(e), user_id=user.get("id") if user else "N/A")
             return None
 
     def create_default_vm_for_user(
@@ -128,6 +128,9 @@ class VMService:
         Returns:
             Résultat de la création ou None si échec
         """
+        if user is None:
+            logger.error("Utilisateur est None dans create_default_vm_for_user")
+            return None
         vm_config = {
             "user_id": user["id"],
             "name": "VM de Jean",
