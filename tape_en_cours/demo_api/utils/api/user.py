@@ -17,7 +17,7 @@ def get_users(base_url):
         list: Liste des utilisateurs avec leurs dates de création converties
     """
     logger.info("Récupération des utilisateurs depuis l'API", base_url=base_url)
-    resp = requests.get(f"{base_url}/user", timeout=5)
+    resp = requests.get(f"{base_url}/user", timeout=config.DEMO_API_TIMEOUT)
     resp.raise_for_status()
 
     users = []
