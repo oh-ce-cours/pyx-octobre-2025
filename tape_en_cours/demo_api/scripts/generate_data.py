@@ -193,9 +193,9 @@ def preview(
 
     Exemples:
 
-    \b
-    python generate_data.py preview
-    python generate_data.py preview --users 10 --max-vms 2
+    .. code-block:: shell
+        python generate_data.py preview
+        python generate_data.py preview --users 10 --max-vms 2
     """
     typer.echo(
         f"👀 Prévisualisation de {user_count} utilisateurs avec 0-{max_vms} VMs chacun..."
