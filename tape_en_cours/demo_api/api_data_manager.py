@@ -198,7 +198,7 @@ class APIIntegrationService:
         )
         
         # S'authentifier si nécessaire
-      if not self.token:
+        if not self.token:
             self.authenticate_admin()
         
         # Créer les utilisateurs

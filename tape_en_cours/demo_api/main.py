@@ -10,6 +10,7 @@ from utils.logging_config import get_logger
 from report_manager import generate_reports, ReportType, ReportFormat
 from vm_manager import create_vm
 from utils.data_generator import DataGenerator
+from api_data_manager import APIIntegrationService
 import json
 from pathlib import Path
 
@@ -170,6 +171,90 @@ def generate(
     except Exception as e:
         logger.error("Erreur lors de la génération des données", error=str(e))
         typer.echo(f"❌ Erreur lors de la génération: {e}")
+        raise typer.Exit(1)
+
+
+@app.command()
+def api_generate(
+    base_url: str = typer.Option(
+        ..., "--base-url", "-u", help="URL de base de l'API"
+    ),
+    user_count: int = typer.Option(
+        10, "--users", "-c", help="Nombre d'utilisateurs à créer", min=1, max=1000
+    ),
+    min_vms: int = typer.Option(
+        0, "--min-vms", help="Nombre minimum de VMs par utilisateur", min=0, max=10
+    ),
+    max_vms: int = typer.Option(
+        3, "--max-vms", help="Nombre maximum de VMs par utilisateur", min=0, max=20
+    ),
+    admin_email: str = typer.Option(
+        None, "--admin-email", "-a", help="Email de l'administrateur"
+    ),
+    admin_password: str = typer.Option(
+        None, "--admin-password", "-p", help="Mot de passe de l'administrateur"
+    ),
+    export_file: str = typer.Option(
+        "api_dataset.json", "--export", "-e", help="Fichier d'export du dataset"
+    ),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Mode verbeux"),
+) -> None:
+    """
+    🌐 Créer un dataset directement via l'API avec des données Faker
+    
+    Crée des utilisateurs et des VMs directement via l'API externe avec des données réalistes.
+    
+    Exemples:
+    
+    \b
+    python main.py api-generate --base-url "https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt"
+    python main.py api-generate -u "https://api.example.com" --users 25 --max-vms 5 --verbose
+    """
+    if min_vms > max_vms:
+        typer.echo("❌ Le nombre minimum de VMs ne peut pas être supérieur au maximum")
+        raise typer.Exit(1)
+    
+    typer.echo(f"🌐 Création d'un dataset via l'API {base_url}...")
+    typer.echo(f"   • Utilisateurs: {user_count}")
+    typer.echo(f"   • VMs par utilisateur: {min_vms}-{max_vms}")
+    
+    try:
+        # Initialiser le service d'intégration
+        service = APIIntegrationService(base_url, admin_email, admin_password)
+        
+        # Créer le dataset complet
+        stats = service.create_full_dataset(user_count, (min_vms, max_vms))
+        
+        # Afficher les statistiques
+        typer.echo(f"✅ Dataset créé avec succès via l'API !")
+        typer.echo(f"📊 Statistiques:")
+        typer.echo(f"   • Utilisateurs créés: {stats['users_created']}")
+        typer.echo(f"   • VMs créées: {stats['vms_created']}")
+        typer.echo(f"   • Total d'enregistrements: {stats['total_records']}")
+        typer.echo(f"   • Utilisateurs avec VMs: {stats['users_with_vms']}")
+        
+        # Exporter le dataset si demandé
+        try:
+            export_data = service.export_dataset()
+            output_path = Path(export_file)
+            with open(output_path, 'w', encoding='utf-8') as f:
+                json.dump(export_data['dataset'], f, indent=4, ensure_asciique=False, default=str)
+            
+            typer.echo(f"📁 Dataset exporté vers: {output_path.absolute()}")
+            
+            if verbose:
+                typer.echo(f"\n🔍 Aperçu des données créées:")
+                for i, user in enumerate(export_data['dataset'][:3]):
+                    typer.echo(f"   {i+1}. {user['name']} ({user['email']}) - {len(user['vms'])} VMs")
+                if len(export_data['dataset']) > 3:
+                    typer.echo(f"   ... et {len(export_data['dataset']) - 3} autres utilisateurs")
+        except Exception as e:
+            logger.warning("Impossible d'exporter le dataset", error=str(e))
+            typer.echo(f"⚠️ Impossible d'exporter le dataset: {e}")
+        
+    except Exception as e:
+        logger.error("Erreur lors de la création du dataset via l'API", error=str(e))
+        typer.echo(f"❌ Erreur lors de la création du dataset via l'API: {e}")
         raise typer.Exit(1)
 
 

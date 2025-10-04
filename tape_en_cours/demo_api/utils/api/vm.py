@@ -195,7 +195,9 @@ def update_vm(base_url, token, vm_id, updates):
     headers = {"Authorization": f"Bearer {token}"} if token else {}
 
     try:
-        resp = requests.patch(f"{base_url}/vm/{vm_id}", json=updates, headers=headers, timeout=5)
+        resp = requests.patch(
+            f"{base_url}/vm/{vm_id}", json=updates, headers=headers, timeout=5
+        )
         resp.raise_for_status()
 
         vm_data = resp.json()
@@ -253,7 +255,7 @@ def delete_vm(base_url, token, vm_id):
             vm_id=vm_id,
             status_code=resp.status_code,
         )
-        
+
         # Retourner le résultat si disponible, sinon un dict vide
         try:
             return resp.json()
@@ -296,15 +298,14 @@ def attach_vm_to_user(base_url, token, vm_id, user_id):
     """
     logger.info("Association VM-utilisateur", vm_id=vm_id, user_id=user_id)
 
-    payload = {
-        "vm_id": vm_id,
-        "user_id": user_id
-    }
-    
+    payload = {"vm_id": vm_id, "user_id": user_id}
+
     headers = {"Authorization": f"Bearer {token}"} if token else {}
 
     try:
-        resp = requests.post(f"{base_url}/Attach_VM_to_user", json=payload, headers=headers, timeout=5)
+        resp = requests.post(
+            f"{base_url}/Attach_VM_to_user", json=payload, headers=headers, timeout=5
+        )
         resp.raise_for_status()
 
         logger.info(
@@ -313,7 +314,7 @@ def attach_vm_to_user(base_url, token, vm_id, user_id):
             user_id=user_id,
             status_code=resp.status_code,
         )
-        
+
         try:
             return resp.json()
         except:
@@ -355,14 +356,14 @@ def stop_vm(base_url, token, vm_id):
     """
     logger.info("Arrêt d'une VM", vm_id=vm_id)
 
-    payload = {
-        "vm_id": vm_id
-    }
-    
+    payload = {"vm_id": vm_id}
+
     headers = {"Authorization": f"Bearer {token}"} if token else {}
 
     try:
-        resp = requests.post(f"{base_url}/Stop_VM", json=payload, headers=headers, timeout=5)
+        resp = requests.post(
+            f"{base_url}/Stop_VM", json=payload, headers=headers, timeout=5
+        )
         resp.raise_for_status()
 
         logger.info(
@@ -370,7 +371,7 @@ def stop_vm(base_url, token, vm_id):
             vm_id=vm_id,
             status_code=resp.status_code,
         )
-        
+
         try:
             return resp.json()
         except:
