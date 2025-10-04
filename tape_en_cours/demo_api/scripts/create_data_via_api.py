@@ -532,10 +532,10 @@ def vms(
 
     Exemples:
 
-    \b
-    python create_data_via_api.py vms --count 50
-    python create_data_via_api.py vms -c 100 --batch-size 10 --delay 3.0
-    python create_data_via_api.py vms --verbose
+    .. code-block:: shell
+        python create_data_via_api.py vms --count 50
+        python create_data_via_api.py vms -c 100 --batch-size 10 --delay 3.0
+        python create_data_via_api.py vms --verbose
     """
     display_header(
         "🖥️ Création de VMs via l'API", f"Génération de {count} VMs avec Faker"
@@ -655,10 +655,10 @@ def full_dataset(
 
     Exemples:
 
-    \b
-    python create_data_via_api.py full-dataset --users 20 --vms 50
-    python create_data_via_api.py full-dataset -u 30 -v 100 --delay 3.0 --output dataset.json
-    python create_data_via_api.py full-dataset --verbose
+    .. code-block:: shell
+        python create_data_via_api.py full-dataset --users 20 --vms 50
+        python create_data_via_api.py full-dataset -u 30 -v 100 --delay 3.0 --output dataset.json
+        python create_data_via_api.py full-dataset --verbose
     """
     display_header(
         "🎯 Création d'un dataset complet",
