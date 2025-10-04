@@ -2,147 +2,203 @@
 """
 Point d'entrée principal pour demo_api
 
-Ce fichier sert maintenant de point d'entrée unifié qui redirige vers la CLI
-ou exécute directement les fonctionnalités pour maintenir la compatibilité.
+Interface moderne avec Typer pour le management des utilisateurs et VMs.
 """
 
 import sys
-import argparse
+import typer
 from pathlib import Path
+from enum import Enum
+from typing import Optional
 
-# Imports pour la compatibilité avec l'ancien comportement
-from utils.api import Api
-from utils.services import ReportService, VMService
 from utils.logging_config import get_logger
-from utils.config import config
 
 logger = get_logger(__name__)
+app = typer.Typer(
+    name="demo-api",
+    help="🏗️ Interface CLI pour demo_api - Management des utilisateurs et VMs",
+    rich_markup_mode="markdown"
+)
 
 
-def run_legacy_report_generation():
-    """Exécute la génération de rapports selon l'ancien comportement"""
-    logger.info("Exécution en mode legacy: génération de rapport")
-
-    api = Api(config.DEMO_API_BASE_URL)
-    report_service = ReportService(api)
-    report_file = report_service.generate_users_vms_report("vm_users.json")
-
-    if report_file:
-        print(f"✅ Rapport généré: {report_file}")
-    else:
-        print("❌ Échec de la génération du rapport")
+class ReportType(str, Enum):
+    """Types de rapport disponibles"""
+    USERS_VMS = "users-vms"
+    STATUS = "status"
+    ALL = "all"
 
 
-def run_legacy_vm_creation():
-    """Exécute la création de VM selon l'ancien comportement"""
-    logger.info("Exécution en mode legacy: création de VM")
-
-    api = Api(config.DEMO_API_BASE_URL)
-    vm_service = VMService(api)
-
-    # Authentification
-    user = vm_service.authenticate_user(
-        email=config.DEMO_API_EMAIL or "jean@dupont21.com",
-        password=config.DEMO_API_PASSWORD,
+@app.command()
+def report(
+    report_type: ReportType = typer.Option(
+        ReportType.ALL,
+        "--type",
+        "-t",
+        help="Type de rapport à générer"
+    ),
+    output_dir: str = typer.Option(
+        "outputs",
+        "--output-dir",
+        "-o",
+        help="Répertoire de sortie pour les rapports"
+    ),
+    verbose: bool = typer.Option(
+        False,
+        "--verbose",
+        "-v",
+        help="Mode verbeux"
     )
+) -> None:
+    """
+    📊 Générer des rapports
 
-    if user:
-        print(f"✅ Utilisateur authentifié: {user.get('name')}")
-        vm_result = vm_service.create_default_vm_for_user(user)
+    Exemples:
 
-        if vm_result:
-            print(f"✅ VM créée: {vm_result.get('name')} (ID: {vm_result.get('id')})")
-        else:
-            print("❌ Échec de la création de la VM")
-    else:
-        print("❌ Échec de l'authentification")
+    \b
+    python main.py report
+    python main.py report --type users-vms
+    python main.py report -t status -o ./rapports --verbose
+    """
+    typer.echo(f"🚀 Génération du rapport: {report_type.value}")
+    
+    # Exécuter le script de génération de rapport
+    import subprocess
+    
+    cmd = [
+        sys.executable, 
+        str(Path(__file__).parent / "scripts" / "generate_report.py"),
+        "--report-type", report_type.value,
+        "--output-dir", output_dir
+    ]
+    
+    if verbose:
+        cmd.append("--verbose")
+    
+    try:
+        result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+        typer.echo(result.stdout)
+    except subprocess.CalledProcessError as e:
+        logger.error("Erreur lors de l'exécution du script de rapport", error=e.stderr)
+        typer.echo(e.stderr or "")
+        raise typer.Exit(1)
 
 
-def run_legacy_mode():
-    """Exécute les deux opérations principales comme dans l'ancien comportement"""
-    logger.info("Exécution en mode legacy complet")
-    print("🚀 Démarrage de demo_api en mode legacy")
-    print("-" * 50)
-
-    print("\n📊 Génération de rapport...")
-    run_legacy_report_generation()
-
-    print("\n🖥️  Création de VM...")
-    run_legacy_vm_creation()
-
-    print("\n✅ Exécution terminée")
-
-
-def setup_argument_parser():
-    """Configuration du parser d'arguments"""
-    parser = argparse.ArgumentParser(
-        prog="python main.py",
-        description="Point d'entrée principal pour demo_api",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Exemples d'utilisation:
-  python main.py                           # Mode legacy (rapport + création VM)
-  python main.py --cli report --report-type all
-  python main.py --cli vm create --name "Ma VM"
-  python main.py --legacy                  # Forcer le mode legacy
-        """,
+@app.command()
+def create(
+    name: Optional[str] = typer.Option(
+        None,
+        "--name",
+        "-n",
+        help="Nom de la VM"
+    ),
+    email: str = typer.Option(
+        "jean@dupont21.com",
+        "--email",
+        "-e",
+        help="Email de l'utilisateur"
+    ),
+    os: str = typer.Option(
+        "Ubuntu 22.04",
+        "--os",
+        "-o",
+        help="Système d'exploitation"
+    ),
+    cores: int = typer.Option(
+        2,
+        "--cores",
+        "-c",
+        help="Nombre de cœurs CPU",
+        min=1,
+        max=16
+    ),
+    ram: int = typer.Option(
+        4,
+        "--ram",
+        "-r",
+        help="RAM en GB",
+        min=1,
+        max=128
+    ),
+    disk: int = typer.Option(
+        50,
+        "--disk",
+        "-d",
+        help="Disque en GB",
+        min=10,
+        max=2048
+    ),
+    status: str = typer.Option(
+        "stopped",
+        "--status",
+        "-s",
+        help="Statut initial de la VM"
+    ),
+    verbose: bool = typer.Option(
+        False,
+        "--verbose",
+        "-v",
+        help="Mode verbeux"
     )
+) -> None:
+    """
+    🖥️ Créer une VM
 
-    parser.add_argument(
-        "--legacy",
-        action="store_true",
-        help="Forcer l'exécution en mode legacy (compatibilité)",
-    )
+    Exemples:
 
-    parser.add_argument(
-        "--cli",
-        dest="cli_command",
-        nargs="+",
-        help="Exécuter une commande CLI spécifique",
-    )
+    \b
+    python main.py create
+    python main.py create --name "Ma VM" --cores 4
+    python main.py create -n "VM Test" --ram 8 --disk 100 --verbose
+    """
+    typer.echo("☁️ Création de VM")
+    
+    # Configurer le nom par défaut si non fourni
+    vm_name = name or "VM de Jean"
+    
+    # Exécuter le script de création VM
+    import subprocess
+    
+    cmd = [
+        sys.executable,
+        str(Path(__file__).parent / "scripts" / "create_vm.py"),
+        "--email", email,
+        "--name", vm_name,
+        "--os", os,
+        "--cores", str(cores),
+        "--ram", str(ram),
+        "--disk", str(disk),
+        "--status", status
+    ]
+    
+    if verbose:
+        cmd.append("--verbose")
+    
+    try:
+        result = subprocess.run(cmd, check=True, capture_output=True,文本=True)
+        typer.echo(result.stdout)
+    except subprocess.CalledProcessError as e:
+        logger.error("Erreur lors de l'exécution du script de création VM", error=e.stderr)
+        typer.echo(e.stderr or "")
+        raise typer.Exit(1)
 
-    return parser
+
+@app.command()
+def version() -> None:
+    """📋 Afficher la version"""
+    typer.echo("demo-api CLI v3.0.0")
+    typer.echo("Powered by Typer 🚀")
 
 
 def main():
     """Point d'entrée principal"""
-
-    parser = setup_argument_parser()
-    args, unknown_args = parser.parse_known_args()
-
-    logger.info(
-        "Démarrage de demo_api", legacy_mode=args.legacy, cli_command=args.cli_command
-    )
-
     try:
-        if args.legacy or not args.cli_command:
-            # Mode legacy : compatibilité avec l'ancien comportement
-            run_legacy_mode()
-        else:
-            # Mode CLI : redirection vers la CLI
-            # Préparer les arguments pour la CLI
-            cli_args = ["cli/main.py"] + args.cli_command + unknown_args
-
-            # Remplacer sys.argv pour la CLI
-            original_argv = sys.argv
-            sys.argv = cli_args
-
-            try:
-                # Importer et exécuter la CLI
-                sys.path.insert(0, str(Path(__file__).parent / "cli"))
-                from cli.main import main as cli_main
-
-                cli_main()
-            finally:
-                # Restaurer sys.argv original
-                sys.argv = original_argv
-
+        app()
     except KeyboardInterrupt:
         logger.info("Exécution interrompue par l'utilisateur")
-        print("\n⚠️  Exécution interrompue")
-    except (ImportError, OSError, AttributeError) as e:
+        typer.echo("\n⚠️  Exécution interrompue")
+    except Exception as e:
         logger.error("Erreur lors de l'exécution", error=str(e))
-        print(f"❌ Erreur: {e}")
+        typer.echo(f"❌ Erreur: {e}")
         sys.exit(1)
 
 
