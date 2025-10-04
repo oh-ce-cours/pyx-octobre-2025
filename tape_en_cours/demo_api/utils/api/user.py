@@ -14,6 +14,7 @@ from .exceptions import (
 logger = get_logger(__name__)
 
 
+@retry_on_429(max_retries=5, base_delay=2.0)
 def get_users(base_url):
     """Récupère la liste des utilisateurs depuis l'API.
 
@@ -201,6 +202,7 @@ def create_user(base_url, token, name, email, password=None):
         )
 
 
+@retry_on_429(max_retries=5, base_delay=2.0)
 def get_user(base_url, user_id):
     """Récupère un utilisateur spécifique par son ID.
 

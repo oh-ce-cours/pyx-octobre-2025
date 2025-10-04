@@ -12,6 +12,7 @@ def parse_unix_timestamp(ts):
     return datetime.datetime.fromtimestamp(ts / 1e3)
 
 
+@retry_on_429(max_retries=5, base_delay=2.0)
 def get_vms(base_url):
     logger.info("Récupération des VMs depuis l'API", base_url=base_url)
 
@@ -211,6 +212,7 @@ def create_vm(
         )
 
 
+@retry_on_429(max_retries=5, base_delay=2.0)
 def get_vm(base_url, vm_id):
     """Récupère une VM spécifique par son ID.
 
@@ -313,6 +315,7 @@ def update_vm(base_url, token, vm_id, updates):
         )
 
 
+@retry_on_429(max_retries=5, base_delay=2.0)
 def delete_vm(base_url, token, vm_id):
     """Supprime une VM.
 
