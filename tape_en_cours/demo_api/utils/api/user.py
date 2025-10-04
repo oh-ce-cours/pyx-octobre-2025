@@ -14,7 +14,7 @@ from .exceptions import (
 logger = get_logger(__name__)
 
 
-@retry_on_429(max_retries=5, base_delay=2.0)
+@retry_on_429()
 def get_users(base_url):
     """Récupère la liste des utilisateurs depuis l'API.
 
@@ -106,7 +106,7 @@ def add_vms_to_users(users, vms):
     )
 
 
-@retry_on_429(max_retries=5, base_delay=2.0)
+@retry_on_429()
 def create_user(base_url, token, name, email, password=None):
     """Crée un nouvel utilisateur via l'API.
 
@@ -202,7 +202,7 @@ def create_user(base_url, token, name, email, password=None):
         )
 
 
-@retry_on_429(max_retries=5, base_delay=2.0)
+@retry_on_429()
 def get_user(base_url, user_id):
     """Récupère un utilisateur spécifique par son ID.
 
@@ -254,7 +254,7 @@ def get_user(base_url, user_id):
         )
 
 
-@retry_on_429(max_retries=5, base_delay=2.0)
+@retry_on_429()
 def update_user(base_url, token, user_id, updates):
     """Met à jour un utilisateur existant.
 
@@ -315,7 +315,7 @@ def update_user(base_url, token, user_id, updates):
         )
 
 
-@retry_on_429(max_retries=5, base_delay=2.0)
+@retry_on_429()
 def delete_user(base_url, token, user_id):
     """Supprime un utilisateur.
 

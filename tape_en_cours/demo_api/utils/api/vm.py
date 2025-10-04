@@ -12,7 +12,7 @@ def parse_unix_timestamp(ts):
     return datetime.datetime.fromtimestamp(ts / 1e3)
 
 
-@retry_on_429(max_retries=5, base_delay=2.0)
+@retry_on_429()
 def get_vms(base_url):
     logger.info("Récupération des VMs depuis l'API", base_url=base_url)
 
@@ -52,7 +52,7 @@ def get_vms(base_url):
         )
 
 
-@retry_on_429(max_retries=5, base_delay=2.0)
+@retry_on_429()
 def create_vm(
     token,
     base_url,
@@ -212,7 +212,7 @@ def create_vm(
         )
 
 
-@retry_on_429(max_retries=5, base_delay=2.0)
+@retry_on_429()
 def get_vm(base_url, vm_id):
     """Récupère une VM spécifique par son ID.
 
@@ -262,7 +262,7 @@ def get_vm(base_url, vm_id):
         )
 
 
-@retry_on_429(max_retries=5, base_delay=2.0)
+@retry_on_429()
 def update_vm(base_url, token, vm_id, updates):
     """Met à jour une VM existante.
 
@@ -316,7 +316,7 @@ def update_vm(base_url, token, vm_id, updates):
         )
 
 
-@retry_on_429(max_retries=5, base_delay=2.0)
+@retry_on_429()
 def delete_vm(base_url, token, vm_id):
     """Supprime une VM.
 
@@ -370,7 +370,7 @@ def delete_vm(base_url, token, vm_id):
         )
 
 
-@retry_on_429(max_retries=5, base_delay=2.0)
+@retry_on_429()
 def attach_vm_to_user(base_url, token, vm_id, user_id):
     """Associe une VM à un utilisateur.
 
@@ -430,7 +430,7 @@ def attach_vm_to_user(base_url, token, vm_id, user_id):
         )
 
 
-@retry_on_429(max_retries=5, base_delay=2.0)
+@retry_on_429()
 def stop_vm(base_url, token, vm_id):
     """Arrête une VM.
 
