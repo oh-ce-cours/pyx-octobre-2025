@@ -9,13 +9,16 @@ avec des données réalistes.
 
 import typer
 import time
+import sys
 from typing import Optional, List, Dict, Any
 from pathlib import Path
 import json
 from datetime import datetime
-
-import sys
-from pathlib import Path
+from rich.console import Console
+from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeElapsedColumn
+from rich.table import Table
+from rich.panel import Panel
+from rich.text import Text
 
 # Ajouter le répertoire parent au path pour les imports
 sys.path.append(str(Path(__file__).parent.parent))
