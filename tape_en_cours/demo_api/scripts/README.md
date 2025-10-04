@@ -68,6 +68,31 @@ python scripts/quick_cleanup.py cleanup --real
 python scripts/quick_cleanup.py cleanup --real --delay 3
 ```
 
+### 📚 `generate_docs.py` ⭐ **NOUVEAU**
+Script de génération automatique de documentation avec **Sphinx** et **pdoc3**.
+
+**Fonctionnalités :**
+- **Auto-découverte** des modules Python
+- **Génération Sphinx** complète avec thème professionnel
+- **Génération pdoc3** moderne avec CSS intégré
+- **Rapports détaillés** de génération
+
+**Exemples d'usage :**
+```bash
+# Génération complète de documentation
+python scripts/generate_docs.py
+
+# Output:
+# 📚 Génération de la documentation Demo API
+# 🔄 Auto-découverte des modules Sphinx...
+# 🔄 Génération de la documentation Sphinx...
+# 🔄 Génération de la documentation pdoc3...
+# 🎉 Toute la documentation a été générée avec succès!
+# 📖 Documentation disponible:
+#    • Sphinx (complexe): docs/sphinx/build/index.html
+#    • pdoc3 (moderne): docs/pdoc3_html/index.html
+```
+
 ## Configuration
 
 Tous les scripts utilisent la configuration définie dans `utils/config.py` pour :
@@ -81,10 +106,38 @@ Tous les scripts utilisent la configuration définie dans `utils/config.py` pour
 - Dépendances installées (`pip install -r requirements.txt`)
 - API démarrée et accessible
 
+## 🔧 Workflow Recommandé
+
+### Scénario 1 : Développement et Tests
+```bash
+# 1. Générer des données locales
+python scripts/generate_data.py users-with-vms --users 10
+
+# 2. Créer via l'API
+python scripts/create_data_via_api.py full-dataset --users 10 --vms 20
+
+# 3. Générer la documentation
+python scripts/generate_docs.py
+
+# 4. Nettoyer après tests
+python scripts/quick_cleanup.py cleanup --real
+```
+
+### Scénario 2 : Documentation Continue
+```bash
+# Génération automatique après modifications
+python scripts/generate_docs.py
+
+# Serveur pdoc3 pour développement
+pdoc --http :8080 main utils.config
+```
+
 ## Notes Importantes
 
 ⚠️ **Attention** : Le script `quick_cleanup.py` peut supprimer définitivement toutes les données. Utilisez toujours le mode simulation (`--real` non spécifié) pour tester d'abord.
 
 💡 **Conseil** : Utilisez `generate_data.py` pour créer des données de test, puis `create_data_via_api.py` pour les insérer dans l'API.
 
-⚡ **API Limits** : Le script `create_data_via_api.py` gère automatiquement les erreurs 429 (Too Many Requests) avec retry et backoff exponentiel. Les délais par défaut ont été augmentés à 2.0s pour respecter les limites de l'API.
+⚡ **Documentation** : Le script `generate_docs.py` génère automatiquement la documentation avec **Sphinx** (professionnelle) et **pdoc3** (moderne et rapide).
+
+🚀 **API Limits** : Le script `create_data_via_api.py` gère automatiquement les erreurs 429 (Too Many Requests) avec retry et backoff exponentiel.
