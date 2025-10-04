@@ -41,17 +41,10 @@ fix_css_paths() {
         relative_path="${BASE_URL}"
     fi
     
-    # Remplacer tous les chemins relatifs vers _static par des chemins absolus
+    # Remplacer seulement les chemins qui commencent par _static/ (pas déjà absolus)
     sed -i '' \
         -e "s|href=\"_static/|href=\"${relative_path}/_static/|g" \
-        -e "s|href=\"../_static/|href=\"${relative_path}/_static/|g" \
-        -e "s|href=\"../../_static/|href=\"${relative_path}/_static/|g" \
         -e "s|src=\"_static/|src=\"${relative_path}/_static/|g" \
-        -e "s|src=\"../_static/|src=\"${relative_path}/_static/|g" \
-        -e "s|src=\"../../_static/|src=\"${relative_path}/_static/|g" \
-        -e "s|url(_static/|url(${relative_path}/_static/|g" \
-        -e "s|url(../_static/|url(${relative_path}/_static/|g" \
-        -e "s|url(../../_static/|url(${relative_path}/_static/|g" \
         "$file"
 }
 
