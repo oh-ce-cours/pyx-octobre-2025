@@ -108,14 +108,14 @@ def generate_reports(
         for fmt in formats_to_generate:
             report_file = None
             if fmt == ReportFormat.JSON:
-                report_file = report_service.generate_users_vms_report("vm_users.json")
+                report_file = report_service.generate_users_vms_report(users, vms, "vm_users.json")
             elif fmt == ReportFormat.MARKDOWN:
                 report_file = report_service.generate_users_vms_report_markdown(
-                    "vm_users.md"
+                    users, vms, "vm_users.md"
                 )
             elif fmt == ReportFormat.HTML:
                 report_file = report_service.generate_users_vms_report_html(
-                    "vm_users.html"
+                    users, vms, "vm_users.html"
                 )
 
             if report_file:
@@ -135,15 +135,15 @@ def generate_reports(
             status_file = None
             if fmt == ReportFormat.JSON:
                 status_file = report_service.generate_status_report(
-                    "vm_status_report.json"
+                    users, vms, "vm_status_report.json"
                 )
             elif fmt == ReportFormat.MARKDOWN:
                 status_file = report_service.generate_status_report_markdown(
-                    "vm_status_report.md"
+                    users, vms, "vm_status_report.md"
                 )
             elif fmt == ReportFormat.HTML:
                 status_file = report_service.generate_status_report_html(
-                    "vm_status_report.html"
+                    users, vms, "vm_status_report.html"
                 )
 
             if status_file:

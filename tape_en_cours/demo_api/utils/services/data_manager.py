@@ -90,7 +90,7 @@ class DataManager:
         """
         users = self.get_users()
         vms = self.get_vms()
-        
+
         # Associer les VMs aux utilisateurs
         self.api.users.add_vms_to_users(users, vms)
         return users
