@@ -49,12 +49,10 @@ def generate_reports(
     📊 Générer des rapports
 
     Exemples:
-
-    \b
-    python report_manager.py
-    python report_manager.py --type users-vms --format markdown
-    python report_manager.py -t status -f html -o ./rapports --verbose
-    python report_manager.py --format all --type all
+        python report_manager.py
+        python report_manager.py --type users-vms --format markdown
+        python report_manager.py -t status -f html -o ./rapports --verbose
+        python report_manager.py --format all --type all
     """
 
     if verbose:
