@@ -305,10 +305,10 @@ def generate(
 
     Exemples:
 
-    \b
-    python main.py generate
-    python main.py generate --users 100 --max-vms 3
-    python main.py generate -u 25 -o mon_dataset.json --verbose
+        \b
+        python main.py generate
+        python main.py generate --users 100 --max-vms 3
+        python main.py generate -u 25 -o mon_dataset.json --verbose
     """
     if min_vms > max_vms:
         typer.echo("❌ Le nombre minimum de VMs ne peut pas être supérieur au maximum")
