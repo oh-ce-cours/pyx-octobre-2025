@@ -29,9 +29,11 @@ def retry_on_429(max_retries: int | None = None, base_delay: float = 7.0):
         @wraps(func)
         def wrapper(*args, **kwargs):
             last_exception = None
-            
+
             # Utiliser la configuration si max_retries n'est pas spécifié
-            actual_max_retries = max_retries if max_retries is not None else config.DEMO_API_MAX_RETRIES
+            actual_max_retries = (
+                max_retries if max_retries is not None else config.DEMO_API_MAX_RETRIES
+            )
 
             for attempt in range(actual_max_retries + 1):
                 try:
