@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>demo_api.scripts.generate_data API documentation</title>
+<meta name="description" content="Script utilitaire pour générer des données factices avec Faker.
+Permet de générer des utilisateurs et VMs réalistes pour les tests et démonstrations.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>demo_api.scripts.generate_data</code></h1>
+</header>
+<section id="section-intro">
+<p>Script utilitaire pour générer des données factices avec Faker.
+Permet de générer des utilisateurs et VMs réalistes pour les tests et démonstrations.</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="demo_api.scripts.generate_data.main"><code class="name flex">
+<span>def <span class="ident">main</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def main():
+    &#34;&#34;&#34;Point d&#39;entrée principal&#34;&#34;&#34;
+
+    # Gérer -h comme alias pour --help
+    if &#34;-h&#34; in sys.argv and &#34;--help&#34; not in sys.argv:
+        sys.argv[sys.argv.index(&#34;-h&#34;)] = &#34;--help&#34;
+
+    try:
+        app()
+    except KeyboardInterrupt:
+        typer.echo(&#34;\n⚠️  Génération interrompue&#34;)
+    except Exception as e:
+        typer.echo(f&#34;❌ Erreur: {e}&#34;)
+        raise typer.Exit(1)</code></pre>
+</details>
+<div class="desc"><p>Point d'entrée principal</p></div>
+</dd>
+<dt id="demo_api.scripts.generate_data.preview"><code class="name flex">
+<span>def <span class="ident">preview</span></span>(<span>user_count: int = &lt;typer.models.OptionInfo object&gt;,<br>max_vms: int = &lt;typer.models.OptionInfo object&gt;) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.command()
+def preview(
+    user_count: int = typer.Option(
+        5, &#34;--users&#34;, &#34;-u&#34;, help=&#34;Nombre d&#39;utilisateurs à prévisualiser&#34;, min=1, max=20
+    ),
+    max_vms: int = typer.Option(
+        3, &#34;--max-vms&#34;, help=&#34;Nombre maximum de VMs par utilisateur&#34;, min=0, max=10
+    ),
+) -&gt; None:
+    &#34;&#34;&#34;
+    👀 Prévisualiser les données générées sans les sauvegarder
+
+    Affiche un aperçu des données qui seraient générées.
+
+    Exemples:
+
+    \b
+    python generate_data.py preview
+    python generate_data.py preview --users 10 --max-vms 2
+    &#34;&#34;&#34;
+    typer.echo(
+        f&#34;👀 Prévisualisation de {user_count} utilisateurs avec 0-{max_vms} VMs chacun...&#34;
+    )
+
+    try:
+        # Générer les données pour prévisualisation
+        users_data = DataGenerator.generate_users_with_vms(
+            user_count=user_count, vm_per_user_range=(0, max_vms)
+        )
+
+        typer.echo(f&#34;\n📋 Aperçu des données générées:&#34;)
+        typer.echo(&#34;=&#34; * 60)
+
+        for i, user in enumerate(users_data, 1):
+            typer.echo(f&#34;\n👤 Utilisateur {i}:&#34;)
+            typer.echo(f&#34;   • Nom: {user[&#39;name&#39;]}&#34;)
+            typer.echo(f&#34;   • Email: {user[&#39;email&#39;]}&#34;)
+            typer.echo(f&#34;   • Créé le: {user[&#39;created_at&#39;]}&#34;)
+            typer.echo(f&#34;   • VMs: {len(user[&#39;vms&#39;])}&#34;)
+
+            if user[&#34;vms&#34;]:
+                typer.echo(f&#34;   🖥️ VMs:&#34;)
+                for j, vm in enumerate(user[&#34;vms&#34;], 1):
+                    typer.echo(f&#34;      {j}. {vm[&#39;name&#39;]} ({vm[&#39;operating_system&#39;]})&#34;)
+                    typer.echo(
+                        f&#34;         CPU: {vm[&#39;cpu_cores&#39;]} cœurs, RAM: {vm[&#39;ram_gb&#39;]}GB, Disque: {vm[&#39;disk_gb&#39;]}GB&#34;
+                    )
+                    typer.echo(f&#34;         Statut: {vm[&#39;status&#39;]}&#34;)
+
+        total_vms = sum(len(user[&#34;vms&#34;]) for user in users_data)
+        typer.echo(f&#34;\n📊 Résumé:&#34;)
+        typer.echo(f&#34;   • Utilisateurs: {len(users_data)}&#34;)
+        typer.echo(f&#34;   • VMs totales: {total_vms}&#34;)
+        typer.echo(f&#34;   • Moyenne VMs/utilisateur: {total_vms / len(users_data):.1f}&#34;)
+
+    except Exception as e:
+        logger.error(&#34;Erreur lors de la prévisualisation&#34;, error=str(e))
+        typer.echo(f&#34;❌ Erreur lors de la prévisualisation: {e}&#34;)
+        raise typer.Exit(1)</code></pre>
+</details>
+<div class="desc"><p>👀 Prévisualiser les données générées sans les sauvegarder</p>
+<p>Affiche un aperçu des données qui seraient générées.</p>
+<p>Exemples:</p>
+<p>
+python generate_data.py preview
+python generate_data.py preview &ndash;users 10 &ndash;max-vms 2</p></div>
+</dd>
+<dt id="demo_api.scripts.generate_data.users_with_vms"><code class="name flex">
+<span>def <span class="ident">users_with_vms</span></span>(<span>user_count: int = &lt;typer.models.OptionInfo object&gt;,<br>min_vms: int = &lt;typer.models.OptionInfo object&gt;,<br>max_vms: int = &lt;typer.models.OptionInfo object&gt;,<br>output_file: str = &lt;typer.models.OptionInfo object&gt;,<br>verbose: bool = &lt;typer.models.OptionInfo object&gt;) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.command()
+def users_with_vms(
+    user_count: int = typer.Option(
+        50, &#34;--users&#34;, &#34;-u&#34;, help=&#34;Nombre d&#39;utilisateurs à générer&#34;, min=1, max=1000
+    ),
+    min_vms: int = typer.Option(
+        0, &#34;--min-vms&#34;, help=&#34;Nombre minimum de VMs par utilisateur&#34;, min=0, max=10
+    ),
+    max_vms: int = typer.Option(
+        5, &#34;--max-vms&#34;, help=&#34;Nombre maximum de VMs par utilisateur&#34;, min=0, max=20
+    ),
+    output_file: str = typer.Option(
+        &#34;vm_users.json&#34;, &#34;--output&#34;, &#34;-o&#34;, help=&#34;Fichier de sortie JSON&#34;
+    ),
+    verbose: bool = typer.Option(False, &#34;--verbose&#34;, &#34;-v&#34;, help=&#34;Mode verbeux&#34;),
+) -&gt; None:
+    &#34;&#34;&#34;
+    🎯 Générer des utilisateurs avec leurs VMs
+
+    Génère un dataset complet d&#39;utilisateurs français avec des VMs réalistes.
+    Les données sont sauvegardées dans un fichier JSON.
+
+    Exemples:
+
+    \b
+    python generate_data.py users-with-vms
+    python generate_data.py users-with-vms --users 100 --max-vms 3
+    python generate_data.py users-with-vms -u 25 -o mon_dataset.json --verbose
+    &#34;&#34;&#34;
+    if min_vms &gt; max_vms:
+        typer.echo(&#34;❌ Le nombre minimum de VMs ne peut pas être supérieur au maximum&#34;)
+        raise typer.Exit(1)
+
+    typer.echo(
+        f&#34;🎲 Génération de {user_count} utilisateurs avec {min_vms}-{max_vms} VMs chacun...&#34;
+    )
+
+    try:
+        # Générer les données
+        users_data = DataGenerator.generate_users_with_vms(
+            user_count=user_count, vm_per_user_range=(min_vms, max_vms)
+        )
+
+        # Sauvegarder dans le fichier JSON
+        output_path = Path(output_file)
+        with open(output_path, &#34;w&#34;, encoding=&#34;utf-8&#34;) as f:
+            json.dump(users_data, f, indent=4, ensure_ascii=False, default=str)
+
+        # Statistiques
+        total_vms = sum(len(user[&#34;vms&#34;]) for user in users_data)
+        users_with_vms_count = len([u for u in users_data if u[&#34;vms&#34;]])
+
+        typer.echo(f&#34;✅ Données générées avec succès !&#34;)
+        typer.echo(f&#34;📊 Statistiques:&#34;)
+        typer.echo(f&#34;   • Utilisateurs: {len(users_data)}&#34;)
+        typer.echo(f&#34;   • VMs totales: {total_vms}&#34;)
+        typer.echo(f&#34;   • Utilisateurs avec VMs: {users_with_vms_count}&#34;)
+        typer.echo(f&#34;   • Moyenne VMs/utilisateur: {total_vms / len(users_data):.1f}&#34;)
+        typer.echo(f&#34;📁 Fichier sauvegardé: {output_path.absolute()}&#34;)
+
+        if verbose:
+            typer.echo(&#34;\n🔍 Aperçu des données générées:&#34;)
+            for i, user in enumerate(users_data[:3]):
+                typer.echo(
+                    f&#34;   {i + 1}. {user[&#39;name&#39;]} ({user[&#39;email&#39;]}) - {len(user[&#39;vms&#39;])} VMs&#34;
+                )
+            if len(users_data) &gt; 3:
+                typer.echo(f&#34;   ... et {len(users_data) - 3} autres utilisateurs&#34;)
+
+    except Exception as e:
+        logger.error(&#34;Erreur lors de la génération des données&#34;, error=str(e))
+        typer.echo(f&#34;❌ Erreur lors de la génération: {e}&#34;)
+        raise typer.Exit(1)</code></pre>
+</details>
+<div class="desc"><p>🎯 Générer des utilisateurs avec leurs VMs</p>
+<p>Génère un dataset complet d'utilisateurs français avec des VMs réalistes.
+Les données sont sauvegardées dans un fichier JSON.</p>
+<p>Exemples:</p>
+<p>
+python generate_data.py users-with-vms
+python generate_data.py users-with-vms &ndash;users 100 &ndash;max-vms 3
+python generate_data.py users-with-vms -u 25 -o mon_dataset.json &ndash;verbose</p></div>
+</dd>
+<dt id="demo_api.scripts.generate_data.version"><code class="name flex">
+<span>def <span class="ident">version</span></span>(<span>) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.command()
+def version() -&gt; None:
+    &#34;&#34;&#34;📋 Afficher la version du générateur&#34;&#34;&#34;
+    typer.echo(&#34;generate-data v1.0.0&#34;)
+    typer.echo(&#34;Powered by Faker 🎲&#34;)</code></pre>
+</details>
+<div class="desc"><p>📋 Afficher la version du générateur</p></div>
+</dd>
+<dt id="demo_api.scripts.generate_data.vms_only"><code class="name flex">
+<span>def <span class="ident">vms_only</span></span>(<span>vm_count: int = &lt;typer.models.OptionInfo object&gt;,<br>user_ids: str = &lt;typer.models.OptionInfo object&gt;,<br>output_file: str = &lt;typer.models.OptionInfo object&gt;,<br>verbose: bool = &lt;typer.models.OptionInfo object&gt;) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.command()
+def vms_only(
+    vm_count: int = typer.Option(
+        100, &#34;--vms&#34;, &#34;-v&#34;, help=&#34;Nombre de VMs à générer&#34;, min=1, max=5000
+    ),
+    user_ids: str = typer.Option(
+        &#34;1,2,3,4,5&#34;,
+        &#34;--user-ids&#34;,
+        &#34;-u&#34;,
+        help=&#34;IDs des utilisateurs (séparés par des virgules)&#34;,
+    ),
+    output_file: str = typer.Option(
+        &#34;vms_only.json&#34;, &#34;--output&#34;, &#34;-o&#34;, help=&#34;Fichier de sortie JSON&#34;
+    ),
+    verbose: bool = typer.Option(False, &#34;--verbose&#34;, &#34;-v&#34;, help=&#34;Mode verbeux&#34;),
+) -&gt; None:
+    &#34;&#34;&#34;
+    🖥️ Générer uniquement des VMs pour des utilisateurs existants
+
+    Génère des VMs réalistes et les associe à des utilisateurs existants.
+
+    Exemples:
+
+    \b
+    python generate_data.py vms-only
+    python generate_data.py vms-only --vms 200 --user-ids &#34;1,2,3,4,5,6,7,8,9,10&#34;
+    python generate_data.py vms-only -v 50 -u &#34;1,2,3&#34; -o mes_vms.json
+    &#34;&#34;&#34;
+    try:
+        # Parser les IDs des utilisateurs
+        user_ids_list = [int(uid.strip()) for uid in user_ids.split(&#34;,&#34;) if uid.strip()]
+
+        if not user_ids_list:
+            typer.echo(&#34;❌ Aucun ID d&#39;utilisateur valide fourni&#34;)
+            raise typer.Exit(1)
+
+        typer.echo(
+            f&#34;🖥️ Génération de {vm_count} VMs pour les utilisateurs {user_ids_list}...&#34;
+        )
+
+        # Générer les VMs
+        vms_data = DataGenerator.generate_vms_only(vm_count, user_ids_list)
+
+        # Sauvegarder dans le fichier JSON
+        output_path = Path(output_file)
+        with open(output_path, &#34;w&#34;, encoding=&#34;utf-8&#34;) as f:
+            json.dump(vms_data, f, indent=4, ensure_ascii=False, default=str)
+
+        # Statistiques par utilisateur
+        user_vm_counts: dict[int, int] = {}
+        for vm in vms_data:
+            user_id = vm[&#34;user_id&#34;]
+            user_vm_counts[user_id] = user_vm_counts.get(user_id, 0) + 1
+
+        typer.echo(f&#34;✅ VMs générées avec succès !&#34;)
+        typer.echo(f&#34;📊 Statistiques:&#34;)
+        typer.echo(f&#34;   • VMs totales: {len(vms_data)}&#34;)
+        typer.echo(f&#34;   • Utilisateurs concernés: {len(user_vm_counts)}&#34;)
+        typer.echo(f&#34;📁 Fichier sauvegardé: {output_path.absolute()}&#34;)
+
+        if verbose:
+            typer.echo(&#34;\n🔍 Répartition par utilisateur:&#34;)
+            for user_id, count in sorted(user_vm_counts.items()):
+                typer.echo(f&#34;   • Utilisateur {user_id}: {count} VMs&#34;)
+
+    except ValueError as e:
+        typer.echo(f&#34;❌ Erreur dans les IDs d&#39;utilisateurs: {e}&#34;)
+        raise typer.Exit(1)
+    except Exception as e:
+        logger.error(&#34;Erreur lors de la génération des VMs&#34;, error=str(e))
+        typer.echo(f&#34;❌ Erreur lors de la génération: {e}&#34;)
+        raise typer.Exit(1)</code></pre>
+</details>
+<div class="desc"><p>🖥️ Générer uniquement des VMs pour des utilisateurs existants</p>
+<p>Génère des VMs réalistes et les associe à des utilisateurs existants.</p>
+<p>Exemples:</p>
+<p>
+python generate_data.py vms-only
+python generate_data.py vms-only &ndash;vms 200 &ndash;user-ids "1,2,3,4,5,6,7,8,9,10"
+python generate_data.py vms-only -v 50 -u "1,2,3" -o mes_vms.json</p></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="demo_api.scripts" href="index.html">demo_api.scripts</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="demo_api.scripts.generate_data.main" href="#demo_api.scripts.generate_data.main">main</a></code></li>
+<li><code><a title="demo_api.scripts.generate_data.preview" href="#demo_api.scripts.generate_data.preview">preview</a></code></li>
+<li><code><a title="demo_api.scripts.generate_data.users_with_vms" href="#demo_api.scripts.generate_data.users_with_vms">users_with_vms</a></code></li>
+<li><code><a title="demo_api.scripts.generate_data.version" href="#demo_api.scripts.generate_data.version">version</a></code></li>
+<li><code><a title="demo_api.scripts.generate_data.vms_only" href="#demo_api.scripts.generate_data.vms_only">vms_only</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,1439 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>demo_api.utils.services API documentation</title>
+<meta name="description" content="Services métier pour demo_api …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>demo_api.utils.services</code></h1>
+</header>
+<section id="section-intro">
+<p>Services métier pour demo_api</p>
+<p>Ce module contient les services qui encapsulent la logique métier :
+- VMService : Gestion des VMs
+- ReportService : Génération de rapports
+- DataManager : Gestion centralisée des données</p>
+</section>
+<section>
+<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+<dl>
+<dt><code class="name"><a title="demo_api.utils.services.data_manager" href="data_manager.html">demo_api.utils.services.data_manager</a></code></dt>
+<dd>
+<div class="desc"><p>Gestionnaire de données centralisé pour éviter les requêtes multiples</p></div>
+</dd>
+<dt><code class="name"><a title="demo_api.utils.services.report_service" href="report_service.html">demo_api.utils.services.report_service</a></code></dt>
+<dd>
+<div class="desc"><p>Service de génération de rapports</p></div>
+</dd>
+<dt><code class="name"><a title="demo_api.utils.services.vm_service" href="vm_service.html">demo_api.utils.services.vm_service</a></code></dt>
+<dd>
+<div class="desc"><p>Service de gestion des VMs</p></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="demo_api.utils.services.DataManager"><code class="flex name class">
+<span>class <span class="ident">DataManager</span></span>
+<span>(</span><span>api_client: utils.api.ApiClient)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DataManager:
+    &#34;&#34;&#34;Gestionnaire centralisé des données pour éviter les requêtes multiples&#34;&#34;&#34;
+
+    def __init__(self, api_client: Api):
+        &#34;&#34;&#34;
+        Initialise le gestionnaire de données
+
+        Args:
+            api_client: Client API unifié
+        &#34;&#34;&#34;
+        self.api = api_client
+        self._users_cache: Optional[List[Dict[str, Any]]] = None
+        self._vms_cache: Optional[List[Dict[str, Any]]] = None
+        self._data_fetched = False
+
+    def fetch_all_data(self) -&gt; Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
+        &#34;&#34;&#34;
+        Récupère toutes les données nécessaires (utilisateurs et VMs) en une seule fois
+
+        Returns:
+            Tuple contenant (users, vms) ou ([], []) en cas d&#39;erreur
+        &#34;&#34;&#34;
+        if self._data_fetched:
+            logger.info(&#34;Utilisation des données en cache&#34;)
+            return self._users_cache or [], self._vms_cache or []
+
+        logger.info(&#34;Début de récupération centralisée des données&#34;)
+
+        # Récupération des utilisateurs
+        try:
+            self._users_cache = self.api.users.get()
+            logger.info(&#34;Utilisateurs récupérés&#34;, count=len(self._users_cache))
+        except UsersFetchError as e:
+            logger.error(&#34;Impossible de récupérer les utilisateurs&#34;, error=str(e))
+            self._users_cache = []
+
+        # Récupération des VMs
+        try:
+            self._vms_cache = self.api.vms.get()
+            logger.info(&#34;VMs récupérées&#34;, count=len(self._vms_cache))
+        except VMsFetchError as e:
+            logger.error(&#34;Impossible de récupérer les VMs&#34;, error=str(e))
+            self._vms_cache = []
+
+        self._data_fetched = True
+        logger.info(&#34;Récupération centralisée des données terminée&#34;)
+
+        return self._users_cache or [], self._vms_cache or []
+
+    def get_users(self) -&gt; List[Dict[str, Any]]:
+        &#34;&#34;&#34;
+        Retourne les utilisateurs (doit être appelé après fetch_all_data)
+
+        Returns:
+            Liste des utilisateurs
+        &#34;&#34;&#34;
+        if not self._data_fetched:
+            raise RuntimeError(&#34;fetch_all_data() doit être appelé avant get_users()&#34;)
+        return self._users_cache or []
+
+    def get_vms(self) -&gt; List[Dict[str, Any]]:
+        &#34;&#34;&#34;
+        Retourne les VMs (doit être appelé après fetch_all_data)
+
+        Returns:
+            Liste des VMs
+        &#34;&#34;&#34;
+        if not self._data_fetched:
+            raise RuntimeError(&#34;fetch_all_data() doit être appelé avant get_vms()&#34;)
+        return self._vms_cache or []
+
+    def get_users_with_vms(self) -&gt; List[Dict[str, Any]]:
+        &#34;&#34;&#34;
+        Retourne les utilisateurs avec leurs VMs associées
+
+        Returns:
+            Liste des utilisateurs avec leurs VMs
+        &#34;&#34;&#34;
+        users = self.get_users()
+        vms = self.get_vms()
+
+        # Associer les VMs aux utilisateurs
+        self.api.users.add_vms_to_users(users, vms)
+        return users
+
+    def clear_cache(self) -&gt; None:
+        &#34;&#34;&#34;Vide le cache des données&#34;&#34;&#34;
+        self._users_cache = None
+        self._vms_cache = None
+        self._data_fetched = False
+        logger.info(&#34;Cache des données vidé&#34;)
+
+    @property
+    def is_data_loaded(self) -&gt; bool:
+        &#34;&#34;&#34;Indique si les données sont chargées&#34;&#34;&#34;
+        return self._data_fetched</code></pre>
+</details>
+<div class="desc"><p>Gestionnaire centralisé des données pour éviter les requêtes multiples</p>
+<p>Initialise le gestionnaire de données</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>api_client</code></strong></dt>
+<dd>Client API unifié</dd>
+</dl></div>
+<h3>Instance variables</h3>
+<dl>
+<dt id="demo_api.utils.services.DataManager.is_data_loaded"><code class="name">prop <span class="ident">is_data_loaded</span> : bool</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def is_data_loaded(self) -&gt; bool:
+    &#34;&#34;&#34;Indique si les données sont chargées&#34;&#34;&#34;
+    return self._data_fetched</code></pre>
+</details>
+<div class="desc"><p>Indique si les données sont chargées</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="demo_api.utils.services.DataManager.clear_cache"><code class="name flex">
+<span>def <span class="ident">clear_cache</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def clear_cache(self) -&gt; None:
+    &#34;&#34;&#34;Vide le cache des données&#34;&#34;&#34;
+    self._users_cache = None
+    self._vms_cache = None
+    self._data_fetched = False
+    logger.info(&#34;Cache des données vidé&#34;)</code></pre>
+</details>
+<div class="desc"><p>Vide le cache des données</p></div>
+</dd>
+<dt id="demo_api.utils.services.DataManager.fetch_all_data"><code class="name flex">
+<span>def <span class="ident">fetch_all_data</span></span>(<span>self) ‑> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fetch_all_data(self) -&gt; Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
+    &#34;&#34;&#34;
+    Récupère toutes les données nécessaires (utilisateurs et VMs) en une seule fois
+
+    Returns:
+        Tuple contenant (users, vms) ou ([], []) en cas d&#39;erreur
+    &#34;&#34;&#34;
+    if self._data_fetched:
+        logger.info(&#34;Utilisation des données en cache&#34;)
+        return self._users_cache or [], self._vms_cache or []
+
+    logger.info(&#34;Début de récupération centralisée des données&#34;)
+
+    # Récupération des utilisateurs
+    try:
+        self._users_cache = self.api.users.get()
+        logger.info(&#34;Utilisateurs récupérés&#34;, count=len(self._users_cache))
+    except UsersFetchError as e:
+        logger.error(&#34;Impossible de récupérer les utilisateurs&#34;, error=str(e))
+        self._users_cache = []
+
+    # Récupération des VMs
+    try:
+        self._vms_cache = self.api.vms.get()
+        logger.info(&#34;VMs récupérées&#34;, count=len(self._vms_cache))
+    except VMsFetchError as e:
+        logger.error(&#34;Impossible de récupérer les VMs&#34;, error=str(e))
+        self._vms_cache = []
+
+    self._data_fetched = True
+    logger.info(&#34;Récupération centralisée des données terminée&#34;)
+
+    return self._users_cache or [], self._vms_cache or []</code></pre>
+</details>
+<div class="desc"><p>Récupère toutes les données nécessaires (utilisateurs et VMs) en une seule fois</p>
+<h2 id="returns">Returns</h2>
+<p>Tuple contenant (users, vms) ou ([], []) en cas d'erreur</p></div>
+</dd>
+<dt id="demo_api.utils.services.DataManager.get_users"><code class="name flex">
+<span>def <span class="ident">get_users</span></span>(<span>self) ‑> List[Dict[str, Any]]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_users(self) -&gt; List[Dict[str, Any]]:
+    &#34;&#34;&#34;
+    Retourne les utilisateurs (doit être appelé après fetch_all_data)
+
+    Returns:
+        Liste des utilisateurs
+    &#34;&#34;&#34;
+    if not self._data_fetched:
+        raise RuntimeError(&#34;fetch_all_data() doit être appelé avant get_users()&#34;)
+    return self._users_cache or []</code></pre>
+</details>
+<div class="desc"><p>Retourne les utilisateurs (doit être appelé après fetch_all_data)</p>
+<h2 id="returns">Returns</h2>
+<p>Liste des utilisateurs</p></div>
+</dd>
+<dt id="demo_api.utils.services.DataManager.get_users_with_vms"><code class="name flex">
+<span>def <span class="ident">get_users_with_vms</span></span>(<span>self) ‑> List[Dict[str, Any]]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_users_with_vms(self) -&gt; List[Dict[str, Any]]:
+    &#34;&#34;&#34;
+    Retourne les utilisateurs avec leurs VMs associées
+
+    Returns:
+        Liste des utilisateurs avec leurs VMs
+    &#34;&#34;&#34;
+    users = self.get_users()
+    vms = self.get_vms()
+
+    # Associer les VMs aux utilisateurs
+    self.api.users.add_vms_to_users(users, vms)
+    return users</code></pre>
+</details>
+<div class="desc"><p>Retourne les utilisateurs avec leurs VMs associées</p>
+<h2 id="returns">Returns</h2>
+<p>Liste des utilisateurs avec leurs VMs</p></div>
+</dd>
+<dt id="demo_api.utils.services.DataManager.get_vms"><code class="name flex">
+<span>def <span class="ident">get_vms</span></span>(<span>self) ‑> List[Dict[str, Any]]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_vms(self) -&gt; List[Dict[str, Any]]:
+    &#34;&#34;&#34;
+    Retourne les VMs (doit être appelé après fetch_all_data)
+
+    Returns:
+        Liste des VMs
+    &#34;&#34;&#34;
+    if not self._data_fetched:
+        raise RuntimeError(&#34;fetch_all_data() doit être appelé avant get_vms()&#34;)
+    return self._vms_cache or []</code></pre>
+</details>
+<div class="desc"><p>Retourne les VMs (doit être appelé après fetch_all_data)</p>
+<h2 id="returns">Returns</h2>
+<p>Liste des VMs</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="demo_api.utils.services.ReportService"><code class="flex name class">
+<span>class <span class="ident">ReportService</span></span>
+<span>(</span><span>api_client: utils.api.ApiClient)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ReportService:
+    &#34;&#34;&#34;Service pour la génération de rapports&#34;&#34;&#34;
+
+    def __init__(self, api_client: Api):
+        &#34;&#34;&#34;
+        Initialise le service de rapport
+
+        Args:
+            api_client: Client API unifié
+        &#34;&#34;&#34;
+        self.api = api_client
+
+    def generate_users_vms_report(
+        self,
+        users: List[Dict[str, Any]],
+        vms: List[Dict[str, Any]],
+        filename: str = &#34;vm_users.json&#34;,
+    ) -&gt; Optional[str]:
+        &#34;&#34;&#34;
+        Génère un rapport utilisateurs/VMs
+
+        Args:
+            users: Liste des utilisateurs
+            vms: Liste des VMs
+            filename: Nom du fichier de sortie
+
+        Returns:
+            Chemin du fichier généré ou None si échec
+        &#34;&#34;&#34;
+        logger.info(&#34;Début de génération du rapport utilisateurs/VMs&#34;)
+
+        if not users or not vms:
+            logger.warning(
+                &#34;Impossible de générer le rapport: données manquantes&#34;,
+                users_count=len(users),
+                vms_count=len(vms),
+            )
+            return None
+
+        # Associer les VMs aux utilisateurs
+        self.api.users.add_vms_to_users(users, vms)
+
+        # Génération du rapport JSON
+        try:
+            logger.info(&#34;Génération du rapport JSON&#34;)
+            json_generator = JSONReportGenerator()
+            report_file = json_generator.generate_users_vms_report(users, filename)
+            logger.info(&#34;Rapport JSON généré avec succès&#34;, filename=report_file)
+            return report_file
+        except (IOError, TypeError) as e:
+            logger.error(&#34;Erreur lors de la génération du rapport&#34;, error=str(e))
+            return None
+
+    def generate_status_report(
+        self,
+        users: List[Dict[str, Any]],
+        vms: List[Dict[str, Any]],
+        filename: str = &#34;vm_status_report.json&#34;,
+    ) -&gt; Optional[str]:
+        &#34;&#34;&#34;
+        Génère un rapport des VMs par statut
+
+        Args:
+            users: Liste des utilisateurs
+            vms: Liste des VMs
+            filename: Nom du fichier de sortie
+
+        Returns:
+            Chemin du fichier généré ou None si échec
+        &#34;&#34;&#34;
+        logger.info(&#34;Début de génération du rapport de statut des VMs&#34;)
+
+        if not vms:
+            logger.warning(
+                &#34;Impossible de générer le rapport de statut: pas de VMs disponibles&#34;
+            )
+            return None
+
+        # Compter les VMs par statut
+        status_counts: Dict[str, int] = {}
+        for vm in vms:
+            status = vm.get(&#34;status&#34;, &#34;unknown&#34;)
+            status_counts[status] = status_counts.get(status, 0) + 1
+
+        # Créer le rapport avec une structure claire et concise
+        status_report = {
+            &#34;summary&#34;: {
+                &#34;total_vms&#34;: len(vms),
+                &#34;total_users&#34;: len(users),
+            },
+            &#34;vm_status_counts&#34;: status_counts,
+        }
+
+        try:
+            json_generator = JSONReportGenerator()
+            report_file = json_generator.generate(status_report, filename)
+            logger.info(&#34;Rapport de statut généré avec succès&#34;, filename=report_file)
+            return report_file
+        except (IOError, TypeError) as e:
+            logger.error(
+                &#34;Erreur lors de la génération du rapport de statut&#34;, error=str(e)
+            )
+            return None
+
+    def generate_users_vms_report_markdown(
+        self,
+        users: List[Dict[str, Any]],
+        vms: List[Dict[str, Any]],
+        filename: str = &#34;vm_users.md&#34;,
+    ) -&gt; Optional[str]:
+        &#34;&#34;&#34;
+        Génère un rapport utilisateurs/VMs en Markdown
+
+        Args:
+            users: Liste des utilisateurs
+            vms: Liste des VMs
+            filename: Nom du fichier de sortie
+
+        Returns:
+            Chemin du fichier généré ou None si échec
+        &#34;&#34;&#34;
+        logger.info(&#34;Début de génération du rapport utilisateurs/VMs Markdown&#34;)
+
+        if not users or not vms:
+            logger.warning(
+                &#34;Impossible de générer le rapport: données manquantes&#34;,
+                users_count=len(users),
+                vms_count=len(vms),
+            )
+            return None
+
+        # Associer les VMs aux utilisateurs
+        self.api.users.add_vms_to_users(users, vms)
+
+        # Génération du rapport Markdown
+        try:
+            logger.info(&#34;Génération du rapport Markdown&#34;)
+            markdown_generator = MarkdownReportGenerator()
+            report_file = markdown_generator.generate_users_vms_report(users, filename)
+            logger.info(&#34;Rapport Markdown généré avec succès&#34;, filename=report_file)
+            return report_file
+        except (IOError, TypeError) as e:
+            logger.error(
+                &#34;Erreur lors de la génération du rapport Markdown&#34;, error=str(e)
+            )
+            return None
+
+    def generate_users_vms_report_html(
+        self,
+        users: List[Dict[str, Any]],
+        vms: List[Dict[str, Any]],
+        filename: str = &#34;vm_users.html&#34;,
+    ) -&gt; Optional[str]:
+        &#34;&#34;&#34;
+        Génère un rapport utilisateurs/VMs en HTML
+
+        Args:
+            users: Liste des utilisateurs
+            vms: Liste des VMs
+            filename: Nom du fichier de sortie
+
+        Returns:
+            Chemin du fichier généré ou None si échec
+        &#34;&#34;&#34;
+        logger.info(&#34;Début de génération du rapport utilisateurs/VMs HTML&#34;)
+
+        if not users or not vms:
+            logger.warning(
+                &#34;Impossible de générer le rapport: données manquantes&#34;,
+                users_count=len(users),
+                vms_count=len(vms),
+            )
+            return None
+
+        # Associer les VMs aux utilisateurs
+        self.api.users.add_vms_to_users(users, vms)
+
+        # Génération du rapport HTML
+        try:
+            logger.info(&#34;Génération du rapport HTML&#34;)
+            html_generator = HTMLReportGenerator()
+            report_file = html_generator.generate_users_vms_report(users, filename)
+            logger.info(&#34;Rapport HTML généré avec succès&#34;, filename=report_file)
+            return report_file
+        except (IOError, TypeError) as e:
+            logger.error(&#34;Erreur lors de la génération du rapport HTML&#34;, error=str(e))
+            return None
+
+    def generate_status_report_markdown(
+        self,
+        users: List[Dict[str, Any]],
+        vms: List[Dict[str, Any]],
+        filename: str = &#34;vm_status_report.md&#34;,
+    ) -&gt; Optional[str]:
+        &#34;&#34;&#34;
+        Génère un rapport de statut des VMs en Markdown
+
+        Args:
+            users: Liste des utilisateurs
+            vms: Liste des VMs
+            filename: Nom du fichier de sortie
+
+        Returns:
+            Chemin du fichier généré ou None si échec
+        &#34;&#34;&#34;
+        logger.info(&#34;Début de génération du rapport de statut des VMs Markdown&#34;)
+
+        if not vms:
+            logger.warning(
+                &#34;Impossible de générer le rapport de statut: pas de VMs disponibles&#34;
+            )
+            return None
+
+        # Compter les VMs par statut
+        status_counts: Dict[str, int] = {}
+        for vm in vms:
+            status = vm.get(&#34;status&#34;, &#34;unknown&#34;)
+            status_counts[status] = status_counts.get(status, 0) + 1
+
+        # Créer le rapport avec une structure claire et concise
+        status_report = {
+            &#34;summary&#34;: {
+                &#34;total_vms&#34;: len(vms),
+                &#34;total_users&#34;: len(users),
+            },
+            &#34;vm_status_counts&#34;: status_counts,
+        }
+
+        try:
+            markdown_generator = MarkdownReportGenerator()
+            report_file = markdown_generator.generate_status_report(
+                status_report, filename
+            )
+            logger.info(
+                &#34;Rapport de statut Markdown généré avec succès&#34;, filename=report_file
+            )
+            return report_file
+        except (IOError, TypeError) as e:
+            logger.error(
+                &#34;Erreur lors de la génération du rapport de statut Markdown&#34;,
+                error=str(e),
+            )
+            return None
+
+    def generate_status_report_html(
+        self,
+        users: List[Dict[str, Any]],
+        vms: List[Dict[str, Any]],
+        filename: str = &#34;vm_status_report.html&#34;,
+    ) -&gt; Optional[str]:
+        &#34;&#34;&#34;
+        Génère un rapport de statut des VMs en HTML
+
+        Args:
+            users: Liste des utilisateurs
+            vms: Liste des VMs
+            filename: Nom du fichier de sortie
+
+        Returns:
+            Chemin du fichier généré ou None si échec
+        &#34;&#34;&#34;
+        logger.info(&#34;Début de génération du rapport de statut des VMs HTML&#34;)
+
+        if not vms:
+            logger.warning(
+                &#34;Impossible de générer le rapport de statut: pas de VMs disponibles&#34;
+            )
+            return None
+
+        # Compter les VMs par statut
+        status_counts: Dict[str, int] = {}
+        for vm in vms:
+            status = vm.get(&#34;status&#34;, &#34;unknown&#34;)
+            status_counts[status] = status_counts.get(status, 0) + 1
+
+        # Créer le rapport avec une structure claire et concise
+        status_report = {
+            &#34;summary&#34;: {
+                &#34;total_vms&#34;: len(vms),
+                &#34;total_users&#34;: len(users),
+            },
+            &#34;vm_status_counts&#34;: status_counts,
+        }
+
+        try:
+            html_generator = HTMLReportGenerator()
+            report_file = html_generator.generate_status_report(status_report, filename)
+            logger.info(
+                &#34;Rapport de statut HTML généré avec succès&#34;, filename=report_file
+            )
+            return report_file
+        except (IOError, TypeError) as e:
+            logger.error(
+                &#34;Erreur lors de la génération du rapport de statut HTML&#34;, error=str(e)
+            )
+            return None</code></pre>
+</details>
+<div class="desc"><p>Service pour la génération de rapports</p>
+<p>Initialise le service de rapport</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>api_client</code></strong></dt>
+<dd>Client API unifié</dd>
+</dl></div>
+<h3>Methods</h3>
+<dl>
+<dt id="demo_api.utils.services.ReportService.generate_status_report"><code class="name flex">
+<span>def <span class="ident">generate_status_report</span></span>(<span>self,<br>users: List[Dict[str, Any]],<br>vms: List[Dict[str, Any]],<br>filename: str = 'vm_status_report.json') ‑> str | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate_status_report(
+    self,
+    users: List[Dict[str, Any]],
+    vms: List[Dict[str, Any]],
+    filename: str = &#34;vm_status_report.json&#34;,
+) -&gt; Optional[str]:
+    &#34;&#34;&#34;
+    Génère un rapport des VMs par statut
+
+    Args:
+        users: Liste des utilisateurs
+        vms: Liste des VMs
+        filename: Nom du fichier de sortie
+
+    Returns:
+        Chemin du fichier généré ou None si échec
+    &#34;&#34;&#34;
+    logger.info(&#34;Début de génération du rapport de statut des VMs&#34;)
+
+    if not vms:
+        logger.warning(
+            &#34;Impossible de générer le rapport de statut: pas de VMs disponibles&#34;
+        )
+        return None
+
+    # Compter les VMs par statut
+    status_counts: Dict[str, int] = {}
+    for vm in vms:
+        status = vm.get(&#34;status&#34;, &#34;unknown&#34;)
+        status_counts[status] = status_counts.get(status, 0) + 1
+
+    # Créer le rapport avec une structure claire et concise
+    status_report = {
+        &#34;summary&#34;: {
+            &#34;total_vms&#34;: len(vms),
+            &#34;total_users&#34;: len(users),
+        },
+        &#34;vm_status_counts&#34;: status_counts,
+    }
+
+    try:
+        json_generator = JSONReportGenerator()
+        report_file = json_generator.generate(status_report, filename)
+        logger.info(&#34;Rapport de statut généré avec succès&#34;, filename=report_file)
+        return report_file
+    except (IOError, TypeError) as e:
+        logger.error(
+            &#34;Erreur lors de la génération du rapport de statut&#34;, error=str(e)
+        )
+        return None</code></pre>
+</details>
+<div class="desc"><p>Génère un rapport des VMs par statut</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>users</code></strong></dt>
+<dd>Liste des utilisateurs</dd>
+<dt><strong><code>vms</code></strong></dt>
+<dd>Liste des VMs</dd>
+<dt><strong><code>filename</code></strong></dt>
+<dd>Nom du fichier de sortie</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Chemin du fichier généré ou None si échec</p></div>
+</dd>
+<dt id="demo_api.utils.services.ReportService.generate_status_report_html"><code class="name flex">
+<span>def <span class="ident">generate_status_report_html</span></span>(<span>self,<br>users: List[Dict[str, Any]],<br>vms: List[Dict[str, Any]],<br>filename: str = 'vm_status_report.html') ‑> str | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate_status_report_html(
+    self,
+    users: List[Dict[str, Any]],
+    vms: List[Dict[str, Any]],
+    filename: str = &#34;vm_status_report.html&#34;,
+) -&gt; Optional[str]:
+    &#34;&#34;&#34;
+    Génère un rapport de statut des VMs en HTML
+
+    Args:
+        users: Liste des utilisateurs
+        vms: Liste des VMs
+        filename: Nom du fichier de sortie
+
+    Returns:
+        Chemin du fichier généré ou None si échec
+    &#34;&#34;&#34;
+    logger.info(&#34;Début de génération du rapport de statut des VMs HTML&#34;)
+
+    if not vms:
+        logger.warning(
+            &#34;Impossible de générer le rapport de statut: pas de VMs disponibles&#34;
+        )
+        return None
+
+    # Compter les VMs par statut
+    status_counts: Dict[str, int] = {}
+    for vm in vms:
+        status = vm.get(&#34;status&#34;, &#34;unknown&#34;)
+        status_counts[status] = status_counts.get(status, 0) + 1
+
+    # Créer le rapport avec une structure claire et concise
+    status_report = {
+        &#34;summary&#34;: {
+            &#34;total_vms&#34;: len(vms),
+            &#34;total_users&#34;: len(users),
+        },
+        &#34;vm_status_counts&#34;: status_counts,
+    }
+
+    try:
+        html_generator = HTMLReportGenerator()
+        report_file = html_generator.generate_status_report(status_report, filename)
+        logger.info(
+            &#34;Rapport de statut HTML généré avec succès&#34;, filename=report_file
+        )
+        return report_file
+    except (IOError, TypeError) as e:
+        logger.error(
+            &#34;Erreur lors de la génération du rapport de statut HTML&#34;, error=str(e)
+        )
+        return None</code></pre>
+</details>
+<div class="desc"><p>Génère un rapport de statut des VMs en HTML</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>users</code></strong></dt>
+<dd>Liste des utilisateurs</dd>
+<dt><strong><code>vms</code></strong></dt>
+<dd>Liste des VMs</dd>
+<dt><strong><code>filename</code></strong></dt>
+<dd>Nom du fichier de sortie</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Chemin du fichier généré ou None si échec</p></div>
+</dd>
+<dt id="demo_api.utils.services.ReportService.generate_status_report_markdown"><code class="name flex">
+<span>def <span class="ident">generate_status_report_markdown</span></span>(<span>self,<br>users: List[Dict[str, Any]],<br>vms: List[Dict[str, Any]],<br>filename: str = 'vm_status_report.md') ‑> str | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate_status_report_markdown(
+    self,
+    users: List[Dict[str, Any]],
+    vms: List[Dict[str, Any]],
+    filename: str = &#34;vm_status_report.md&#34;,
+) -&gt; Optional[str]:
+    &#34;&#34;&#34;
+    Génère un rapport de statut des VMs en Markdown
+
+    Args:
+        users: Liste des utilisateurs
+        vms: Liste des VMs
+        filename: Nom du fichier de sortie
+
+    Returns:
+        Chemin du fichier généré ou None si échec
+    &#34;&#34;&#34;
+    logger.info(&#34;Début de génération du rapport de statut des VMs Markdown&#34;)
+
+    if not vms:
+        logger.warning(
+            &#34;Impossible de générer le rapport de statut: pas de VMs disponibles&#34;
+        )
+        return None
+
+    # Compter les VMs par statut
+    status_counts: Dict[str, int] = {}
+    for vm in vms:
+        status = vm.get(&#34;status&#34;, &#34;unknown&#34;)
+        status_counts[status] = status_counts.get(status, 0) + 1
+
+    # Créer le rapport avec une structure claire et concise
+    status_report = {
+        &#34;summary&#34;: {
+            &#34;total_vms&#34;: len(vms),
+            &#34;total_users&#34;: len(users),
+        },
+        &#34;vm_status_counts&#34;: status_counts,
+    }
+
+    try:
+        markdown_generator = MarkdownReportGenerator()
+        report_file = markdown_generator.generate_status_report(
+            status_report, filename
+        )
+        logger.info(
+            &#34;Rapport de statut Markdown généré avec succès&#34;, filename=report_file
+        )
+        return report_file
+    except (IOError, TypeError) as e:
+        logger.error(
+            &#34;Erreur lors de la génération du rapport de statut Markdown&#34;,
+            error=str(e),
+        )
+        return None</code></pre>
+</details>
+<div class="desc"><p>Génère un rapport de statut des VMs en Markdown</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>users</code></strong></dt>
+<dd>Liste des utilisateurs</dd>
+<dt><strong><code>vms</code></strong></dt>
+<dd>Liste des VMs</dd>
+<dt><strong><code>filename</code></strong></dt>
+<dd>Nom du fichier de sortie</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Chemin du fichier généré ou None si échec</p></div>
+</dd>
+<dt id="demo_api.utils.services.ReportService.generate_users_vms_report"><code class="name flex">
+<span>def <span class="ident">generate_users_vms_report</span></span>(<span>self,<br>users: List[Dict[str, Any]],<br>vms: List[Dict[str, Any]],<br>filename: str = 'vm_users.json') ‑> str | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate_users_vms_report(
+    self,
+    users: List[Dict[str, Any]],
+    vms: List[Dict[str, Any]],
+    filename: str = &#34;vm_users.json&#34;,
+) -&gt; Optional[str]:
+    &#34;&#34;&#34;
+    Génère un rapport utilisateurs/VMs
+
+    Args:
+        users: Liste des utilisateurs
+        vms: Liste des VMs
+        filename: Nom du fichier de sortie
+
+    Returns:
+        Chemin du fichier généré ou None si échec
+    &#34;&#34;&#34;
+    logger.info(&#34;Début de génération du rapport utilisateurs/VMs&#34;)
+
+    if not users or not vms:
+        logger.warning(
+            &#34;Impossible de générer le rapport: données manquantes&#34;,
+            users_count=len(users),
+            vms_count=len(vms),
+        )
+        return None
+
+    # Associer les VMs aux utilisateurs
+    self.api.users.add_vms_to_users(users, vms)
+
+    # Génération du rapport JSON
+    try:
+        logger.info(&#34;Génération du rapport JSON&#34;)
+        json_generator = JSONReportGenerator()
+        report_file = json_generator.generate_users_vms_report(users, filename)
+        logger.info(&#34;Rapport JSON généré avec succès&#34;, filename=report_file)
+        return report_file
+    except (IOError, TypeError) as e:
+        logger.error(&#34;Erreur lors de la génération du rapport&#34;, error=str(e))
+        return None</code></pre>
+</details>
+<div class="desc"><p>Génère un rapport utilisateurs/VMs</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>users</code></strong></dt>
+<dd>Liste des utilisateurs</dd>
+<dt><strong><code>vms</code></strong></dt>
+<dd>Liste des VMs</dd>
+<dt><strong><code>filename</code></strong></dt>
+<dd>Nom du fichier de sortie</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Chemin du fichier généré ou None si échec</p></div>
+</dd>
+<dt id="demo_api.utils.services.ReportService.generate_users_vms_report_html"><code class="name flex">
+<span>def <span class="ident">generate_users_vms_report_html</span></span>(<span>self,<br>users: List[Dict[str, Any]],<br>vms: List[Dict[str, Any]],<br>filename: str = 'vm_users.html') ‑> str | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate_users_vms_report_html(
+    self,
+    users: List[Dict[str, Any]],
+    vms: List[Dict[str, Any]],
+    filename: str = &#34;vm_users.html&#34;,
+) -&gt; Optional[str]:
+    &#34;&#34;&#34;
+    Génère un rapport utilisateurs/VMs en HTML
+
+    Args:
+        users: Liste des utilisateurs
+        vms: Liste des VMs
+        filename: Nom du fichier de sortie
+
+    Returns:
+        Chemin du fichier généré ou None si échec
+    &#34;&#34;&#34;
+    logger.info(&#34;Début de génération du rapport utilisateurs/VMs HTML&#34;)
+
+    if not users or not vms:
+        logger.warning(
+            &#34;Impossible de générer le rapport: données manquantes&#34;,
+            users_count=len(users),
+            vms_count=len(vms),
+        )
+        return None
+
+    # Associer les VMs aux utilisateurs
+    self.api.users.add_vms_to_users(users, vms)
+
+    # Génération du rapport HTML
+    try:
+        logger.info(&#34;Génération du rapport HTML&#34;)
+        html_generator = HTMLReportGenerator()
+        report_file = html_generator.generate_users_vms_report(users, filename)
+        logger.info(&#34;Rapport HTML généré avec succès&#34;, filename=report_file)
+        return report_file
+    except (IOError, TypeError) as e:
+        logger.error(&#34;Erreur lors de la génération du rapport HTML&#34;, error=str(e))
+        return None</code></pre>
+</details>
+<div class="desc"><p>Génère un rapport utilisateurs/VMs en HTML</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>users</code></strong></dt>
+<dd>Liste des utilisateurs</dd>
+<dt><strong><code>vms</code></strong></dt>
+<dd>Liste des VMs</dd>
+<dt><strong><code>filename</code></strong></dt>
+<dd>Nom du fichier de sortie</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Chemin du fichier généré ou None si échec</p></div>
+</dd>
+<dt id="demo_api.utils.services.ReportService.generate_users_vms_report_markdown"><code class="name flex">
+<span>def <span class="ident">generate_users_vms_report_markdown</span></span>(<span>self,<br>users: List[Dict[str, Any]],<br>vms: List[Dict[str, Any]],<br>filename: str = 'vm_users.md') ‑> str | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate_users_vms_report_markdown(
+    self,
+    users: List[Dict[str, Any]],
+    vms: List[Dict[str, Any]],
+    filename: str = &#34;vm_users.md&#34;,
+) -&gt; Optional[str]:
+    &#34;&#34;&#34;
+    Génère un rapport utilisateurs/VMs en Markdown
+
+    Args:
+        users: Liste des utilisateurs
+        vms: Liste des VMs
+        filename: Nom du fichier de sortie
+
+    Returns:
+        Chemin du fichier généré ou None si échec
+    &#34;&#34;&#34;
+    logger.info(&#34;Début de génération du rapport utilisateurs/VMs Markdown&#34;)
+
+    if not users or not vms:
+        logger.warning(
+            &#34;Impossible de générer le rapport: données manquantes&#34;,
+            users_count=len(users),
+            vms_count=len(vms),
+        )
+        return None
+
+    # Associer les VMs aux utilisateurs
+    self.api.users.add_vms_to_users(users, vms)
+
+    # Génération du rapport Markdown
+    try:
+        logger.info(&#34;Génération du rapport Markdown&#34;)
+        markdown_generator = MarkdownReportGenerator()
+        report_file = markdown_generator.generate_users_vms_report(users, filename)
+        logger.info(&#34;Rapport Markdown généré avec succès&#34;, filename=report_file)
+        return report_file
+    except (IOError, TypeError) as e:
+        logger.error(
+            &#34;Erreur lors de la génération du rapport Markdown&#34;, error=str(e)
+        )
+        return None</code></pre>
+</details>
+<div class="desc"><p>Génère un rapport utilisateurs/VMs en Markdown</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>users</code></strong></dt>
+<dd>Liste des utilisateurs</dd>
+<dt><strong><code>vms</code></strong></dt>
+<dd>Liste des VMs</dd>
+<dt><strong><code>filename</code></strong></dt>
+<dd>Nom du fichier de sortie</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Chemin du fichier généré ou None si échec</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="demo_api.utils.services.VMService"><code class="flex name class">
+<span>class <span class="ident">VMService</span></span>
+<span>(</span><span>api_client: utils.api.ApiClient)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class VMService:
+    &#34;&#34;&#34;Service pour la gestion des VMs&#34;&#34;&#34;
+
+    def __init__(self, api_client: Api):
+        &#34;&#34;&#34;
+        Initialise le service VM
+
+        Args:
+            api_client: Client API unifié
+        &#34;&#34;&#34;
+        self.api = api_client
+
+    def authenticate_user(
+        self, email: str = &#34;jean@dupont21.com&#34;, password: str = None
+    ) -&gt; &#34;Optional[Dict[str, Any]]&#34;:
+        &#34;&#34;&#34;
+        Authentifie un utilisateur et retourne ses informations
+
+        Args:
+            email: Email de l&#39;utilisateur
+            password: Mot de passe de l&#39;utilisateur
+
+        Returns:
+            Informations de l&#39;utilisateur ou None si l&#39;authentification échoue
+        &#34;&#34;&#34;
+        logger.info(&#34;Début du processus d&#39;authentification pour création de VM&#34;)
+
+        try:
+            token = get_or_create_token(
+                base_url=self.api.base_url,
+                email=email,
+                password=password,
+            )
+
+            # Définir le token dans le client API
+            self.api.set_token(token)
+            logger.info(&#34;Token défini dans le client API pour création de VM&#34;)
+
+            # Récupérer les informations utilisateur
+            if self.api.is_authenticated():
+                logger.info(&#34;Récupération des informations utilisateur authentifié&#34;)
+                try:
+                    user = self.api.get_user_info()
+                    if user is None:
+                        logger.error(&#34;Les informations utilisateur sont nulles&#34;)
+                        return None
+                    logger.info(
+                        &#34;Informations utilisateur récupérées pour création VM&#34;,
+                        user_id=user.get(&#34;id&#34;),
+                        user_name=user.get(&#34;name&#34;),
+                    )
+                    return user
+                except UserInfoError as e:
+                    logger.error(
+                        &#34;Impossible de récupérer les informations utilisateur&#34;,
+                        error=str(e),
+                    )
+                    return None
+            else:
+                logger.error(&#34;Aucun token disponible après authentification&#34;)
+                return None
+
+        except Exception as e:
+            logger.error(&#34;Erreur d&#39;authentification&#34;, error=str(e))
+            return None
+
+    def create_vm_for_user(
+        self, user: Dict[str, Any], vm_config: Dict[str, Any]
+    ) -&gt; Optional[Dict[str, Any]]:
+        &#34;&#34;&#34;
+        Crée une VM pour un utilisateur spécifique
+
+        Args:
+            user: Informations de l&#39;utilisateur
+            vm_config: Configuration de la VM à créer
+
+        Returns:
+            Résultat de la création ou None si échec
+        &#34;&#34;&#34;
+        if not self.api.is_authenticated():
+            logger.error(&#34;API non authentifiée pour la création de VM&#34;)
+            return None
+
+        logger.info(&#34;Début de création de VM&#34;, **vm_config)
+
+        try:
+            vm_result = self.api.users.create_vm(**vm_config)
+            logger.info(
+                &#34;VM créée avec succès&#34;,
+                vm_id=vm_result.get(&#34;id&#34;),
+                status=vm_config.get(&#34;status&#34;),
+            )
+            return vm_result
+        except VMCreationError as e:
+            logger.error(
+                &#34;Échec de la création de VM&#34;,
+                error=str(e),
+                user_id=user.get(&#34;id&#34;) if user else &#34;N/A&#34;,
+            )
+            return None
+
+    def create_default_vm_for_user(
+        self, user: Dict[str, Any]
+    ) -&gt; Optional[Dict[str, Any]]:
+        &#34;&#34;&#34;
+        Crée une VM par défaut pour un utilisateur
+
+        Args:
+            user: Informations de l&#39;utilisateur
+
+        Returns:
+            Résultat de la création ou None si échec
+        &#34;&#34;&#34;
+        vm_config = {
+            &#34;user_id&#34;: user[&#34;id&#34;],
+            &#34;name&#34;: &#34;VM de Jean&#34;,
+            &#34;operating_system&#34;: &#34;Ubuntu 22.04&#34;,
+            &#34;cpu_cores&#34;: 2,
+            &#34;ram_gb&#34;: 4,
+            &#34;disk_gb&#34;: 50,
+            &#34;status&#34;: &#34;stopped&#34;,
+        }
+
+        return self.create_vm_for_user(user, vm_config)</code></pre>
+</details>
+<div class="desc"><p>Service pour la gestion des VMs</p>
+<p>Initialise le service VM</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>api_client</code></strong></dt>
+<dd>Client API unifié</dd>
+</dl></div>
+<h3>Methods</h3>
+<dl>
+<dt id="demo_api.utils.services.VMService.authenticate_user"><code class="name flex">
+<span>def <span class="ident">authenticate_user</span></span>(<span>self, email: str = 'jean@dupont21.com', password: str = None) ‑> Dict[str, Any] | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def authenticate_user(
+    self, email: str = &#34;jean@dupont21.com&#34;, password: str = None
+) -&gt; &#34;Optional[Dict[str, Any]]&#34;:
+    &#34;&#34;&#34;
+    Authentifie un utilisateur et retourne ses informations
+
+    Args:
+        email: Email de l&#39;utilisateur
+        password: Mot de passe de l&#39;utilisateur
+
+    Returns:
+        Informations de l&#39;utilisateur ou None si l&#39;authentification échoue
+    &#34;&#34;&#34;
+    logger.info(&#34;Début du processus d&#39;authentification pour création de VM&#34;)
+
+    try:
+        token = get_or_create_token(
+            base_url=self.api.base_url,
+            email=email,
+            password=password,
+        )
+
+        # Définir le token dans le client API
+        self.api.set_token(token)
+        logger.info(&#34;Token défini dans le client API pour création de VM&#34;)
+
+        # Récupérer les informations utilisateur
+        if self.api.is_authenticated():
+            logger.info(&#34;Récupération des informations utilisateur authentifié&#34;)
+            try:
+                user = self.api.get_user_info()
+                if user is None:
+                    logger.error(&#34;Les informations utilisateur sont nulles&#34;)
+                    return None
+                logger.info(
+                    &#34;Informations utilisateur récupérées pour création VM&#34;,
+                    user_id=user.get(&#34;id&#34;),
+                    user_name=user.get(&#34;name&#34;),
+                )
+                return user
+            except UserInfoError as e:
+                logger.error(
+                    &#34;Impossible de récupérer les informations utilisateur&#34;,
+                    error=str(e),
+                )
+                return None
+        else:
+            logger.error(&#34;Aucun token disponible après authentification&#34;)
+            return None
+
+    except Exception as e:
+        logger.error(&#34;Erreur d&#39;authentification&#34;, error=str(e))
+        return None</code></pre>
+</details>
+<div class="desc"><p>Authentifie un utilisateur et retourne ses informations</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>email</code></strong></dt>
+<dd>Email de l'utilisateur</dd>
+<dt><strong><code>password</code></strong></dt>
+<dd>Mot de passe de l'utilisateur</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Informations de l'utilisateur ou None si l'authentification échoue</p></div>
+</dd>
+<dt id="demo_api.utils.services.VMService.create_default_vm_for_user"><code class="name flex">
+<span>def <span class="ident">create_default_vm_for_user</span></span>(<span>self, user: Dict[str, Any]) ‑> Dict[str, Any] | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_default_vm_for_user(
+    self, user: Dict[str, Any]
+) -&gt; Optional[Dict[str, Any]]:
+    &#34;&#34;&#34;
+    Crée une VM par défaut pour un utilisateur
+
+    Args:
+        user: Informations de l&#39;utilisateur
+
+    Returns:
+        Résultat de la création ou None si échec
+    &#34;&#34;&#34;
+    vm_config = {
+        &#34;user_id&#34;: user[&#34;id&#34;],
+        &#34;name&#34;: &#34;VM de Jean&#34;,
+        &#34;operating_system&#34;: &#34;Ubuntu 22.04&#34;,
+        &#34;cpu_cores&#34;: 2,
+        &#34;ram_gb&#34;: 4,
+        &#34;disk_gb&#34;: 50,
+        &#34;status&#34;: &#34;stopped&#34;,
+    }
+
+    return self.create_vm_for_user(user, vm_config)</code></pre>
+</details>
+<div class="desc"><p>Crée une VM par défaut pour un utilisateur</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>user</code></strong></dt>
+<dd>Informations de l'utilisateur</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Résultat de la création ou None si échec</p></div>
+</dd>
+<dt id="demo_api.utils.services.VMService.create_vm_for_user"><code class="name flex">
+<span>def <span class="ident">create_vm_for_user</span></span>(<span>self, user: Dict[str, Any], vm_config: Dict[str, Any]) ‑> Dict[str, Any] | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_vm_for_user(
+    self, user: Dict[str, Any], vm_config: Dict[str, Any]
+) -&gt; Optional[Dict[str, Any]]:
+    &#34;&#34;&#34;
+    Crée une VM pour un utilisateur spécifique
+
+    Args:
+        user: Informations de l&#39;utilisateur
+        vm_config: Configuration de la VM à créer
+
+    Returns:
+        Résultat de la création ou None si échec
+    &#34;&#34;&#34;
+    if not self.api.is_authenticated():
+        logger.error(&#34;API non authentifiée pour la création de VM&#34;)
+        return None
+
+    logger.info(&#34;Début de création de VM&#34;, **vm_config)
+
+    try:
+        vm_result = self.api.users.create_vm(**vm_config)
+        logger.info(
+            &#34;VM créée avec succès&#34;,
+            vm_id=vm_result.get(&#34;id&#34;),
+            status=vm_config.get(&#34;status&#34;),
+        )
+        return vm_result
+    except VMCreationError as e:
+        logger.error(
+            &#34;Échec de la création de VM&#34;,
+            error=str(e),
+            user_id=user.get(&#34;id&#34;) if user else &#34;N/A&#34;,
+        )
+        return None</code></pre>
+</details>
+<div class="desc"><p>Crée une VM pour un utilisateur spécifique</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>user</code></strong></dt>
+<dd>Informations de l'utilisateur</dd>
+<dt><strong><code>vm_config</code></strong></dt>
+<dd>Configuration de la VM à créer</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Résultat de la création ou None si échec</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="demo_api.utils" href="../index.html">demo_api.utils</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<ul>
+<li><code><a title="demo_api.utils.services.data_manager" href="data_manager.html">demo_api.utils.services.data_manager</a></code></li>
+<li><code><a title="demo_api.utils.services.report_service" href="report_service.html">demo_api.utils.services.report_service</a></code></li>
+<li><code><a title="demo_api.utils.services.vm_service" href="vm_service.html">demo_api.utils.services.vm_service</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="demo_api.utils.services.DataManager" href="#demo_api.utils.services.DataManager">DataManager</a></code></h4>
+<ul class="two-column">
+<li><code><a title="demo_api.utils.services.DataManager.clear_cache" href="#demo_api.utils.services.DataManager.clear_cache">clear_cache</a></code></li>
+<li><code><a title="demo_api.utils.services.DataManager.fetch_all_data" href="#demo_api.utils.services.DataManager.fetch_all_data">fetch_all_data</a></code></li>
+<li><code><a title="demo_api.utils.services.DataManager.get_users" href="#demo_api.utils.services.DataManager.get_users">get_users</a></code></li>
+<li><code><a title="demo_api.utils.services.DataManager.get_users_with_vms" href="#demo_api.utils.services.DataManager.get_users_with_vms">get_users_with_vms</a></code></li>
+<li><code><a title="demo_api.utils.services.DataManager.get_vms" href="#demo_api.utils.services.DataManager.get_vms">get_vms</a></code></li>
+<li><code><a title="demo_api.utils.services.DataManager.is_data_loaded" href="#demo_api.utils.services.DataManager.is_data_loaded">is_data_loaded</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="demo_api.utils.services.ReportService" href="#demo_api.utils.services.ReportService">ReportService</a></code></h4>
+<ul class="">
+<li><code><a title="demo_api.utils.services.ReportService.generate_status_report" href="#demo_api.utils.services.ReportService.generate_status_report">generate_status_report</a></code></li>
+<li><code><a title="demo_api.utils.services.ReportService.generate_status_report_html" href="#demo_api.utils.services.ReportService.generate_status_report_html">generate_status_report_html</a></code></li>
+<li><code><a title="demo_api.utils.services.ReportService.generate_status_report_markdown" href="#demo_api.utils.services.ReportService.generate_status_report_markdown">generate_status_report_markdown</a></code></li>
+<li><code><a title="demo_api.utils.services.ReportService.generate_users_vms_report" href="#demo_api.utils.services.ReportService.generate_users_vms_report">generate_users_vms_report</a></code></li>
+<li><code><a title="demo_api.utils.services.ReportService.generate_users_vms_report_html" href="#demo_api.utils.services.ReportService.generate_users_vms_report_html">generate_users_vms_report_html</a></code></li>
+<li><code><a title="demo_api.utils.services.ReportService.generate_users_vms_report_markdown" href="#demo_api.utils.services.ReportService.generate_users_vms_report_markdown">generate_users_vms_report_markdown</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="demo_api.utils.services.VMService" href="#demo_api.utils.services.VMService">VMService</a></code></h4>
+<ul class="">
+<li><code><a title="demo_api.utils.services.VMService.authenticate_user" href="#demo_api.utils.services.VMService.authenticate_user">authenticate_user</a></code></li>
+<li><code><a title="demo_api.utils.services.VMService.create_default_vm_for_user" href="#demo_api.utils.services.VMService.create_default_vm_for_user">create_default_vm_for_user</a></code></li>
+<li><code><a title="demo_api.utils.services.VMService.create_vm_for_user" href="#demo_api.utils.services.VMService.create_vm_for_user">create_vm_for_user</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,291 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>report_manager &mdash; Demo API 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Demo API
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenu:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Guide de démarrage rapide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">Modules API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli/index.html">Interface en ligne de commande</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Exemples d’utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Journal des modifications</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Demo API</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">report_manager</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for report_manager</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Gestionnaire de rapports pour demo_api</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">typer</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">utils.api</span> <span class="kn">import</span> <span class="n">Api</span>
+<span class="kn">from</span> <span class="nn">utils.services</span> <span class="kn">import</span> <span class="n">ReportService</span><span class="p">,</span> <span class="n">DataManager</span>
+<span class="kn">from</span> <span class="nn">utils.logging_config</span> <span class="kn">import</span> <span class="n">get_logger</span>
+<span class="kn">from</span> <span class="nn">utils.config</span> <span class="kn">import</span> <span class="n">config</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ReportType">
+<a class="viewcode-back" href="../api/report_manager.html#report_manager.ReportType">[docs]</a>
+<span class="k">class</span> <span class="nc">ReportType</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Types de rapport disponibles&quot;&quot;&quot;</span>
+
+    <span class="n">USERS_VMS</span> <span class="o">=</span> <span class="s2">&quot;users-vms&quot;</span>
+    <span class="n">STATUS</span> <span class="o">=</span> <span class="s2">&quot;status&quot;</span>
+    <span class="n">ALL</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="ReportFormat">
+<a class="viewcode-back" href="../api/report_manager.html#report_manager.ReportFormat">[docs]</a>
+<span class="k">class</span> <span class="nc">ReportFormat</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Formats de rapport disponibles&quot;&quot;&quot;</span>
+
+    <span class="n">JSON</span> <span class="o">=</span> <span class="s2">&quot;json&quot;</span>
+    <span class="n">MARKDOWN</span> <span class="o">=</span> <span class="s2">&quot;markdown&quot;</span>
+    <span class="n">HTML</span> <span class="o">=</span> <span class="s2">&quot;html&quot;</span>
+    <span class="n">ALL</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="generate_reports">
+<a class="viewcode-back" href="../api/report_manager.html#report_manager.generate_reports">[docs]</a>
+<span class="k">def</span> <span class="nf">generate_reports</span><span class="p">(</span>
+    <span class="n">report_type</span><span class="p">:</span> <span class="n">ReportType</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="n">ReportType</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="s2">&quot;--type&quot;</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Type de rapport à générer&quot;</span>
+    <span class="p">),</span>
+    <span class="n">report_format</span><span class="p">:</span> <span class="n">ReportFormat</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="n">ReportFormat</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span>
+        <span class="s2">&quot;--format&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-f&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Format de rapport (json, markdown, html, all)&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">output_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="s2">&quot;outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;--output-dir&quot;</span><span class="p">,</span> <span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Répertoire de sortie pour les rapports&quot;</span>
+    <span class="p">),</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;--verbose&quot;</span><span class="p">,</span> <span class="s2">&quot;-v&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Mode verbeux&quot;</span><span class="p">),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    📊 Générer des rapports</span>
+
+<span class="sd">    Exemples:</span>
+
+<span class="sd">    \b</span>
+<span class="sd">    python report_manager.py</span>
+<span class="sd">    python report_manager.py --type users-vms --format markdown</span>
+<span class="sd">    python report_manager.py -t status -f html -o ./rapports --verbose</span>
+<span class="sd">    python report_manager.py --format all --type all</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;🔧 Configuration:&quot;</span><span class="p">)</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Type de rapport: </span><span class="si">{</span><span class="n">report_type</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Format: </span><span class="si">{</span><span class="n">report_format</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Répertoire de sortie: </span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">()</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="s2">&quot;Début de génération des rapports&quot;</span><span class="p">,</span>
+        <span class="n">report_type</span><span class="o">=</span><span class="n">report_type</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+        <span class="nb">format</span><span class="o">=</span><span class="n">report_format</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+        <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Initialisation du client API, du gestionnaire de données et du service</span>
+    <span class="n">api</span> <span class="o">=</span> <span class="n">Api</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">DEMO_API_BASE_URL</span><span class="p">)</span>
+    <span class="n">data_manager</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">(</span><span class="n">api</span><span class="p">)</span>
+    <span class="n">report_service</span> <span class="o">=</span> <span class="n">ReportService</span><span class="p">(</span><span class="n">api</span><span class="p">)</span>
+
+    <span class="c1"># Récupération centralisée des données (une seule fois)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;📡 Récupération des données...&quot;</span><span class="p">)</span>
+    <span class="n">users</span><span class="p">,</span> <span class="n">vms</span> <span class="o">=</span> <span class="n">data_manager</span><span class="o">.</span><span class="n">fetch_all_data</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">users</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">vms</span><span class="p">:</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;❌ Impossible de récupérer les données nécessaires&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   ✅ </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">users</span><span class="p">)</span><span class="si">}</span><span class="s2"> utilisateur(s) et </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">vms</span><span class="p">)</span><span class="si">}</span><span class="s2"> VM(s) récupéré(s)&quot;</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">()</span>
+
+    <span class="c1"># Génération des rapports selon le type et format demandés</span>
+    <span class="n">generated_files</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Déterminer les formats à générer</span>
+    <span class="n">formats_to_generate</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">report_format</span> <span class="o">==</span> <span class="n">ReportFormat</span><span class="o">.</span><span class="n">ALL</span><span class="p">:</span>
+        <span class="n">formats_to_generate</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">ReportFormat</span><span class="o">.</span><span class="n">JSON</span><span class="p">,</span>
+            <span class="n">ReportFormat</span><span class="o">.</span><span class="n">MARKDOWN</span><span class="p">,</span>
+            <span class="n">ReportFormat</span><span class="o">.</span><span class="n">HTML</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">formats_to_generate</span> <span class="o">=</span> <span class="p">[</span><span class="n">report_format</span><span class="p">]</span>
+
+    <span class="c1"># Génération des rapports utilisateurs/VMs</span>
+    <span class="k">if</span> <span class="n">report_type</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ReportType</span><span class="o">.</span><span class="n">USERS_VMS</span><span class="p">,</span> <span class="n">ReportType</span><span class="o">.</span><span class="n">ALL</span><span class="p">]:</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;📊 Génération du rapport utilisateurs/VMs...&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">fmt</span> <span class="ow">in</span> <span class="n">formats_to_generate</span><span class="p">:</span>
+            <span class="n">report_file</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">fmt</span> <span class="o">==</span> <span class="n">ReportFormat</span><span class="o">.</span><span class="n">JSON</span><span class="p">:</span>
+                <span class="n">report_file</span> <span class="o">=</span> <span class="n">report_service</span><span class="o">.</span><span class="n">generate_users_vms_report</span><span class="p">(</span>
+                    <span class="n">users</span><span class="p">,</span> <span class="n">vms</span><span class="p">,</span> <span class="s2">&quot;vm_users.json&quot;</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">fmt</span> <span class="o">==</span> <span class="n">ReportFormat</span><span class="o">.</span><span class="n">MARKDOWN</span><span class="p">:</span>
+                <span class="n">report_file</span> <span class="o">=</span> <span class="n">report_service</span><span class="o">.</span><span class="n">generate_users_vms_report_markdown</span><span class="p">(</span>
+                    <span class="n">users</span><span class="p">,</span> <span class="n">vms</span><span class="p">,</span> <span class="s2">&quot;vm_users.md&quot;</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">fmt</span> <span class="o">==</span> <span class="n">ReportFormat</span><span class="o">.</span><span class="n">HTML</span><span class="p">:</span>
+                <span class="n">report_file</span> <span class="o">=</span> <span class="n">report_service</span><span class="o">.</span><span class="n">generate_users_vms_report_html</span><span class="p">(</span>
+                    <span class="n">users</span><span class="p">,</span> <span class="n">vms</span><span class="p">,</span> <span class="s2">&quot;vm_users.html&quot;</span>
+                <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">report_file</span><span class="p">:</span>
+                <span class="n">generated_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">report_file</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   ✅ Généré (</span><span class="si">{</span><span class="n">fmt</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">report_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;❌ Échec de la génération du rapport utilisateurs/VMs (</span><span class="si">{</span><span class="n">fmt</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">)&quot;</span>
+                <span class="p">)</span>
+
+    <span class="c1"># Génération des rapports de statut</span>
+    <span class="k">if</span> <span class="n">report_type</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ReportType</span><span class="o">.</span><span class="n">STATUS</span><span class="p">,</span> <span class="n">ReportType</span><span class="o">.</span><span class="n">ALL</span><span class="p">]:</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;📈 Génération du rapport de statut des VMs...&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">fmt</span> <span class="ow">in</span> <span class="n">formats_to_generate</span><span class="p">:</span>
+            <span class="n">status_file</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">fmt</span> <span class="o">==</span> <span class="n">ReportFormat</span><span class="o">.</span><span class="n">JSON</span><span class="p">:</span>
+                <span class="n">status_file</span> <span class="o">=</span> <span class="n">report_service</span><span class="o">.</span><span class="n">generate_status_report</span><span class="p">(</span>
+                    <span class="n">users</span><span class="p">,</span> <span class="n">vms</span><span class="p">,</span> <span class="s2">&quot;vm_status_report.json&quot;</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">fmt</span> <span class="o">==</span> <span class="n">ReportFormat</span><span class="o">.</span><span class="n">MARKDOWN</span><span class="p">:</span>
+                <span class="n">status_file</span> <span class="o">=</span> <span class="n">report_service</span><span class="o">.</span><span class="n">generate_status_report_markdown</span><span class="p">(</span>
+                    <span class="n">users</span><span class="p">,</span> <span class="n">vms</span><span class="p">,</span> <span class="s2">&quot;vm_status_report.md&quot;</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">fmt</span> <span class="o">==</span> <span class="n">ReportFormat</span><span class="o">.</span><span class="n">HTML</span><span class="p">:</span>
+                <span class="n">status_file</span> <span class="o">=</span> <span class="n">report_service</span><span class="o">.</span><span class="n">generate_status_report_html</span><span class="p">(</span>
+                    <span class="n">users</span><span class="p">,</span> <span class="n">vms</span><span class="p">,</span> <span class="s2">&quot;vm_status_report.html&quot;</span>
+                <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">status_file</span><span class="p">:</span>
+                <span class="n">generated_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">status_file</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   ✅ Généré (</span><span class="si">{</span><span class="n">fmt</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">status_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;❌ Échec de la génération du rapport de statut (</span><span class="si">{</span><span class="n">fmt</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">)&quot;</span>
+                <span class="p">)</span>
+
+    <span class="c1"># Résumé</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">generated_files</span><span class="p">:</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🎉 </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">generated_files</span><span class="p">)</span><span class="si">}</span><span class="s2"> rapport(s) généré(s) avec succès&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">generated_files</span><span class="p">:</span>
+            <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   📄 </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">()</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;✨ Génération terminée!&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;❌ Aucun rapport n&#39;a pu être généré&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Typer</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s2">&quot;Générer les rapports de l&#39;API demo&quot;</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">command</span><span class="p">()(</span><span class="n">generate_reports</span><span class="p">)</span>
+    <span class="n">app</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Demo API Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
