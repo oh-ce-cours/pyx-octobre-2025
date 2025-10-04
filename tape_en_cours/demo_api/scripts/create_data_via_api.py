@@ -571,7 +571,7 @@ def full_dataset(
     \b
     python create_data_via_api.py full-dataset --users 20 --vms 50
     python create_data_via_api.py full-dataset -u 30 -v 100 --output dataset.json
-    python create_data_via_api.py full-dataset --email admin@example.com --password secret
+    python create_data_via_api.py full-dataset --verbose
     """
     display_header(
         "🎯 Création d'un dataset complet",
@@ -686,7 +686,6 @@ def status(
 
     \b
     python create_data_via_api.py status
-    python create_data_via_api.py status --email admin@example.com --password secret
     """
     display_header("📊 Statut de l'API", "Récupération des statistiques actuelles")
 
