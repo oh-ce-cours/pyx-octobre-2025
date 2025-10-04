@@ -9,6 +9,10 @@
 
 ## Installation des dépendances
 
+```bash
+pip install -r requirements.txt
+```
+
 ## Variables d'environnement
 
 Le système de gestion des mots de passe utilise les variables d'environnement suivantes :
@@ -17,6 +21,8 @@ Le système de gestion des mots de passe utilise les variables d'environnement s
 
 - `DEMO_API_EMAIL` : Email pour se connecter à l'API
 - `DEMO_API_PASSWORD` : Mot de passe pour se connecter à l'API
+- `DEMO_API_DEBUG` : Active le mode debug (true/false)
+- `DEMO_API_LOG_LEVEL` : Niveau de logging (DEBUG, INFO, WARNING, ERROR)
 
 ### Configuration
 
