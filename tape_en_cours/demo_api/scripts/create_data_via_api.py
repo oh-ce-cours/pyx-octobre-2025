@@ -189,7 +189,7 @@ def display_api_status(all_data: Dict[str, Any], api_url: str) -> None:
 
 
 def retry_with_backoff(
-    func: Callable[[], Any], max_retries: int = 3, base_delay: float = 1.0
+    func: Callable[[], Any], max_retries: int = 5, base_delay: float = 2.0
 ) -> Any:
     """
     Exécute une fonction avec retry et backoff exponentiel pour les errores 429.
