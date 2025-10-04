@@ -7,10 +7,37 @@ logger = get_logger(__name__)
 
 
 class Auth:
+    """
+    Classe d'authentification pour l'API demo_api.
+    
+    Gère la création d'utilisateurs, la connexion et la récupération
+    des informations utilisateur via les endpoints d'authentification.
+    """
+    
     def __init__(self, base_url):
+        """
+        Initialise le client d'authentification.
+        
+        Args:
+            base_url (str): URL de base de l'API
+        """
         self.base_url = base_url
 
     def create_user(self, name, email, password):
+        """
+        Crée un nouvel utilisateur via l'endpoint /auth/signup.
+        
+        Args:
+            name (str): Nom de l'utilisateur
+            email (str): Email de l'utilisateur
+            password (str): Mot de passe de l'utilisateur
+            
+        Returns:
+            str: Token d'authentification généré
+            
+        Raises:
+            UserCreationError: Si la création de l'utilisateur échoue
+        """
         logger.info("Tentative de création d'utilisateur", email=email, name=name)
         payload = {"name": name, "email": email, "password": password}
         logger.debug(
@@ -71,6 +98,19 @@ class Auth:
             )
 
     def login_user(self, email, password) -> str:
+        """
+        Connecte un utilisateur existant via l'endpoint /auth/login.
+        
+        Args:
+            email (str): Email de l'utilisateur
+            password (str): Mot de passe de l'utilisateur
+            
+        Returns:
+            str: Token d'authentification généré
+            
+        Raises:
+            UserLoginError: Si la connexion échoue
+        """
         logger.info("Tentative de connexion utilisateur", email=email)
         payload = {"email": email, "password": password}
         logger.debug(
