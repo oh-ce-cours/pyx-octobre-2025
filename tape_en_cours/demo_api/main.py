@@ -19,6 +19,7 @@ from utils.api import (
     create_vm,
     get_logged_user_info,
 )
+from utils.password_utils import get_credentials
 import json
 
 BASE_URL = "https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt"
@@ -35,27 +36,37 @@ json.dump(
 )
 
 
-token = create_user(BASE_URL, "Jean Dupont", "jean@dupont21.com", "motdepasse123")
+# Récupération sécurisée des identifiants
+print("=== Connexion utilisateur ===")
+user_email, user_password = get_credentials(email="jean@dupont21.com")
+
+# Tentative de création d'utilisateur, puis connexion si l'utilisateur existe déjà
+token = create_user(BASE_URL, "Jean Dupont", user_email, user_password)
 if not token:
-    token = login_user(BASE_URL, "jean@dupont21.com", "motdepasse123")
+    print("L'utilisateur semble déjà exister. Tentative de connexion...")
+    token = login_user(BASE_URL, user_email, user_password)
 
 user = get_logged_user_info(BASE_URL, token)
 print("User info:", user)
 
-token = "eyJhbGciOiJBMjU2S1ciLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwiemlwIjoiREVGIn0.fpzPuyxOU-KlOV4SBfyF4qr0VRFeDpyiVMN_xHEhQN0kMOiQ--1kYEf5hej3jv3ZjzDiFxWIAzBw3Q5bUeFlmKAzT-f1m526.kLdny7u3IbNwho9xZvGCFg.aGt3fq7Lp6E34FcXtGxFEQS6yS3j_qAotqGmpTWnCIRQYlFx7Anmd1FCHjUnqt-itgJJc5PMaRyeyNtwUDDegv-XCp8JuEbCm-63VHz8oRP3_WFehtI5qgNeXvpkXyzT5Khi59nmHJyrmPt-qTU-zfDRuHYIRTfJXTQjaBxRPNc.bi5A2LJcT7IzjbyK3GQGZs6Y7Qjd3JdZU2_U2_TCYDk"
-create_vm(
-    token,
-    BASE_URL,
-    user_id=user["id"],
-    name="VM de Jean",
-    operating_system="Ubuntu 22.04",
-    cpu_cores=2,
-    ram_gb=4,
-    disk_gb=50,
-    status="stopped",
-)
-
-print("Token:", token)
+# Le token est déjà récupéré lors de la connexion ci-dessus
+if token and user:
+    print("=== Création d'une VM ===")
+    create_vm(
+        token,
+        BASE_URL,
+        user_id=user["id"],
+        name="VM de Jean",
+        operating_system="Ubuntu 22.04",
+        cpu_cores=2,
+        ram_gb=4,
+        disk_gb=50,
+        status="stopped",
+    )
+    print("VM créée avec succès!")
+else:
+    print("Erreur: Impossible de se connecter ou de récupérer les informations utilisateur")
+    print("Token:", token)
 
 # a rajouter : passage de mot de passe en CLI
 # passage de varaibles en variable d'environnement
