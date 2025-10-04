@@ -24,7 +24,6 @@ api = Api(config.DEMO_API_BASE_URL)
 
 logger.info("Début de l'exécution de demo_api", base_url=api.base_url)
 
-logger.info("Récupération des utilisateurs depuis l'API")
 users = api.users.get()
 logger.info("Utilisateurs récupérés", count=len(users))
 
