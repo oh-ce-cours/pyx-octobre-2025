@@ -2,7 +2,7 @@ import requests
 from utils.date_utils import parse_unix_timestamp
 from utils.logging_config import get_logger
 from utils.config import config
-from .exceptions import UsersFetchError, NetworkError
+from .exceptions import UsersFetchError
 
 # Logger pour ce module
 logger = get_logger(__name__)

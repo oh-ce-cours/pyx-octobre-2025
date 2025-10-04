@@ -9,17 +9,12 @@ Interface fluide pour accéder aux fonctionnalités de l'API :
 """
 
 from typing import Optional, Dict, Any, List
-import requests
 from .auth import Auth
 from .user import get_users, add_vms_to_users
 from .vm import get_vms, create_vm
 from .exceptions import (
     UserCreationError,
     UserLoginError,
-    UserInfoError,
-    UsersFetchError,
-    VMsFetchError,
-    VMCreationError,
     TokenError,
 )
 from ..config import config
