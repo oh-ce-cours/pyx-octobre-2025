@@ -16,12 +16,12 @@ def get_users(base_url):
 
     Returns:
         list: Liste des utilisateurs avec leurs dates de création converties
-        
+
     Raises:
         UsersFetchError: Si la récupération des utilisateurs échoue
     """
     logger.info("Récupération des utilisateurs depuis l'API", base_url=base_url)
-    
+
     try:
         resp = requests.get(f"{base_url}/user", timeout=config.DEMO_API_TIMEOUT)
         resp.raise_for_status()
@@ -41,23 +41,23 @@ def get_users(base_url):
             user_ids=[user.get("id") for user in users[:5]],
         )
         return users
-        
+
     except requests.RequestException as e:
         logger.error(
             "Erreur lors de la récupération des utilisateurs",
             error=str(e),
-            status_code=getattr(resp, 'status_code', None),
-            response_text=getattr(resp, 'text', '')[:200] + "..."
-            if len(getattr(resp, 'text', '')) > 200
-            else getattr(resp, 'text', ''),
+            status_code=getattr(resp, "status_code", None),
+            response_text=getattr(resp, "text", "")[:200] + "..."
+            if len(getattr(resp, "text", "")) > 200
+            else getattr(resp, "text", ""),
             base_url=base_url,
         )
-        
+
         raise UsersFetchError(
             f"Impossible de récupérer les utilisateurs depuis {base_url}: {str(e)}",
-            status_code=getattr(resp, 'status_code', None),
+            status_code=getattr(resp, "status_code", None),
             response_data={"error": str(e)},
-            base_url=base_url
+            base_url=base_url,
         )
 
 

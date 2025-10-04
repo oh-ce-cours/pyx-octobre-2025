@@ -327,7 +327,7 @@ def get_or_create_token(
 
     Returns:
         str: Token valide
-        
+
     Raises:
         CredentialsError: Si les identifiants sont invalides
         TokenError: Si la création/récupération du token échoue
@@ -361,7 +361,9 @@ def get_or_create_token(
         try:
             email, password = get_credentials(email=email)
         except ValueError as e:
-            raise CredentialsError(f"Erreur lors de la récupération des identifiants: {str(e)}")
+            raise CredentialsError(
+                f"Erreur lors de la récupération des identifiants: {str(e)}"
+            )
 
     # Authentification
     auth = Auth(base_url)
@@ -372,14 +374,16 @@ def get_or_create_token(
         logger.info("Nouvel utilisateur créé avec succès", email=email)
     except UserCreationError as e:
         if "Utilisateur déjà existant" in str(e):
-            logger.warning("Utilisateur déjà existant, tentative de connexion", email=email)
+            logger.warning(
+                "Utilisateur déjà existant, tentative de connexion", email=email
+            )
             try:
                 token = auth.login_user(email, password)
             except UserLoginError as login_error:
                 raise CredentialsError(
                     f"Impossible de se connecter avec l'email {email}: {str(login_error)}",
                     email=email,
-                    password_provided=bool(password)
+                    password_provided=bool(password),
                 )
         else:
             raise TokenError(f"Impossible de créer l'utilisateur {email}: {str(e)}")

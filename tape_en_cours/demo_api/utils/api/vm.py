@@ -13,7 +13,7 @@ def parse_unix_timestamp(ts):
 
 def get_vms(base_url):
     logger.info("Récupération des VMs depuis l'API", base_url=base_url)
-    
+
     try:
         resp = requests.get(f"{base_url}/vm", timeout=5)
         resp.raise_for_status()
@@ -26,25 +26,27 @@ def get_vms(base_url):
         logger.info(
             "VMs récupérées avec succès", count=len(vms), status_code=resp.status_code
         )
-        logger.debug("Détails des VMs récupérées", vm_ids=[vm.get("id") for vm in vms[:5]])
+        logger.debug(
+            "Détails des VMs récupérées", vm_ids=[vm.get("id") for vm in vms[:5]]
+        )
         return vms
-        
+
     except requests.RequestException as e:
         logger.error(
             "Erreur lors de la récupération des VMs",
             error=str(e),
-            status_code=getattr(resp, 'status_code', None),
-            response_text=getattr(resp, 'text', '')[:200] + "..."
-            if len(getattr(resp, 'text', '')) > 200
-            else getattr(resp, 'text', ''),
+            status_code=getattr(resp, "status_code", None),
+            response_text=getattr(resp, "text", "")[:200] + "..."
+            if len(getattr(resp, "text", "")) > 200
+            else getattr(resp, "text", ""),
             base_url=base_url,
         )
-        
+
         raise VMsFetchError(
             f"Impossible de récupérer les VMs depuis {base_url}: {str(e)}",
-            status_code=getattr(resp, 'status_code', None),
+            status_code=getattr(resp, "status_code", None),
             response_data={"error": str(e)},
-            base_url=base_url
+            base_url=base_url,
         )
 
 
@@ -92,7 +94,7 @@ def create_vm(
     try:
         resp = requests.post(f"{base_url}/vm", json=payload, timeout=5, headers=headers)
         resp.raise_for_status()
-        
+
         vm_result = resp.json()
         logger.info(
             "VM créée avec succès",
@@ -102,23 +104,23 @@ def create_vm(
             status_code=resp.status_code,
         )
         return vm_result
-        
+
     except requests.RequestException as e:
         logger.error(
             "Erreur lors de la création de la VM",
             error=str(e),
-            status_code=getattr(resp, 'status_code', None),
-            response_text=getattr(resp, 'text', '')[:200] + "..."
-            if len(getattr(resp, 'text', '')) > 200
-            else getattr(resp, 'text', ''),
+            status_code=getattr(resp, "status_code", None),
+            response_text=getattr(resp, "text", "")[:200] + "..."
+            if len(getattr(resp, "text", "")) > 200
+            else getattr(resp, "text", ""),
             user_id=user_id,
             name=name,
         )
-        
+
         raise VMCreationError(
             f"Impossible de créer la VM '{name}' pour l'utilisateur {user_id}: {str(e)}",
-            status_code=getattr(resp, 'status_code', None),
+            status_code=getattr(resp, "status_code", None),
             response_data={"error": str(e), "user_id": user_id, "name": name},
             user_id=user_id,
-            vm_name=name
+            vm_name=name,
         )

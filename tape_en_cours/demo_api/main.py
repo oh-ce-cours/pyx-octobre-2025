@@ -14,12 +14,12 @@ from typing import Optional, Dict, Any
 
 from utils.api import Api
 from utils.api.exceptions import (
-    UsersFetchError, 
-    VMsFetchError, 
+    UsersFetchError,
+    VMsFetchError,
     VMCreationError,
     UserInfoError,
     TokenError,
-    CredentialsError
+    CredentialsError,
 )
 from utils.password_utils import get_or_create_token
 from utils.logging_config import get_logger
@@ -52,15 +52,18 @@ except VMsFetchError as e:
 
 if users and vms:
     api.users.add_vms_to_users(users, vms)
-    
+
     # Génération du rapport JSON avec le générateur dédié
     logger.info("Génération du rapport utilisateurs/VMs")
     json_generator = JSONReportGenerator()
     report_file = json_generator.generate_users_vms_report(users, "vm_users.json")
     logger.info("Rapport JSON généré avec succès", filename=report_file)
 else:
-    logger.warning("Impossible de générer le rapport: données manquantes", 
-                  users_count=len(users), vms_count=len(vms))
+    logger.warning(
+        "Impossible de générer le rapport: données manquantes",
+        users_count=len(users),
+        vms_count=len(vms),
+    )
 
 
 logger.info("Début du processus d'authentification")
@@ -73,11 +76,11 @@ try:
         password=config.DEMO_API_PASSWORD,
         token_env_var="DEMO_API_TOKEN",
     )
-    
+
     # Définir le token dans le client API
     api.set_token(token)
     logger.info("Token défini dans le client API unifié")
-    
+
 except CredentialsError as e:
     logger.error("Erreur d'authentification: identifiants invalides", error=str(e))
     logger.info(
@@ -98,10 +101,14 @@ if api.is_authenticated():
             user_name=user.get("name"),
         )
     except UserInfoError as e:
-        logger.error("Impossible de récupérer les informations utilisateur", error=str(e))
+        logger.error(
+            "Impossible de récupérer les informations utilisateur", error=str(e)
+        )
         user = None
     except TokenError as e:
-        logger.error("Token invalide pour récupérer les informations utilisateur", error=str(e))
+        logger.error(
+            "Token invalide pour récupérer les informations utilisateur", error=str(e)
+        )
         user = None
 else:
     logger.error("Aucun token disponible pour récupérer les informations utilisateur")
