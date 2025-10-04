@@ -383,9 +383,7 @@ def create_vms_via_api(
                             status=vm_data["status"],
                         )
 
-                    created_vm = retry_with_backoff(
-                        create_vm_call, max_retries=3, base_delay=2.0
-                    )
+                    created_vm = retry_with_backoff(create_vm_call)
                     created_vms.append(created_vm)
                     created_count += 1
 
