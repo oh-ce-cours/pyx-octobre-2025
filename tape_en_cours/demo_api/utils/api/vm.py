@@ -1,15 +1,11 @@
 import requests
 import datetime
 from utils.logging_config import get_logger
-from utils.config import Config
 from .decorators import retry_on_429
 from .exceptions import VMsFetchError, VMCreationError, VMUpdateError, VMDeleteError
 
 # Logger pour ce module
 logger = get_logger(__name__)
-
-# Configuration centralisée
-config = Config()
 
 
 def parse_unix_timestamp(ts):
@@ -21,7 +17,7 @@ def get_vms(base_url):
     logger.info("Récupération des VMs depuis l'API", base_url=base_url)
 
     try:
-        resp = requests.get(f"{base_url}/vm", timeout=config.DEMO_API_TIMEOUT)
+        resp = requests.get(f"{base_url}/vm", timeout=5)
         resp.raise_for_status()
 
         vms = []
@@ -104,12 +100,7 @@ def create_vm(
         logger.debug(f"Headers: {headers}")
         logger.debug(f"Payload: {payload}")
 
-        resp = requests.post(
-            f"{base_url}/vm",
-            json=payload,
-            timeout=config.DEMO_API_TIMEOUT,
-            headers=headers,
-        )
+        resp = requests.post(f"{base_url}/vm", json=payload, timeout=5, headers=headers)
         logger.debug(f"Réponse reçue - Status: {resp.status_code}")
         logger.debug(f"Headers de réponse: {dict(resp.headers)}")
         logger.debug(f"Contenu de la réponse: {resp.text[:500]}...")
@@ -238,7 +229,7 @@ def get_vm(base_url, vm_id):
     logger.info("Récupération d'une VM spécifique", vm_id=vm_id)
 
     try:
-        resp = requests.get(f"{base_url}/vm/{vm_id}", timeout=config.DEMO_API_TIMEOUT)
+        resp = requests.get(f"{base_url}/vm/{vm_id}", timeout=5)
         resp.raise_for_status()
 
         vm_data = resp.json()
@@ -293,10 +284,7 @@ def update_vm(base_url, token, vm_id, updates):
 
     try:
         resp = requests.patch(
-            f"{base_url}/vm/{vm_id}",
-            json=updates,
-            headers=headers,
-            timeout=config.DEMO_API_TIMEOUT,
+            f"{base_url}/vm/{vm_id}", json=updates, headers=headers, timeout=5
         )
         resp.raise_for_status()
 
@@ -348,9 +336,7 @@ def delete_vm(base_url, token, vm_id):
     headers = {"Authorization": f"Bearer {token}"} if token else {}
 
     try:
-        resp = requests.delete(
-            f"{base_url}/vm/{vm_id}", headers=headers, timeout=config.DEMO_API_TIMEOUT
-        )
+        resp = requests.delete(f"{base_url}/vm/{vm_id}", headers=headers, timeout=5)
         resp.raise_for_status()
 
         logger.info(
@@ -408,10 +394,7 @@ def attach_vm_to_user(base_url, token, vm_id, user_id):
 
     try:
         resp = requests.post(
-            f"{base_url}/Attach_VM_to_user",
-            json=payload,
-            headers=headers,
-            timeout=config.DEMO_API_TIMEOUT,
+            f"{base_url}/Attach_VM_to_user", json=payload, headers=headers, timeout=5
         )
         resp.raise_for_status()
 
@@ -470,10 +453,7 @@ def stop_vm(base_url, token, vm_id):
 
     try:
         resp = requests.post(
-            f"{base_url}/Stop_VM",
-            json=payload,
-            headers=headers,
-            timeout=config.DEMO_API_TIMEOUT,
+            f"{base_url}/Stop_VM", json=payload, headers=headers, timeout=5
         )
         resp.raise_for_status()
 

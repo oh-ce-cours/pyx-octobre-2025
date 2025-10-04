@@ -1,13 +1,9 @@
 import requests
 from utils.logging_config import get_logger
-from utils.config import Config
 from .exceptions import UserCreationError, UserLoginError, UserInfoError, TokenError
 
 # Logger pour ce module
 logger = get_logger(__name__)
-
-# Configuration centralisée
-config = Config()
 
 
 class Auth:
@@ -27,9 +23,7 @@ class Auth:
 
         try:
             resp = requests.post(
-                f"{self.base_url}/auth/signup",
-                json=payload,
-                timeout=config.DEMO_API_TIMEOUT,
+                f"{self.base_url}/auth/signup", json=payload, timeout=5
             )
             resp.raise_for_status()
 
@@ -89,10 +83,7 @@ class Auth:
 
         try:
             resp = requests.post(
-                f"{self.base_url}/auth/login",
-                json=payload,
-                headers=headers,
-                timeout=config.DEMO_API_TIMEOUT,
+                f"{self.base_url}/auth/login", json=payload, headers=headers, timeout=5
             )
             resp.raise_for_status()
 
@@ -140,11 +131,7 @@ class Auth:
         headers = {"accept": "application/json", "Authorization": f"Bearer {token}"}
 
         try:
-            resp = requests.get(
-                f"{self.base_url}/auth/me",
-                headers=headers,
-                timeout=config.DEMO_API_TIMEOUT,
-            )
+            resp = requests.get(f"{self.base_url}/auth/me", headers=headers, timeout=5)
             resp.raise_for_status()
 
             user_info = resp.json()
