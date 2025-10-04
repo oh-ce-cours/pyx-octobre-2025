@@ -55,6 +55,7 @@ el.replaceWith(d);
 <pre><code class="python">def setup(app):
     &#34;&#34;&#34;Configuration personnalisée pour forcer les chemins absolus.&#34;&#34;&#34;
     from sphinx.builders.html import StandaloneHTMLBuilder
+    from sphinx.util import logging
 
     def add_github_pages_context(app, pagename, templatename, context, doctree):
         &#34;&#34;&#34;Ajoute le contexte nécessaire pour GitHub Pages.&#34;&#34;&#34;
@@ -65,7 +66,17 @@ el.replaceWith(d);
                 lambda other, *args, **kwargs: f&#34;{base_url}/{other.lstrip(&#39;/&#39;)}&#34;
             )
 
-    app.connect(&#34;html-page-context&#34;, add_github_pages_context)</code></pre>
+    def fix_static_paths(app, pagename, templatename, context, doctree):
+        &#34;&#34;&#34;Corrige les chemins des assets statiques pour GitHub Pages.&#34;&#34;&#34;
+        if app.builder.name == &#34;html&#34;:
+            base_url = app.config.html_baseurl.rstrip(&#34;/&#34;)
+            # Remplace tous les chemins relatifs par des chemins absolus
+            for key, value in context.items():
+                if isinstance(value, str) and &#34;_static/&#34; in value:
+                    context[key] = value.replace(&#34;_static/&#34;, f&#34;{base_url}/_static/&#34;)
+
+    app.connect(&#34;html-page-context&#34;, add_github_pages_context)
+    app.connect(&#34;html-page-context&#34;, fix_static_paths)</code></pre>
 </details>
 <div class="desc"><p>Configuration personnalisée pour forcer les chemins absolus.</p></div>
 </dd>
