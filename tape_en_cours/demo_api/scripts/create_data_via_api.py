@@ -324,6 +324,11 @@ def create_vms_via_api(
     Returns:
         Liste des VMs créées
     """
+    # Vérifier que user_ids est valide
+    if not user_ids:
+        logger.error("Liste d'IDs d'utilisateurs vide ou None", user_ids=user_ids)
+        raise ValueError("Aucun ID d'utilisateur valide fourni pour la création de VMs")
+
     logger.info(
         "Création de VMs via API", count=vm_count, available_users=len(user_ids)
     )
