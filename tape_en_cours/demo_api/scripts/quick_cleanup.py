@@ -10,7 +10,15 @@ from typing import Optional, Tuple
 import typer
 from pathlib import Path
 from rich.console import Console
-from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeElapsedColumn, TimeRemainingColumn, MofNCompleteColumn
+from rich.progress import (
+    Progress,
+    SpinnerColumn,
+    TextColumn,
+    BarColumn,
+    TimeElapsedColumn,
+    TimeRemainingColumn,
+    MofNCompleteColumn,
+)
 from rich.table import Table
 from rich.panel import Panel
 
@@ -275,19 +283,15 @@ def delete_items_with_progress(
         console=console,
         expand=True,
     ) as progress:
-        task = progress.add_task(
-            f"Suppression des {item_type}s", total=len(items)
-        )
+        task = progress.add_task(f"Suppression des {item_type}s", total=len(items))
 
         for i, item in enumerate(items):
             # Mise à jour de la description avec le nom de l'élément
             item_name = item.get("name", f"ID {item['id']}")
             progress.update(
-                task, 
-                description=f"Suppression {item_type}: {item_name}",
-                advance=0
+                task, description=f"Suppression {item_type}: {item_name}", advance=0
             )
-            
+
             # Suppression avec affichage
             if item_type == "vm":
                 delete_single_vm_with_display(client, item)
@@ -299,8 +303,7 @@ def delete_items_with_progress(
             # Pause si pas le dernier élément
             if i < len(items) - 1:
                 progress.update(
-                    task, 
-                    description=f"Pause {delay}s avant le prochain {item_type}..."
+                    task, description=f"Pause {delay}s avant le prochain {item_type}..."
                 )
                 time.sleep(delay)
 
@@ -334,11 +337,9 @@ def delete_items_with_progress_and_global(
         # Mise à jour de la barre globale avec le nom de l'élément
         item_name = item.get("name", f"ID {item['id']}")
         global_progress.update(
-            global_task, 
-            description=f"Suppression {item_type}: {item_name}",
-            advance=0
+            global_task, description=f"Suppression {item_type}: {item_name}", advance=0
         )
-        
+
         # Suppression avec affichage
         if item_type == "vm":
             delete_single_vm_with_display(client, item)
@@ -350,8 +351,8 @@ def delete_items_with_progress_and_global(
         # Pause si pas le dernier élément
         if i < len(items) - 1:
             global_progress.update(
-                global_task, 
-                description=f"Pause {delay}s avant le prochain {item_type}..."
+                global_task,
+                description=f"Pause {delay}s avant le prochain {item_type}...",
             )
             time.sleep(delay)
 
@@ -399,7 +400,7 @@ def cleanup_data(client, vms: list, users: list, delay: float) -> Tuple[int, int
         Tuple (deleted_vms, deleted_users)
     """
     total_items = len(vms) + len(users)
-    
+
     if total_items == 0:
         console.print("[yellow]⚠️  Aucun élément à supprimer[/yellow]")
         return 0, 0
@@ -428,15 +429,13 @@ def cleanup_data(client, vms: list, users: list, delay: float) -> Tuple[int, int
         console=console,
         expand=True,
     ) as global_progress:
-        global_task = global_progress.add_task(
-            "Nettoyage global", total=total_items
-        )
+        global_task = global_progress.add_task("Nettoyage global", total=total_items)
 
         # Suppression des VMs
         deleted_vms = delete_items_with_progress_and_global(
             client, vms, "vm", delay, global_progress, global_task
         )
-        
+
         # Suppression des utilisateurs
         deleted_users = delete_items_with_progress_and_global(
             client, users, "user", delay, global_progress, global_task
