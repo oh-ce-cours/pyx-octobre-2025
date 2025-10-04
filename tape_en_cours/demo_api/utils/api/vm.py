@@ -9,11 +9,32 @@ logger = get_logger(__name__)
 
 
 def parse_unix_timestamp(ts):
+    """
+    Convertit un timestamp Unix (en millisecondes) en objet datetime.
+    
+    Args:
+        ts (int): Timestamp Unix en millisecondes
+        
+    Returns:
+        datetime.datetime: Objet datetime correspondant
+    """
     return datetime.datetime.fromtimestamp(ts / 1e3)
 
 
 @retry_on_429()
 def get_vms(base_url):
+    """
+    Récupère la liste des VMs depuis l'API.
+    
+    Args:
+        base_url (str): URL de base de l'API
+        
+    Returns:
+        list: Liste des VMs avec leurs dates de création converties
+        
+    Raises:
+        VMsFetchError: Si la récupération des VMs échoue
+    """
     logger.info("Récupération des VMs depuis l'API", base_url=base_url)
 
     try:

@@ -158,6 +158,19 @@ class Auth:
             )
 
     def get_logged_user_info(self, token):
+        """
+        Récupère les informations de l'utilisateur connecté via l'endpoint /auth/me.
+        
+        Args:
+            token (str): Token d'authentification
+            
+        Returns:
+            dict: Informations de l'utilisateur connecté
+            
+        Raises:
+            TokenError: Si le token est manquant
+            UserInfoError: Si la récupération des informations échoue
+        """
         if not token:
             logger.error("Token manquant pour récupérer les informations utilisateur")
             raise TokenError(
