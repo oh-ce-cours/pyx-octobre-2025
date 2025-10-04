@@ -185,23 +185,13 @@ def create_vm(
         return vm_result
 
     except requests.RequestException as e:
-        import traceback
-
-        stacktrace = traceback.format_exc()
         logger.error(
             "Erreur lors de la création de la VM",
             error=str(e),
             status_code=getattr(resp, "status_code", None),
-            response_text=getattr(resp, "text", "")[:200] + "..."
-            if len(getattr(resp, "text", "")) > 200
-            else getattr(resp, "text", ""),
             user_id=user_id,
             name=name,
-            stacktrace=stacktrace,
         )
-        print(f"\n🔍 STACKTRACE COMPLÈTE (API VM):")
-        print(stacktrace)
-        print(f"🔍 FIN STACKTRACE\n")
 
         raise VMCreationError(
             f"Impossible de créer la VM '{name}' pour l'utilisateur {user_id}: {str(e)}",
