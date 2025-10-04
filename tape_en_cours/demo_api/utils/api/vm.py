@@ -8,25 +8,8 @@ from .exceptions import VMsFetchError, VMCreationError, VMUpdateError, VMDeleteE
 logger = get_logger(__name__)
 
 
-def parse_unix_timestamp(ts: int) -> datetime.datetime:
-    """
-    Convertit un timestamp Unix (en millisecondes) en objet datetime.
-
-    Args:
-        ts: Timestamp Unix en millisecondes
-
-    Returns:
-        Objet datetime correspondant au timestamp
-
-    Raises:
-        ValueError: Si le timestamp est invalide
-        OSError: Si le timestamp dépasse les limites supportées par le système
-    """
-    try:
-        return datetime.datetime.fromtimestamp(ts / 1e3)
-    except (ValueError, OSError) as e:
-        logger.error(f"Erreur lors de la conversion du timestamp {ts}", error=str(e))
-        raise
+def parse_unix_timestamp(ts):
+    return datetime.datetime.fromtimestamp(ts / 1e3)
 
 
 @retry_on_429()
