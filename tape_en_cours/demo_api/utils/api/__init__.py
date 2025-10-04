@@ -10,8 +10,23 @@ Interface fluide pour accéder aux fonctionnalités de l'API :
 
 from typing import Optional, Dict, Any, List
 from .auth import Auth
-from .user import get_users, add_vms_to_users
-from .vm import get_vms, create_vm
+from .user import (
+    get_users,
+    add_vms_to_users,
+    create_user,
+    get_user,
+    update_user,
+    delete_user,
+)
+from .vm import (
+    get_vms,
+    create_vm,
+    get_vm,
+    update_vm,
+    delete_vm,
+    attach_vm_to_user,
+    stop_vm,
+)
 from .exceptions import (
     UserCreationError,
     UserLoginError,
@@ -38,6 +53,69 @@ class UsersAPI:
         """Associe les VMs aux utilisateurs"""
         logger.info("Association des VMs aux utilisateurs via API unifiée")
         add_vms_to_users(users, vms)
+
+    def get_user(self, user_id: int) -> Dict[str, Any]:
+        """Récupère un utilisateur spécifique par son ID
+        
+        Args:
+            user_id: ID de l'utilisateur
+            
+        Returns:
+            Dict contenant les informations de l'utilisateur
+            
+        Raises:
+            UsersFetchError: Si la récupération de l'utilisateur échoue
+        """
+        logger.info("Récupération d'un utilisateur spécifique via API unifiée", user_id=user_id)
+        return get_user(self._api.base_url, user_id)
+
+    def create_user(self, name: str, email: str, password: Optional[str] = None) -> Dict[str, Any]:
+        """Crée un nouvel utilisateur
+        
+        Args:
+            name: Nom de l'utilisateur
+            email: Email de l'utilisateur
+            password: Mot de passe optionnel
+            
+        Returns:
+            Dict contenant les informations de l'utilisateur créé
+            
+        Raises:
+            UserCreationError: Si la création de l'utilisateur échoue
+        """
+        logger.info("Création d'un utilisateur via API unifiée", name=name, email=email)
+        return create_user(self._api.base_url, self._api.token, name, email, password)
+
+    def update_user(self, user_id: int, updates: Dict[str, Any]) -> Dict[str, Any]:
+        """Met à jour un utilisateur existant
+        
+        Args:
+            user_id: ID de l'utilisateur
+            updates: Données à mettre à jour
+            
+        Returns:
+            Dict contenant les informations de l'utilisateur mis à jour
+            
+        Raises:
+            UserUpdateError: Si la mise à jour échoue
+        """
+        logger.info("Mise à jour d'un utilisateur via API unifiée", user_id=user_id)
+        return update_user(self._api.base_url, self._api.token, user_id, updates)
+
+    def delete_user(self, user_id: int) -> Dict[str, Any]:
+        """Supprime un utilisateur
+        
+        Args:
+            user_id: ID de l'utilisateur
+            
+        Returns:
+            Dict contenant le résultat de la suppression
+            
+        Raises:
+            UserDeleteError: Si la suppression échoue
+        """
+        logger.info("Suppression d'un utilisateur via API unifiée", user_id=user_id)
+        return delete_user(self._api.base_url, self._api.token, user_id)
 
     def create_vm(
         self,
