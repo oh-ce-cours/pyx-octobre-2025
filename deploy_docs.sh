@@ -41,11 +41,20 @@ fix_css_paths() {
         relative_path="${BASE_URL}"
     fi
     
-    # Remplacer seulement les chemins qui commencent par _static/ (pas déjà absolus)
-    sed -i '' \
-        -e "s|href=\"_static/|href=\"${relative_path}/_static/|g" \
-        -e "s|src=\"_static/|src=\"${relative_path}/_static/|g" \
-        "$file"
+    # Détecter le système d'exploitation pour la compatibilité sed
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        # macOS
+        sed -i '' \
+            -e "s|href=\"_static/|href=\"${relative_path}/_static/|g" \
+            -e "s|src=\"_static/|src=\"${relative_path}/_static/|g" \
+            "$file"
+    else
+        # Linux/Unix
+        sed -i \
+            -e "s|href=\"_static/|href=\"${relative_path}/_static/|g" \
+            -e "s|src=\"_static/|src=\"${relative_path}/_static/|g" \
+            "$file"
+    fi
 }
 
 # Appliquer la correction à tous les fichiers HTML (Sphinx et pdoc3)
