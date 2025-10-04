@@ -728,7 +728,6 @@ def full_dataset(
             )
             raise typer.Exit(1)
 
-
         # Vérifier qu'on a des utilisateurs créés avec succès
         if not created_users:
             console.print(
