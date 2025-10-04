@@ -1,5 +1,9 @@
 import requests
 import datetime
+from ..logging_config import get_logger
+
+# Logger pour ce module
+logger = get_logger(__name__)
 
 
 def parse_unix_timestamp(ts):
@@ -7,12 +11,17 @@ def parse_unix_timestamp(ts):
 
 
 def get_vms(base_url):
+    logger.info("Récupération des VMs depuis l'API", base_url=base_url)
     resp = requests.get(f"{base_url}/vm", timeout=5)
     resp.raise_for_status()
+
     vms = []
     for vm in resp.json():
         vm["created_at"] = parse_unix_timestamp(vm["created_at"])
         vms.append(vm)
+
+    logger.info("VMs récupérées avec succès", count=len(vms), status_code=resp.status_code)
+    logger.debug("Détails des VMs récupérées", vm_ids=[vm.get("id") for vm in vms[:5]])
     return vms
 
 

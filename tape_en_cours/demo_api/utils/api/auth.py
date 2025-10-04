@@ -75,12 +75,21 @@ class Auth:
         return token
 
     def get_logged_user_info(self, token):
+        logger.info("Récupération des informations utilisateur", token_length=len(token))
         headers = {"accept": "application/json", "Authorization": f"Bearer {token}"}
         resp = requests.get(f"{self.base_url}/auth/me", headers=headers, timeout=5)
         try:
             resp.raise_for_status()
+            user_info = resp.json()
+            logger.info("Informations utilisateur récupérées", 
+                       user_id=user_info.get("id"), 
+                       user_name=user_info.get("name"),
+                       email=user_info.get("email"))
+            return user_info
         except requests.RequestException as e:
-            print(f"Erreur lors de la récupération des informations utilisateur: {e}")
-            print(f"Response: {resp.text}")
+            logger.error("Erreur lors de la récupération des informations utilisateur", 
+                        error=str(e), 
+                        status_code=resp.status_code,
+                        response_text=resp.text[:200] + "..." if len(resp.text) > 200 else resp.text,
+                        token_length=len(token))
             return None
-        return resp.json()
