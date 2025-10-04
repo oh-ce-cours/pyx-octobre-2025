@@ -55,55 +55,50 @@ def get_password_from_input(prompt="Mot de passe: "):
     return password
 
 
-def get_password(prompt="Mot de passe: ", env_var="DEMO_API_PASSWORD"):
+def get_password(prompt="Mot de passe: "):
     """
-    Récupère un mot de passe depuis une variable d'environnement ou demande une saisie sécurisée.
-    Fonction de compatibilité qui combine les deux méthodes.
+    Récupère un mot de passe depuis la configuration ou demande une saisie sécurisée.
 
     Args:
         prompt (str): Message à afficher lors de la saisie manuelle
-        env_var (str): Nom de la variable d'environnement contenant le mot de passe
 
     Returns:
         str: Le mot de passe récupéré
     """
-    logger.info("Récupération du mot de passe", env_var=env_var)
+    logger.info("Récupération du mot de passe")
 
-    # Essayer d'abord depuis les variables d'environnement
-    password = get_password_from_env(env_var)
+    # Essayer d'abord depuis la configuration
+    password = get_password_from_config()
 
     if password:
         return password
 
-    # Si pas de variable d'environnement, demander une saisie sécurisée
+    # Si pas de configuration, demander une saisie sécurisée
     logger.warning(
-        "Aucune variable d'environnement trouvée. Saisie sécurisée nécessaire.",
-        env_var=env_var,
+        "Aucun mot de passe trouvé dans la configuration. Saisie sécurisée nécessaire.",
     )
     return get_password_from_input(prompt)
 
 
-def get_email_from_env(env_var="DEMO_API_EMAIL"):
+def get_email_from_config():
     """
-    Récupère l'email depuis une variable d'environnement uniquement.
-
-    Args:
-        env_var (str): Nom de la variable d'environnement pour l'email
+    Récupère l'email depuis le gestionnaire de configuration.
 
     Returns:
         str|None: L'email récupéré ou None si pas trouvé
     """
-    email = os.environ.get(env_var)
+    from .config import config
+    
+    email = config.DEMO_API_EMAIL
 
     if email:
         logger.info(
-            "Email récupéré depuis la variable d'environnement",
+            "Email récupéré depuis le gestionnaire de configuration",
             email=email,
-            env_var=env_var,
         )
     else:
         logger.debug(
-            "Aucun email trouvé dans les variables d'environnement", env_var=env_var
+            "Aucun email trouvé dans la configuration",
         )
 
     return email
@@ -130,32 +125,26 @@ def get_email_from_input(env_var="DEMO_API_EMAIL"):
     return email
 
 
-def get_credentials_from_env(
-    env_email="DEMO_API_EMAIL", env_password="DEMO_API_PASSWORD"
-):
+def get_credentials_from_config():
     """
-    Récupère les identifiants depuis les variables d'environnement uniquement.
-
-    Args:
-        env_email (str): Nom de la variable d'environnement pour l'email
-        env_password (str): Nom de la variable d'environnement pour le mot de passe
+    Récupère les identifiants depuis le gestionnaire de configuration.
 
     Returns:
         tuple|None: (email, password) ou None si incomplet
     """
-    logger.info("Récupération des identifiants depuis les variables d'environnement")
+    logger.info("Récupération des identifiants depuis le gestionnaire de configuration")
 
-    email = get_email_from_env(env_email)
-    password = get_password_from_env(env_password)
+    email = get_email_from_config()
+    password = get_password_from_config()
 
     if email and password:
         logger.info(
-            "Identifiants récupérés depuis les variables d'environnement", email=email
+            "Identifiants récupérés depuis le gestionnaire de configuration", email=email
         )
         return email, password
     else:
         logger.warning(
-            "Identifiants incomplets dans les variables d'environnement",
+            "Identifiants incomplets dans la configuration",
             email_found=bool(email),
             password_found=bool(password),
         )
