@@ -15,9 +15,8 @@ import json
 from datetime import datetime
 
 from utils.api import ApiClient, create_authenticated_client
-from utils.data_generator import DataGenerator, UserDataGenerator, VMDataGenerator
+from utils.data_generator import UserDataGenerator, VMDataGenerator
 from utils.logging_config import get_logger
-from utils.config import config
 
 logger = get_logger(__name__)
 
@@ -76,7 +75,7 @@ def create_users_via_api(
                 
                 typer.echo(f"   ✅ {user_data['name']} ({user_data['email']})")
                 
-            except Exception as e:
+            except (ValueError, KeyError, ConnectionError) as e:
                 logger.error("Erreur lors de la création d'un utilisateur", error=str(e))
                 typer.echo(f"   ❌ Erreur pour l'utilisateur {i + 1}: {e}")
         
@@ -143,7 +142,7 @@ def create_vms_via_api(
                 
                 typer.echo(f"   ✅ {vm_data['name']} ({vm_data['operating_system']}) - {vm_data['cpu_cores']}c/{vm_data['ram_gb']}GB")
                 
-            except Exception as e:
+            except (ValueError, KeyError, ConnectionError) as e:
                 logger.error("Erreur lors de la création d'une VM", error=str(e))
                 typer.echo(f"   ❌ Erreur pour la VM {i + 1}: {e}")
         
