@@ -1,0 +1,355 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>utils.config &mdash; Demo API 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Demo API
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenu:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Guide de démarrage rapide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">Modules API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">Interface en ligne de commande</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Exemples d’utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Journal des modifications</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Demo API</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">utils.config</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for utils.config</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Configuration centralisée pour demo_api</span>
+
+<span class="sd">Ce module gère toutes les variables de configuration de l&#39;application</span>
+<span class="sd">depuis les fichiers .env et les variables d&#39;environnement.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span><span class="p">,</span> <span class="n">set_key</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+
+<div class="viewcode-block" id="load_env_files">
+<a class="viewcode-back" href="../../api/utils/config.html#utils.config.load_env_files">[docs]</a>
+<span class="k">def</span> <span class="nf">load_env_files</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Charge les fichiers de configuration .env dans l&#39;ordre de priorité.</span>
+
+<span class="sd">    Priorité (du plus bas au plus haut) :</span>
+<span class="sd">    1. .env.defaults (valeurs par défaut)</span>
+<span class="sd">    2. .env.local (configuration locale, pas dans git)</span>
+<span class="sd">    3. .env (configuration générale)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: Nombre de fichiers .env chargés</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">env_files</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;.env.defaults&quot;</span><span class="p">,</span> <span class="s2">&quot;.env.local&quot;</span><span class="p">,</span> <span class="s2">&quot;.env&quot;</span><span class="p">]</span>
+    <span class="n">loaded_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">env_file</span> <span class="ow">in</span> <span class="n">env_files</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">load_dotenv</span><span class="p">(</span><span class="n">env_file</span><span class="p">):</span>
+            <span class="n">loaded_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">loaded_count</span></div>
+
+
+
+<div class="viewcode-block" id="Config">
+<a class="viewcode-back" href="../../api/utils/config.html#utils.config.Config">[docs]</a>
+<span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Classe de configuration centralisée pour demo_api.</span>
+
+<span class="sd">    Cette classe utilise python-dotenv pour charger automatiquement</span>
+<span class="sd">    les configurations depuis les fichiers .env et les variables d&#39;environnement.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Config.__init__">
+<a class="viewcode-back" href="../../api/utils/config.html#utils.config.Config.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialise la configuration en chargeant les fichiers .env&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">env_files_loaded</span> <span class="o">=</span> <span class="n">load_env_files</span><span class="p">()</span>
+
+        <span class="c1"># Configuration de l&#39;API</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_BASE_URL</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_env_with_default</span><span class="p">(</span>
+            <span class="s2">&quot;DEMO_API_BASE_URL&quot;</span><span class="p">,</span> <span class="s2">&quot;https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt&quot;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Identifiants d&#39;authentification</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_EMAIL</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_env</span><span class="p">(</span><span class="s2">&quot;DEMO_API_EMAIL&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_PASSWORD</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_env</span><span class="p">(</span><span class="s2">&quot;DEMO_API_PASSWORD&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_TOKEN</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_env</span><span class="p">(</span><span class="s2">&quot;DEMO_API_TOKEN&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Configuration du logging</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_DEBUG</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_env_bool</span><span class="p">(</span><span class="s2">&quot;DEMO_API_DEBUG&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_LOG_LEVEL</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_env_with_default</span><span class="p">(</span>
+            <span class="s2">&quot;DEMO_API_LOG_LEVEL&quot;</span><span class="p">,</span> <span class="s2">&quot;INFO&quot;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Configuration des métadonnées</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_TIMEOUT</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_env_int</span><span class="p">(</span><span class="s2">&quot;DEMO_API_TIMEOUT&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_MAX_RETRIES</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_env_int</span><span class="p">(</span><span class="s2">&quot;DEMO_API_MAX_RETRIES&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+        <span class="c1"># Configuration des fichiers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_OUTPUT_FILE</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_env_with_default</span><span class="p">(</span>
+            <span class="s2">&quot;DEMO_API_OUTPUT_FILE&quot;</span><span class="p">,</span> <span class="s2">&quot;vm_users.json&quot;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Validation de la configuration</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_config</span><span class="p">()</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_get_env</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Récupère une variable d&#39;environnement optionnelle&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_env_with_default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Récupère une variable d&#39;environnement avec une valeur par défaut&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_env_bool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Récupère une variable d&#39;environnement booléenne&quot;&quot;&quot;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">default</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;on&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">,</span> <span class="s2">&quot;enabled&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_env_int</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Récupère une variable d&#39;environnement entière&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">default</span>
+
+    <span class="k">def</span> <span class="nf">_get_env_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Récupère une variable d&#39;environnement sous forme de liste&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">default</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">default</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">default</span>
+
+    <span class="k">def</span> <span class="nf">_validate_config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Valide la configuration chargée&quot;&quot;&quot;</span>
+        <span class="c1"># Validation de l&#39;URL de base</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_BASE_URL</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_BASE_URL</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;http&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;URL de base invalide: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_BASE_URL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Validation du niveau de log</span>
+        <span class="n">valid_log_levels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;DEBUG&quot;</span><span class="p">,</span> <span class="s2">&quot;INFO&quot;</span><span class="p">,</span> <span class="s2">&quot;WARNING&quot;</span><span class="p">,</span> <span class="s2">&quot;ERROR&quot;</span><span class="p">,</span> <span class="s2">&quot;CRITICAL&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_LOG_LEVEL</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_log_levels</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Niveau de log invalide: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_LOG_LEVEL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Validation des valeurs numériques</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_TIMEOUT</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Timeout invalide: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_TIMEOUT</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_MAX_RETRIES</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nombre de retry invalide: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_MAX_RETRIES</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Propriétés de configuration pour l&#39;accès facile</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_production</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Détermine si on est en environnement de production&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_DEBUG</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Vérifie si les identifiants sont disponibles&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_EMAIL</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_PASSWORD</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_token</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Vérifie si un token est disponible&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_TOKEN</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">auth_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retourne les headers d&#39;authentification si token disponible&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_TOKEN</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_TOKEN</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="p">{}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">client_config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retourne la configuration client pour les appels API&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;base_url&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_BASE_URL</span><span class="p">,</span>
+            <span class="s2">&quot;timeout&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_TIMEOUT</span><span class="p">,</span>
+            <span class="s2">&quot;max_retries&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_MAX_RETRIES</span><span class="p">,</span>
+            <span class="s2">&quot;ssl_verify&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_production</span><span class="p">,</span>  <span class="c1"># SSL strict en production</span>
+        <span class="p">}</span>
+
+<div class="viewcode-block" id="Config.to_dict">
+<a class="viewcode-back" href="../../api/utils/config.html#utils.config.Config.to_dict">[docs]</a>
+    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retourne la configuration sous forme de dictionnaire (sans les secrets)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;demo_api_base_url&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_BASE_URL</span><span class="p">,</span>
+            <span class="s2">&quot;demo_api_debug&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_DEBUG</span><span class="p">,</span>
+            <span class="s2">&quot;demo_api_log_level&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_LOG_LEVEL</span><span class="p">,</span>
+            <span class="s2">&quot;demo_api_timeout&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_TIMEOUT</span><span class="p">,</span>
+            <span class="s2">&quot;demo_api_max_retries&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_MAX_RETRIES</span><span class="p">,</span>
+            <span class="s2">&quot;demo_api_output_file&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_OUTPUT_FILE</span><span class="p">,</span>
+            <span class="s2">&quot;demo_api_env_files_loaded&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">env_files_loaded</span><span class="p">,</span>
+            <span class="s2">&quot;demo_api_has_credentials&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_credentials</span><span class="p">,</span>
+            <span class="s2">&quot;demo_api_has_token&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_token</span><span class="p">,</span>
+            <span class="s2">&quot;demo_api_email_set&quot;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_EMAIL</span><span class="p">),</span>
+            <span class="s2">&quot;demo_api_password_set&quot;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_PASSWORD</span><span class="p">),</span>
+            <span class="s2">&quot;demo_api_token_set&quot;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_TOKEN</span><span class="p">),</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="Config.__str__">
+<a class="viewcode-back" href="../../api/utils/config.html#utils.config.Config.__str__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Représentation string de la configuration (sans les secrets)&quot;&quot;&quot;</span>
+        <span class="n">config_items</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">config_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Config(</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">config_items</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span></div>
+
+
+<div class="viewcode-block" id="Config.save_to_env_file">
+<a class="viewcode-back" href="../../api/utils/config.html#utils.config.Config.save_to_env_file">[docs]</a>
+    <span class="k">def</span> <span class="nf">save_to_env_file</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">env_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;.env.local&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sauvegarde une valeur dans un fichier .env</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key (str): Clé de la variable d&#39;environnement</span>
+<span class="sd">            value (str): Valeur à sauvegarder</span>
+<span class="sd">            env_file (str): Fichier .env cible (par défaut .env.local)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True si sauvegardé avec succès</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">set_key</span><span class="p">(</span><span class="n">env_file</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="c1"># Mettre à jour aussi la variable d&#39;environnement de la session</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="ne">IOError</span><span class="p">,</span> <span class="ne">PermissionError</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="Config.update_token">
+<a class="viewcode-back" href="../../api/utils/config.html#utils.config.Config.update_token">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Met à jour le token d&#39;authentification dans la configuration</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            token (str): Nouveau token</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True si mis à jour avec succès</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">success</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_to_env_file</span><span class="p">(</span><span class="s2">&quot;DEMO_API_TOKEN&quot;</span><span class="p">,</span> <span class="n">token</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_TOKEN</span> <span class="o">=</span> <span class="n">token</span>
+        <span class="k">return</span> <span class="n">success</span></div>
+
+
+<div class="viewcode-block" id="Config.__repr__">
+<a class="viewcode-back" href="../../api/utils/config.html#utils.config.Config.__repr__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Représentation détaillée pour le debugging&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Config(base_url=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_BASE_URL</span><span class="si">}</span><span class="s2">&#39;, debug=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">DEMO_API_DEBUG</span><span class="si">}</span><span class="s2">, env_files=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">env_files_loaded</span><span class="si">}</span><span class="s2">)&quot;</span></div>
+</div>
+
+
+
+<span class="c1"># Instance globale de configuration</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Demo API Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
