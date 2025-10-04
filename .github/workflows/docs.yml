@@ -27,10 +27,21 @@ jobs:
         run: |
           python scripts/generate_docs.py
 
+      - name: Prepare for GitHub Pages
+        working-directory: tape_en_cours/demo_api
+        run: |
+          # Créer le dossier de déploiement à la racine du repo
+          mkdir -p ../../docs-deploy
+          cp -r docs/sphinx/build/* ../../docs-deploy/
+          cp -r docs/pdoc3/* ../../docs-deploy/pdoc3/
+          # Ajouter fichier .nojekyll pour GitHub Pages
+          touch ../../docs-deploy/.nojekyll
+          # Ajouter un index.html simple pour redirection
+          echo '<meta http-equiv="refresh" content="0; url=./index.html">' > ../../docs-deploy/index.html
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: tape_en_cours/demo_api/docs/sphinx/build
-          # Pour pdoc3, utilisez: publish_dir: tape_en_cours/demo_api/docs/pdoc3
+          publish_dir: ./docs-deploy
