@@ -2,3 +2,4 @@
 requests==2.32.5
 structlog>=25.4.0
 click>=8.3.0  # Pour la CLI future si nécessaire
+types-python-dateutil==2.9.0.20250822
