@@ -15,6 +15,7 @@ logger = get_logger(__name__)
 
 class ReportType(str, Enum):
     """Types de rapport disponibles"""
+
     USERS_VMS = "users-vms"
     STATUS = "status"
     ALL = "all"
