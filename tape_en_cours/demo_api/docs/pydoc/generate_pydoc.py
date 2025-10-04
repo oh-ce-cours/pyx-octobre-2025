@@ -52,15 +52,21 @@ def find_python_modules(root_dir: Path, exclude_dirs: set = None) -> List[Dict]:
     return sorted(modules, key=lambda x: x["name"])
 
 
-def generate_pydoc_html(module_name: str, output_dir: Path) -> None:
+def generate_pydoc_html(module_name: str, output_dir: Path, project_root: Path) -> None:
     """
     Génère la documentation HTML pour un module avec pydoc.
     
     Args:
         module_name: Nom du module
         output_dir: Répertoire de sortie
+        project_root: Racine du projet
     """
     try:
+        # Ajouter le répertoire du projet au PYTHONPATH
+        import sys
+        if str(project_root) not in sys.path:
+            sys.path.insert(0, str(project_root))
+        
         # Créer le répertoire de destination
         html_file = output_dir / f"{module_name}.html"
         html_file.parent.mkdir(parents=True, exist_ok=True)
@@ -191,7 +197,7 @@ def main():
     # Générer la documentation HTML pour chaque module
     print("\n📝 Génération de la documentation HTML...")
     for module in modules:
-        generate_pydoc_html(module["name"], output_dir)
+        generate_pydoc_html(module["name"], output_dir, project_root)
     
     # Générer le fichier index
     print("\n📋 Génération du fichier index...")
