@@ -42,12 +42,10 @@ def report(
     📊 Générer des rapports
 
     Exemples:
-
-    \b
-    python main.py report
-    python main.py report --type users-vms --format markdown
-    python main.py report -t status -f html -o ./rapports --verbose
-    python main.py report --format all --type all
+        python main.py report
+        python main.py report --type users-vms --format markdown
+        python main.py report -t status -f html -o ./rapports --verbose
+        python main.py report --format all --type all
     """
     # Convertir les strings en enums
     try:
