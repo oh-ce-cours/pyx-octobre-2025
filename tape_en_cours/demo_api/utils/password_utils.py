@@ -87,7 +87,6 @@ def get_email_from_config():
     Returns:
         str|None: L'email récupéré ou None si pas trouvé
     """
-    from .config import config
 
     email = config.DEMO_API_EMAIL
 
@@ -297,17 +296,14 @@ def remove_token_from_env(env_var="DEMO_API_TOKEN"):
         return False
 
 
-def get_or_create_token(
-    base_url, email=None, password=None, token_env_var="DEMO_API_TOKEN"
-):
+def get_or_create_token(base_url, email=None, password=None):
     """
-    Récupère un token depuis les variables d'environnement ou en crée un nouveau.
+    Récupère un token depuis la configuration ou en crée un nouveau.
 
     Args:
         base_url (str): URL de base de l'API
         email (str|None): Email pour l'authentification
         password (str|None): Mot de passe pour l'authentification
-        token_env_var (str): Variable d'environnement pour le token
 
     Returns:
         str: Token valide
@@ -318,10 +314,10 @@ def get_or_create_token(
     """
     from .api.auth import Auth, UserCreationError, UserLoginError, UserInfoError
 
-    # Essayer d'abord de récupérer depuis les variables d'environnement
-    existing_token = get_token_from_env(token_env_var)
+    # Essayer d'abord de récupérer depuis la configuration
+    existing_token = get_token_from_config()
     if existing_token:
-        logger.info("Token existant trouvé dans les variables d'environnement")
+        logger.info("Token existant trouvé dans la configuration")
 
         # Tester si le token est encore valide
         auth = Auth(base_url)
@@ -335,7 +331,7 @@ def get_or_create_token(
             logger.warning(
                 "Token existant expiré ou invalide, nouvelle authentification nécessaire"
             )
-            remove_token_from_env(token_env_var)
+            remove_token_from_env()
 
     # Créer un nouveau token
     logger.info("Création d'un nouveau token d'authentification")
@@ -373,7 +369,7 @@ def get_or_create_token(
             raise TokenError(f"Impossible de créer l'utilisateur {email}: {str(e)}")
 
     # Sauvegarder le token pour les prochaines utilisations
-    save_token_to_env(token, token_env_var)
+    save_token_to_env(token)
     logger.info("Nouveau token créé et sauvegardé", email=email)
     return token
 
