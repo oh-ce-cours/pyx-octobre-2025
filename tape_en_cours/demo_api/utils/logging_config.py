@@ -3,7 +3,6 @@
 import structlog
 import sys
 import os
-from typing import Any, Dict
 
 
 # Configuration des processeurs structlog
@@ -84,4 +83,4 @@ def get_logger(name: str) -> structlog.stdlib.BoundLogger:
 
 
 # Mise en place d'un logger par défaut pour l'application
-logger = get_logger(__name__)
+application_logger = get_logger(__name__)

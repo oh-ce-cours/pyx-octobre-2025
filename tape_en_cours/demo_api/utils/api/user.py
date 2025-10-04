@@ -66,4 +66,3 @@ def add_vms_to_users(users, vms):
     logger.info("Association des VMs terminée", 
                total_associations=association_count,
                users_with_vms=len([u for u in users if u["vms"]]))
-)
