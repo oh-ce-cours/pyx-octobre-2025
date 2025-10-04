@@ -412,7 +412,7 @@ def cleanup(
         False, "--real", "-r", help="Effectue la suppression réelle"
     ),
     delay: float = typer.Option(
-        2.5, "--delay", "-d", help="Délai en secondes entre les opérations"
+        0, "--delay", "-d", help="Délai en secondes entre les opérations"
     ),
 ) -> None:
     """
