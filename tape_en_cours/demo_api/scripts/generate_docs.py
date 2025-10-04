@@ -73,7 +73,7 @@ def main():
     # 3. Générer la documentation pdoc3 avec index complet
     total_commands += 1
     if run_command(
-        f"cd {project_root} && pdoc --html -o docs/pdoc3_build . --force",
+        f"cd {project_root} && pdoc --html -o docs/pdoc3 . --force",
         "Génération de la documentation pdoc3 complète",
     ):
         success_count += 1
