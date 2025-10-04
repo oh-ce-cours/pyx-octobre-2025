@@ -62,21 +62,20 @@ class ReportService:
             return None
 
     def generate_status_report(
-        self, filename: str = "vm_status_report.json"
+        self, users: List[Dict[str, Any]], vms: List[Dict[str, Any]], filename: str = "vm_status_report.json"
     ) -> Optional[str]:
         """
         Génère un rapport des VMs par statut
 
         Args:
+            users: Liste des utilisateurs
+            vms: Liste des VMs
             filename: Nom du fichier de sortie
 
         Returns:
             Chemin du fichier généré ou None si échec
         """
         logger.info("Début de génération du rapport de statut des VMs")
-
-        # Récupérer les données
-        users, vms = self.fetch_data()
 
         if not vms:
             logger.warning(
