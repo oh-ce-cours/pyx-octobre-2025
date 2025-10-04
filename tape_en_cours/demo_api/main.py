@@ -220,7 +220,6 @@ def create(
             typer.echo("🔑 Utilisation du token sauvegardé dans la session")
             # Créer un client API avec le token sauvegardé
             from utils.api import ApiClient
-            from utils.config import config
 
             api_client = ApiClient(token=saved_token)
 
