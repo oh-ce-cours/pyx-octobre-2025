@@ -160,6 +160,68 @@ def display_users_table(users: list) -> None:
     console.print(table)
 
 
+def display_deletion_progress(item_type: str, delay: float) -> None:
+    """Affiche le panneau de suppression"""
+    console.print(
+        Panel.fit(
+            f"[bold red]🗑️  Suppression des {item_type}s...[/bold red]\n"
+            f"Délai: [bold]{delay}s[/bold]",
+            border_style="red",
+        )
+    )
+
+
+def display_deletion_result(item_type: str, deleted_count: int, total_count: int) -> None:
+    """Affiche le résultat de suppression"""
+    console.print(
+        f"[bold cyan]📊 {item_type}s supprimés: [green]{deleted_count}/{total_count}[/green][/bold cyan]"
+    )
+
+
+def display_pause_message(delay: float, context: str = "") -> None:
+    """Affiche un message de pause"""
+    if context:
+        console.print(f"[dim]⏱️  {context} ({delay}s)...[/dim]")
+    else:
+        console.print(f"[dim]⏱️  Pause de {delay}s...[/dim]")
+
+
+def display_success_message(item_type: str, item_name: str) -> None:
+    """Affiche un message de succès"""
+    console.print(f"[green]✅ {item_type} supprimé: [bold]{item_name}[/bold][/green]")
+
+
+def display_error_message(item_type: str, item_id: str, error: str) -> None:
+    """Affiche un message d'erreur"""
+    console.print(f"[red]❌ Erreur suppression {item_type} {item_id}: {error}[/red]")
+
+
+def show_summary(vms: list, users: list, deleted_vms: int, deleted_users: int) -> None:
+    """Affiche le résumé final"""
+    total_deleted = deleted_vms + deleted_users
+
+    summary_table = Table(title="🎯 Résumé du nettoyage")
+    summary_table.add_column("Type", style="cyan")
+    summary_table.add_column("Supprimé", style="green")
+    summary_table.add_column("Total", style="yellow")
+
+    summary_table.add_row("VMs", str(deleted_vms), str(len(vms)))
+    summary_table.add_row("Utilisateurs", str(deleted_users), str(len(users)))
+    summary_table.add_row(
+        "**TOTAL**",
+        f"[bold]{total_deleted}[/bold]",
+        f"[bold]{len(vms) + len(users)}[/bold]",
+    )
+
+    console.print(summary_table)
+    console.print(
+        Panel.fit(
+            "[bold green]✅ NETTOYAGE TERMINÉ AVEC SUCCÈS ![/bold green]",
+            border_style="green",
+        )
+    )
+
+
 def delete_items_with_progress(
     client, items: list, item_type: str, delay: float
 ) -> int:
