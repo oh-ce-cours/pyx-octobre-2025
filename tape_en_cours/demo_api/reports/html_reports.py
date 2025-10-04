@@ -24,18 +24,20 @@ class HTMLReportGenerator(BaseReportGenerator):
         super().__init__(output_directory)
         self.html_directory = os.path.join(output_directory, "html")
         self._ensure_html_directory()
-        
+
         # Configuration de Jinja2
-        template_dir = os.path.join(os.path.dirname(__file__), "..", "templates", "html")
+        template_dir = os.path.join(
+            os.path.dirname(__file__), "..", "templates", "html"
+        )
         self.jinja_env = Environment(
             loader=FileSystemLoader(template_dir),
-            autoescape=select_autoescape(['html', 'xml']),
+            autoescape=select_autoescape(["html", "xml"]),
             trim_blocks=True,
-            lstrip_blocks=True
+            lstrip_blocks=True,
         )
-        
+
         # Ajout de filtres personnalisés
-        self.jinja_env.filters['pad'] = self._pad_filter
+        self.jinja_env.filters["pad"] = self._pad_filter
 
     def _ensure_html_directory(self) -> None:
         """Crée le dossier HTML s'il n'existe pas"""
@@ -51,7 +53,12 @@ class HTMLReportGenerator(BaseReportGenerator):
         """Retourne l'extension des fichiers HTML"""
         return "html"
 
-    def generate(self, data: Any, filename: Optional[str] = None, template_name: str = "default.html.j2") -> str:
+    def generate(
+        self,
+        data: Any,
+        filename: Optional[str] = None,
+        template_name: str = "default.html.j2",
+    ) -> str:
         """
         Génère un rapport HTML
 
@@ -72,25 +79,30 @@ class HTMLReportGenerator(BaseReportGenerator):
             filename = os.path.join(self.html_directory, filename)
 
         # Préparer les données avec métadonnées
-        report_data = {
-            "metadata": self._get_metadata(),
-            "data": data
-        }
+        report_data = {"metadata": self._get_metadata(), "data": data}
 
         # Générer le fichier HTML
         try:
             template = self.jinja_env.get_template(template_name)
             content = template.render(**report_data)
-            
+
             with open(filename, "w", encoding="utf-8") as f:
                 f.write(content)
 
-            logger.info("Rapport HTML généré avec succès", filename=filename, template=template_name)
+            logger.info(
+                "Rapport HTML généré avec succès",
+                filename=filename,
+                template=template_name,
+            )
 
             return filename
 
         except Exception as e:
-            logger.error("Erreur lors de la génération du rapport HTML", filename=filename, error=str(e))
+            logger.error(
+                "Erreur lors de la génération du rapport HTML",
+                filename=filename,
+                error=str(e),
+            )
             raise
 
     def generate_users_vms_report(
@@ -106,7 +118,11 @@ class HTMLReportGenerator(BaseReportGenerator):
         Returns:
             str: Chemin vers le fichier généré
         """
-        logger.info("Génération du rapport utilisateurs/VMs HTML", users_count=len(users), filename=filename)
+        logger.info(
+            "Génération du rapport utilisateurs/VMs HTML",
+            users_count=len(users),
+            filename=filename,
+        )
 
         # Statistiques supplémentaires
         stats = self._calculate_users_vms_stats(users)
