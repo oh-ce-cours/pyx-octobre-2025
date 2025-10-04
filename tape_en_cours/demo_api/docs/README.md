@@ -1,8 +1,66 @@
 # Documentation Demo API
 
-Ce répertoire contient toute la documentation du projet Demo API, générée automatiquement avec Sphinx et pydoc.
+Ce répertoire contient toute le documentation du projet Demo API, générée automatiquement avec **Sphinx** et **pdoc3**.
 
-## Structure
+## 🎯 Outils de Documentation
+
+### 📚 Sphinx (Complexe mais puissant)
+- **Documentation approfondie** pour utilisateurs finaux
+- **Thème Read the Docs** professionnel
+- **Recherche intégrée** et navigation avancée
+- **Support multi-format** (HTML, PDF, etc.)
+
+### ⚡ pdoc3 (Simple et moderne)
+- **Interface moderne** avec CSS intégré
+- **Syntaxe highlighting** automatique
+- **Serveur de développement** rapide
+- **Auto-génération** depuis les docstrings
+
+## 🚀 Génération de la Documentation
+
+### Méthode Automatisée (Recommandée)
+
+```bash
+# Génération complète
+python scripts/generate_docs.py
+```
+
+Ce script génère :
+1. **Sphinx** : Documentation complète avec thème professionnel
+2. **pdoc3** : Documentation moderne avec CSS intégré
+
+### Méthode Manuelle
+
+#### Documentation Sphinx
+```bash
+# Auto-découverte des modules
+python docs/sphinx/source/generate_modules.py
+
+# Génération HTML
+cd docs/sphinx
+sphinx-build -b html source build
+```
+
+#### Documentation pdoc3
+```bash
+# Serveur de développement (recommandé)
+pdoc --http :8080 main report_manager utils.config
+
+# Génération statique HTML
+pdoc --html -o docs/pdoc3_html main report_manager
+```
+
+## 📖 Accès à la Documentation
+
+### Développement quotidien
+- **pdoc3** : http://localhost:8080 (serveur automatique)
+- **Moderne et rapide** avec CSS intégré
+
+### Documentation finale
+- **Sphinx** : `docs/sphinx/build/index.html`
+- **Complète** avec thème professionnel
+
+## 🔧 Structure des Fichiers
 
 ```
 docs/
@@ -10,128 +68,65 @@ docs/
 ├── sphinx/                      # Documentation Sphinx
 │   ├── source/                  # Sources de documentation
 │   │   ├── conf.py             # Configuration Sphinx
-│   │   ├── index.rst           # Page d'accueil
-│   │   ├── generate_modules.py # Script d'auto-découverte
+│   │   ├── generate_modules.py # Auto-découverte
 │   │   └── api/                # Documentation des modules
 │   └── build/                   # Documentation générée (HTML)
-└── pydoc/                       # Documentation pydoc
-    ├── generate_pydoc.py        # Script de génération pydoc
-    └── html/                    # Documentation générée (HTML)
+├── pdoc3/                       # Documentation pdoc3
+│   ├── README.md               # Guide pdoc3
+│   └── serve_pdoc3.py         # Script serveur
+└── pdoc3_html/                  # Documentation pdoc3 générée
 ```
 
-## Génération de la documentation
-
-### Méthode automatique (recommandée)
-
-Utilisez le script de génération complet :
-
-```bash
-python scripts/generate_docs.py
-```
-
-Ce script :
-1. Découvre automatiquement tous les modules Python
-2. Génère la documentation Sphinx
-3. Génère la documentation pydoc
-
-### Méthode manuelle
-
-#### Documentation Sphinx
-
-1. **Auto-découverte des modules** :
-   ```bash
-   python docs/sphinx/source/generate_modules.py
-   ```
-
-2. **Génération de la documentation** :
-   ```bash
-   cd docs/sphinx
-   sphinx-build -b html source build
-   ```
-
-3. **Accès à la documentation** :
-   Ouvrez `docs/sphinx/build/index.html` dans votre navigateur
-
-#### Documentation pydoc
-
-1. **Génération de la documentation** :
-   ```bash
-   python docs/pydoc/generate_pydoc.py
-   ```
-
-2. **Accès à la documentation** :
-   Ouvrez `docs/pydoc/html/index.html` dans votre navigateur
-
-## Fonctionnalités
+## ✨ Fonctionnalités
 
 ### Auto-découverte
+- **Découverte automatique** de tous les modules Python
+- **Exclusion intelligente** des dossiers non pertinents
+- **Structure hiérarchique** préservée
 
-- **Découverte automatique** : Tous les modules Python sont automatiquement découverts
-- **Exclusion intelligente** : Les dossiers `__pycache__`, `.git`, `docs`, etc. sont exclus
-- **Structure préservée** : La hiérarchie des modules est respectée
+### Moderne et Professionnel
+- **CSS moderne** avec highlight.js intégré
+- **Design responsive** et mobile-friendly
+- **Navigation interactive** avec sidebar
+- **Syntaxe highlighting** automatique Python
 
-### Sphinx
+### Intégration CI/CD
+- **Scripts automatisés** pour génération
+- **Prêt pour déploiement** automatique
+- **Support multi-environnement**
 
-- **Thème moderne** : Utilise le thème Read the Docs
-- **Support des types** : Affichage des annotations de type
-- **Navigation** : Index et recherche intégrés
-- **Multi-format** : Support HTML, PDF, etc.
-
-### pydoc
-
-- **Documentation simple** : Documentation HTML basique mais complète
-- **Navigation** : Index avec liens vers tous les modules
-- **Style personnalisé** : Interface claire et lisible
-
-## Personnalisation
-
-### Ajouter des modules
-
-Les nouveaux modules Python sont automatiquement découverts lors de la prochaine génération.
-
-### Modifier la configuration Sphinx
-
-Éditez `docs/sphinx/source/conf.py` pour :
-- Changer le thème
-- Ajouter des extensions
-- Modifier les paramètres d'autodoc
-
-### Personnaliser pydoc
-
-Éditez `docs/pydoc/generate_pydoc.py` pour :
-- Modifier le style CSS
-- Changer la structure de l'index
-- Ajouter des métadonnées
-
-## Dépendances
-
-Les dépendances suivantes sont requises :
+## 🛠️ Dépendances
 
 ```txt
+# Documentation
 sphinx>=7.1.2
 sphinx-rtd-theme>=2.0.0
 sphinx-autodoc-typehints>=1.25.0
 myst-parser>=2.0.0
+pdoc3>=0.10.0
 ```
 
-Installez-les avec :
-
+Installation :
 ```bash
 pip install -r requirements.txt
 ```
 
-## Intégration CI/CD
+## 💡 Recommandations d'Usage
 
-Pour intégrer la génération de documentation dans votre pipeline CI/CD :
-
-```yaml
-# Exemple GitHub Actions
-- name: Generate Documentation
-  run: python scripts/generate_docs.py
-
-- name: Deploy Documentation
-  uses: peaceiris/actions-gh-pages@v3
-  with:
-    github_token: ${{ secrets.GITHUB_TOKEN }}
-    publish_dir: ./docs/sphinx/build
+### Pour le développement
+```bash
+# Lancez simplement le serveur pdoc3
+pdoc --http :8080 main utils.config
 ```
+
+### Pour la documentation
+```bash
+# Générez tout automatiquement
+python scripts/generate_docs.py
+```
+
+## 🔄 Migration depuis pydoc
+
+- ❌ ~Supprimé~ : Scripts pydoc complexes
+- ✅ **Nouveau** : pdoc3 avec CSS moderne intégré
+- ✅ **Gardé** : Sphinx pour documentation approfondie
