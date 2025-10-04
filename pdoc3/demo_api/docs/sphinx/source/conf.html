@@ -60,8 +60,10 @@ el.replaceWith(d);
         &#34;&#34;&#34;Ajoute le contexte nécessaire pour GitHub Pages.&#34;&#34;&#34;
         if app.builder.name == &#34;html&#34;:
             # Force l&#39;utilisation de chemins absolus pour les assets statiques
-            base_url = app.config.html_baseurl.rstrip(&#39;/&#39;)
-            context[&#34;pathto&#34;] = lambda other, *args, **kwargs: f&#34;{base_url}/{other.lstrip(&#39;/&#39;)}&#34;
+            base_url = app.config.html_baseurl.rstrip(&#34;/&#34;)
+            context[&#34;pathto&#34;] = (
+                lambda other, *args, **kwargs: f&#34;{base_url}/{other.lstrip(&#39;/&#39;)}&#34;
+            )
 
     app.connect(&#34;html-page-context&#34;, add_github_pages_context)</code></pre>
 </details>
