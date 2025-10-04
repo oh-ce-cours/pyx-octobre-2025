@@ -151,11 +151,11 @@
     <span class="p">):</span>
         <span class="n">success_count</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    <span class="c1"># 3. Générer la documentation pdoc3</span>
+    <span class="c1"># 3. Générer la documentation pdoc3 avec index complet</span>
     <span class="n">total_commands</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="k">if</span> <span class="n">run_command</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2"> &amp;&amp; pdoc --html -o docs/pdoc3_html main report_manager utils.config&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Génération de la documentation pdoc3&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2"> &amp;&amp; pdoc --html -o docs/pdoc3_build .&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Génération de la documentation pdoc3 complète&quot;</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="n">success_count</span> <span class="o">+=</span> <span class="mi">1</span>
 
@@ -167,7 +167,9 @@
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;🎉 Toute la documentation a été générée avec succès!&quot;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📖 Documentation disponible:&quot;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   • Sphinx (complexe): </span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2">/docs/sphinx/build/index.html&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   • pdoc3 (moderne): </span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2">/docs/pdoc3_html/index.html&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   • pdoc3 (moderne avec index): </span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2">/docs/pdoc3_build/index.html&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🚀 Pour développement rapide:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   • Serveur pdoc3: pdoc --http :8080 .&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;⚠️  Certaines commandes ont échoué. Vérifiez les erreurs ci-dessus.&quot;</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
