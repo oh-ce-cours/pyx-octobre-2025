@@ -5,22 +5,225 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>scripts.generate_data - Documentation pydoc</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
-        h1 { color: #333; border-bottom: 2px solid #eee; }
-        h2 { color: #666; margin-top: 30px; }
-        h3 { color: #888; }
-        .back-link { margin-bottom: 20px; }
-        .back-link a { color: #0066cc; text-decoration: none; }
-        .back-link a:hover { text-decoration: underline; }
-        pre { background-color: #f5f5f5; padding: 10px; border-radius: 5px; overflow-x: auto; }
-        code { background-color: #f5f5f5; padding: 2px 4px; border-radius: 3px; }
-        .function { margin: 15px 0; }
-        .class { margin: 20px 0; border: 1px solid #ddd; padding: 15px; border-radius: 5px; }
+        /* Reset et styles de base */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif; 
+            margin: 20px; 
+            line-height: 1.6; 
+            background-color: #fff;
+            color: #333;
+        }
+        
+        /* Styles pour la navigation */
+        .back-link { 
+            margin-bottom: 20px; 
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        .back-link a { 
+            color: #0066cc; 
+            text-decoration: none; 
+            font-weight: 500;
+        }
+        .back-link a:hover { 
+            text-decoration: underline; 
+        }
+        
+        /* Styles pour les titres pydoc */
+        h1, h2, h3, h4, h5, h6 {
+            color: #333;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        /* Styles pour les tableaux pydoc */
+        table.heading {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .heading-text {
+            padding: 15px 20px;
+        }
+        
+        .title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .extra {
+            text-align: right;
+            vertical-align: top;
+            padding: 15px 20px;
+        }
+        
+        .extra a {
+            color: #6c757d;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        
+        .extra a:hover {
+            color: #0066cc;
+        }
+        
+        /* Sections pydoc */
+        table.section {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+            background-color: white;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .section-title {
+            background-color: #e9ecef;
+            padding: 12px 15px;
+            font-weight: bold;
+            color: #495057;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .bigsection {
+            font-size: 1.1em;
+        }
+        
+        /* Styles pour les éléments de contenu */
+        .code {
+            background-color: transparent;
+            font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+            white-space: pre-wrap;
+            color: #444;
+            font-size: 0.95em;
+        }
+        
+        pre {
+            background-color: #f8f9fa; 
+            padding: 15px; 
+            border-radius: 8px; 
+            overflow-x: auto;
+            border: 1px solid #e9ecef;
+            font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+        }
+        
+        code {
+            background-color: #f1f3f4; 
+            padding: 3px 6px; 
+            border-radius: 4px; 
+            font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #d73a49;
+        }
+        
+        /* Styles pour les fonctions et classes */
+        .function { 
+            margin: 20px 0; 
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #0066cc;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .class { 
+            margin: 25px 0; 
+            border: 1px solid #dee2e6; 
+            padding: 20px; 
+            border-radius: 8px;
+            background-color: #fff;
+        }
+        
+        /* Styles pour les liens */
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Styles pour les listes */
+        ul, ol {
+            margin-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 5px;
+        }
+        
+        /* Styles pour les descriptions */
+        p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        /* Styles spécifiques pour les decorators pydoc */
+        .decor {
+            vertical-align: top;
+            width: 20px;
+        }
+        
+        .pkg-content-decor, .index-decor {
+            background-color: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+            width: 30px;
+        }
+        
+        .multicolumn {
+            width: 25%;
+            vertical-align: top;
+        }
+        
+        .multicolumn a {
+            color: #0066cc;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                margin: 10px;
+            }
+            
+            table.heading {
+                font-size: 0.9em;
+            }
+            
+            .extra {
+                text-align: left;
+                padding-top: 10px;
+            }
+        }
+        
+        /* Amélioration de lisibilité */
+        .singlecolumn {
+            padding: 15px;
+        }
+        
+        dt.heading-text {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-top: 15px;
+        }
+        
+        dd {
+            margin-left: 0;
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="back-link">
-        <a href="index.html">← Retour à l'index</a>
+        <a href="index.html">← Retour à l'index des modules</a>
     </div>
     
 <table class="heading">
@@ -45,7 +248,7 @@ Permet&nbsp;de&nbsp;générer&nbsp;des&nbsp;utilisateurs&nbsp;et&nbsp;VMs&nbsp;r
     
 <tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
 <td class="singlecolumn"><dl><dt><a name="-main"><strong>main</strong></a>()</dt><dd><span class="code">Point&nbsp;d'entrée&nbsp;principal</span></dd></dl>
- <dl><dt><a name="-preview"><strong>preview</strong></a>(user_count: int = &lt;typer.models.OptionInfo object at 0x1043605f0&gt;, max_vms: int = &lt;typer.models.OptionInfo object at 0x1043606b0&gt;) -&gt; None</dt><dd><span class="code">👀&nbsp;Prévisualiser&nbsp;les&nbsp;données&nbsp;générées&nbsp;sans&nbsp;les&nbsp;sauvegarder<br>
+ <dl><dt><a name="-preview"><strong>preview</strong></a>(user_count: int = &lt;typer.models.OptionInfo object at 0x104247e60&gt;, max_vms: int = &lt;typer.models.OptionInfo object at 0x104268230&gt;) -&gt; None</dt><dd><span class="code">👀&nbsp;Prévisualiser&nbsp;les&nbsp;données&nbsp;générées&nbsp;sans&nbsp;les&nbsp;sauvegarder<br>
 &nbsp;<br>
 Affiche&nbsp;un&nbsp;aperçu&nbsp;des&nbsp;données&nbsp;qui&nbsp;seraient&nbsp;générées.<br>
 &nbsp;<br>
@@ -54,7 +257,7 @@ Exemples:<br>
 <br>
 python&nbsp;generate_data.py&nbsp;preview<br>
 python&nbsp;generate_data.py&nbsp;preview&nbsp;--users&nbsp;10&nbsp;--max-vms&nbsp;2</span></dd></dl>
- <dl><dt><a name="-users_with_vms"><strong>users_with_vms</strong></a>(user_count: int = &lt;typer.models.OptionInfo object at 0x104360440&gt;, min_vms: int = &lt;typer.models.OptionInfo object at 0x104360320&gt;, max_vms: int = &lt;typer.models.OptionInfo object at 0x1043602f0&gt;, output_file: str = &lt;typer.models.OptionInfo object at 0x104360260&gt;, verbose: bool = &lt;typer.models.OptionInfo object at 0x1043604a0&gt;) -&gt; None</dt><dd><span class="code">🎯&nbsp;Générer&nbsp;des&nbsp;utilisateurs&nbsp;avec&nbsp;leurs&nbsp;VMs<br>
+ <dl><dt><a name="-users_with_vms"><strong>users_with_vms</strong></a>(user_count: int = &lt;typer.models.OptionInfo object at 0x104247c50&gt;, min_vms: int = &lt;typer.models.OptionInfo object at 0x104247f80&gt;, max_vms: int = &lt;typer.models.OptionInfo object at 0x104247e30&gt;, output_file: str = &lt;typer.models.OptionInfo object at 0x104247dd0&gt;, verbose: bool = &lt;typer.models.OptionInfo object at 0x104247c80&gt;) -&gt; None</dt><dd><span class="code">🎯&nbsp;Générer&nbsp;des&nbsp;utilisateurs&nbsp;avec&nbsp;leurs&nbsp;VMs<br>
 &nbsp;<br>
 Génère&nbsp;un&nbsp;dataset&nbsp;complet&nbsp;d'utilisateurs&nbsp;français&nbsp;avec&nbsp;des&nbsp;VMs&nbsp;réalistes.<br>
 Les&nbsp;données&nbsp;sont&nbsp;sauvegardées&nbsp;dans&nbsp;un&nbsp;fichier&nbsp;JSON.<br>
@@ -66,7 +269,7 @@ python&nbsp;generate_data.py&nbsp;users-with-vms<br>
 python&nbsp;generate_data.py&nbsp;users-with-vms&nbsp;--users&nbsp;100&nbsp;--max-vms&nbsp;3<br>
 python&nbsp;generate_data.py&nbsp;users-with-vms&nbsp;-u&nbsp;25&nbsp;-o&nbsp;mon_dataset.json&nbsp;--verbose</span></dd></dl>
  <dl><dt><a name="-version"><strong>version</strong></a>() -&gt; None</dt><dd><span class="code">📋&nbsp;Afficher&nbsp;la&nbsp;version&nbsp;du&nbsp;générateur</span></dd></dl>
- <dl><dt><a name="-vms_only"><strong>vms_only</strong></a>(vm_count: int = &lt;typer.models.OptionInfo object at 0x1043603b0&gt;, user_ids: str = &lt;typer.models.OptionInfo object at 0x104360620&gt;, output_file: str = &lt;typer.models.OptionInfo object at 0x1043604d0&gt;, verbose: bool = &lt;typer.models.OptionInfo object at 0x104360500&gt;) -&gt; None</dt><dd><span class="code">🖥️&nbsp;Générer&nbsp;uniquement&nbsp;des&nbsp;VMs&nbsp;pour&nbsp;des&nbsp;utilisateurs&nbsp;existants<br>
+ <dl><dt><a name="-vms_only"><strong>vms_only</strong></a>(vm_count: int = &lt;typer.models.OptionInfo object at 0x104247fb0&gt;, user_ids: str = &lt;typer.models.OptionInfo object at 0x104247ce0&gt;, output_file: str = &lt;typer.models.OptionInfo object at 0x104247ef0&gt;, verbose: bool = &lt;typer.models.OptionInfo object at 0x104247f20&gt;) -&gt; None</dt><dd><span class="code">🖥️&nbsp;Générer&nbsp;uniquement&nbsp;des&nbsp;VMs&nbsp;pour&nbsp;des&nbsp;utilisateurs&nbsp;existants<br>
 &nbsp;<br>
 Génère&nbsp;des&nbsp;VMs&nbsp;réalistes&nbsp;et&nbsp;les&nbsp;associe&nbsp;à&nbsp;des&nbsp;utilisateurs&nbsp;existants.<br>
 &nbsp;<br>
