@@ -11,19 +11,29 @@ class Auth:
         self.base_url = base_url
 
     def create_user(self, name, email, password):
+        logger.info("Tentative de création d'utilisateur", email=email, name=name)
         payload = {"name": name, "email": email, "password": password}
+        logger.debug("Payload de création (password masqué)", 
+                    name=name, 
+                    email=email, 
+                    password="[HIDDEN]",
+                    base_url=self.base_url)
         resp = requests.post(f"{self.base_url}/auth/signup", json=payload, timeout=5)
 
         try:
             resp.raise_for_status()
+            logger.info("Utilisateur créé avec succès", email=email, status_code=resp.status_code)
         except requests.RequestException as e:
-            print(f"Erreur lors de la création de l'utilisateur: {e}")
-            print(f"Payload: {payload}")
-            print(f"Response: {resp.text}")
+            logger.error("Erreur lors de la création de l'utilisateur", 
+                        error=str(e), 
+                        status_code=resp.status_code,
+                        response_text=resp.text[:200] + "..." if len(resp.text) > 200 else resp.text,
+                        email=email)
             if "Duplicate record detected." in resp.text:
-                print("Un utilisateur avec cet email existe déjà.")
+                logger.warning("Utilisateur déjà existant", email=email)
             return None
         token = resp.json()["authToken"]
+        logger.debug("Token généré pour nouveau utilisateur", email=email, token_length=len(token))
         return token
 
     def login_user(self, email, password) -> None | str:
