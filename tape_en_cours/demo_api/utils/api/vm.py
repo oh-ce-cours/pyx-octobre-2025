@@ -85,6 +85,26 @@ def create_vm(
     disk_gb,
     status="running",
 ):
+    """
+    Crée une nouvelle VM via l'API.
+    
+    Args:
+        token (str): Token d'authentification
+        base_url (str): URL de base de l'API
+        user_id (int): ID de l'utilisateur propriétaire
+        name (str): Nom de la VM
+        operating_system (str): Système d'exploitation
+        cpu_cores (int): Nombre de cœurs CPU
+        ram_gb (int): Quantité de RAM en GB
+        disk_gb (int): Taille du disque en GB
+        status (str): Statut initial de la VM (défaut: "running")
+        
+    Returns:
+        dict: Données de la VM créée
+        
+    Raises:
+        VMCreationError: Si la création de la VM échoue
+    """
     logger.info(
         "Création d'une nouvelle VM",
         name=name,
