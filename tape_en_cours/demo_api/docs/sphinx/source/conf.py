@@ -87,7 +87,7 @@ html_theme_options = {
 I’ll quickly add a few more small customizations to conf.py (table of contents depth, font sizes) and then regenerate docs via script to see Furo.
 <｜tool▁calls▁begin｜><｜tool▁call▁begin｜>
 read_file
-
+"""
 # -- Extension configuration -------------------------------------------------
 
 # Napoleon settings
