@@ -22,12 +22,13 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Generate and Deploy Documentation
+      - name: Generate Documentation
+        working-directory: tape_en_cours/demo_api
         run: |
-          # Aller dans le dossier demo_api et exécuter le script de déploiement
-          cd tape_en_cours/demo_api
           python scripts/generate_docs.py
-          cd ../../
+
+      - name: Deploy Documentation
+        run: |
           ./deploy_docs.sh
 
       - name: Deploy to GitHub Pages
