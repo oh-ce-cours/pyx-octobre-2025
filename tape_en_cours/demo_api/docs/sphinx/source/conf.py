@@ -88,6 +88,16 @@ html_add_permalinks = True
 html_permalinks = True
 html_permalinks_icon = "§"
 
+# Configuration alternative pour GitHub Pages - Force les chemins absolus
+# Cette configuration est cruciale pour que les CSS se chargent correctement
+html_context = {
+    'display_github': False,
+    'github_user': 'oh-ce-cours',
+    'github_repo': 'pyx-octobre-2025',
+    'github_version': 'main',
+    'conf_py_path': '/tape_en_cours/demo_api/docs/sphinx/source/',
+}
+
 # -- Options for Furo theme ------------------------------------------------
 html_title = "Demo API - Documentation"
 html_logo = None  # Ajoutez ici le chemin vers votre logo si vous en avez un
