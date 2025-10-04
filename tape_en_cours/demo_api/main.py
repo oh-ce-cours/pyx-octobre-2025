@@ -201,6 +201,7 @@ def create(
     🖥️ Créer une VM pour un utilisateur existant
 
     Authentifie un utilisateur existant et crée une VM pour lui.
+    Peut utiliser un token sauvegardé ou des identifiants email/mot de passe.
 
     Exemples:
 
@@ -208,9 +209,68 @@ def create(
     python main.py create
     python main.py create --name "Ma VM" --email "alice@example.com" --password "motdepasse"
     python main.py create -n "VM Test" --ram 8 --disk 100 --verbose
+    python main.py create --name "Ma VM" --use-token
     """
-    # Appeler directement la fonction avec le mot de passe
-    create_vm(name, email, password, os, cores, ram, disk, status, verbose)
+    # Vérifier si on doit utiliser le token sauvegardé
+    if use_saved_token:
+        from utils.password_utils import get_token_from_env
+
+        saved_token = get_token_from_env()
+        if saved_token:
+            typer.echo("🔑 Utilisation du token sauvegardé dans la session")
+            # Créer un client API avec le token sauvegardé
+            from utils.api import ApiClient
+            from utils.config import config
+
+            api_client = ApiClient(token=saved_token)
+
+            # Vérifier que le token est valide en récupérant les infos utilisateur
+            try:
+                user_info = api_client.get_user_info()
+                typer.echo(
+                    f"✅ Token valide pour: {user_info.get('name')} ({user_info.get('email')})"
+                )
+
+                # Créer la VM directement avec l'API
+                vm_result = api_client.vms.create(
+                    user_id=user_info["id"],
+                    name=name,
+                    operating_system=os,
+                    cpu_cores=cores,
+                    ram_gb=ram,
+                    disk_gb=disk,
+                    status=status,
+                )
+
+                if vm_result:
+                    typer.echo("🎉 VM créée avec succès!")
+                    typer.echo(f"   🆔 ID: {vm_result.get('id')}")
+                    typer.echo(f"   📝 Nom: {vm_result.get('name')}")
+                    typer.echo(f"   💻 OS: {vm_result.get('operating_system')}")
+                    typer.echo(f"   🔧 CPU: {vm_result.get('cpu_cores')} cores")
+                    typer.echo(f"   💾 RAM: {vm_result.get('ram_gb')} GB")
+                    typer.echo(f"   💿 Disque: {vm_result.get('disk_gb')} GB")
+                    typer.echo(f"   ⚡ Statut: {vm_result.get('status')}")
+                    typer.echo("✨ Terminé!")
+                else:
+                    typer.echo("❌ Échec de la création de la VM")
+                    raise typer.Exit(1)
+
+            except Exception as e:
+                typer.echo(f"❌ Token invalide ou expiré: {e}")
+                typer.echo(
+                    "💡 Utilisez --password pour vous authentifier avec email/mot de passe"
+                )
+                raise typer.Exit(1)
+        else:
+            typer.echo("❌ Aucun token sauvegardé trouvé")
+            typer.echo(
+                "💡 Créez d'abord un utilisateur avec 'signup' ou utilisez --password"
+            )
+            raise typer.Exit(1)
+    else:
+        # Appeler directement la fonction avec le mot de passe
+        create_vm(name, email, password, os, cores, ram, disk, status, verbose)
 
 
 @app.command()
