@@ -60,6 +60,7 @@ class Auth:
         headers = {"accept": "application/json", "Content-Type": "application/json"}
         resp = requests.post(
             f"{self.base_url}/auth/login", json=payload, headers=headers, timeout=5
+        )
         try:
             resp.raise_for_status()
             logger.info("Utilisateur connecté avec succès", email=email, status_code=resp.status_code)

@@ -53,3 +53,40 @@ Le système de gestion des mots de passe utilise les variables d'environnement s
 ### Fonctionnement
 
 Le code vérifie d'abord les variables d'environnement, puis demande une saisie interactive si celles-ci ne sont pas définies.
+
+## Logging avec structlog
+
+Le système utilise `structlog` pour un logging structuré et professionnel :
+
+### Configuration automatique
+- Logging avec couleurs dans le terminal
+- Format JSON en production
+- Monitoring des performances des API calls
+- Gestion d'erreurs détaillée
+
+### Exemples de logs générés
+```
+2024-01-15T10:30:45Z INFO D'but de l'excution de demo_api base_url=https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt
+2024-01-15T10:30:45Z INFO R'cupëration des utilisateurs depuis l'API base_url=https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt
+2024-01-15T10:30:46Z INFO Utilisateurs r'cupërés count=15 status_code=200
+```
+
+### Utilisation
+
+```bash
+# Mode développement avec logs détaillés
+DEMO_API_DEBUG=true python main.py
+
+# Mode production avec logs minimaux
+DEMO_API_LOG_LEVEL=WARNING python main.py
+
+# Logs seulement les erreurs et avertissements
+DEMO_API_LOG_LEVEL=WARNING python main.py
+```
+
+### Avantages du logging structuré
+
+- **Debugging facile** : Recherche rapide des erreurs par email, user_id, etc.
+- **Monitoring** : Suivi des performances et des erreurs
+- **Audit** : Traçabilité complète des actions utilisateurs
+- **Production-ready** : Format adapté aux systèmes de monitoring
