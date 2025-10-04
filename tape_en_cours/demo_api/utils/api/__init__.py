@@ -56,30 +56,34 @@ class UsersAPI:
 
     def get_user(self, user_id: int) -> Dict[str, Any]:
         """Récupère un utilisateur spécifique par son ID
-        
+
         Args:
             user_id: ID de l'utilisateur
-            
+
         Returns:
             Dict contenant les informations de l'utilisateur
-            
+
         Raises:
             UsersFetchError: Si la récupération de l'utilisateur échoue
         """
-        logger.info("Récupération d'un utilisateur spécifique via API unifiée", user_id=user_id)
+        logger.info(
+            "Récupération d'un utilisateur spécifique via API unifiée", user_id=user_id
+        )
         return get_user(self._api.base_url, user_id)
 
-    def create_user(self, name: str, email: str, password: Optional[str] = None) -> Dict[str, Any]:
+    def create_user(
+        self, name: str, email: str, password: Optional[str] = None
+    ) -> Dict[str, Any]:
         """Crée un nouvel utilisateur
-        
+
         Args:
             name: Nom de l'utilisateur
             email: Email de l'utilisateur
             password: Mot de passe optionnel
-            
+
         Returns:
             Dict contenant les informations de l'utilisateur créé
-            
+
         Raises:
             UserCreationError: Si la création de l'utilisateur échoue
         """
@@ -88,14 +92,14 @@ class UsersAPI:
 
     def update_user(self, user_id: int, updates: Dict[str, Any]) -> Dict[str, Any]:
         """Met à jour un utilisateur existant
-        
+
         Args:
             user_id: ID de l'utilisateur
             updates: Données à mettre à jour
-            
+
         Returns:
             Dict contenant les informations de l'utilisateur mis à jour
-            
+
         Raises:
             UserUpdateError: Si la mise à jour échoue
         """
@@ -104,13 +108,13 @@ class UsersAPI:
 
     def delete_user(self, user_id: int) -> Dict[str, Any]:
         """Supprime un utilisateur
-        
+
         Args:
             user_id: ID de l'utilisateur
-            
+
         Returns:
             Dict contenant le résultat de la suppression
-            
+
         Raises:
             UserDeleteError: Si la suppression échoue
         """
