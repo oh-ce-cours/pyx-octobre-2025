@@ -68,7 +68,11 @@ class ReportService:
         users, vms = self.fetch_data()
 
         if not users or not vms:
-            logger.warning("Impossible de générer le rapport: données manquantes", users_count=len(users), vms_count=len(vms))
+            logger.warning(
+                "Impossible de générer le rapport: données manquantes",
+                users_count=len(users),
+                vms_count=len(vms),
+            )
             return None
 
         # Associer les VMs aux utilisateurs
@@ -103,7 +107,9 @@ class ReportService:
         users, vms = self.fetch_data()
 
         if not vms:
-            logger.warning("Impossible de générer le rapport de statut: pas de VMs disponibles")
+            logger.warning(
+                "Impossible de générer le rapport de statut: pas de VMs disponibles"
+            )
             return None
 
         # Compter les VMs par statut
@@ -128,5 +134,7 @@ class ReportService:
             logger.info("Rapport de statut généré avec succès", filename=report_file)
             return report_file
         except (IOError, TypeError) as e:
-            logger.error("Erreur lors de la génération du rapport de statut", error=str(e))
+            logger.error(
+                "Erreur lors de la génération du rapport de statut", error=str(e)
+            )
             return None
