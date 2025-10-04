@@ -25,18 +25,27 @@ touch docs-deploy/.nojekyll
 echo "🔧 Correction des chemins CSS pour GitHub Pages..."
 BASE_URL="https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy"
 
-# Corriger tous les patterns possibles de chemins relatifs vers _static
-find docs-deploy -name "*.html" -type f -exec sed -i '' \
-  -e "s|href=\"_static/|href=\"${BASE_URL}/_static/|g" \
-  -e "s|href=\"../_static/|href=\"${BASE_URL}/_static/|g" \
-  -e "s|href=\"../../_static/|href=\"${BASE_URL}/_static/|g" \
-  -e "s|src=\"_static/|src=\"${BASE_URL}/_static/|g" \
-  -e "s|src=\"../_static/|src=\"${BASE_URL}/_static/|g" \
-  -e "s|src=\"../../_static/|src=\"${BASE_URL}/_static/|g" \
-  -e "s|url(_static/|url(${BASE_URL}/_static/|g" \
-  -e "s|url(../_static/|url(${BASE_URL}/_static/|g" \
-  -e "s|url(../../_static/|url(${BASE_URL}/_static/|g" \
-  {} \;
+# Fonction pour corriger les chemins CSS de manière propre
+fix_css_paths() {
+    local file="$1"
+    # Remplacer tous les chemins relatifs vers _static par des chemins absolus
+    sed -i '' \
+        -e "s|href=\"_static/|href=\"${BASE_URL}/_static/|g" \
+        -e "s|href=\"../_static/|href=\"${BASE_URL}/_static/|g" \
+        -e "s|href=\"../../_static/|href=\"${BASE_URL}/_static/|g" \
+        -e "s|src=\"_static/|src=\"${BASE_URL}/_static/|g" \
+        -e "s|src=\"../_static/|src=\"${BASE_URL}/_static/|g" \
+        -e "s|src=\"../../_static/|src=\"${BASE_URL}/_static/|g" \
+        -e "s|url(_static/|url(${BASE_URL}/_static/|g" \
+        -e "s|url(../_static/|url(${BASE_URL}/_static/|g" \
+        -e "s|url(../../_static/|url(${BASE_URL}/_static/|g" \
+        "$file"
+}
+
+# Appliquer la correction à tous les fichiers HTML (Sphinx et pdoc3)
+find docs-deploy -name "*.html" -type f | while read -r file; do
+    fix_css_paths "$file"
+done
 
 echo "✅ Chemins CSS corrigés pour GitHub Pages"
 
