@@ -19,6 +19,113 @@ from utils.password_utils import get_or_create_token
 logger = get_logger(__name__)
 
 
+def authenticate_user(api: Api, email: str = "jean@dupont21.com", password: str = None) -> Optional[Dict[str, Any]]:
+    """
+    Authentifie un utilisateur et retourne ses informations
+
+    Args:
+        api: Client API unifié
+        email: Email de l'utilisateur
+        password: Mot de passe de l'utilisateur
+
+    Returns:
+        Informations de l'utilisateur ou None si l'authentification échoue
+    """
+    logger.info("Début du processus d'authentification pour création de VM")
+
+    try:
+        token = get_or_create_token(
+            base_url=api.base_url,
+            email=email,
+            password=password,
+            token_env_var="DEMO_API_TOKEN",
+        )
+
+        # Définir le token dans le client API
+        api.set_token(token)
+        logger.info("Token défini dans le client API pour création de VM")
+
+        # Récupérer les informations utilisateur
+        if api.is_authenticated():
+            logger.info("Récupération des informations utilisateur authentifié")
+            try:
+                user = api.get_user_info()
+                logger.info(
+                    "Informations utilisateur récupérées pour création VM",
+                    user_id=user.get("id"),
+                    user_name=user.get("name"),
+                )
+                return user
+            except UserInfoError as e:
+                logger.error(
+                    "Impossible de récupérer les informations utilisateur",
+                    error=str(e),
+                )
+                return None
+        else:
+            logger.error("Aucun token disponible après authentification")
+            return None
+
+    except Exception as e:
+        logger.error("Erreur d'authentification", error=str(e))
+        return None
+
+
+def create_vm_for_user(api: Api, user: Dict[str, Any], vm_config: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    """
+    Crée une VM pour un utilisateur spécifique
+
+    Args:
+        api: Client API unifié
+        user: Informations de l'utilisateur
+        vm_config: Configuration de la VM à créer
+
+    Returns:
+        Résultat de la création ou None si échec
+    """
+    if not api.is_authenticated():
+        logger.error("API non authentifiée pour la création de VM")
+        return None
+
+    logger.info("Début de création de VM", **vm_config)
+
+    try:
+        vm_result = api.users.create_vm(**vm_config)
+        logger.info(
+            "VM créée avec succès",
+            vm_id=vm_result.get("id"),
+            status=vm_config.get("status"),
+        )
+        return vm_result
+    except VMCreationError as e:
+        logger.error("Échec de la création de VM", error=str(e), user_id=user["id"])
+        return None
+
+
+def create_default_vm_for_user(api: Api, user: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    """
+    Crée une VM par défaut pour un utilisateur
+
+    Args:
+        api: Client API unifié
+        user: Informations de l'utilisateur
+
+    Returns:
+        Résultat de la création ou None si échec
+    """
+    vm_config = {
+        "user_id": user["id"],
+        "name": "VM de Jean",
+        "operating_system": "Ubuntu 22.04",
+        "cpu_cores": 2,
+        "ram_gb": 4,
+        "disk_gb": 50,
+        "status": "stopped",
+    }
+
+    return create_vm_for_user(api, user, vm_config)
+
+
 def create_vm(
     name: Optional[str] = typer.Option(None, "--name", "-n", help="Nom de la VM"),
     email: str = typer.Option(
@@ -62,13 +169,12 @@ def create_vm(
 
     logger.info("Début du processus de création de VM", email=email, vm_name=vm_name)
 
-    # Initialisation du client API et du service
+    # Initialisation du client API
     api = Api(config.DEMO_API_BASE_URL)
-    vm_service = VMService(api)
 
     # Authentification de l'utilisateur
     typer.echo("🔐 Authentification de l'utilisateur...")
-    user = vm_service.authenticate_user(email=email, password=config.DEMO_API_PASSWORD)
+    user = authenticate_user(api, email=email, password=config.DEMO_API_PASSWORD)
 
     if not user:
         typer.echo("❌ Échec de l'authentification")
@@ -92,7 +198,7 @@ def create_vm(
 
     # Création de la VM
     logger.info("Création de la VM", **vm_config)
-    vm_result = vm_service.create_vm_for_user(user, vm_config)
+    vm_result = create_vm_for_user(api, user, vm_config)
 
     typer.echo()
     if vm_result:
