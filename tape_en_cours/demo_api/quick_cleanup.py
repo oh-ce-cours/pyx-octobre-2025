@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
 Script de nettoyage rapide et simple pour les VMs et utilisateurs
-Refactorisé avec Typer pour une interface CLI moderne et intuitive.
 """
 
 import time
@@ -19,7 +18,7 @@ from utils.logging_config import get_logger
 app = typer.Typer(
     name="cleanup",
     help="🧹 Script de nettoyage pour les VMs et utilisateurs",
-    rich_markup_mode="rich"
+    rich_markup_mode="rich",
 )
 console = Console()
 
@@ -28,14 +27,14 @@ logger = get_logger(__name__)
 
 def quick_cleanup(
     base_url: Optional[str] = None,
-    email: Optional[str] = None, 
+    email: Optional[str] = None,
     password: Optional[str] = None,
-    simulate: bool = True, 
-    delay: float = 2.5
+    simulate: bool = True,
+    delay: float = 2.5,
 ) -> None:
     """
     Nettoie rapidement toutes les données avec respect des limites de taux
- 
+
     Args:
         base_url: URL de base de l'API (optionnel)
         email: Email pour l'authentification (optionnel)
@@ -43,61 +42,109 @@ def quick_cleanup(
         simulate: Si True, mode simulation (aucune suppression réelle)
         delay: Délai en secondes entre les suppressions pour éviter les 429
     """
-    
+
     # Affichage du mode avec Rich
     if simulate:
-        console.print(Panel.fit(
-            "[bold blue]🧹 MODE SIMULATION[/bold blue]\n"
-            "Aucune donnée ne sera supprimée",
-            border_style="blue"
-        ))
+        console.print(
+            Panel.fit(
+                "[bold blue]🧹 MODE SIMULATION[/bold blue]\n"
+                "Aucune donnée ne sera supprimée",
+                border_style="blue",
+            )
+        )
     else:
-        console.print(Panel.fit(
-            "[bold red]🗑️  MODE SUPPRESSION RÉELLE[/bold red]\n"
-            "⚠️  TOUTES LES DONNÉES SERONT SUPPRIMÉES !",
-            border_style="red"
-        ))
+        console.print(
+            Panel.fit(
+                "[bold red]🗑️  MODE SUPPRESSION RÉELLE[/bold red]\n"
+                "⚠️  TOUTES LES DONNÉES SERONT SUPPRIMÉES !",
+                border_style="red",
+            )
+        )
 
     try:
         # Connexion à l'API avec spinner
         with console.status("[bold green]Connexion à l'API...") as status:
             client = create_authenticated_client(base_url, email, password)
             status.update("[bold green]Connexion établie !")
-            
+
         # Affichage des infos de connexion
         table = Table(title="🔗 Configuration API")
         table.add_column("Paramètre", style="cyan")
         table.add_column("Valeur", style="magenta")
-        
+
         table.add_row("Base URL", client.base_url)
-        table.add_row("Authentifié", "✅ Oui" if client.is_authenticated() else "❌ Non")
+        table.add_row(
+            "Authentifié", "✅ Oui" if client.is_authenticated() else "❌ Non"
+        )
         table.add_row("Délai entre opérations", f"{delay}s")
         table.add_row("Mode", "Simulation" if simulate else "Suppression réelle")
-        
+
         console.print(table)
         console.print()
 
-        # Récupérer les données actuelles
-        print("\n📊 Données actuelles:")
+        # Récupérer les données actuelles avec Rich
+        console.print("[bold cyan]📊 Données actuelles:[/bold cyan]")
+
+        # Tableau des VMs
+        vms_table = Table(title="💻 Machines virtuelles")
+        vms_table.add_column("ID", style="cyan")
+        vms_table.add_column("Nom", style="green")
+        vms_table.add_column("Utilisateur", style="yellow")
+        vms_table.add_column("Status", style="magenta")
 
         try:
-            vms = client.vms.get()
-            print(f"   💻 VMs: {len(vms)}")
+            with console.status("[bold green]Récupérations des VMs...") as status:
+                vms = client.vms.get()
+
+            console.print(f"[green]✅ {len(vms)} VMs trouvées[/green]")
+
             for vm in vms:
-                print(f"      - ID {vm['id']}: {vm['name']} (User: {vm['user_id']})")
+                vms_table.add_row(
+                    str(vm["id"]),
+                    vm["name"],
+                    str(vm["user_id"]),
+                    vm.get("status", "Inconnu"),
+                )
+
         except Exception as e:
-            print(f"   ❌ Erreur VMs: {e}")
+            console.print(f"[red]❌ Erreur VMs: {e}[/red]")
+            vms = []
+
+        console.print(vms_table)
+        console.print()
+
+        # Tableau des utilisateurs
+        users_table = Table(title="👥 Utilisateurs")
+        users_table.add_column("ID", style="cyan")
+        users_table.add_column("Nom", style="green")
+        users_table.add_column("Email", style="yellow")
 
         try:
-            users = client.users.get()
-            print(f"   👥 Utilisateurs: {len(users)}")
+            with console.status(
+                "[bold green]Récupération des utilisateurs..."
+            ) as status:
+                users = client.users.get()
+
+            console.print(f"[green]✅ {len(users)} utilisateurs trouvés[/green]")
+
             for user in users:
-                print(f"      - ID {user['id']}: {user['name']} ({user['email']})")
+                users_table.add_row(str(user["id"]), user["name"], user["email"])
+
         except Exception as e:
-            print(f"   ❌ Erreur Utilisateurs: {e}")
+            console.print(f"[red]❌ Erreur Utilisateurs: {e}[/red]")
+            users = []
+
+        console.print(users_table)
+        console.print()
 
         if simulate:
-            print("\n📋 Mode simulation - aucune suppression réelle")
+            console.print(
+                Panel.fit(
+                    "[bold blue]📋 Mode simulation - aucune suppression réelle[/bold blue]\n"
+                    "Utilisez [bold]--real[/bold] pour effectuer les suppressions",
+                    border_style="blue",
+                )
+            )
             return
 
         # Suppression réelle
