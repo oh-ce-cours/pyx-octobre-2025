@@ -18,7 +18,6 @@ from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeElapsedColumn
 from rich.table import Table
 from rich.panel import Panel
-from rich.text import Text
 
 # Ajouter le répertoire parent au path pour les imports
 sys.path.append(str(Path(__file__).parent.parent))
@@ -777,8 +776,13 @@ def status(
 @app.command()
 def version() -> None:
     """📋 Afficher la version du créateur de données"""
-    typer.echo("create-data-via-api v1.0.0")
-    typer.echo("Powered by Faker 🎲 + API unifiée 🚀")
+    console.print(
+        Panel.fit(
+            "[bold blue]create-data-via-api v1.0.0[/bold blue]\n"
+            "[dim]Powered by Faker 🎲 + API unifiée 🚀[/dim]",
+            border_style="blue",
+        )
+    )
 
 
 def main():
@@ -791,9 +795,19 @@ def main():
     try:
         app()
     except KeyboardInterrupt:
-        typer.echo("\n⚠️  Création interrompue")
+        console.print(
+            Panel.fit(
+                "[bold yellow]⚠️ Création interrompue[/bold yellow]",
+                border_style="yellow",
+            )
+        )
     except Exception as e:
-        typer.echo(f"❌ Erreur: {e}")
+        console.print(
+            Panel.fit(
+                f"[bold red]❌ Erreur:[/bold red]\n{e}",
+                border_style="red",
+            )
+        )
         raise typer.Exit(1)
 
 
