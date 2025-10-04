@@ -11,7 +11,7 @@ from utils.logging_config import get_logger
 logger = get_logger(__name__)
 
 
-def retry_on_429(max_retries: int = 5, base_delay: float = 2.0):
+def retry_on_429(max_retries: int = 5, base_delay: float = 7.0):
     """
     Décorateur pour gérer automatiquement les erreurs 429 (Too Many Requests)
     avec retry et backoff exponentiel.
