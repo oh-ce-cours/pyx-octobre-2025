@@ -21,6 +21,7 @@ Le système de gestion des mots de passe utilise les variables d'environnement s
 
 - `DEMO_API_EMAIL` : Email pour se connecter à l'API
 - `DEMO_API_PASSWORD` : Mot de passe pour se connecter à l'API
+- `DEMO_API_TOKEN` : Token d'authentification (optionnel - créé automatiquement)
 - `DEMO_API_DEBUG` : Active le mode debug (true/false)
 - `DEMO_API_LOG_LEVEL` : Niveau de logging (DEBUG, INFO, WARNING, ERROR)
 
@@ -90,3 +91,49 @@ DEMO_API_LOG_LEVEL=WARNING python main.py
 - **Monitoring** : Suivi des performances et des erreurs
 - **Audit** : Traçabilité complète des actions utilisateurs
 - **Production-ready** : Format adapté aux systèmes de monitoring
+
+## Gestion intelligente des tokens d'authentification
+
+Le système dispose de fonctions avancées pour gérer les tokens d'authentification :
+
+### Fonctions spécialisées par type d'accès
+
+#### **Variables d'environnement :**
+- `get_token_from_env()` : Récupère un token depuis les variables d'environnement
+- `save_token_to_env()` : Sauvegarde un token dans les variables d'environnement
+- `remove_token_from_env()` : Supprime un token des variables d'environnement
+
+#### **Fichier .env :**
+- `save_token_to_env_file()` : Sauvegarde un token dans un fichier .env
+- `load_token_from_env_file()` : Charge un token depuis un fichier .env
+
+#### **Gestion intelligente :**
+- `get_or_create_token()` : Fonction tout-en-un qui essaie de récupérer un token existant ou en crée un nouveau
+
+### Utilisation recommandée
+
+```python
+from utils.password_utils import get_or_create_token
+
+# Utilisation simple - gère automatiquement tout
+token = get_or_create_token(
+    base_url="https://api.example.com",
+    email="user@example.com",
+    token_env_var="DEMO_API_TOKEN"
+)
+```
+
+### Avantages de cette approche
+
+- **🚀 Performance** : Réutilise les tokens valides sans nouvelle authentification
+- **🔒 Sécurité** : Validation automatique des tokens avant utilisation
+- **💾 Persistance** : Sauvegarde entre les sessions pour éviter les reconnexions
+- **🔄 Flexibilité** : Support des variables d'environnement ET des fichiers .env
+- **🛡️ Robustesse** : Gestion automatique des tokens expirés
+
+### Scénarios d'usage
+
+1. **Première exécution** : Demande les identifiants, crée et sauvegarde le token
+2. **Exécutions suivantes** : Utilise le token sauvegardé (plus rapide)
+3. **Token expiré** : Détecte automatiquement et recrée un nouveau token
+4. **Environnement de production** : Utilise uniquement les tokens des variables d'environnement
