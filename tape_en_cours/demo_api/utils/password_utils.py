@@ -313,10 +313,14 @@ def get_or_create_token(base_url, email=None, password=None):
         auth = Auth(base_url)
         try:
             user_info = auth.get_logged_user_info(existing_token)
-            logger.info(
-                "Token existant validé avec succès", user_id=user_info.get("id")
-            )
-            return existing_token
+            if user_info is None:
+                logger.warning("Token existant - réponse utilisateur None")
+                remove_token_from_env()
+            else:
+                logger.info(
+                    "Token existant validé avec succès", user_id=user_info.get("id")
+                )
+                return existing_token
         except UserInfoError:
             logger.warning(
                 "Token existant expiré ou invalide, nouvelle authentification nécessaire"

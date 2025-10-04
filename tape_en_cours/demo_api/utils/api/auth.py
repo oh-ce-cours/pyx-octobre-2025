@@ -188,6 +188,12 @@ class Auth:
             resp.raise_for_status()
 
             user_info = resp.json()
+            if user_info is None:
+                logger.error("Réponse JSON vide pour les informations utilisateur")
+                raise UserInfoError(
+                    "Réponse vide lors de la récupération des informations utilisateur",
+                    token_length=len(token),
+                )
             logger.info(
                 "Informations utilisateur récupérées",
                 user_id=user_info.get("id"),
