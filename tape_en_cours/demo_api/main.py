@@ -26,7 +26,7 @@ def report(
     report_type: str = typer.Option(
         "all", "--type", "-t", help="Type de rapport à générer (all, users-vms, status)"
     ),
-    format: str = typer.Option(
+    report_format: str = typer.Option(
         "all", "--format", "-f", help="Format de rapport (all, json, markdown, html)"
     ),
     output_dir: str = typer.Option(
@@ -54,9 +54,9 @@ def report(
         raise typer.Exit(1) from exc
 
     try:
-        format_enum = ReportFormat(format)
+        format_enum = ReportFormat(report_format)
     except ValueError as exc:
-        typer.echo(f"❌ Format de rapport invalide: {format}")
+        typer.echo(f"❌ Format de rapport invalide: {report_format}")
         typer.echo("Formats valides: all, json, markdown, html")
         raise typer.Exit(1) from exc
 
