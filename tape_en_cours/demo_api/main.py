@@ -6,15 +6,27 @@ Interface d'orchestration avec Typer pour le management des utilisateurs et VMs.
 """
 
 import typer
+from typer import Context
 from utils.logging_config import get_logger
 from report_manager import generate_reports, ReportType
 from vm_manager import create_vm
 
 logger = get_logger(__name__)
+
+# Callback pour gérer -h et --help
+def show_help(ctx: typer.Context, help: bool = typer.Option(False, "--help", "-h", help="Afficher l'aide")):
+    """Afficher l'aide"""
+    if help:
+        typer.echo(ctx.get_help())
+        raise typer.Exit()
+
 app = typer.Typer(
     name="demo-api",
     help="🏗️ Interface CLI pour demo_api - Management des utilisateurs et VMs",
     rich_markup_mode="markdown",
+    add_completion=False,
+    no_args_is_help=True,
+    callback=show_help,
 )
 
 
