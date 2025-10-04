@@ -582,10 +582,10 @@ def full_dataset(
 
     Exemples:
 
-    \b
-    python create_data_via_api.py full-dataset --users 20 --vms 50
-    python create_data_via_api.py full-dataset -u 30 -v 100 --delay 3.0 --output dataset.json
-    python create_data_via_api.py full-dataset --verbose
+    .. code-block:: shell
+        python create_data_via_api.py full-dataset --users 20 --vms 50
+        python create_data_via_api.py full-dataset -u 30 -v 100 --delay 3.0 --output dataset.json
+        python create_data_via_api.py full-dataset --verbose
     &#34;&#34;&#34;
     display_header(
         &#34;🎯 Création d&#39;un dataset complet&#34;,
@@ -745,7 +745,7 @@ def full_dataset(
 <p>Crée des utilisateurs et des VMs réalistes avec Faker via l'API.
 Optionnellement sauvegarde les données créées dans un fichier JSON.</p>
 <p>Exemples:</p>
-<p>
+<p>.. code-block:: shell
 python create_data_via_api.py full-dataset &ndash;users 20 &ndash;vms 50
 python create_data_via_api.py full-dataset -u 30 -v 100 &ndash;delay 3.0 &ndash;output dataset.json
 python create_data_via_api.py full-dataset &ndash;verbose</p></div>
@@ -1007,10 +1007,10 @@ def vms(
 
     Exemples:
 
-    \b
-    python create_data_via_api.py vms --count 50
-    python create_data_via_api.py vms -c 100 --batch-size 10 --delay 3.0
-    python create_data_via_api.py vms --verbose
+    .. code-block:: shell
+        python create_data_via_api.py vms --count 50
+        python create_data_via_api.py vms -c 100 --batch-size 10 --delay 3.0
+        python create_data_via_api.py vms --verbose
     &#34;&#34;&#34;
     display_header(
         &#34;🖥️ Création de VMs via l&#39;API&#34;, f&#34;Génération de {count} VMs avec Faker&#34;
@@ -1103,7 +1103,7 @@ def vms(
 <p>Génère des VMs réalistes avec Faker et les crée via l'API.
 Les VMs sont associées à des utilisateurs existants.</p>
 <p>Exemples:</p>
-<p>
+<p>.. code-block:: shell
 python create_data_via_api.py vms &ndash;count 50
 python create_data_via_api.py vms -c 100 &ndash;batch-size 10 &ndash;delay 3.0
 python create_data_via_api.py vms &ndash;verbose</p></div>
