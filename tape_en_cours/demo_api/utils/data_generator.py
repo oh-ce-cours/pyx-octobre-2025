@@ -4,6 +4,7 @@ Génère des données réalistes pour les utilisateurs et les machines virtuelle
 """
 
 import random
+import unicodedata
 from datetime import datetime, timedelta
 from typing import List, Dict, Any
 from faker import Faker
