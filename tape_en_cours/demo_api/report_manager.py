@@ -42,7 +42,7 @@ def generate_reports(
     """
 
     if verbose:
-        typer.echo(f"🔧 Configuration:")
+        typer.echo("🔧 Configuration:")
         typer.echo(f"   Type de rapport: {report_type.value}")
         typer.echo(f"   Répertoire de sortie: {output_dir}")
         typer.echo()

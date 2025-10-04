@@ -42,10 +42,10 @@ def report(
     # Convertir le string en enum
     try:
         report_type_enum = ReportType(report_type)
-    except ValueError:
+    except ValueError as exc:
         typer.echo(f"❌ Type de rapport invalide: {report_type}")
         typer.echo("Types valides: all, users-vms, status")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from exc
 
     # Appeler directement la fonction
     generate_reports(report_type_enum, output_dir, verbose)
@@ -78,8 +78,6 @@ def create(
     python main.py create --name "Ma VM" --cores 4
     python main.py create -n "VM Test" --ram 8 --disk 100 --verbose
     """
-    typer.echo("☁️ Création de VM")
-
     # Importer et exécuter le gestionnaire de VMs
     from vm_manager import create_vm
 

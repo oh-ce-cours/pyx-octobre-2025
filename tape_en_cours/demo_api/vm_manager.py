@@ -44,7 +44,7 @@ def create_vm(
     vm_name = name or "VM de Jean"
 
     if verbose:
-        typer.echo(f"🔧 Configuration VM:")
+        typer.echo("🔧 Configuration VM:")
         typer.echo(f"   Nom: {vm_name}")
         typer.echo(f"   OS: {os}")
         typer.echo(f"   CPU: {cores} cores")
@@ -84,7 +84,7 @@ def create_vm(
     }
 
     if verbose:
-        typer.echo(f"🚀 Création de la VM...")
+        typer.echo("🚀 Création de la VM...")
 
     # Création de la VM
     logger.info("Création de la VM", **vm_config)
