@@ -137,6 +137,16 @@ def create_robots_txt():
     print("✅ Fichier robots.txt créé")
 
 
+def clean_deploy_directory():
+    """Nettoie complètement le dossier docs-deploy."""
+    if DOCS_DEPLOY_DIR.exists():
+        print(f"🗑️  Nettoyage complet du dossier: {DOCS_DEPLOY_DIR}")
+        shutil.rmtree(DOCS_DEPLOY_DIR)
+        print("✅ Dossier docs-deploy complètement supprimé")
+    else:
+        print("ℹ️  Dossier docs-deploy n'existe pas encore")
+
+
 def verify_static_folder():
     """Vérifie que le dossier _static existe et contient les fichiers nécessaires."""
     sphinx_static_dir = DOCS_DEPLOY_DIR / "sphinx" / "_static"
@@ -162,6 +172,10 @@ def main():
     if not DEMO_API_DIR.exists():
         print("❌ Erreur: Répertoire demo_api non trouvé")
         sys.exit(1)
+
+    # Nettoyer complètement le dossier de déploiement au début
+    print("\n🧹 Nettoyage initial...")
+    clean_deploy_directory()
 
     success_count = 0
     total_commands = 0
@@ -193,14 +207,8 @@ def main():
     ):
         success_count += 1
 
-    # 4. Nettoyer et créer le dossier docs-deploy
-    print("\n📁 Nettoyage et préparation des fichiers pour GitHub Pages...")
-    if DOCS_DEPLOY_DIR.exists():
-        print(f"🗑️  Suppression du dossier existant: {DOCS_DEPLOY_DIR}")
-        shutil.rmtree(DOCS_DEPLOY_DIR)
-        print("✅ Dossier docs-deploy supprimé")
-    
-    print(f"📁 Création du nouveau dossier: {DOCS_DEPLOY_DIR}")
+    # 4. Créer le dossier docs-deploy (déjà nettoyé au début)
+    print("\n📁 Création du dossier docs-deploy...")
     DOCS_DEPLOY_DIR.mkdir()
     print("✅ Dossier docs-deploy créé")
 
