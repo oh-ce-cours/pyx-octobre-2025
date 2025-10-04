@@ -6,9 +6,58 @@ from .logging_config import get_logger
 logger = get_logger(__name__)
 
 
+def get_password_from_env(env_var="DEMO_API_PASSWORD"):
+    """
+    Récupère un mot de passe depuis une variable d'environnement uniquement.
+    
+    Args:
+        env_var (str): Nom de la variable d'environnement contenant le mot de passe
+        
+    Returns:
+        str|None: Le mot de passe récupéré ou None si pas trouvé
+    """
+    password = os.environ.get(env_var)
+    
+    if password:
+        logger.info(
+            "Mot de passe récupéré depuis la variable d'environnement",
+            env_var=env_var,
+            password_length=len(password),
+        )
+    else:
+        logger.debug("Aucun mot de passe trouvé dans les variables d'environnement", env_var=env_var)
+    
+    return password
+
+
+def get_password_from_input(prompt="Mot de passe: "):
+    """
+    Demande une saisie sécurisée de mot de passe à l'utilisateur.
+    
+    Args:
+        prompt (str): Message à afficher lors de la saisie
+        
+    Returns:
+        str: Le mot de passe saisi
+        
+    Raises:
+        ValueError: Si le mot de passe est vide
+    """
+    logger.info("Demande de saisie sécurisée de mot de passe")
+    password = getpass.getpass(prompt=prompt)
+    
+    if not password:
+        logger.error("Erreur: mot de passe vide fourni")
+        raise ValueError("Le mot de passe ne peut pas être vide")
+    
+    logger.info("Mot de passe saisi avec succès", password_length=len(password))
+    return password
+
+
 def get_password(prompt="Mot de passe: ", env_var="DEMO_API_PASSWORD"):
     """
     Récupère un mot de passe depuis une variable d'environnement ou demande une saisie sécurisée.
+    Fonction de compatibilité qui combine les deux méthodes.
 
     Args:
         prompt (str): Message à afficher lors de la saisie manuelle
@@ -19,30 +68,18 @@ def get_password(prompt="Mot de passe: ", env_var="DEMO_API_PASSWORD"):
     """
     logger.info("Récupération du mot de passe", env_var=env_var)
 
-    # Essayer de récupérer depuis une variable d'environnement
-    password_from_env = os.environ.get(env_var)
-
-    if password_from_env:
-        logger.info(
-            "Mot de passe récupéré depuis la variable d'environnement",
-            env_var=env_var,
-            password_length=len(password_from_env),
-        )
-        return password_from_env
-
+    # Essayer d'abord depuis les variables d'environnement
+    password = get_password_from_env(env_var)
+    
+    if password:
+        return password
+    
     # Si pas de variable d'environnement, demander une saisie sécurisée
     logger.warning(
         "Aucune variable d'environnement trouvée. Saisie sécurisée nécessaire.",
         env_var=env_var,
     )
-    password = getpass.getpass(prompt=prompt)
-
-    if not password:
-        logger.error("Erreur: mot de passe vide fourni")
-        raise ValueError("Le mot de passe ne peut pas être vide")
-
-    logger.info("Mot de passe saisi avec succès", password_length=len(password))
-    return password
+    return get_password_from_input(prompt)
 
 
 def get_credentials(
