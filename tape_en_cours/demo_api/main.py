@@ -90,7 +90,7 @@ def signup(
     python main.py signup --name "Alice Martin" --email "alice@example.com"
     python main.py signup -n "Bob Dupont" -e "bob@test.com" -p "monmotdepasse" --verbose
     """
-    from utils.api import Api
+    from utils.api.auth import Auth
     from utils.config import config
     
     if verbose:
@@ -102,13 +102,13 @@ def signup(
 
     logger.info("Début du processus de création d'utilisateur", email=email, name=name)
 
-    # Initialisation du client API
-    api = Api(config.DEMO_API_BASE_URL)
+    # Initialisation du client Auth
+    auth = Auth(config.DEMO_API_BASE_URL)
     
     try:
         # Création de l'utilisateur via /auth/signup
         typer.echo("🔐 Création de l'utilisateur...")
-        token = api.auth.create_user(name=name, email=email, password=password)
+        token = auth.create_user(name=name, email=email, password=password)
         
         if token:
             typer.echo("✅ Utilisateur créé avec succès!")
@@ -119,7 +119,7 @@ def signup(
             
             # Récupérer les informations complètes de l'utilisateur
             typer.echo("📋 Récupération des informations utilisateur...")
-            user_info = api._auth.get_logged_user_info(token)
+            user_info = auth.get_logged_user_info(token)
             
             if user_info:
                 typer.echo("✅ Informations utilisateur récupérées:")
