@@ -7,30 +7,9 @@ from .logging_config import get_logger
 logger = get_logger(__name__)
 
 
-# Charger automatiquement les fichiers .env s'ils existent
-def load_env_files():
-    """
-    Charge les fichiers de configuration .env dans l'ordre de priorité.
-
-    Priorité (du plus bas au plus haut) :
-    1. .env.defaults (valeurs par défaut)
-    2. .env.local (configuration locale, pas dans git)
-    3. .env (configuration générale)
-    """
-    env_files = [".env.defaults", ".env.local", ".env"]
-    loaded_count = 0
-
-    for env_file in env_files:
-        if load_dotenv(env_file):
-            loaded_count += 1
-            logger.debug(f"Fichier {env_file} chargé")
-
-    logger.info(f"Configuration chargée depuis {loaded_count} fichier(s) .env")
-    return loaded_count
-
-
 # Charger automatiquement les fichiers de configuration
-load_env_files()
+# Note: Le chargement est maintenant géré par config.py
+load_dotenv()
 
 
 def get_password_from_env(env_var="DEMO_API_PASSWORD"):
