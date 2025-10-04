@@ -242,3 +242,106 @@ python main.py
 - **✅ Format standard** : Compatible avec tous les outils
 - **✅ Sécurité** : Support des variables sensibles locales
 - **✅ Développement** : Configuration flexible par environnement
+
+## API unifiée avec interface fluide
+
+Le projet dispose maintenant d'une API unifiée avec une interface fluide et intuitive pour toutes les opérations.
+
+### Interface principale
+
+```python
+from utils.api import Api, create_authenticated_client
+
+# Création du client API
+api = Api()  # Utilise la configuration par défaut
+# ou
+api = Api("https://custom.api.url")  # URL personnalisée
+# ou
+api = Api(token="existing_token")  # Avec token existant
+```
+
+### Interface fluide par domaine
+
+#### **👥 Opérations sur les utilisateurs :**
+```python
+# Récupération des utilisateurs
+users = api.users.get()
+
+# Association des VMs aux utilisateurs
+api.users.add_vms_to_users(users, vms)
+
+# Création d'une VM pour un utilisateur
+vm = api.users.create_vm(
+    user_id=1,
+    name="Ma VM",
+    operating_system="Ubuntu 22.04",
+    cpu_cores=2,
+    ram_gb=4,
+    disk_gb=50,
+    status="stopped"
+)
+```
+
+#### **🖥️ Opérations sur les VMs :**
+```python
+# Récupération des VMs
+vms = api.vms.get()
+
+# Création d'une VM
+vm = api.vms.create(
+    user_id=1,
+    name="Ma VM",
+    operating_system="CentOS 8",
+    cpu_cores=1,
+    ram_gb=2,
+    disk_gb=25,
+    status="running"
+)
+```
+
+#### **🔐 Authentification :**
+```python
+# Connexion
+token = api.login("email@example.com", "password")
+
+# Création d'utilisateur
+token = api.create_user("Jean Dupont", "jean@example.com", "password")
+
+# Informations utilisateur connecté
+user_info = api.get_user_info()
+```
+
+### Méthodes utilitaires
+
+```python
+# Vérification de l'authentification
+if api.is_authenticated():
+    print("Utilisateur connecté")
+
+# Gestion des tokens
+api.set_token("new_token")
+api.clear_token()
+
+# Représentation du client
+print(api)  # ApiClient(base_url='...', authenticated=True)
+```
+
+### Client avec authentification automatique
+
+```python
+# Création automatique avec authentification
+api = create_authenticated_client()
+
+# Utilise automatiquement les identifiants de la configuration
+# ou demande une saisie interactive si nécessaire
+```
+
+### Avantages de l'API unifiée
+
+- **🎯 Interface intuitive** : `api.users.get()` au lieu de `get_users(base_url)`
+- **🔗 Interface fluide** : Enchaînement naturel des opérations
+- **📦 Organisation logique** : Séparation par domaine (users, vms, auth)
+- **🔒 Gestion automatique** : Authentification transparente
+- **⚡ Méthodes raccourcies** : `api.login()` au lieu de `api.auth.login()`
+- **🛡️ Type hinting** : Documentation et validation automatique
+- **🔧 Configuration intégrée** : Utilise automatiquement la configuration centralisée
