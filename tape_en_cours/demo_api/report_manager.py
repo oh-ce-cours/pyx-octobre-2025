@@ -47,7 +47,11 @@ def generate_reports(
         typer.echo(f"   Répertoire de sortie: {output_dir}")
         typer.echo()
 
-    logger.info("Début de génération des rapports", report_type=report_type.value, output_dir=output_dir)
+    logger.info(
+        "Début de génération des rapports",
+        report_type=report_type.value,
+        output_dir=output_dir,
+    )
 
     # Initialisation du client API et du service
     api = Api(config.DEMO_API_BASE_URL)
@@ -87,7 +91,6 @@ def generate_reports(
         typer.echo()
         typer.echo("✨ Génération terminée!")
     else:
-        logger.error("Aucun rapport n'a pu être généré")
         typer.echo("❌ Aucun rapport n'a pu être généré")
         raise typer.Exit(1)
 

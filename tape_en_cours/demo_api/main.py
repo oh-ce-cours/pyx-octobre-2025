@@ -97,10 +97,8 @@ def main():
     try:
         app()
     except KeyboardInterrupt:
-        logger.info("Exécution interrompue par l'utilisateur")
         typer.echo("\n⚠️  Exécution interrompue")
     except Exception as e:
-        logger.error("Erreur lors de l'exécution", error=str(e))
         typer.echo(f"❌ Erreur: {e}")
         raise typer.Exit(1)
 
