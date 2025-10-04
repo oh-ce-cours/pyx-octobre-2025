@@ -201,6 +201,30 @@ python main.py version
 - **📊 Documentation complète** générée automatiquement
 - **🚀 GitHub Actions** pour déploiement continu
 
+## 🔧 Déploiement GitHub Pages
+
+### 🚀 Déploiement automatique (recommandé)
+Le workflow GitHub Actions se déclenche automatiquement sur chaque push vers `main`.
+
+### 📦 Déploiement manuel
+Si vous préférez déployer manuellement :
+
+```bash
+# Depuis la racine du projet
+./deploy_docs.sh
+
+# Puis commiter et pousser
+git add docs-deploy/
+git commit -m "Deploy documentation"
+git push origin main
+```
+
+### ⚙️ Configuration GitHub Pages
+1. Allez dans **Settings** > **Pages** de votre repository
+2. Sous **Source**, sélectionnez **GitHub Actions**
+3. Sélectionnez le workflow **Deploy Documentation**
+4. GitHub publiera automatiquement sur `https://oh-ce-cours.github.io/pyx-octobre-2025/`
+
 ## 🤝 Contribution
 
 Ce repository pédagogique est conçu pour être :
