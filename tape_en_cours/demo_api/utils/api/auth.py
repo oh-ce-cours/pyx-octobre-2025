@@ -26,35 +26,53 @@ class Auth:
             password="[HIDDEN]",
             base_url=self.base_url,
         )
-        resp = requests.post(f"{self.base_url}/auth/signup", json=payload, timeout=5)
-
+        
         try:
+            resp = requests.post(f"{self.base_url}/auth/signup", json=payload, timeout=5)
             resp.raise_for_status()
+            
             logger.info(
                 "Utilisateur créé avec succès",
                 email=email,
                 status_code=resp.status_code,
             )
+            
+            token = resp.json()["authToken"]
+            logger.debug(
+                "Token généré pour nouveau utilisateur",
+                email=email,
+                token_length=len(token),
+            )
+            return token
+            
         except requests.RequestException as e:
             logger.error(
                 "Erreur lors de la création de l'utilisateur",
                 error=str(e),
-                status_code=resp.status_code,
-                response_text=resp.text[:200] + "..."
-                if len(resp.text) > 200
-                else resp.text,
+                status_code=getattr(resp, 'status_code', None),
+                response_text=getattr(resp, 'text', '')[:200] + "..."
+                if len(getattr(resp, 'text', '')) > 200
+                else getattr(resp, 'text', ''),
                 email=email,
             )
-            if "Duplicate record detected." in resp.text:
+            
+            # Vérifier si c'est un utilisateur déjà existant
+            if "Duplicate record detected." in getattr(resp, 'text', ''):
                 logger.warning("Utilisateur déjà existant", email=email)
-            return None
-        token = resp.json()["authToken"]
-        logger.debug(
-            "Token généré pour nouveau utilisateur",
-            email=email,
-            token_length=len(token),
-        )
-        return token
+                raise UserCreationError(
+                    f"Utilisateur déjà existant avec l'email {email}",
+                    status_code=getattr(resp, 'status_code', None),
+                    response_data={"error": "duplicate_user", "email": email},
+                    email=email
+                )
+            
+            # Autres erreurs de création
+            raise UserCreationError(
+                f"Impossible de créer l'utilisateur {email}: {str(e)}",
+                status_code=getattr(resp, 'status_code', None),
+                response_data={"error": str(e), "email": email},
+                email=email
+            )
 
     def login_user(self, email, password) -> None | str:
         logger.info("Tentative de connexion utilisateur", email=email)
