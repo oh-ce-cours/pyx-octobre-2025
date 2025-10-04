@@ -72,7 +72,7 @@ Le projet inclut une **GitHub Action** configurée dans `.github/workflows/docs.
 4. **Génération automatique de documentation** avec Sphinx/Pdoc3
 5. **Déploiement sur GitHub Pages** pour accès facile aux étudiants
 
-**🎯 Accès à la documentation :** [https://oh-ce-cours.github.io/pyx-octobre-2025](https://oh-ce-cours.github.io/pyx-octobre-2025)
+**🎯 Accès à la documentation :** [https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/](https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/)
 
 ### 📝 Outils de documentation inclus
 
