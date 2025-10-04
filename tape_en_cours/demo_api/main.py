@@ -1,150 +1,147 @@
-# on veut récupérer la liste des utilisateurs
-# on veut récupérer la liste des VMs
-# je veux les enregistrer en json
-# on veut que pour un utilisateur je puisse avoir la liste de ses VMs
+#!/usr/bin/env python3
+"""
+Point d'entrée principal pour demo_api
 
-# on veut faire un rapport qui regroupe les VM par état (status)
-# VM running: 10
-# VM stopped: 5
-# VM paused: 2
-# ...
+Ce fichier sert maintenant de point d'entrée unifié qui redirige vers la CLI
+ou exécute directement les fonctionnalités pour maintenir la compatibilité.
+"""
 
-from typing import Optional, Dict, Any
+import sys
+import argparse
+from pathlib import Path
 
-
+# Imports pour la compatibilité avec l'ancien comportement
 from utils.api import Api
-from utils.api.exceptions import (
-    UsersFetchError,
-    VMsFetchError,
-    VMCreationError,
-    UserInfoError,
-    TokenError,
-    CredentialsError,
-)
-from utils.password_utils import get_or_create_token
+from utils.services import ReportService, VMService
 from utils.logging_config import get_logger
 from utils.config import config
-from reports import JSONReportGenerator
 
-# Configuration du logger pour ce module
 logger = get_logger(__name__)
 
-# Initialisation du client API unifié
-api = Api(config.DEMO_API_BASE_URL)
-logger.info("Début de l'exécution de demo_api", base_url=api.base_url)
 
-# Variables pour stocker les données
-user: Optional[Dict[str, Any]] = None
-
-try:
-    users = api.users.get()
-    logger.info("Utilisateurs récupérés", count=len(users))
-except UsersFetchError as e:
-    logger.error("Impossible de récupérer les utilisateurs", error=str(e))
-    users = []
-
-try:
-    vms = api.vms.get()
-    logger.info("VMs récupérées", count=len(vms))
-except VMsFetchError as e:
-    logger.error("Impossible de récupérer les VMs", error=str(e))
-    vms = []
-
-if users and vms:
-    api.users.add_vms_to_users(users, vms)
-
-    # Génération du rapport JSON avec le générateur dédié
-    logger.info("Génération du rapport utilisateurs/VMs")
-    json_generator = JSONReportGenerator()
-    report_file = json_generator.generate_users_vms_report(users, "vm_users.json")
-    logger.info("Rapport JSON généré avec succès", filename=report_file)
-else:
-    logger.warning(
-        "Impossible de générer le rapport: données manquantes",
-        users_count=len(users),
-        vms_count=len(vms),
-    )
+def run_legacy_report_generation():
+    """Exécute la génération de rapports selon l'ancien comportement"""
+    logger.info("Exécution en mode legacy: génération de rapport")
+    
+    api = Api(config.DEMO_API_BASE_URL)
+    report_service = ReportService(api)
+    report_file = report_service.generate_users_vms_report("vm_users.json")
+    
+    if report_file:
+        print(f"✅ Rapport généré: {report_file}")
+    else:
+        print("❌ Échec de la génération du rapport")
 
 
-logger.info("Début du processus d'authentification")
-logger.info("Configuration chargée", config_summary=config.to_dict())
-
-try:
-    token = get_or_create_token(
-        base_url=api.base_url,
+def run_legacy_vm_creation():
+    """Exécute la création de VM selon l'ancien comportement"""
+    logger.info("Exécution en mode legacy: création de VM")
+    
+    api = Api(config.DEMO_API_BASE_URL)
+    vm_service = VMService(api)
+    
+    # Authentification
+    user = vm_service.authenticate_user(
         email=config.DEMO_API_EMAIL or "jean@dupont21.com",
-        password=config.DEMO_API_PASSWORD,
-        token_env_var="DEMO_API_TOKEN",
+        password=config.DEMO_API_PASSWORD
     )
+    
+    if user:
+        print(f"✅ Utilisateur authentifié: {user.get('name')}")
+        vm_result = vm_service.create_default_vm_for_user(user)
+        
+        if vm_result:
+            print(f"✅ VM créée: {vm_result.get('name')} (ID: {vm_result.get('id')})")
+        else:
+            print("❌ Échec de la création de la VM")
+    else:
+        print("❌ Échec de l'authentification")
 
-    # Définir le token dans le client API
-    api.set_token(token)
-    logger.info("Token défini dans le client API unifié")
 
-except CredentialsError as e:
-    logger.error("Erreur d'authentification: identifiants invalides", error=str(e))
-    logger.info(
-        "💡 Conseil: Vérifiez que vos identifiants sont corrects dans les variables d'environnement ou la saisie interactive"
+def run_legacy_mode():
+    """Exécute les deux opérations principales comme dans l'ancien comportement"""
+    logger.info("Exécution en mode legacy complet")
+    print("🚀 Démarrage de demo_api en mode legacy")
+    print("-" * 50)
+    
+    print("\n📊 Génération de rapport...")
+    run_legacy_report_generation()
+    
+    print("\n🖥️  Création de VM...")
+    run_legacy_vm_creation()
+    
+    print("\n✅ Exécution terminée")
+
+
+def setup_argument_parser():
+    """Configuration du parser d'arguments"""
+    parser = argparse.ArgumentParser(
+        prog="python main.py",
+        description="Point d'entrée principal pour demo_api",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Exemples d'utilisation:
+  python main.py                           # Mode legacy (rapport + création VM)
+  python main.py --cli report --report-type all
+  python main.py --cli vm create --name "Ma VM"
+  python main.py --legacy                  # Forcer le mode legacy
+        """
     )
-    token = None
-except TokenError as e:
-    logger.error("Erreur de token", error=str(e))
-    token = None
+    
+    parser.add_argument(
+        "--legacy",
+        action="store_true",
+        help="Forcer l'exécution en mode legacy (compatibilité)"
+    )
+    
+    parser.add_argument(
+        "--cli",
+        dest="cli_command",
+        nargs="+",
+        help="Exécuter une commande CLI spécifique"
+    )
+    
+    return parser
 
-if api.is_authenticated():
-    logger.info("Récupération des informations utilisateur authentifié")
+
+def main():
+    """Point d'entrée principal"""
+    
+    parser = setup_argument_parser()
+    args, unknown_args = parser.parse_known_args()
+    
+    logger.info("Démarrage de demo_api", legacy_mode=args.legacy, cli_command=args.cli_command)
+    
     try:
-        user = api.get_user_info()
-        logger.info(
-            "Informations utilisateur récupérées",
-            user_id=user.get("id"),
-            user_name=user.get("name"),
-        )
-    except UserInfoError as e:
-        logger.error(
-            "Impossible de récupérer les informations utilisateur", error=str(e)
-        )
-        user = None
-    except TokenError as e:
-        logger.error(
-            "Token invalide pour récupérer les informations utilisateur", error=str(e)
-        )
-        user = None
-else:
-    logger.error("Aucun token disponible pour récupérer les informations utilisateur")
-    user = None
+        if args.legacy or not args.cli_command:
+            # Mode legacy : compatibilité avec l'ancien comportement
+            run_legacy_mode()
+        else:
+            # Mode CLI : redirection vers la CLI
+            # Préparer les arguments pour la CLI
+            cli_args = ["cli/main.py"] + args.cli_command + unknown_args
+            
+            # Remplacer sys.argv pour la CLI
+            original_argv = sys.argv
+            sys.argv = cli_args
+            
+            try:
+                # Importer et exécuter la CLI
+                sys.path.insert(0, str(Path(__file__).parent / "cli"))
+                from cli.main import main as cli_main
+                cli_main()
+            finally:
+                # Restaurer sys.argv original
+                sys.argv = original_argv
+                
+    except KeyboardInterrupt:
+        logger.info("Exécution interrompue par l'utilisateur")
+        print("\n⚠️  Exécution interrompue")
+    except Exception as e:
+        logger.error("Erreur lors de l'exécution", error=str(e))
+        print(f"❌ Erreur: {e}")
+        sys.exit(1)
 
-if api.is_authenticated() and user:
-    vm_to_create = {
-        "user_id": user["id"],
-        "name": "VM de Jean",
-        "operating_system": "Ubuntu 22.04",
-        "cpu_cores": 2,
-        "ram_gb": 4,
-        "disk_gb": 50,
-        "status": "stopped",
-    }
-    logger.info(
-        "Début de création de VM",
-        **vm_to_create,
-    )
 
-    try:
-        vm_result = api.users.create_vm(
-            **vm_to_create,
-        )
-        logger.info("VM créée avec succès", vm_id=vm_result.get("id"), status="stopped")
-    except VMCreationError as e:
-        logger.error("Échec de la création de VM", error=str(e), user_id=user["id"])
-else:
-    logger.error(
-        "Impossible de créer la VM: authentification échouée",
-        api_authenticated=api.is_authenticated(),
-        user_available=bool(user),
-    )
-
-# ✓ Implémenté : passage de mot de passe via CLI et variables d'environnement
-# ✓ Implémenté : logging structuré avec structlog
-# ✓ Implémenté : docstrings
-# sphinx
-# jinja pour des rapports
+if __name__ == "__main__":
+    main()
