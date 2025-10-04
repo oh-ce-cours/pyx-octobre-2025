@@ -24,6 +24,15 @@ cp -r tape_en_cours/demo_api/docs/pdoc3/* docs-deploy/pdoc3/
 touch docs-deploy/.nojekyll
 echo "✅ Fichier .nojekyll créé pour désactiver Jekyll sur GitHub Pages"
 
+# Créer un fichier robots.txt pour éviter l'indexation des fichiers de build
+cat > docs-deploy/robots.txt << 'EOF'
+User-agent: *
+Allow: /
+Disallow: /_static/
+Disallow: /_sources/
+EOF
+echo "✅ Fichier robots.txt créé"
+
 # Corriger les chemins CSS dans tous les fichiers HTML pour GitHub Pages
 echo "🔧 Correction des chemins CSS pour GitHub Pages..."
 BASE_URL="https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy"
