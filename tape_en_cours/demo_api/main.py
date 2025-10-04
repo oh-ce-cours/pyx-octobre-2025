@@ -220,9 +220,9 @@ def create(
     """
     # Vérifier si on doit utiliser le token sauvegardé
     if use_saved_token:
-        from utils.password_utils import get_token_from_env
+        from utils.password_utils import get_token_from_config
 
-        saved_token = get_token_from_env()
+        saved_token = get_token_from_config()
         if saved_token:
             typer.echo("🔑 Utilisation du token sauvegardé dans la session")
             # Créer un client API avec le token sauvegardé
