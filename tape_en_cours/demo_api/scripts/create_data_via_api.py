@@ -343,6 +343,11 @@ def create_vms_via_api(
     return created_vms
 
 
+# =============================================================================
+# COMMANDES TYPER AVEC AFFICHAGE RICH
+# =============================================================================
+
+
 @app.command()
 def users(
     count: int = typer.Option(
@@ -374,20 +379,31 @@ def users(
     python create_data_via_api.py users -c 50 --batch-size 10 --delay 1.0
     python create_data_via_api.py users --email admin@example.com --password secret
     """
-    typer.echo(f"👥 Création de {count} utilisateurs via l'API...")
+    display_header(
+        "👥 Création d'utilisateurs via l'API",
+        f"Génération de {count} utilisateurs avec Faker"
+    )
 
     try:
         # Créer le client API avec authentification
         api_client = create_authenticated_client(email=email, password=password)
 
         if not api_client.is_authenticated():
-            typer.echo("❌ Impossible de s'authentifier avec l'API")
-            typer.echo(
-                "💡 Utilisez --email et --password ou configurez les identifiants dans la config"
+            console.print(
+                Panel.fit(
+                    "[bold red]❌ Impossible de s'authentifier avec l'API[/bold red]\n"
+                    "[dim]💡 Utilisez --email et --password ou configurez les identifiants dans la config[/dim]",
+                    border_style="red",
+                )
             )
             raise typer.Exit(1)
 
-        typer.echo(f"🔐 Authentifié avec succès sur {api_client.base_url}")
+        console.print(f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]")
+        console.print()
+
+        # Afficher la configuration
+        display_api_config(api_client)
+        display_operation_config("Utilisateurs", count, batch_size, delay)
 
         # Créer les utilisateurs
         created_users = create_users_via_api(
@@ -398,23 +414,30 @@ def users(
         )
 
         # Statistiques
-        typer.echo(f"\n✅ Création terminée !")
-        typer.echo(f"📊 Statistiques:")
-        typer.echo(f"   • Utilisateurs créés: {len(created_users)}")
-        typer.echo(f"   • Taux de succès: {len(created_users) / count * 100:.1f}%")
+        stats = {
+            "Utilisateurs créés": len(created_users),
+            "Taux de succès": f"{len(created_users) / count * 100:.1f}%",
+        }
+        display_statistics("Résultat de la création", stats)
 
         if verbose and created_users:
-            typer.echo(f"\n🔍 Aperçu des utilisateurs créés:")
-            for i, user in enumerate(created_users[:5]):
-                typer.echo(
-                    f"   {i + 1}. {user.get('name', 'N/A')} ({user.get('email', 'N/A')})"
-                )
-            if len(created_users) > 5:
-                typer.echo(f"   ... et {len(created_users) - 5} autres utilisateurs")
+            display_preview("Aperçu des utilisateurs créés", created_users)
+
+        console.print(
+            Panel.fit(
+                "[bold green]✅ CRÉATION TERMINÉE AVEC SUCCÈS ![/bold green]",
+                border_style="green",
+            )
+        )
 
     except Exception as e:
         logger.error("Erreur lors de la création des utilisateurs", error=str(e))
-        typer.echo(f"❌ Erreur lors de la création: {e}")
+        console.print(
+            Panel.fit(
+                f"[bold red]❌ Erreur lors de la création:[/bold red]\n{e}",
+                border_style="red",
+            )
+        )
         raise typer.Exit(1)
 
 
