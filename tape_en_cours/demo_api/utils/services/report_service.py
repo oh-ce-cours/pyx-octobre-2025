@@ -118,13 +118,13 @@ class ReportService:
             status = vm.get("status", "unknown")
             status_counts[status] = status_counts.get(status, 0) + 1
 
-        # Créer le rapport (sans métadonnées redondantes)
+        # Créer le rapport avec une structure claire et concise
         status_report = {
             "summary": {
                 "total_vms": len(vms),
                 "total_users": len(users),
             },
-            "vm_status_summary": status_counts,
+            "vm_status_counts": status_counts,
         }
 
         try:

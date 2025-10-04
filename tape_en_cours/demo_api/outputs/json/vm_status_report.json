@@ -4,7 +4,7 @@
             "total_users": 35,
             "total_vms": 21
         },
-        "vm_status_summary": {
+        "vm_status_counts": {
             "deleting": 6,
             "paused": 4,
             "provisioning": 3,
@@ -13,7 +13,7 @@
         }
     },
     "metadata": {
-        "generated_at": "2025-10-04T15:32:43.394510",
+        "generated_at": "2025-10-04T15:33:02.745398",
         "generator": "JSONReportGenerator",
         "version": "1.0.0"
     }
