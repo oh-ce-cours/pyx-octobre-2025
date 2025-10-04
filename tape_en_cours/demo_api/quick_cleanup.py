@@ -49,7 +49,7 @@ def connect_to_api(base_url: Optional[str] = None, email: Optional[str] = None, 
     
     # Affichage des infos de connexion
     table = Table(title="🔗 Configuration API")
-    table.add_column("Paramètre we", style="cyan")
+    table.add_column("Paramètre", style="cyan")
     table.add_column("Valeur", style="magenta")
     
     table.add_row("Base URL", client.base_url)
@@ -197,7 +197,7 @@ def delete_single_vm(client, vm: dict, index: int, total: int, delay: float) -> 
         # Pause si pas la dernière
         if index < total - 1:
             console.print(f"[dim]⏱️  Pause de {delay}s...[/dim]")
-            time.sleep(delay)s
+            time.sleep(delay)
         return True
 
     except Exception as e:
@@ -259,9 +259,8 @@ def delete_single_user(client, user: dict, index: int, total: int, delay: float)
         
         # Pause même en cas d'erreur
         if index < total - 1:
-            console.print(f"[dim]⏱️  Pause après erreur d{delay}s)...[/dim]")
+            console.print(f"[dim]⏱️  Pause après erreur ({delay}s)...[/dim]")
             time.sleep(delay)
-")
         return False
 
 
