@@ -1,8 +1,8 @@
 """Module API unifié pour demo_api"""
 
-from api.user import get_users, add_vms_to_users
-from api.vm import get_vms, create_vm
-from api.auth import Auth
+from utils.api.user import get_users, add_vms_to_users
+from utils.api.vm import get_vms, create_vm
+from utils.api.auth import Auth
 
 # Initialisation de l'instance Auth globale
 _auth_instance = None
