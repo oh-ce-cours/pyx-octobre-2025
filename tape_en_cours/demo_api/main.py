@@ -68,10 +68,87 @@ def report(
 
 
 @app.command()
+def signup(
+    name: str = typer.Option("Jean Dupont", "--name", "-n", help="Nom de l'utilisateur"),
+    email: str = typer.Option(
+        "jean@dupont21.com", "--email", "-e", help="Email de l'utilisateur"
+    ),
+    password: str = typer.Option(
+        "password123", "--password", "-p", help="Mot de passe de l'utilisateur"
+    ),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Mode verbeux"),
+) -> None:
+    """
+    👤 Créer un nouvel utilisateur avec authentification
+
+    Crée un utilisateur via /auth/signup et récupère son token d'authentification.
+
+    Exemples:
+
+    \b
+    python main.py signup
+    python main.py signup --name "Alice Martin" --email "alice@example.com"
+    python main.py signup -n "Bob Dupont" -e "bob@test.com" -p "monmotdepasse" --verbose
+    """
+    from utils.api import Api
+    from utils.config import config
+    
+    if verbose:
+        typer.echo("🔧 Configuration utilisateur:")
+        typer.echo(f"   Nom: {name}")
+        typer.echo(f"   Email: {email}")
+        typer.echo(f"   Mot de passe: {'*' * len(password)}")
+        typer.echo()
+
+    logger.info("Début du processus de création d'utilisateur", email=email, name=name)
+
+    # Initialisation du client API
+    api = Api(config.DEMO_API_BASE_URL)
+    
+    try:
+        # Création de l'utilisateur via /auth/signup
+        typer.echo("🔐 Création de l'utilisateur...")
+        token = api.auth.create_user(name=name, email=email, password=password)
+        
+        if token:
+            typer.echo(f"✅ Utilisateur créé avec succès!")
+            typer.echo(f"   👤 Nom: {name}")
+            typer.echo(f"   📧 Email: {email}")
+            typer.echo(f"   🔑 Token: {token[:20]}...")
+            typer.echo()
+            
+            # Récupérer les informations complètes de l'utilisateur
+            typer.echo("📋 Récupération des informations utilisateur...")
+            user_info = api.auth.get_logged_user_info(token)
+            
+            if user_info:
+                typer.echo("✅ Informations utilisateur récupérées:")
+                typer.echo(f"   🆔 ID: {user_info.get('id')}")
+                typer.echo(f"   👤 Nom: {user_info.get('name')}")
+                typer.echo(f"   📧 Email: {user_info.get('email')}")
+                typer.echo(f"   📅 Créé le: {user_info.get('created_at', 'N/A')}")
+                typer.echo()
+                typer.echo("✨ Utilisateur prêt à utiliser!")
+            else:
+                typer.echo("⚠️ Utilisateur créé mais impossible de récupérer les informations")
+        else:
+            typer.echo("❌ Échec de la création de l'utilisateur")
+            raise typer.Exit(1)
+            
+    except Exception as e:
+        logger.error("Erreur lors de la création de l'utilisateur", error=str(e))
+        typer.echo(f"❌ Erreur lors de la création: {e}")
+        raise typer.Exit(1)
+
+
+@app.command()
 def create(
     name: str = typer.Option("VM de Jean", "--name", "-n", help="Nom de la VM"),
     email: str = typer.Option(
-        "jean@dupont21.com", "--email", "-e", help="Email de l'utilisateur"
+        "jean@dupont21.com", "--email", "-e", help="Email de l'utilisateur existant"
+    ),
+    password: str = typer.Option(
+        "password123", "--password", "-p", help="Mot de passe de l'utilisateur"
     ),
     os: str = typer.Option("Ubuntu 22.04", "--os", "-o", help="Système d'exploitation"),
     cores: int = typer.Option(
@@ -85,17 +162,19 @@ def create(
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Mode verbeux"),
 ) -> None:
     """
-    🖥️ Créer une VM
+    🖥️ Créer une VM pour un utilisateur existant
+
+    Authentifie un utilisateur existant et crée une VM pour lui.
 
     Exemples:
 
     \b
     python main.py create
-    python main.py create --name "Ma VM" --cores 4
+    python main.py create --name "Ma VM" --email "alice@example.com" --password "motdepasse"
     python main.py create -n "VM Test" --ram 8 --disk 100 --verbose
     """
-    # Appeler directement la fonction
-    create_vm(name, email, os, cores, ram, disk, status, verbose)
+    # Appeler directement la fonction avec le mot de passe
+    create_vm(name, email, password, os, cores, ram, disk, status, verbose)
 
 
 @app.command()

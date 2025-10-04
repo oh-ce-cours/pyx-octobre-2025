@@ -16,7 +16,10 @@ logger = get_logger(__name__)
 def create_vm(
     name: Optional[str] = typer.Option(None, "--name", "-n", help="Nom de la VM"),
     email: str = typer.Option(
-        "jean@dupont21.com", "--email", "-e", help="Email de l'utilisateur"
+        "jean@dupont21.com", "--email", "-e", help="Email de l'utilisateur existant"
+    ),
+    password: str = typer.Option(
+        "password123", "--password", "-p", help="Mot de passe de l'utilisateur"
     ),
     os: str = typer.Option("Ubuntu 22.04", "--os", "-o", help="Système d'exploitation"),
     cores: int = typer.Option(
