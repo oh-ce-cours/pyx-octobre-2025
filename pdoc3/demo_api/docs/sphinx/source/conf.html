@@ -42,6 +42,31 @@ el.replaceWith(d);
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="demo_api.docs.sphinx.source.conf.setup"><code class="name flex">
+<span>def <span class="ident">setup</span></span>(<span>app)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def setup(app):
+    &#34;&#34;&#34;Configuration personnalisée pour forcer les chemins absolus.&#34;&#34;&#34;
+    from sphinx.builders.html import StandaloneHTMLBuilder
+    
+    def add_github_pages_context(app, pagename, templatename, context, doctree):
+        &#34;&#34;&#34;Ajoute le contexte nécessaire pour GitHub Pages.&#34;&#34;&#34;
+        if app.builder.name == &#39;html&#39;:
+            # Force l&#39;utilisation de chemins absolus pour les assets statiques
+            context[&#39;pathto&#39;] = lambda other, *args, **kwargs: f&#34;{app.config.html_baseurl}{other}&#34;
+    
+    app.connect(&#39;html-page-context&#39;, add_github_pages_context)</code></pre>
+</details>
+<div class="desc"><p>Configuration personnalisée pour forcer les chemins absolus.</p></div>
+</dd>
+</dl>
 </section>
 <section>
 </section>
@@ -54,6 +79,11 @@ el.replaceWith(d);
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="demo_api.docs.sphinx.source" href="index.html">demo_api.docs.sphinx.source</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="demo_api.docs.sphinx.source.conf.setup" href="#demo_api.docs.sphinx.source.conf.setup">setup</a></code></li>
 </ul>
 </li>
 </ul>
