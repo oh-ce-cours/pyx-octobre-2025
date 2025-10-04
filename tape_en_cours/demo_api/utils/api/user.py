@@ -307,8 +307,6 @@ def delete_user(base_url, token, user_id):
         )
 
         raise UserDeleteError(
-
-        raise UserDeleteError(
             f"Impossible de supprimer l'utilisateur {user_id}: {str(e)}",
             status_code=getattr(resp, "status_code", None),
             response_data={"error": str(e), "user_id": user_id},

@@ -1,7 +1,7 @@
 import requests
 import datetime
 from utils.logging_config import get_logger
-from .exceptions import VMsFetchError, VMCreationError
+from .exceptions import VMsFetchError, VMCreationError, VMUpdateError, VMDeleteError
 
 # Logger pour ce module
 logger = get_logger(__name__)
