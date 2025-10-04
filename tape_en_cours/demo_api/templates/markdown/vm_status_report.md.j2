@@ -1,0 +1,61 @@
+# 📊 Rapport de Statut des VMs
+
+**Généré le :** {{ metadata.generated_at }}  
+**Générateur :** {{ metadata.generator }}  
+**Version :** {{ metadata.version }}
+
+---
+
+## 📈 Résumé
+
+| Métrique | Valeur |
+|----------|--------|
+| **Total VMs** | {{ data.summary.total_vms }} |
+| **Total Utilisateurs** | {{ data.summary.total_users }} |
+
+---
+
+## 🖥️ Répartition par Statut
+
+{% for status, count in data.vm_status_counts.items() %}
+### {{ status|title }}
+- **Nombre :** {{ count }} VM{{ 's' if count > 1 else '' }}
+- **Pourcentage :** {{ "%.1f"|format((count / data.summary.total_vms) * 100) }}%
+
+{% endfor %}
+
+---
+
+## 📊 Graphique des Statuts
+
+```
+{% for status, count in data.vm_status_counts.items() %}
+{{ status|title|pad(15) }}: {{ '█' * (count * 20 // data.summary.total_vms) }} {{ count }}
+{% endfor %}
+```
+
+---
+
+## 🔍 Détails par Statut
+
+{% for status, count in data.vm_status_counts.items() %}
+### {{ status|title }} ({{ count }} VM{{ 's' if count > 1 else '' }})
+{% if status == 'running' %}
+🟢 **En cours d'exécution** - VMs actives et opérationnelles
+{% elif status == 'stopped' %}
+🔴 **Arrêtées** - VMs éteintes mais disponibles
+{% elif status == 'paused' %}
+⏸️ **En pause** - VMs temporairement suspendues
+{% elif status == 'provisioning' %}
+⚙️ **En cours de provisionnement** - VMs en cours de création
+{% elif status == 'deleting' %}
+🗑️ **En cours de suppression** - VMs en cours de suppression
+{% else %}
+❓ **Statut inconnu** - Statut non défini
+{% endif %}
+
+{% endfor %}
+
+---
+
+*Rapport généré automatiquement par {{ metadata.generator }} v{{ metadata.version }}*
