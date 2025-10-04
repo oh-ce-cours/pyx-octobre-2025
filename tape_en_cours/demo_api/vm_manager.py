@@ -14,23 +14,15 @@ logger = get_logger(__name__)
 
 
 def create_vm(
-    name: Optional[str] = typer.Option(None, "--name", "-n", help="Nom de la VM"),
-    email: str = typer.Option(
-        "jean@dupont21.com", "--email", "-e", help="Email de l'utilisateur existant"
-    ),
-    password: str = typer.Option(
-        "password123", "--password", "-p", help="Mot de passe de l'utilisateur"
-    ),
-    os: str = typer.Option("Ubuntu 22.04", "--os", "-o", help="Système d'exploitation"),
-    cores: int = typer.Option(
-        2, "--cores", "-c", help="Nombre de cœurs CPU", min=1, max=16
-    ),
-    ram: int = typer.Option(4, "--ram", "-r", help="RAM en GB", min=1, max=128),
-    disk: int = typer.Option(50, "--disk", "-d", help="Disque en GB", min=10, max=2048),
-    status: str = typer.Option(
-        "stopped", "--status", "-s", help="Statut initial de la VM"
-    ),
-    verbose: bool = typer.Option(False, "--verbose", "-v", help="Mode verbeux"),
+    name: Optional[str] = None,
+    email: str = "jean@dupont21.com",
+    password: str = "password123",
+    os: str = "Ubuntu 22.04",
+    cores: int = 2,
+    ram: int = 4,
+    disk: int = 50,
+    status: str = "stopped",
+    verbose: bool = False,
 ) -> None:
     """
     🖥️ Créer une VM pour un utilisateur existant
