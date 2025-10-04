@@ -189,7 +189,7 @@ def create_user(base_url, token, name, email, password=None):
             status_code=getattr(resp, "status_code", None),
             response_data={"error": str(e), "name": name, "email": email},
             email=email,
-        )
+        ) from e
 
 
 @retry_on_429()
