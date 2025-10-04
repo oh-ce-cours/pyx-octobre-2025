@@ -15,7 +15,7 @@ def get_password_from_config():
         str|None: Le mot de passe récupéré ou None si pas trouvé
     """
     from .config import config
-    
+
     password = config.DEMO_API_PASSWORD
 
     if password:
@@ -88,7 +88,7 @@ def get_email_from_config():
         str|None: L'email récupéré ou None si pas trouvé
     """
     from .config import config
-    
+
     email = config.DEMO_API_EMAIL
 
     if email:
@@ -139,7 +139,8 @@ def get_credentials_from_config():
 
     if email and password:
         logger.info(
-            "Identifiants récupérés depuis le gestionnaire de configuration", email=email
+            "Identifiants récupérés depuis le gestionnaire de configuration",
+            email=email,
         )
         return email, password
     else:
@@ -173,70 +174,62 @@ def get_credentials_from_input(
     return email, password
 
 
-def get_credentials(
-    email=None, env_email="DEMO_API_EMAIL", env_password="DEMO_API_PASSWORD"
-):
+def get_credentials(email=None):
     """
-    Récupère les identifiants (email et mot de passe) depuis les variables d'environnement
-    ou demande une saisie interactive. Fonction de compatibilité qui combine les méthodes.
+    Récupère les identifiants (email et mot de passe) depuis la configuration
+    ou demande une saisie interactive.
 
     Args:
-        email (str, optional): Email à utiliser (priorité sur la variable d'environnement)
-        env_email (str): Nom de la variable d'environnement pour l'email
-        env_password (str): Nom de la variable d'environnement pour le mot de passe
+        email (str, optional): Email à utiliser (priorité sur la configuration)
 
     Returns:
         tuple: (email, password)
     """
-    logger.info(
-        "Récupération des identifiants", email_provided=bool(email), env_email=env_email
-    )
+    logger.info("Récupération des identifiants", email_provided=bool(email))
 
     # Si email fourni directement, utiliser seulement le mot de passe
     if email:
         logger.info("Email fourni directement", email=email)
-        password = get_password(env_var=env_password)
+        password = get_password()
         logger.info(
             "Identifiants récupérés avec succès", email=email, password_source="mixed"
         )
         return email, password
 
-    # Essayer d'abord depuis les variables d'environnement
-    credentials = get_credentials_from_env(env_email, env_password)
+    # Essayer d'abord depuis la configuration
+    credentials = get_credentials_from_config()
     if credentials:
         return credentials
 
     # Si incomplet, demander une saisie interactive
     logger.warning(
-        "Identifiants incomplets dans les variables d'environnement. Saisie interactive nécessaire."
+        "Identifiants incomplets dans la configuration. Saisie interactive nécessaire."
     )
-    return get_credentials_from_input(env_email, env_password)
+    return get_credentials_from_input()
 
 
 # === Gestion des tokens d'authentification ===
 
 
-def get_token_from_env(env_var="DEMO_API_TOKEN"):
+def get_token_from_config():
     """
-    Récupère un token d'authentification depuis une variable d'environnement.
-
-    Args:
-        env_var (str): Nom de la variable d'environnement contenant le token
+    Récupère un token d'authentification depuis le gestionnaire de configuration.
 
     Returns:
         str|None: Le token récupéré ou None si pas trouvé
     """
-    token = os.environ.get(env_var)
+    from .config import config
+    
+    token = config.DEMO_API_TOKEN
 
     if token:
         logger.info(
-            "Token d'authentification récupéré depuis la variable d'environnement",
-            env_var=env_var,
+            "Token d'authentification récupéré depuis le gestionnaire de configuration",
             token_length=len(token),
         )
     else:
         logger.debug(
-            "Aucun token trouvé dans les variables d'environnement", env_var=env_var
+            "Aucun token trouvé dans la configuration",
         )
 
     return token
