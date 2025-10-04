@@ -65,11 +65,9 @@ def create_vm(
     user = vm_service.authenticate_user(email=email, password=config.DEMO_API_PASSWORD)
 
     if not user:
-        logger.error("Authentification échouée")
         typer.echo("❌ Échec de l'authentification")
         raise typer.Exit(1)
 
-    logger.info("Authentification réussie", user_id=user.get("id"))
     typer.echo(f"✅ Utilisateur authentifié: {user.get('name', email)}")
 
     # Configuration de la VM
@@ -92,7 +90,6 @@ def create_vm(
 
     typer.echo()
     if vm_result:
-        logger.info("VM créée avec succès", vm_id=vm_result.get("id"))
         typer.echo("🎉 VM créée avec succès!")
         typer.echo(f"   🆔 ID: {vm_result.get('id')}")
         typer.echo(f"   📝 Nom: {vm_result.get('name')}")
@@ -104,7 +101,6 @@ def create_vm(
         typer.echo()
         typer.echo("✨ Terminé!")
     else:
-        logger.error("Échec de la création de la VM")
         typer.echo("❌ Échec de la création de la VM")
         raise typer.Exit(1)
 

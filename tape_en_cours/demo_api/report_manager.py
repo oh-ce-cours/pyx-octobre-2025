@@ -65,12 +65,10 @@ def generate_reports(
             if verbose:
                 typer.echo(f"   ✅ Généré: {report_file}")
         else:
-            logger.error("Échec de la génération du rapport utilisateurs/VMs")
             typer.echo("❌ Échec de la génération du rapport utilisateurs/VMs")
 
     if report_type in [ReportType.STATUS, ReportType.ALL]:
         typer.echo("📈 Génération du rapport de statut des VMs...")
-        logger.info("Génération du rapport de statut des VMs")
 
         status_file = report_service.generate_status_report("vm_status_report.json")
         if status_file:
@@ -78,13 +76,11 @@ def generate_reports(
             if verbose:
                 typer.echo(f"   ✅ Généré: {status_file}")
         else:
-            logger.error("Échec de la génération du rapport de statut")
             typer.echo("❌ Échec de la génération du rapport de statut")
 
     # Résumé
     typer.echo()
     if generated_files:
-        logger.info("Génération terminée avec succès", files_generated=len(generated_files))
         typer.echo(f"🎉 {len(generated_files)} rapport(s) généré(s) avec succès")
         for file in generated_files:
             typer.echo(f"   📄 {file}")
