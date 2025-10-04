@@ -267,10 +267,10 @@ def generate(
 
     Exemples:
 
-    \b
-    python main.py generate
-    python main.py generate --users 100 --max-vms 3
-    python main.py generate -u 25 -o mon_dataset.json --verbose
+        \b
+        python main.py generate
+        python main.py generate --users 100 --max-vms 3
+        python main.py generate -u 25 -o mon_dataset.json --verbose
     &#34;&#34;&#34;
     if min_vms &gt; max_vms:
         typer.echo(&#34;❌ Le nombre minimum de VMs ne peut pas être supérieur au maximum&#34;)
@@ -320,7 +320,7 @@ def generate(
 <div class="desc"><p>🎲 Générer des données factices avec Faker</p>
 <p>Génère un dataset complet d'utilisateurs français avec des VMs réalistes.
 Les données sont sauvegardées dans un fichier JSON.</p>
-<p>Exemples:</p>
+<h2 id="exemples">Exemples</h2>
 <p>
 python main.py generate
 python main.py generate &ndash;users 100 &ndash;max-vms 3
