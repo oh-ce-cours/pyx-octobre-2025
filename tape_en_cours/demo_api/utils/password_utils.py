@@ -287,7 +287,7 @@ def save_token_to_env(token, env_var="DEMO_API_TOKEN"):
         env_var=env_var,
         token_length=len(token),
     )
-    
+
     # Sauvegarder aussi dans le fichier env.local pour la persistance
     try:
         # Utiliser python-dotenv pour sauvegarder dans env.local

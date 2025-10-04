@@ -128,7 +128,9 @@ def signup(
             # Sauvegarder le token dans les variables d'environnement de la session
 
             if save_token_to_env(token):
-                typer.echo("💾 Token sauvegardé dans la session courante et dans .env.local")
+                typer.echo(
+                    "💾 Token sauvegardé dans la session courante et dans .env.local"
+                )
             else:
                 typer.echo("⚠️ Impossible de sauvegarder le token")
             typer.echo()
@@ -357,49 +359,51 @@ def debug() -> None:
     """🔍 Afficher les informations de debug sur la configuration"""
     from utils.config import config
     import os
-    
+
     typer.echo("🔍 Informations de debug - Configuration")
     typer.echo("=" * 50)
-    
+
     # Informations sur les fichiers .env
     typer.echo("📁 Fichiers .env chargés:")
     typer.echo(f"   Nombre de fichiers: {config.env_files_loaded}")
-    
+
     env_files = [".env.defaults", ".env.local", ".env"]
     for env_file in env_files:
         exists = os.path.exists(env_file)
-        typer.echo(f"   {env_file}: {'✅ Existe' if exists else '❌ N\'existe pas'}")
-    
+        typer.echo(f"   {env_file}: {'✅ Existe' if exists else "❌ N'existe pas"}")
+
     typer.echo()
-    
+
     # Configuration de l'API
     typer.echo("🌐 Configuration API:")
     typer.echo(f"   URL de base: {config.DEMO_API_BASE_URL}")
     typer.echo(f"   Timeout: {config.DEMO_API_TIMEOUT}s")
     typer.echo(f"   Max retries: {config.DEMO_API_MAX_RETRIES}")
     typer.echo()
-    
+
     # Identifiants
     typer.echo("🔐 Identifiants:")
     typer.echo(f"   Email défini: {'✅ Oui' if config.DEMO_API_EMAIL else '❌ Non'}")
-    typer.echo(f"   Mot de passe défini: {'✅ Oui' if config.DEMO_API_PASSWORD else '❌ Non'}")
+    typer.echo(
+        f"   Mot de passe défini: {'✅ Oui' if config.DEMO_API_PASSWORD else '❌ Non'}"
+    )
     typer.echo(f"   Token défini: {'✅ Oui' if config.DEMO_API_TOKEN else '❌ Non'}")
-    
+
     if config.DEMO_API_TOKEN:
         typer.echo(f"   Token (tronqué): {config.DEMO_API_TOKEN[:20]}...")
-    
+
     typer.echo()
-    
+
     # Variables d'environnement brutes
     typer.echo("🔧 Variables d'environnement brutes:")
-    demo_vars = {k: v for k, v in os.environ.items() if k.startswith('DEMO_API_')}
+    demo_vars = {k: v for k, v in os.environ.items() if k.startswith("DEMO_API_")}
     for key, value in demo_vars.items():
-        if 'PASSWORD' in key or 'TOKEN' in key:
+        if "PASSWORD" in key or "TOKEN" in key:
             display_value = f"{value[:10]}..." if value else "Non défini"
         else:
             display_value = value or "Non défini"
         typer.echo(f"   {key}: {display_value}")
-    
+
     typer.echo()
     typer.echo("✨ Debug terminé!")
 
