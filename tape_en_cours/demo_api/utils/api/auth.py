@@ -1,6 +1,6 @@
 import requests
 import datetime
-from ..logging_config import get_logger
+from utils.logging_config import get_logger
 
 # Logger pour ce module
 logger = get_logger(__name__)
