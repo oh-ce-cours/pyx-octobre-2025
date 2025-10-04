@@ -4,7 +4,6 @@ Script de nettoyage simplifié pour les VMs et utilisateurs avec Typer et Rich
 Utilise des fonctions modulaires pour une meilleure lisibilité
 """
 
-import sys
 import time
 from typing import Optional, Tuple
 import typer
@@ -194,32 +193,6 @@ def display_success_message(item_type: str, item_name: str) -> None:
 def display_error_message(item_type: str, item_id: str, error: str) -> None:
     """Affiche un message d'erreur"""
     console.print(f"[red]❌ Erreur suppression {item_type} {item_id}: {error}[/red]")
-
-
-def show_summary(vms: list, users: list, deleted_vms: int, deleted_users: int) -> None:
-    """Affiche le résumé final"""
-    total_deleted = deleted_vms + deleted_users
-
-    summary_table = Table(title="🎯 Résumé du nettoyage")
-    summary_table.add_column("Type", style="cyan")
-    summary_table.add_column("Supprimé", style="green")
-    summary_table.add_column("Total", style="yellow")
-
-    summary_table.add_row("VMs", str(deleted_vms), str(len(vms)))
-    summary_table.add_row("Utilisateurs", str(deleted_users), str(len(users)))
-    summary_table.add_row(
-        "**TOTAL**",
-        f"[bold]{total_deleted}[/bold]",
-        f"[bold]{len(vms) + len(users)}[/bold]",
-    )
-
-    console.print(summary_table)
-    console.print(
-        Panel.fit(
-            "[bold green]✅ NETTOYAGE TERMINÉ AVEC SUCCÈS ![/bold green]",
-            border_style="green",
-        )
-    )
 
 
 # =============================================================================
