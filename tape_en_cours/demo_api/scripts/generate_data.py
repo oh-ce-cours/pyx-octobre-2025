@@ -50,10 +50,11 @@ def users_with_vms(
 
     Exemples:
 
-    \b
-    python generate_data.py users-with-vms
-    python generate_data.py users-with-vms --users 100 --max-vms 3
-    python generate_data.py users-with-vms -u 25 -o mon_dataset.json --verbose
+    .. code-block:: shell
+
+        python generate_data.py users-with-vms
+        python generate_data.py users-with-vms --users 100 --max-vms 3
+        python generate_data.py users-with-vms -u 25 -o mon_dataset.json --verbose
     """
     if min_vms > max_vms:
         typer.echo("❌ Le nombre minimum de VMs ne peut pas être supérieur au maximum")
@@ -124,10 +125,11 @@ def vms_only(
 
     Exemples:
 
-    \b
-    python generate_data.py vms-only
-    python generate_data.py vms-only --vms 200 --user-ids "1,2,3,4,5,6,7,8,9,10"
-    python generate_data.py vms-only -v 50 -u "1,2,3" -o mes_vms.json
+    .. code-block:: shell
+
+        python generate_data.py vms-only
+        python generate_data.py vms-only --vms 200 --user-ids "1,2,3,4,5,6,7,8,9,10"
+        python generate_data.py vms-only -v 50 -u "1,2,3" -o mes_vms.json
     """
     try:
         # Parser les IDs des utilisateurs
