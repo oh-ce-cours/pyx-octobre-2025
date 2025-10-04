@@ -6,7 +6,7 @@ import os
 
 
 # Configuration des processeurs structlog
-def customize_logging_format(logger, method_name, event_dict):
+def customize_logging_format(_, method_name, event_dict):
     """
     Personnalise le format des logs avec des informations supplémentaires.
     """
@@ -22,7 +22,7 @@ def customize_logging_format(logger, method_name, event_dict):
     # Ajouter des métadonnées utiles
     event_dict["app"] = "demo_api"
 
-    return logger, method_name, event_dict
+    return event_dict
 
 
 def setup_logging():
