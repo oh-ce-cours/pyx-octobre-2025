@@ -64,7 +64,9 @@ html_theme = "furo"
 html_baseurl = "https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/sphinx/"
 
 # Configuration des chemins pour GitHub Pages
-html_use_opensearch = "https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/sphinx/"
+html_use_opensearch = (
+    "https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/sphinx/"
+)
 html_short_title = "Demo API Docs"
 
 # Force l'utilisation de chemins absolus pour tous les assets
