@@ -70,9 +70,7 @@ def display_api_config(client: ApiClient) -> None:
     config_table.add_column("Valeur", style="magenta")
 
     config_table.add_row("Base URL", client.base_url)
-    config_table.add_row(
-        "Authentifié", "✅ Oui" if client.is_authenticated() else "❌ Non"
-    )
+    config_table.add_row("Mode", "Client simple")
 
     console.print(config_table)
     console.print()
@@ -370,12 +368,6 @@ def users(
     delay: float = typer.Option(
         0.5, "--delay", "-d", help="Délai entre les lots (secondes)", min=0.1, max=5.0
     ),
-    email: Optional[str] = typer.Option(
-        None, "--email", "-e", help="Email pour l'authentification API"
-    ),
-    password: Optional[str] = typer.Option(
-        None, "--password", "-p", help="Mot de passe pour l'authentification API"
-    ),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Mode verbeux"),
 ) -> None:
     """
@@ -454,12 +446,6 @@ def vms(
     ),
     delay: float = typer.Option(
         0.5, "--delay", "-d", help="Délai entre les lots (secondes)", min=0.1, max=5.0
-    ),
-    email: Optional[str] = typer.Option(
-        None, "--email", "-e", help="Email pour l'authentification API"
-    ),
-    password: Optional[str] = typer.Option(
-        None, "--password", "-p", help="Mot de passe pour l'authentification API"
     ),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Mode verbeux"),
 ) -> None:
@@ -565,12 +551,6 @@ def full_dataset(
     ),
     delay: float = typer.Option(
         0.5, "--delay", "-d", help="Délai entre les lots (secondes)", min=0.1, max=5.0
-    ),
-    email: Optional[str] = typer.Option(
-        None, "--email", "-e", help="Email pour l'authentification API"
-    ),
-    password: Optional[str] = typer.Option(
-        None, "--password", "-p", help="Mot de passe pour l'authentification API"
     ),
     output_file: Optional[str] = typer.Option(
         None,
@@ -696,12 +676,6 @@ def full_dataset(
 
 @app.command()
 def status(
-    email: Optional[str] = typer.Option(
-        None, "--email", "-e", help="Email pour l'authentification API"
-    ),
-    password: Optional[str] = typer.Option(
-        None, "--password", "-p", help="Mot de passe pour l'authentification API"
-    ),
 ) -> None:
     """
     📊 Afficher le statut actuel de l'API
