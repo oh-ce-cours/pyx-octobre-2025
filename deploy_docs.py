@@ -120,11 +120,6 @@ def fix_static_paths(file_path: Path) -> bool:
         return False
 
 
-def create_nojekyll_file():
-    """Crée le fichier .nojekyll pour désactiver Jekyll sur GitHub Pages."""
-    nojekyll_path = DOCS_DEPLOY_DIR / ".nojekyll"
-    nojekyll_path.touch()
-    print("✅ Fichier .nojekyll créé pour désactiver Jekyll sur GitHub Pages")
 
 
 def create_robots_txt():
