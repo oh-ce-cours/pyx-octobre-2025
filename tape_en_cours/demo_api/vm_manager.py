@@ -4,11 +4,17 @@ Gestionnaire de VMs pour demo_api
 """
 
 import typer
-from typing import Optional
+from typing import Optional, Dict, Any
 from utils.api import Api
-from utils.services import VMService
+from utils.api.exceptions import (
+    VMCreationError,
+    UsersFetchError,
+    UserInfoError,
+    TokenError,
+)
 from utils.logging_config import get_logger
 from utils.config import config
+from utils.password_utils import get_or_create_token
 
 logger = get_logger(__name__)
 
