@@ -48,9 +48,18 @@ def create_vm(
     python scripts/create_vm.py -n "VM Test" --os "CentOS 8" --ram 8
     """
 
-    logger.info(
-        "Début du processus de création de VM", email=args.email, vm_name=args.name
-    )
+    if verbose:
+        print(f"🔧 Configuration VM:")
+        print(f"   Nom: {name}")
+        print(f"   OS: {os}")
+        print(f"   CPU: {cores} cores")
+        print(f"   RAM: {ram} GB")
+        print(f"   Disque: {disk} GB")
+        print(f"   Statut: {status}")
+        print(f"   Email: {email}")
+        print()
+
+    logger.info("Début du processus de création de VM", email=email, vm_name=name)
 
     # Initialisation du client API et du service
     api = Api(config.DEMO_API_BASE_URL)
