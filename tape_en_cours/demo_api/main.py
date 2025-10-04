@@ -94,11 +94,11 @@ def version() -> None:
 def main():
     """Point d'entrée principal"""
     import sys
-    
+
     # Gérer -h comme alias pour --help
     if "-h" in sys.argv and "--help" not in sys.argv:
         sys.argv[sys.argv.index("-h")] = "--help"
-    
+
     try:
         app()
     except KeyboardInterrupt:
