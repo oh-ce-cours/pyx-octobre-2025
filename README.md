@@ -72,7 +72,7 @@ Le projet inclut une **GitHub Action** configurée dans `.github/workflows/docs.
 4. **Génération automatique de documentation** avec Sphinx/Pdoc3
 5. **Déploiement sur GitHub Pages** pour accès facile aux étudiants
 
-**🎯 Accès à la documentation :** [https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/](https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/)
+**🎯 Accès à la documentation :** [https://oh-ce-cours.github.io/pyx-octobre-2025/](https://oh-ce-cours.github.io/pyx-octobre-2025/)
 
 ### 📝 Outils de documentation inclus
 
@@ -142,11 +142,11 @@ git push origin main
 1. Allez dans **Settings** > **Pages** de votre repository
 2. Sous **Source**, sélectionnez **GitHub Actions**
 3. Sélectionnez le workflow **Deploy Documentation**
-4. GitHub publiera automatiquement sur `https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/`
+4. GitHub publiera automatiquement sur `https://oh-ce-cours.github.io/pyx-octobre-2025/`
 
 ### 📚 Documentation en ligne
 
-**🎯 Accès direct :** [https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/](https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/)
+**🎯 Accès direct :** [https://oh-ce-cours.github.io/pyx-octobre-2025/](https://oh-ce-cours.github.io/pyx-octobre-2025/)
 
 La documentation inclut :
 - **📖 Documentation Sphinx complète** avec thème Furo moderne
