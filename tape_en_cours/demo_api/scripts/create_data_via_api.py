@@ -237,6 +237,7 @@ def create_users_via_api(
     user_count: int,
     batch_size: int = 10,
     delay_between_batches: float = 0.5,
+    max_retries: int = 5,
 ) -> List[Dict[str, Any]]:
     """
     Crée des utilisateurs via l'API en utilisant le générateur Faker.
@@ -425,6 +426,7 @@ def users(
         2.0, "--delay", "-d", help="Délai entre les lots (secondes)", min=0.5, max=10.0
     ),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Mode verbeux"),
+    max_retries: int = typer.Option(5, "--max-retries", help="Nombre maximum de retries pour les erreurs 429", min=1, max=10),
 ) -> None:
     """
     👥 Créer des utilisateurs via l'API avec des données Faker
@@ -504,6 +506,7 @@ def vms(
         2.0, "--delay", "-d", help="Délai entre les lots (secondes)", min=0.5, max=10.0
     ),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Mode verbeux"),
+    max_retries: int = typer.Option(5, "--max-retries", help="Nombre maximum de retries pour les erreurs 429", min=1, max=10),
 ) -> None:
     """
     🖥️ Créer des VMs via l'API avec des données Faker
@@ -615,6 +618,7 @@ def full_dataset(
         help="Fichier de sortie pour sauvegarder les données créées",
     ),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Mode verbeux"),
+    max_retries: int = typer.Option(5, "--max-retries", help="Nombre maximum de retries pour les erreurs 429", min=1, max=10),
 ) -> None:
     """
     🎯 Créer un dataset complet via l'API avec des données Faker
