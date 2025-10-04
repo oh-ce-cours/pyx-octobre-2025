@@ -58,6 +58,13 @@ exclude_patterns = []
 # a list of builtin themes.
 html_theme = "furo"
 
+# Configuration pour GitHub Pages
+html_baseurl = "https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/"
+
+# Configuration des chemins pour GitHub Pages
+html_use_opensearch = "https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/"
+html_short_title = "Demo API Docs"
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".

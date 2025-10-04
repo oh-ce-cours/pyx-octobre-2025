@@ -142,7 +142,18 @@ git push origin main
 1. Allez dans **Settings** > **Pages** de votre repository
 2. Sous **Source**, sélectionnez **GitHub Actions**
 3. Sélectionnez le workflow **Deploy Documentation**
-4. GitHub publiera automatiquement sur `https://oh-ce-cours.github.io/pyx-octobre-2025/`
+4. GitHub publiera automatiquement sur `https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/`
+
+### 📚 Documentation en ligne
+
+**🎯 Accès direct :** [https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/](https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/)
+
+La documentation inclut :
+- **📖 Documentation Sphinx complète** avec thème Furo moderne
+- **⚡ Documentation pdoc3 interactive** avec recherche intégrée
+- **🔧 API Reference** détaillée pour tous les modules
+- **💡 Exemples d'utilisation** pratiques
+- **🚀 Guide d'installation** et configuration
 
 ## 🤝 Contribution
 
