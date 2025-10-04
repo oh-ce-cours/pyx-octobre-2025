@@ -1,15 +1,11 @@
 import requests
-import datetime
 from utils.logging_config import get_logger
+from utils.date_utils import parse_unix_timestamp
 from .decorators import retry_on_429
 from .exceptions import VMsFetchError, VMCreationError, VMUpdateError, VMDeleteError
 
 # Logger pour ce module
 logger = get_logger(__name__)
-
-
-def parse_unix_timestamp(ts):
-    return datetime.datetime.fromtimestamp(ts / 1e3)
 
 
 @retry_on_429()
