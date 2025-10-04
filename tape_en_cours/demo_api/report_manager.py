@@ -5,10 +5,12 @@ Gestionnaire de rapports pour demo_api
 
 import typer
 from enum import Enum
+from typing import Dict, Any, List, Optional
 from utils.api import Api
-from utils.services import ReportService
+from utils.api.exceptions import UsersFetchError, VMsFetchError
 from utils.logging_config import get_logger
 from utils.config import config
+from reports import JSONReportGenerator
 
 logger = get_logger(__name__)
 
