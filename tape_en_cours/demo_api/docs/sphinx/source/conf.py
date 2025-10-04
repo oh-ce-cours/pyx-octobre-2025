@@ -61,7 +61,7 @@ html_theme = "furo"
 # -- Options for HTML output -------------------------------------------------
 
 # Configuration pour GitHub Pages
-html_baseurl = "https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/"
+html_baseurl = "https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/sphinx/"
 
 # Configuration des chemins pour GitHub Pages
 html_use_opensearch = "https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/"
