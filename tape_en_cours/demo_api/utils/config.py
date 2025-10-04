@@ -92,7 +92,7 @@ class Config:
         except ValueError:
             return default
 
-    def _get_env_list(self, key: str, default: list = None) -> list:
+    def _get_env_list(self, key: str, default: Optional[list] = None) -> list:
         """Récupère une variable d'environnement sous forme de liste"""
         if default is None:
             default = []

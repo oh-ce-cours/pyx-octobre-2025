@@ -3,7 +3,6 @@ import getpass
 from dotenv import load_dotenv, set_key
 from .logging_config import get_logger
 from .api.exceptions import CredentialsError, TokenError
-    from .config import config
 
 # Logger pour ce module
 logger = get_logger(__name__)

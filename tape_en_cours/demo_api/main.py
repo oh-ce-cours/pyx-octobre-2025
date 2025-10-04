@@ -379,7 +379,9 @@ def debug() -> None:
     typer.echo(f"   URL de base: {config.DEMO_API_BASE_URL}")
     typer.echo(f"   Timeout: {config.DEMO_API_TIMEOUT}s")
     typer.echo(f"   Max retries: {config.DEMO_API_MAX_RETRIES}")
-    typer.echo(f"   Mode debug: {'✅ Activé' if config.DEMO_API_DEBUG else '❌ Désactivé'}")
+    typer.echo(
+        f"   Mode debug: {'✅ Activé' if config.DEMO_API_DEBUG else '❌ Désactivé'}"
+    )
     typer.echo(f"   Niveau de log: {config.DEMO_API_LOG_LEVEL}")
     typer.echo()
 
@@ -398,8 +400,12 @@ def debug() -> None:
 
     # Propriétés de configuration
     typer.echo("⚙️ Propriétés de configuration:")
-    typer.echo(f"   Environnement production: {'✅ Oui' if config.is_production else '❌ Non'}")
-    typer.echo(f"   Identifiants disponibles: {'✅ Oui' if config.has_credentials else '❌ Non'}")
+    typer.echo(
+        f"   Environnement production: {'✅ Oui' if config.is_production else '❌ Non'}"
+    )
+    typer.echo(
+        f"   Identifiants disponibles: {'✅ Oui' if config.has_credentials else '❌ Non'}"
+    )
     typer.echo(f"   Token disponible: {'✅ Oui' if config.has_token else '❌ Non'}")
     typer.echo()
 
