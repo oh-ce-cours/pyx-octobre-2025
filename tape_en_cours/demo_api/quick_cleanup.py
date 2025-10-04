@@ -26,6 +26,10 @@ console = Console()
 logger = get_logger(__name__)
 
 
+# =============================================================================
+# PARTIE REPRÉSENTATION / AFFICHAGE
+# =============================================================================
+
 def display_header(simulate: bool) -> None:
     """Affiche l'en-tête selon le mode"""
     if simulate:
@@ -46,14 +50,8 @@ def display_header(simulate: bool) -> None:
         )
 
 
-def connect_to_api(
-    base_url: Optional[str], email: Optional[str], password: Optional[str]
-):
-    """Se connecte à l'API et retourne le client"""
-    with console.status("[bold green]Connexion à l'API..."):
-        client = create_authenticated_client(base_url, email, password)
-
-    # Affichage configuration API
+def display_api_config(client) -> None:
+    """Affiche la configuration de l'API"""
     config_table = Table(title="🔗 Configuration API")
     config_table.add_column("Paramètre", style="cyan")
     config_table.add_column("Valeur", style="magenta")
@@ -65,7 +63,28 @@ def connect_to_api(
 
     console.print(config_table)
     console.print()
-    return client
+
+
+def display_operation_config(delay: float, simulate: bool) -> None:
+    """Affiche la configuration des opérations"""
+    config_table = Table(title="🔧 Configuration")
+    config_table.add_column("Paramètre", style="cyan")
+    config_table.add_column("Valeur", style="magenta")
+    config_table.add_row("Délai entre opérations", f"{delay}s")
+    config_table.add_row("Mode", "Simulation" if simulate else "Suppression réelle")
+    console.print(config_table)
+    console.print()
+
+
+def display_simulation_message() -> None:
+    """Affiche le message de simulation"""
+    console.print(
+        Panel.fit(
+            "[bold blue]📋 Mode simulation - aucune suppression réelle[/bold blue]\n"
+            "Utilisez [bold]--real[/bold] pour effectuer les suppressions",
+            border_style="blue",
+        )
+    )
 
 
 def fetch_data(client) -> Tuple[list, list]:
