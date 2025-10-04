@@ -21,6 +21,14 @@ cp -r tape_en_cours/demo_api/docs/pdoc3/* docs-deploy/pdoc3/
 # Ajouter les fichiers nécessaires pour GitHub Pages
 touch docs-deploy/.nojekyll
 
+# Corriger les chemins CSS dans tous les fichiers HTML pour GitHub Pages
+echo "🔧 Correction des chemins CSS pour GitHub Pages..."
+find docs-deploy -name "*.html" -type f -exec sed -i '' 's|href="_static/|href="https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/_static/|g' {} \;
+find docs-deploy -name "*.html" -type f -exec sed -i '' 's|src="_static/|src="https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/_static/|g' {} \;
+find docs-deploy -name "*.html" -type f -exec sed -i '' 's|url(_static/|url(https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/_static/|g' {} \;
+
+echo "✅ Chemins CSS corrigés pour GitHub Pages"
+
 # Créer une page d'accueil avec navigation
 cat > docs-deploy/index.html << 'EOF'
 <!DOCTYPE html>
