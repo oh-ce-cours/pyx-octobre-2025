@@ -312,6 +312,7 @@ def update_user(base_url, token, user_id, updates):
         )
 
 
+@retry_on_429(max_retries=5, base_delay=2.0)
 def delete_user(base_url, token, user_id):
     """Supprime un utilisateur.
 
