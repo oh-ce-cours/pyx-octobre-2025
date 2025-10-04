@@ -89,9 +89,10 @@ def create_vm(
         token_length=len(token),
     )
 
-    resp = requests.post(f"{base_url}/vm", json=payload, timeout=5, headers=headers)
     try:
+        resp = requests.post(f"{base_url}/vm", json=payload, timeout=5, headers=headers)
         resp.raise_for_status()
+        
         vm_result = resp.json()
         logger.info(
             "VM créée avec succès",
@@ -101,15 +102,23 @@ def create_vm(
             status_code=resp.status_code,
         )
         return vm_result
+        
     except requests.RequestException as e:
         logger.error(
             "Erreur lors de la création de la VM",
             error=str(e),
-            status_code=resp.status_code,
-            response_text=resp.text[:200] + "..."
-            if len(resp.text) > 200
-            else resp.text,
+            status_code=getattr(resp, 'status_code', None),
+            response_text=getattr(resp, 'text', '')[:200] + "..."
+            if len(getattr(resp, 'text', '')) > 200
+            else getattr(resp, 'text', ''),
             user_id=user_id,
             name=name,
         )
-        return None
+        
+        raise VMCreationError(
+            f"Impossible de créer la VM '{name}' pour l'utilisateur {user_id}: {str(e)}",
+            status_code=getattr(resp, 'status_code', None),
+            response_data={"error": str(e), "user_id": user_id, "name": name},
+            user_id=user_id,
+            vm_name=name
+        )
