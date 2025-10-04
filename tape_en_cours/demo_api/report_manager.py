@@ -57,8 +57,8 @@ def generate_reports(
     generated_files = []
 
     if report_type in [ReportType.USERS_VMS, ReportType.ALL]:
-        logger.info("Génération du rapport utilisateurs/VMs")
         typer.echo("📊 Génération du rapport utilisateurs/VMs...")
+        logger.info("Génération du rapport utilisateurs/VMs")
 
         report_file = report_service.generate_users_vms_report("vm_users.json")
         if report_file:
@@ -70,8 +70,8 @@ def generate_reports(
             typer.echo("❌ Échec de la génération du rapport utilisateurs/VMs")
 
     if report_type in [ReportType.STATUS, ReportType.ALL]:
-        logger.info("Génération du rapport de statut des VMs")
         typer.echo("📈 Génération du rapport de statut des VMs...")
+        logger.info("Génération du rapport de statut des VMs")
 
         status_file = report_service.generate_status_report("vm_status_report.json")
         if status_file:
@@ -83,13 +83,9 @@ def generate_reports(
             typer.echo("❌ Échec de la génération du rapport de statut")
 
     # Résumé
-    print()
+    typer.echo()
     if generated_files:
-        logger.info(
-            "Génération terminée avec succès",
-            files_generated=len(generated_files),
-            files=generated_files,
-        )
+        logger.info("Génération terminée avec succès", files_generated=len(generated_files))
         typer.echo(f"🎉 {len(generated_files)} rapport(s) généré(s) avec succès")
         for file in generated_files:
             typer.echo(f"   📄 {file}")
