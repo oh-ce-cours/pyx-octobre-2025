@@ -59,6 +59,9 @@ class VMService:
                 logger.info("Récupération des informations utilisateur authentifié")
                 try:
                     user = self.api.get_user_info()
+                    if user is None:
+                        logger.error("Les informations utilisateur sont nulles")
+                        return None
                     logger.info(
                         "Informations utilisateur récupérées pour création VM",
                         user_id=user.get("id"),
