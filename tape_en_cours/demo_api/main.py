@@ -37,7 +37,10 @@ logger.info("VMs récupérées", count=len(vms))
 logger.info("Association des VMs aux utilisateurs")
 add_vms_to_users(users, vms)
 
-logger.info("Sauvegarde des données utilisateurs/VMs en JSON", filename=config.DEMO_API_OUTPUT_FILE)
+logger.info(
+    "Sauvegarde des données utilisateurs/VMs en JSON",
+    filename=config.DEMO_API_OUTPUT_FILE,
+)
 json.dump(
     users,
     open(config.DEMO_API_OUTPUT_FILE, "w", encoding="utf8"),
@@ -56,7 +59,7 @@ token = get_or_create_token(
     base_url=BASE_URL,
     email=config.DEMO_API_EMAIL or "jean@dupont21.com",
     password=config.DEMO_API_PASSWORD,
-    token_env_var="DEMO_API_TOKEN"
+    token_env_var="DEMO_API_TOKEN",
 )
 
 if not token:
@@ -118,6 +121,6 @@ else:
 
 # ✓ Implémenté : passage de mot de passe via CLI et variables d'environnement
 # ✓ Implémenté : logging structuré avec structlog
-# doc
+# ✓ Implémenté : documentation avec sphinx
 # sphinx
 # jinja pour des rapports
