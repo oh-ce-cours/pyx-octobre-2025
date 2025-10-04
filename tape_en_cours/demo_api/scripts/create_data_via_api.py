@@ -241,16 +241,11 @@ def create_users_via_api(
                     # Générer les données utilisateur avec Faker
                     user_data = UserDataGenerator.generate_user(created_count + 1)
 
-                    # Créer l'utilisateur via l'API avec retry pour les erreurs 429
-                    def create_user_call():
-                        return api_client.users.create_user(
-                            name=user_data["name"],
-                            email=user_data["email"],
-                            password="password123",  # Mot de passe par défaut
-                        )
-
-                    created_user = retry_with_backoff(
-                        create_user_call, max_retries=max_retries
+                    # Créer l'utilisateur via l'API (retry automatique via décorateur)
+                    created_user = api_client.users.create_user(
+                        name=user_data["name"],
+                        email=user_data["email"],
+                        password="password123",  # Mot de passe par défaut
                     )
                     created_users.append(created_user)
                     created_count += 1
@@ -285,7 +280,6 @@ def create_vms_via_api(
     user_ids: List[int],
     batch_size: int = 10,
     delay_between_batches: float = 0.5,
-    max_retries: int = 5,
 ) -> List[Dict[str, Any]]:
     """
     Crée des VMs via l'API en utilisant le générateur Faker.
