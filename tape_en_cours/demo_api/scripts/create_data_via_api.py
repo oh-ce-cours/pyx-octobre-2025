@@ -15,7 +15,13 @@ from pathlib import Path
 import json
 from datetime import datetime
 from rich.console import Console
-from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeElapsedColumn
+from rich.progress import (
+    Progress,
+    SpinnerColumn,
+    TextColumn,
+    BarColumn,
+    TimeElapsedColumn,
+)
 from rich.table import Table
 from rich.panel import Panel
 
@@ -48,7 +54,7 @@ def display_header(title: str, subtitle: str = "") -> None:
     header_text = f"[bold blue]{title}[/bold blue]"
     if subtitle:
         header_text += f"\n[dim]{subtitle}[/dim]"
-    
+
     console.print(
         Panel.fit(
             header_text,
@@ -72,16 +78,18 @@ def display_api_config(client: ApiClient) -> None:
     console.print()
 
 
-def display_operation_config(operation: str, count: int, batch_size: int, delay: float) -> None:
+def display_operation_config(
+    operation: str, count: int, batch_size: int, delay: float
+) -> None:
     """Affiche la configuration des opérations"""
     config_table = Table(title=f"🔧 Configuration - {operation}")
     config_table.add_column("Paramètre", style="cyan")
     config_table.add_column("Valeur", style="magenta")
-    
+
     config_table.add_row("Nombre total", str(count))
     config_table.add_row("Taille des lots", str(batch_size))
     config_table.add_row("Délai entre lots", f"{delay}s")
-    
+
     console.print(config_table)
     console.print()
 
@@ -93,7 +101,9 @@ def display_batch_progress(batch_num: int, start: int, end: int, total: int) -> 
     )
 
 
-def display_success_message(item_type: str, item_name: str, item_details: str = "") -> None:
+def display_success_message(
+    item_type: str, item_name: str, item_details: str = ""
+) -> None:
     """Affiche un message de succès"""
     message = f"[green]✅ {item_type} créé:[/green] [bold]{item_name}[/bold]"
     if item_details:
@@ -111,34 +121,38 @@ def display_statistics(title: str, stats: Dict[str, Any]) -> None:
     stats_table = Table(title=f"📊 {title}")
     stats_table.add_column("Métrique", style="cyan")
     stats_table.add_column("Valeur", style="green")
-    
+
     for key, value in stats.items():
         stats_table.add_row(key, str(value))
-    
+
     console.print(stats_table)
     console.print()
 
 
-def display_preview(title: str, items: List[Dict[str, Any]], max_items: int = 5) -> None:
+def display_preview(
+    title: str, items: List[Dict[str, Any]], max_items: int = 5
+) -> None:
     """Affiche un aperçu des éléments créés"""
     if not items:
         return
-        
+
     console.print(f"[bold cyan]🔍 {title}:[/bold cyan]")
-    
+
     for i, item in enumerate(items[:max_items]):
         if "name" in item and "email" in item:
             # Utilisateur
             console.print(f"   {i + 1}. [bold]{item['name']}[/bold] ({item['email']})")
         elif "name" in item and "operating_system" in item:
             # VM
-            console.print(f"   {i + 1}. [bold]{item['name']}[/bold] ({item['operating_system']})")
+            console.print(
+                f"   {i + 1}. [bold]{item['name']}[/bold] ({item['operating_system']})"
+            )
         else:
             console.print(f"   {i + 1}. {item}")
-    
+
     if len(items) > max_items:
         console.print(f"   ... et {len(items) - max_items} autres éléments")
-    
+
     console.print()
 
 
@@ -157,16 +171,16 @@ def display_api_status(all_data: Dict[str, Any], api_url: str) -> None:
     status_table = Table(title="📊 Statut de l'API")
     status_table.add_column("Métrique", style="cyan")
     status_table.add_column("Valeur", style="green")
-    
+
     status_table.add_row("URL de l'API", api_url)
-    status_table.add_row("Utilisateurs total", str(all_data['total_users']))
-    status_table.add_row("VMs totales", str(all_data['total_vms']))
-    status_table.add_row("Utilisateurs avec VMs", str(all_data['users_with_vms']))
-    
+    status_table.add_row("Utilisateurs total", str(all_data["total_users"]))
+    status_table.add_row("VMs totales", str(all_data["total_vms"]))
+    status_table.add_row("Utilisateurs avec VMs", str(all_data["users_with_vms"]))
+
     if all_data["total_users"] > 0:
         avg_vms = all_data["total_vms"] / all_data["total_users"]
         status_table.add_row("Moyenne VMs/utilisateur", f"{avg_vms:.1f}")
-    
+
     console.print(status_table)
     console.print()
 
@@ -237,7 +251,7 @@ def create_users_via_api(
                     created_count += 1
 
                     display_success_message(
-                        "Utilisateur", user_data['name'], user_data['email']
+                        "Utilisateur", user_data["name"], user_data["email"]
                     )
 
                 except (ValueError, KeyError, ConnectionError) as e:
@@ -291,9 +305,7 @@ def create_vms_via_api(
         TimeElapsedColumn(),
         console=console,
     ) as progress:
-        task = progress.add_task(
-            f"Création de {vm_count} VMs...", total=vm_count
-        )
+        task = progress.add_task(f"Création de {vm_count} VMs...", total=vm_count)
 
         for batch_start in range(0, vm_count, batch_size):
             batch_end = min(batch_start + batch_size, vm_count)
@@ -326,7 +338,7 @@ def create_vms_via_api(
                     created_count += 1
 
                     vm_details = f"{vm_data['operating_system']} - {vm_data['cpu_cores']}c/{vm_data['ram_gb']}GB"
-                    display_success_message("VM", vm_data['name'], vm_details)
+                    display_success_message("VM", vm_data["name"], vm_details)
 
                 except (ValueError, KeyError, ConnectionError) as e:
                     logger.error("Erreur lors de la création d'une VM", error=str(e))
@@ -380,7 +392,7 @@ def users(
     """
     display_header(
         "👥 Création d'utilisateurs via l'API",
-        f"Génération de {count} utilisateurs avec Faker"
+        f"Génération de {count} utilisateurs avec Faker",
     )
 
     try:
@@ -397,7 +409,9 @@ def users(
             )
             raise typer.Exit(1)
 
-        console.print(f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]")
+        console.print(
+            f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]"
+        )
         console.print()
 
         # Afficher la configuration
@@ -473,8 +487,7 @@ def vms(
     python create_data_via_api.py vms --email admin@example.com --password secret
     """
     display_header(
-        "🖥️ Création de VMs via l'API",
-        f"Génération de {count} VMs avec Faker"
+        "🖥️ Création de VMs via l'API", f"Génération de {count} VMs avec Faker"
     )
 
     try:
@@ -491,7 +504,9 @@ def vms(
             )
             raise typer.Exit(1)
 
-        console.print(f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]")
+        console.print(
+            f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]"
+        )
         console.print()
 
         # Afficher la configuration
@@ -512,7 +527,9 @@ def vms(
             raise typer.Exit(1)
 
         user_ids = [user["id"] for user in existing_users]
-        console.print(f"[bold cyan]👥 {len(user_ids)} utilisateurs disponibles pour l'association des VMs[/bold cyan]")
+        console.print(
+            f"[bold cyan]👥 {len(user_ids)} utilisateurs disponibles pour l'association des VMs[/bold cyan]"
+        )
         console.print()
 
         display_operation_config("VMs", count, batch_size, delay)
@@ -598,7 +615,7 @@ def full_dataset(
     """
     display_header(
         "🎯 Création d'un dataset complet",
-        f"{user_count} utilisateurs + {vm_count} VMs avec Faker"
+        f"{user_count} utilisateurs + {vm_count} VMs avec Faker",
     )
 
     try:
@@ -615,12 +632,16 @@ def full_dataset(
             )
             raise typer.Exit(1)
 
-        console.print(f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]")
+        console.print(
+            f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]"
+        )
         console.print()
 
         # Afficher la configuration
         display_api_config(api_client)
-        display_operation_config("Dataset complet", user_count + vm_count, batch_size, delay)
+        display_operation_config(
+            "Dataset complet", user_count + vm_count, batch_size, delay
+        )
 
         # Étape 1: Créer les utilisateurs
         console.print(
@@ -723,10 +744,7 @@ def status(
     python create_data_via_api.py status
     python create_data_via_api.py status --email admin@example.com --password secret
     """
-    display_header(
-        "📊 Statut de l'API",
-        "Récupération des statistiques actuelles"
-    )
+    display_header("📊 Statut de l'API", "Récupération des statistiques actuelles")
 
     try:
         # Créer le client API avec authentification
@@ -742,7 +760,9 @@ def status(
             )
             raise typer.Exit(1)
 
-        console.print(f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]")
+        console.print(
+            f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]"
+        )
         console.print()
 
         # Afficher la configuration
