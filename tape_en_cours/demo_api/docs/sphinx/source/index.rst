@@ -9,7 +9,7 @@ Bienvenue dans la documentation de Demo API, un système de gestion d'utilisateu
 
    installation
    quickstart
-   api/modules
+   api/index
    cli/index
    examples
    changelog
