@@ -75,15 +75,15 @@ def generate_reports(
     api = Api(config.DEMO_API_BASE_URL)
     data_manager = DataManager(api)
     report_service = ReportService(api)
-    
+
     # Récupération centralisée des données (une seule fois)
     typer.echo("📡 Récupération des données...")
     users, vms = data_manager.fetch_all_data()
-    
+
     if not users and not vms:
         typer.echo("❌ Impossible de récupérer les données nécessaires")
         raise typer.Exit(1)
-    
+
     typer.echo(f"   ✅ {len(users)} utilisateur(s) et {len(vms)} VM(s) récupéré(s)")
     typer.echo()
 
@@ -108,7 +108,9 @@ def generate_reports(
         for fmt in formats_to_generate:
             report_file = None
             if fmt == ReportFormat.JSON:
-                report_file = report_service.generate_users_vms_report(users, vms, "vm_users.json")
+                report_file = report_service.generate_users_vms_report(
+                    users, vms, "vm_users.json"
+                )
             elif fmt == ReportFormat.MARKDOWN:
                 report_file = report_service.generate_users_vms_report_markdown(
                     users, vms, "vm_users.md"
