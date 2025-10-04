@@ -1,0 +1,36 @@
+# Exemple de fichier de configuration pour demo_api
+# Copiez ce fichier vers .env et remplissez vos valeurs
+
+# Utilisation avec python-dotenv (chargement automatique)
+
+# === Configuration de l'API ===
+DEMO_API_BASE_URL=https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt
+
+# Identifiants d'authentification
+DEMO_API_EMAIL=jean@dupont21.com
+DEMO_API_PASSWORD=votre_mot_de_passe_ici
+
+# Configuration de performance
+DEMO_API_TIMEOUT=5
+DEMO_API_MAX_RETRIES=3
+
+# Configuration du logging
+DEMO_API_DEBUG=false
+DEMO_API_LOG_LEVEL=INFO
+
+# Token d'authentification (optionnel - créé automatiquement si pas fourni)
+# DEMO_API_TOKEN=eyJhbGciOiJBMjU2S1ciLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwiemlwIjoiREVGIn0...
+
+# Configuration des fichiers
+DEMO_API_OUTPUT_FILE=vm_users.json
+
+# ================================================
+# Organisation recommandée des fichiers .env
+# ================================================
+# 
+# .env.defaults    → Valeurs par défaut (peut être versionné)
+# .env.local       → Configuration locale (à ignorer dans git)  
+# .env             → Configuration générale (peut être versionné)
+#
+# Loading automatique : .env.defaults → .env.local → .env
+# (chaque fichier surcharge le précédent s'il existe)
