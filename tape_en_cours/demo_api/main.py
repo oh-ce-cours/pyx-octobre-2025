@@ -12,6 +12,7 @@ from vm_manager import create_vm
 from utils.data_generator import DataGenerator
 import json
 from pathlib import Path
+from utils.password_utils import save_token_to_env
 
 logger = get_logger(__name__)
 
@@ -120,7 +121,7 @@ def signup(
             typer.echo()
 
             # Sauvegarder le token dans les variables d'environnement de la session
-            from utils.password_utils import save_token_to_env
+
             if save_token_to_env(token):
                 typer.echo("💾 Token sauvegardé dans la session courante")
             else:
@@ -156,7 +157,9 @@ def signup(
 
                 typer.echo()
                 typer.echo("✨ Utilisateur prêt à utiliser!")
-                typer.echo("💡 Vous pouvez maintenant utiliser la commande 'create' pour créer des VMs")
+                typer.echo(
+                    "💡 Vous pouvez maintenant utiliser la commande 'create' pour créer des VMs"
+                )
             else:
                 typer.echo(
                     "⚠️ Utilisateur créé mais impossible de récupérer les informations"
@@ -179,6 +182,9 @@ def create(
     ),
     password: str = typer.Option(
         "password123", "--password", "-p", help="Mot de passe de l'utilisateur"
+    ),
+    use_saved_token: bool = typer.Option(
+        False, "--use-token", "-t", help="Utiliser le token sauvegardé dans la session"
     ),
     os: str = typer.Option("Ubuntu 22.04", "--os", "-o", help="Système d'exploitation"),
     cores: int = typer.Option(
