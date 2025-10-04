@@ -68,9 +68,7 @@ def create_vm(
     # Authentification de l'utilisateur
     typer.echo("🔐 Authentification de l'utilisateur...")
     logger.info("Authentification de l'utilisateur")
-    user = vm_service.authenticate_user(
-        email=email, password=config.DEMO_API_PASSWORD
-    )
+    user = vm_service.authenticate_user(email=email, password=config.DEMO_API_PASSWORD)
 
     if not user:
         logger.error("Authentification échouée")
@@ -91,25 +89,31 @@ def create_vm(
         "status": status,
     }
 
+    if verbose:
+        print(f"🚀 Création de la VM...")
+
     # Création de la VM
     logger.info("Création de la VM", **vm_config)
     vm_result = vm_service.create_vm_for_user(user, vm_config)
 
+    print()
     if vm_result:
         logger.info("VM créée avec succès", vm_id=vm_result.get("id"))
-        print(f"✅ VM créée avec succès!")
-        print(f"   🆔 ID: {vm_result.get('id')}")
-        print(f"   📝 Nom: {vm_result.get('name')}")
-        print(f"   💻 OS: {vm_result.get('operating_system')}")
-        print(f"   🔧 CPU: {vm_result.get('cpu_cores')} cores")
-        print(f"   💾 RAM: {vm_result.get('ram_gb')} GB")
-        print(f"   💿 Disque: {vm_result.get('disk_gb')} GB")
-        print(f"   ⚡ Statut: {vm_result.get('status')}")
+        typer.echo("🎉 VM créée avec succès!")
+        typer.echo(f"   🆔 ID: {vm_result.get('id')}")
+        typer.echo(f"   📝 Nom: {vm_result.get('name')}")
+        typer.echo(f"   💻 OS: {vm_result.get('operating_system')}")
+        typer.echo(f"   🔧 CPU: {vm_result.get('cpu_cores')} cores")
+        typer.echo(f"   💾 RAM: {vm_result.get('ram_gb')} GB")
+        typer.echo(f"   💿 Disque: {vm_result.get('disk_gb')} GB")
+        typer.echo(f"   ⚡ Statut: {vm_result.get('status')}")
+        typer.echo()
+        typer.echo("✨ Terminé!")
     else:
         logger.error("Échec de la création de la VM")
-        print("❌ Échec de la création de la VM")
-        sys.exit(1)
+        typer.echo("❌ Échec de la création de la VM")
+        raise typer.Exit(1)
 
 
 if __name__ == "__main__":
-    main()
+    app()
