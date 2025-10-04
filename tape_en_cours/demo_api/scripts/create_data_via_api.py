@@ -396,6 +396,10 @@ def create_vms_via_api(
                     display_error_message("VM", i, str(e))
 
                 progress.update(task, advance=1)
+                
+                # Délai entre chaque création de VM
+                if i < batch_size_actual - 1 or batch_end < vm_count:
+                    time.sleep(delay_between_batches / 2)
 
             # Délai entre les lots pour éviter de surcharger l'API
             if batch_end < vm_count:
