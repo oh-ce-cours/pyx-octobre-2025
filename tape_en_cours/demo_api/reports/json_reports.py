@@ -122,10 +122,10 @@ class JSONReportGenerator(BaseReportGenerator):
 
     def _calculate_users_vms_stats(self, users: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Calcule les statistiques des utilisateurs et VMs"""
-        total_vms = 0
+        total_vms: int = 0
         vms_by_status: Dict[str, int] = {}
-        users_with_vms = 0
-        users_without_vms = 0
+        users_with_vms: int = 0
+        users_without_vms: int = 0
 
         for user in users:
             user_vms = user.get("vms", [])
