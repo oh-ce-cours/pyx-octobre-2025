@@ -87,6 +87,19 @@ def display_simulation_message() -> None:
     )
 
 
+# =============================================================================
+# PARTIE MANIPULATION DES DONNÉES
+# =============================================================================
+
+def connect_to_api(
+    base_url: Optional[str], email: Optional[str], password: Optional[str]
+):
+    """Se connecte à l'API et retourne le client"""
+    with console.status("[bold green]Connexion à l'API..."):
+        client = create_authenticated_client(base_url, email, password)
+    return client
+
+
 def fetch_data(client) -> Tuple[list, list]:
     """Récupère les données VMs et utilisateurs"""
     # Récupération VMs
