@@ -41,6 +41,7 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx_autodoc_typehints",
     "myst_parser",
+    "sphinx.ext.autosectionlabel",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -91,6 +92,8 @@ autodoc_default_options = {
 
 # Autosummary settings
 autosummary_generate = True
+autosummary_generate_overwrite = True
+autosummary_imported_members = True
 
 # Type hints
 typehints_fully_qualified = False
