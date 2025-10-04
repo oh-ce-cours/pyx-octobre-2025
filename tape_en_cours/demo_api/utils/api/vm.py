@@ -90,7 +90,8 @@ def create_vm(
         name=name,
         operating_system=operating_system,
         status=status,
-        token_length=len(token),
+        token_length=len(token) if token else 0,
+        token_is_none=token is None,
     )
 
     try:
