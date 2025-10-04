@@ -18,19 +18,23 @@ def get_password(prompt="Mot de passe: ", env_var="DEMO_API_PASSWORD"):
         str: Le mot de passe récupéré
     """
     logger.info("Récupération du mot de passe", env_var=env_var)
-    
+
     # Essayer de récupérer depuis une variable d'environnement
     password_from_env = os.environ.get(env_var)
 
     if password_from_env:
-        logger.info("Mot de passe récupéré depuis la variable d'environnement", 
-                   env_var=env_var, 
-                   password_length=len(password_from_env))
+        logger.info(
+            "Mot de passe récupéré depuis la variable d'environnement",
+            env_var=env_var,
+            password_length=len(password_from_env),
+        )
         return password_from_env
 
     # Si pas de variable d'environnement, demander une saisie sécurisée
-    logger.warning("Aucune variable d'environnement trouvée. Saisie sécurisée nécessaire.", 
-                  env_var=env_var)
+    logger.warning(
+        "Aucune variable d'environnement trouvée. Saisie sécurisée nécessaire.",
+        env_var=env_var,
+    )
     password = getpass.getpass(prompt=prompt)
 
     if not password:
@@ -56,8 +60,10 @@ def get_credentials(
     Returns:
         tuple: (email, password)
     """
-    logger.info("Récupération des identifiants", email_provided=bool(email), env_email=env_email)
-    
+    logger.info(
+        "Récupération des identifiants", email_provided=bool(email), env_email=env_email
+    )
+
     # Récupérer l'email
     if email:
         user_email = email
@@ -65,15 +71,24 @@ def get_credentials(
     else:
         user_email = os.environ.get(env_email)
         if not user_email:
-            logger.warning("Email non trouvé dans les variables d'environnement. Saisie interactive nécessaire.", 
-                          env_var=env_email)
+            logger.warning(
+                "Email non trouvé dans les variables d'environnement. Saisie interactive nécessaire.",
+                env_var=env_email,
+            )
             user_email = input(f"Email (ou définir {env_email}): ").strip()
         else:
-            logger.info("Email récupéré depuis la variable d'environnement", 
-                      email=user_email, env_var=env_email)
+            logger.info(
+                "Email récupéré depuis la variable d'environnement",
+                email=user_email,
+                env_var=env_email,
+            )
 
     # Récupérer le mot de passe
     password = get_password(env_var=env_password)
 
-    logger.info("Identifiants récupérés avec succès", email=user_email, password_source="smart_detection")
+    logger.info(
+        "Identifiants récupérés avec succès",
+        email=user_email,
+        password_source="smart_detection",
+    )
     return user_email, password
