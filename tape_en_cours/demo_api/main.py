@@ -63,13 +63,29 @@ if not token:
     )
     token = auth.login_user(user_email, user_password)
 
-logger.info("Récupération des informations utilisateur authentifié")
-user = auth.get_logged_user_info(token)
-logger.info(
-    "Informations utilisateur récupérées",
-    user_id=user.get("id"),
-    user_name=user.get("name"),
-)
+    if not token:
+        logger.error(
+            "Échec de l'authentification - vérifiez vos identifiants", email=user_email
+        )
+        logger.info(
+            "💡 Conseil: Vérifiez que vos identifiants sont corrects dans les variables d'environnement ou la saisie interactive"
+        )
+
+if token:
+    logger.info("Récupération des informations utilisateur authentifié")
+    user = auth.get_logged_user_info(token)
+    if user:
+        logger.info(
+            "Informations utilisateur récupérées",
+            user_id=user.get("id"),
+            user_name=user.get("name"),
+        )
+    else:
+        logger.error("Impossible de récupérer les informations utilisateur")
+        user = None
+else:
+    logger.error("Aucun token disponible pour récupérer les informations utilisateur")
+    user = None
 
 if token and user:
     logger.info(
