@@ -446,7 +446,7 @@ def users(
 
     \b
     python create_data_via_api.py users --count 20
-    python create_data_via_api.py users -c 50 --batch-size 10 --delay 3.0
+    python create_data_via_api.py users -c 50 --batch-size 10 --delay 3.0 --max-retries 7
     python create_data_via_api.py users --verbose
     """
     display_header(
