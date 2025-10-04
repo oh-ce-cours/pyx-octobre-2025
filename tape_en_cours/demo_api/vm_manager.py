@@ -67,11 +67,6 @@ def create_vm(
 
     typer.echo(f"✅ Utilisateur authentifié: {user.get('name', email)}")
 
-    # Vérification supplémentaire pour le user
-    if user is None or not isinstance(user, dict):
-        typer.echo("❌ Erreur: Les informations utilisateur sont invalides")
-        raise typer.Exit(1)
-
     # Configuration de la VM
     vm_config = {
         "user_id": user["id"],
