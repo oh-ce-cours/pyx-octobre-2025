@@ -237,19 +237,10 @@ def create_users_via_api(
                 try:
                     # Générer les données utilisateur avec Faker
                     user_data = UserDataGenerator.generate_user(created_count + 1)
-                    logger.debug(f"Données utilisateur générées: {user_data}")
-
-                    # Créer l'utilisateur via l'API (retry automatique via décorateur)
-                    logger.debug(
-                        f"Tentative de création d'utilisateur: {user_data['name']} ({user_data['email']})"
-                    )
                     created_user = api_client.users.create_user(
                         name=user_data["name"],
                         email=user_data["email"],
                         password="password123",  # Mot de passe par défaut
-                    )
-                    logger.debug(
-                        f"Résultat de création d'utilisateur: {created_user} (type: {type(created_user)})"
                     )
 
                     # Vérifier que l'utilisateur a été créé avec succès
@@ -260,9 +251,6 @@ def create_users_via_api(
                     ):
                         created_users.append(created_user)
                         created_count += 1
-                        logger.debug(
-                            f"Utilisateur ajouté à la liste. Total créés: {len(created_users)}"
-                        )
                         display_success_message(
                             "Utilisateur", user_data["name"], user_data["email"]
                         )
@@ -282,17 +270,11 @@ def create_users_via_api(
                 except Exception as e:
                     import traceback
 
-                    stacktrace = traceback.format_exc()
                     logger.error(
                         "Erreur lors de la création d'un utilisateur",
                         error=str(e),
                         error_type=type(e).__name__,
-                        user_data=user_data if "user_data" in locals() else None,
-                        stacktrace=stacktrace,
                     )
-                    print(f"\n🔍 STACKTRACE COMPLÈTE (Utilisateur):")
-                    print(stacktrace)
-                    print(f"🔍 FIN STACKTRACE\n")
                     display_error_message(
                         "utilisateur", i, f"{type(e).__name__}: {str(e)}"
                     )
@@ -369,9 +351,6 @@ def create_vms_via_api(
                         raise ValueError("Liste d'IDs d'utilisateurs vide ou None")
 
                     selected_user_id = user_ids[created_count % len(user_ids)]
-                    logger.debug(
-                        f"Utilisateur sélectionné: {selected_user_id} (type: {type(selected_user_id)})"
-                    )
 
                     if selected_user_id is None:
                         logger.error(
@@ -384,12 +363,6 @@ def create_vms_via_api(
                         user_id=selected_user_id,
                         vm_id=created_count + 1,
                     )
-                    logger.debug(f"Données VM générées: {vm_data}")
-
-                    # Créer la VM via l'API (retry automatique via décorateur)
-                    logger.debug(
-                        f"Tentative de création de VM: {vm_data['name']} pour utilisateur {vm_data['user_id']}"
-                    )
                     created_vm = api_client.vms.create(
                         user_id=vm_data["user_id"],
                         name=vm_data["name"],
@@ -398,9 +371,6 @@ def create_vms_via_api(
                         ram_gb=vm_data["ram_gb"],
                         disk_gb=vm_data["disk_gb"],
                         status=vm_data["status"],
-                    )
-                    logger.debug(
-                        f"Résultat de création de VM: {created_vm} (type: {type(created_vm)})"
                     )
 
                     # Vérifier que la VM a été créée avec succès
@@ -411,9 +381,6 @@ def create_vms_via_api(
                     ):
                         created_vms.append(created_vm)
                         created_count += 1
-                        logger.debug(
-                            f"VM ajoutée à la liste. Total créées: {len(created_vms)}"
-                        )
                         vm_details = f"{vm_data['operating_system']} - {vm_data['cpu_cores']}c/{vm_data['ram_gb']}GB"
                         display_success_message("VM", vm_data["name"], vm_details)
                     else:
