@@ -87,7 +87,7 @@ class Auth:
                     status_code=getattr(resp, "status_code", None),
                     response_data={"error": "duplicate_user", "email": email},
                     email=email,
-                )
+                ) from e
 
             # Autres erreurs de création
             raise UserCreationError(
@@ -95,7 +95,7 @@ class Auth:
                 status_code=getattr(resp, "status_code", None),
                 response_data={"error": str(e), "email": email},
                 email=email,
-            )
+            ) from e
 
     def login_user(self, email, password) -> str:
         """
@@ -155,7 +155,7 @@ class Auth:
                 status_code=getattr(resp, "status_code", None),
                 response_data={"error": str(e), "email": email},
                 email=email,
-            )
+            ) from e
 
     def get_logged_user_info(self, token):
         """
@@ -212,4 +212,4 @@ class Auth:
                 status_code=getattr(resp, "status_code", None),
                 response_data={"error": str(e)},
                 token_length=len(token),
-            )
+            ) from e
