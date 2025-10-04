@@ -20,7 +20,11 @@ from utils.api import (
     get_logged_user_info,
 )
 from utils.password_utils import get_credentials
+from utils.logging_config import get_logger
 import json
+
+# Configuration du logger pour ce module
+logger = get_logger(__name__)
 
 BASE_URL = "https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt"
 
