@@ -38,7 +38,7 @@ Le système de configuration gère les variables d'environnement suivantes :
 - `DEMO_API_LOG_LEVEL` : Niveau de logging (DEBUG, INFO, WARNING, ERROR)
 
 #### **Fichiers :**
-- `DEMO_API_OUTPUT_FILE` : Nom du fichier de sortie JSON (défaut: output/vm_users.json)
+- `DEMO_API_OUTPUT_FILE` : Nom du fichier de sortie JSON (défaut: vm_users.json)
 
 ### Configuration
 
@@ -345,38 +345,3 @@ api = create_authenticated_client()
 - **⚡ Méthodes raccourcies** : `api.login()` au lieu de `api.auth.login()`
 - **🛡️ Type hinting** : Documentation et validation automatique
 - **🔧 Configuration intégrée** : Utilise automatiquement la configuration centralisée
-
-## Organisation des fichiers de sortie
-
-Le projet organise automatiquement les fichiers de sortie dans un dossier dédié :
-
-### Structure des fichiers
-
-```
-demo_api/
-├── output/                    # Dossier de sortie (créé automatiquement)
-│   ├── .gitkeep             # Garde le dossier dans git
-│   ├── .gitignore           # Ignore les fichiers générés
-│   └── vm_users.json        # Fichier de sortie par défaut
-├── utils/
-├── main.py
-└── ...
-```
-
-### Configuration automatique
-
-```python
-from utils.config import config
-
-# Le dossier de sortie est créé automatiquement
-print(f"Dossier de sortie: {config.output_directory}")
-print(f"Fichier de sortie: {config.DEMO_API_OUTPUT_FILE}")
-```
-
-### Avantages de cette organisation
-
-- **📁 Organisation claire** : Séparation des fichiers générés et du code source
-- **🔧 Création automatique** : Le dossier est créé automatiquement si nécessaire
-- **🚫 Git propre** : Les fichiers générés sont ignorés par git
-- **⚙️ Configuration flexible** : Chemin configurable via `DEMO_API_OUTPUT_FILE`
-- **🛡️ Sécurité** : Évite d'écraser des fichiers importants dans la racine

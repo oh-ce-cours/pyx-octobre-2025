@@ -66,14 +66,11 @@ class Config:
 
         # Configuration des fichiers
         self.DEMO_API_OUTPUT_FILE = self._get_env_with_default(
-            "DEMO_API_OUTPUT_FILE", "outputs/json/vm_users.json"
+            "DEMO_API_OUTPUT_FILE", "vm_users.json"
         )
 
         # Validation de la configuration
         self._validate_config()
-        
-        # Créer le dossier de sortie s'il n'existe pas
-        self._ensure_output_directory()
 
     def _get_env(self, key: str) -> Optional[str]:
         """Récupère une variable d'environnement optionnelle"""
@@ -121,24 +118,6 @@ class Config:
 
         if self.DEMO_API_MAX_RETRIES < 0:
             raise ValueError(f"Nombre de retry invalide: {self.DEMO_API_MAX_RETRIES}")
-    
-    def _ensure_output_directory(self) -> None:
-        """Crée tous les dossiers de sortie s'ils n'existent pas"""
-        import os
-        
-        # Créer tous les dossiers de rapports
-        output_dirs = [
-            self.output_directory,
-            self.json_output_directory,
-            self.html_output_directory,
-            self.markdown_output_directory,
-            self.csv_output_directory,
-            self.logs_output_directory,
-        ]
-        
-        for output_dir in output_dirs:
-            if not os.path.exists(output_dir):
-                os.makedirs(output_dir, exist_ok=True)
 
     # Propriétés de configuration pour l'accès facile
     @property
@@ -155,36 +134,6 @@ class Config:
     def has_token(self) -> bool:
         """Vérifie si un token est disponible"""
         return bool(self.DEMO_API_TOKEN)
-    
-    @property
-    def output_directory(self) -> str:
-        """Retourne le dossier de sortie principal"""
-        return "outputs"
-    
-    @property
-    def json_output_directory(self) -> str:
-        """Retourne le dossier pour les rapports JSON"""
-        return "outputs/json"
-    
-    @property
-    def html_output_directory(self) -> str:
-        """Retourne le dossier pour les rapports HTML"""
-        return "outputs/html"
-    
-    @property
-    def markdown_output_directory(self) -> str:
-        """Retourne le dossier pour les rapports Markdown"""
-        return "outputs/markdown"
-    
-    @property
-    def csv_output_directory(self) -> str:
-        """Retourne le dossier pour les rapports CSV"""
-        return "outputs/csv"
-    
-    @property
-    def logs_output_directory(self) -> str:
-        """Retourne le dossier pour les logs"""
-        return "outputs/logs"
 
     @property
     def auth_headers(self) -> Dict[str, str]:
