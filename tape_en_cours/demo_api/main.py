@@ -133,7 +133,7 @@ def create(
         cmd.append("--verbose")
 
     try:
-        result = subprocess.run(cmd, check=True, capture_output=True, 文本=True)
+        result = subprocess.run(cmd, check=True, capture_output=True, text=True)
         typer.echo(result.stdout)
     except subprocess.CalledProcessError as e:
         logger.error(
