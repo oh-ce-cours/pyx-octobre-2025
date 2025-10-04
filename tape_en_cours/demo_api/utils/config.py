@@ -66,7 +66,7 @@ class Config:
 
         # Configuration des fichiers
         self.DEMO_API_OUTPUT_FILE = self._get_env_with_default(
-            "DEMO_API_OUTPUT_FILE", "output/vm_users.json"
+            "DEMO_API_OUTPUT_FILE", "outputs/json/vm_users.json"
         )
 
         # Validation de la configuration
@@ -147,9 +147,33 @@ class Config:
     
     @property
     def output_directory(self) -> str:
-        """Retourne le dossier de sortie"""
-        import os
-        return os.path.dirname(self.DEMO_API_OUTPUT_FILE)
+        """Retourne le dossier de sortie principal"""
+        return "outputs"
+    
+    @property
+    def json_output_directory(self) -> str:
+        """Retourne le dossier pour les rapports JSON"""
+        return "outputs/json"
+    
+    @property
+    def html_output_directory(self) -> str:
+        """Retourne le dossier pour les rapports HTML"""
+        return "outputs/html"
+    
+    @property
+    def markdown_output_directory(self) -> str:
+        """Retourne le dossier pour les rapports Markdown"""
+        return "outputs/markdown"
+    
+    @property
+    def csv_output_directory(self) -> str:
+        """Retourne le dossier pour les rapports CSV"""
+        return "outputs/csv"
+    
+    @property
+    def logs_output_directory(self) -> str:
+        """Retourne le dossier pour les logs"""
+        return "outputs/logs"
 
     @property
     def auth_headers(self) -> Dict[str, str]:
