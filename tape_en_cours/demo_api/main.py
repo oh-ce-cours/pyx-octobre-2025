@@ -68,8 +68,7 @@ else:
     print("Erreur: Impossible de se connecter ou de récupérer les informations utilisateur")
     print("Token:", token)
 
-# a rajouter : passage de mot de passe en CLI
-# passage de varaibles en variable d'environnement
+# ✓ Implémenté : passage de mot de passe via CLI et variables d'environnement
 # logging
 # doc
 # sphinx
