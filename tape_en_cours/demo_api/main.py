@@ -49,9 +49,7 @@ logger.info("Sauvegarde terminée avec succès")
 # Gestion intelligente des tokens d'authentification
 logger.info("Début du processus d'authentification")
 token = get_or_create_token(
-    base_url=BASE_URL,
-    email="jean@dupont21.com",
-    token_env_var="DEMO_API_TOKEN"
+    base_url=BASE_URL, email="jean@dupont21.com", token_env_var="DEMO_API_TOKEN"
 )
 
 if not token:
