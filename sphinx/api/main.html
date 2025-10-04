@@ -299,12 +299,11 @@
 <dd><p>👤 Créer un nouvel utilisateur avec authentification</p>
 <p>Crée un utilisateur via /auth/signup et récupère son token d’authentification.</p>
 <p>Exemples:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>main.py<span class="w"> </span>signup
+python<span class="w"> </span>main.py<span class="w"> </span>signup<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;Alice Martin&quot;</span><span class="w"> </span>--email<span class="w"> </span><span class="s2">&quot;alice@example.com&quot;</span>
+python<span class="w"> </span>main.py<span class="w"> </span>signup<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;Bob Dupont&quot;</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;bob@test.com&quot;</span><span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;monmotdepasse&quot;</span><span class="w"> </span>--verbose
 </pre></div>
 </div>
-<p>python main.py signup
-python main.py signup –name “Alice Martin” –email “<a class="reference external" href="mailto:alice&#37;&#52;&#48;example&#46;com">alice<span>&#64;</span>example<span>&#46;</span>com</a>”
-python main.py signup -n “Bob Dupont” -e “<a class="reference external" href="mailto:bob&#37;&#52;&#48;test&#46;com">bob<span>&#64;</span>test<span>&#46;</span>com</a>” -p “monmotdepasse” –verbose</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

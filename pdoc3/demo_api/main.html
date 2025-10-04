@@ -442,9 +442,9 @@ def signup(
 
     .. code-block:: shell
 
-    python main.py signup
-    python main.py signup --name &#34;Alice Martin&#34; --email &#34;alice@example.com&#34;
-    python main.py signup -n &#34;Bob Dupont&#34; -e &#34;bob@test.com&#34; -p &#34;monmotdepasse&#34; --verbose
+        python main.py signup
+        python main.py signup --name &#34;Alice Martin&#34; --email &#34;alice@example.com&#34;
+        python main.py signup -n &#34;Bob Dupont&#34; -e &#34;bob@test.com&#34; -p &#34;monmotdepasse&#34; --verbose
     &#34;&#34;&#34;
     from utils.api.auth import Auth
     from utils.config import config
@@ -537,9 +537,10 @@ def signup(
 <p>Crée un utilisateur via /auth/signup et récupère son token d'authentification.</p>
 <p>Exemples:</p>
 <p>.. code-block:: shell</p>
-<p>python main.py signup
-python main.py signup &ndash;name "Alice Martin" &ndash;email "alice@example.com"
-python main.py signup -n "Bob Dupont" -e "bob@test.com" -p "monmotdepasse" &ndash;verbose</p></div>
+<pre><code>python main.py signup
+python main.py signup --name "Alice Martin" --email "alice@example.com"
+python main.py signup -n "Bob Dupont" -e "bob@test.com" -p "monmotdepasse" --verbose
+</code></pre></div>
 </dd>
 <dt id="demo_api.main.version"><code class="name flex">
 <span>def <span class="ident">version</span></span>(<span>) ‑> None</span>
