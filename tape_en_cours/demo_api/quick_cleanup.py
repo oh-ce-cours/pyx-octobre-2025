@@ -147,86 +147,148 @@ def quick_cleanup(
             )
             return
 
-        # Suppression réelle
-        print(
-            f"\n🗑️  Suppression en cours avec délai de {delay}s entre chaque opération..."
+        # Suppression réelle avec progress bar
+        console.print(
+            Panel.fit(
+                f"[bold red]🗑️  SUPPRESSION RÉELLE EN cours...[/bold red]\n"
+                f"Délai entre opérations: [bold]{delay}s[/bold]",
+                border_style="red",
+            )
         )
 
         # Supprimer les VMs d'abord
         try:
-            vms = client.vms.get()
-            deleted_vms = 0
+            with console.status(
+                "[bold green]Récupération des VMs pour suppression..."
+            ) as status:
+                vms = client.vms.get()
 
-            for i, vm in enumerate(vms):
-                try:
-                    client.vms.delete(vm["id"])
-                    print(f"   ✅ VM supprimée ({i + 1}/{len(vms)}): {vm['name']}")
-                    deleted_vms += 1
+            if not vms:
+                console.print("[yellow]⚠️  Aucune VM à supprimer[/yellow]")
+                deleted_vms = 0
+            else:
+                deleted_vms = 0
 
-                    # Pause entre les suppressions pour éviter les 429
-                    if i < len(vms) - 1:  # Pas de pause après la dernière suppression
-                        print(
-                            f"   ⏱️  Pause de {delay}s avant la prochaine suppression..."
-                        )
-                        time.sleep(delay)
+                with Progress(
+                    SpinnerColumn(),
+                    TextColumn("[progress.description]{task.description}"),
+                    console=console,
+                ) as progress:
+                    task = progress.add_task(
+                        f"Suppression de {len(vms)} VMs...", total=len(vms)
+                    )
 
-                except Exception as e:
-                    print(f"   ❌ Erreur suppression VM {vm['id']}: {e}")
-                    # Pause même en cas d'erreur pour éviter d'aggraver les problèmes de rate limiting
-                    if i < len(vms) - 1:
-                        print(f"   ⏱️  Pause après erreur ({delay}s)...")
-                        time.sleep(delay)
+                    for i, vm in enumerate(vms):
+                        try:
+                            with console.status(
+                                f"Suppression VM {vm['id']}: {vm['name']}..."
+                            ) as delete_status:
+                                client.vms.delete(vm["id"])
 
-            print(f"📊 VMs supprimées: {deleted_vms}/{len(vms)}")
+                            console.print(
+                                f"[green]✅ VM supprimée ({i + 1}/{len(vms)}): [bold]{vm['name']}[/bold][/green]"
+                            )
+                            deleted_vms += 1
+                            progress.update(task, advance=1)
 
-            # Pause plus longue avant de passer aux utilisateurs
+                            # Pause entre les suppressions
+                            if i < len(vms) - 1:
+                                console.print(f"[dim]⏱️  Pause de {delay}s...[/dim]")
+                                time.sleep(delay)
+
+                        except Exception as e:
+                            console.print(
+                                f"[red]❌ Erreur suppression VM {vm['id']}: {e}[/red]"
+                            )
+                            progress.update(task, advance=1)
+
+                            # Pause même en cas d'erreur
+                            if i < len(vms) - 1:
+                                console.print(
+                                    f"[dim]⏱️  Pause après erreur ({delay}s)...[/dim]"
+                                )
+                                time.sleep(delay)
+
+            console.print(
+                f"[bold cyan]📊 Résultat VMs: [green]{deleted_vms}/{len(vms)} supprimées[/green][/bold cyan]"
+            )
+
+            # Pause avant utilisateurs
             if deleted_vms > 0:
-                print(
-                    f"   ⏱️  Pause de {delay + 1}s avant de passer aux utilisateurs..."
+                console.print(
+                    f"[dim]⏱️  Pause de {delay + 1}s avant les utilisateurs...[/dim]"
                 )
                 time.sleep(delay + 1)
 
         except Exception as e:
-            print(f"❌ Erreur lors de la récupération des VMs: {e}")
+            console.print(f"[red]❌ Erreur lors de la récupération des VMs: {e}[/red]")
 
         # Supprimer les utilisateurs ensuite
         try:
-            users = client.users.get()
-            deleted_users = 0
+            with console.status("[bold green]Récupération des utilisateurs pour suppression...") as status:
+                users = client.users.get()
+            
+            if not users:
+                console.print("[yellow]⚠️  Aucun utilisateur à supprimer[/yellow]")
+                deleted_users = 0
+            else:
+                deleted_users = 0
+                
+                with Progress(
+                    SpinnerColumn(),
+                    TextColumn("[progress.description]{task.description}"),
+                    console=console
+                ) as progress:
+                    task = progress.add_task(f"Suppression de {len(users)} utilisateurs...", total=len(users))
+                    
+                    for i, user in enumerate(users):
+                        try:
+                            with console.status(f"Suppression utilisateur {user['id']}: {user['name']}...") as delete_status:
+                                client.users.delete_user(user["id"])
+                                
+                            console.print(f"[green]✅ Utilisateur supprimé ({i + 1}/{len(users)}): [bold]{user['name']}[/bold][/green]")
+                            deleted_users += 1
+                            progress.update(task, advance=1)
 
-            print(f"\n👥 Suppression des utilisateurs avec délai de {delay}s...")
+                            # Pause entre les suppressions
+                            if i < len(users) - 1:
+                                console.print(f"[dim]⏱️  Pause de {delay}s...[/dim]")
+                                time.sleep(delay)
 
-            for i, user in enumerate(users):
-                try:
-                    client.users.delete_user(user["id"])
-                    print(
-                        f"   ✅ Utilisateur supprimé ({i + 1}/{len(users)}): {user['name']}"
-                    )
-                    deleted_users += 1
+                        except Exception as e:
+                            console.print(f"[red]❌ Erreur suppression User {user['id']}: {e}[/red]")
+                            progress.update(task, advance=1)
+                            
+                            # Pause même en cas d'erreur
+                            if i < len(users) - 1:
+                                console.print(f"[dim]⏱️  Pause après erreur ({delay}s)...[/dim]")
+                                time.sleep(delay)
 
-                    # Pause entre les suppressions pour éviter les 429
-                    if i < len(users) - 1:  # Pas de pause après la dernière suppression
-                        print(
-                            f"   ⏱️  Pause de {delay}s avant la prochaine suppression..."
-                        )
-                        time.sleep(delay)
-
-                except Exception as e:
-                    print(f"   ❌ Erreur suppression User {user['id']}: {e}")
-                    # Pause même en cas d'erreur pour éviter d'aggraver les problèmes de rate limiting
-                    if i < len(users) - 1:
-                        print(f"   ⏱️  Pause après erreur ({delay}s)...")
-                        time.sleep(delay)
-
-            print(f"📊 Utilisateurs supprimés: {deleted_users}/{len(users)}")
+            console.print(f"[bold cyan]📊 Résultat Utilisateurs: [green]{deleted_users}/{len(users)} supprimés[/green][/bold cyan]")
+            
         except Exception as e:
-            print(f"❌ Erreur lors de la récupération des utilisateurs: {e}")
+            console.print(f"[red]❌ Erreur lors de la récupération des utilisateurs: {e}[/red]")
 
-        print("\n✅ Nettoyage terminé!")
+        # Résumé final
+        total_deleted = deleted_vms + deleted_users
+        summary_table = Table(title="🎯 Résumé du nettoyage")
+        summary_table.add_column("Type", style="cyan")
+        summary_table.add_column("Supprimé", style="green")
+        summary_table.add_column("Total", style="yellow")
+        
+        summary_table.add_row("VMs", str(deleted_vms), str(len(vms)))
+        summary_table.add_row("Utilisateurs", str(deleted_users), str(len(users)))
+        summary_table.add_row("**TOTAL**", f"[bold]{total_deleted}[/bold]", f"[bold]{len(vms) + len(users)}[/bold]")
+        
+        console.print(summary_table)
+        console.print(Panel.fit(
+            "[bold green]✅ NETTOYAGE TERMINÉ AVEC SUCCÈS ![/bold green]",
+            border_style="green"
+        ))
 
     except Exception as e:
-        print(f"❌ Erreur critique: {e}")
-        sys.exit(1)
+        console.print(f"[bold red]❌ Erreur critique: {e}[/bold red]")
+        raise typer.Exit(1)
 
 
 def main():
