@@ -64,8 +64,18 @@ html_theme = "furo"
 html_baseurl = "https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/sphinx/"
 
 # Configuration des chemins pour GitHub Pages
-html_use_opensearch = "https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/"
+html_use_opensearch = "https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy/sphinx/"
 html_short_title = "Demo API Docs"
+
+# Force l'utilisation de chemins absolus pour tous les assets
+html_use_index = True
+html_add_permalinks = True
+html_permalinks = True
+html_permalinks_icon = "§"
+
+# Configuration pour forcer les chemins absolus des assets statiques
+html_css_files = []
+html_js_files = []
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
