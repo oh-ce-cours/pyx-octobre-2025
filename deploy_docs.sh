@@ -28,17 +28,28 @@ BASE_URL="https://oh-ce-cours.github.io/pyx-octobre-2025/docs-deploy"
 # Fonction pour corriger les chemins CSS de manière propre
 fix_css_paths() {
     local file="$1"
+    local relative_path=""
+    
+    # Déterminer le chemin relatif selon le dossier
+    if [[ "$file" == *"/sphinx/"* ]]; then
+        relative_path="${BASE_URL}/sphinx"
+    elif [[ "$file" == *"/pdoc3/"* ]]; then
+        relative_path="${BASE_URL}/pdoc3"
+    else
+        relative_path="${BASE_URL}"
+    fi
+    
     # Remplacer tous les chemins relatifs vers _static par des chemins absolus
     sed -i '' \
-        -e "s|href=\"_static/|href=\"${BASE_URL}/_static/|g" \
-        -e "s|href=\"../_static/|href=\"${BASE_URL}/_static/|g" \
-        -e "s|href=\"../../_static/|href=\"${BASE_URL}/_static/|g" \
-        -e "s|src=\"_static/|src=\"${BASE_URL}/_static/|g" \
-        -e "s|src=\"../_static/|src=\"${BASE_URL}/_static/|g" \
-        -e "s|src=\"../../_static/|src=\"${BASE_URL}/_static/|g" \
-        -e "s|url(_static/|url(${BASE_URL}/_static/|g" \
-        -e "s|url(../_static/|url(${BASE_URL}/_static/|g" \
-        -e "s|url(../../_static/|url(${BASE_URL}/_static/|g" \
+        -e "s|href=\"_static/|href=\"${relative_path}/_static/|g" \
+        -e "s|href=\"../_static/|href=\"${relative_path}/_static/|g" \
+        -e "s|href=\"../../_static/|href=\"${relative_path}/_static/|g" \
+        -e "s|src=\"_static/|src=\"${relative_path}/_static/|g" \
+        -e "s|src=\"../_static/|src=\"${relative_path}/_static/|g" \
+        -e "s|src=\"../../_static/|src=\"${relative_path}/_static/|g" \
+        -e "s|url(_static/|url(${relative_path}/_static/|g" \
+        -e "s|url(../_static/|url(${relative_path}/_static/|g" \
+        -e "s|url(../../_static/|url(${relative_path}/_static/|g" \
         "$file"
 }
 
