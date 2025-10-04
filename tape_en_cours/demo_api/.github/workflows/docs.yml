@@ -18,10 +18,12 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
+        working-directory: tape_en_cours/demo_api
         run: |
           pip install -r requirements.txt
 
       - name: Generate Documentation
+        working-directory: tape_en_cours/demo_api
         run: |
           python scripts/generate_docs.py
 
@@ -30,5 +32,5 @@ jobs:
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docs/sphinx/build
-          # Pour pdoc3, utilisez: publish_dir: docs/pdoc3
+          publish_dir: tape_en_cours/demo_api/docs/sphinx/build
+          # Pour pdoc3, utilisez: publish_dir: tape_en_cours/demo_api/docs/pdoc3
