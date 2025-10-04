@@ -1,19 +1,19 @@
 {
     "data": {
         "summary": {
-            "total_users": 35,
-            "total_vms": 21
+            "total_users": 5,
+            "total_vms": 50
         },
         "vm_status_counts": {
-            "deleting": 6,
+            "deleting": 2,
             "paused": 4,
-            "provisioning": 3,
-            "running": 5,
-            "stopped": 3
+            "provisioning": 4,
+            "running": 28,
+            "stopped": 12
         }
     },
     "metadata": {
-        "generated_at": "2025-10-04T15:56:49.132045",
+        "generated_at": "2025-10-04T19:49:49.411584",
         "generator": "JSONReportGenerator",
         "version": "1.0.0"
     }

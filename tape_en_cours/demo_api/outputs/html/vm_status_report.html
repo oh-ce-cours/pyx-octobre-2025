@@ -104,7 +104,7 @@
         <h1>📊 Rapport de Statut des VMs</h1>
         
         <div class="metadata">
-            <strong>Généré le :</strong> 2025-10-04T15:56:49.137345<br>
+            <strong>Généré le :</strong> 2025-10-04T19:49:49.416979<br>
             <strong>Générateur :</strong> HTMLReportGenerator<br>
             <strong>Version :</strong> 1.0.0
         </div>
@@ -117,11 +117,11 @@
             </tr>
             <tr>
                 <td><strong>Total VMs</strong></td>
-                <td>21</td>
+                <td>50</td>
             </tr>
             <tr>
                 <td><strong>Total Utilisateurs</strong></td>
-                <td>35</td>
+                <td>5</td>
             </tr>
         </table>
 
@@ -129,37 +129,37 @@
         <div class="status-grid">
             <div class="status-card status-stopped">
                 <h3>Stopped</h3>
-                <div class="status-count">3</div>
+                <div class="status-count">12</div>
                 <div class="status-percentage">
-                    14.3% du total
+                    24.0% du total
                 </div>
             </div>
-            <div class="status-card status-deleting">
-                <h3>Deleting</h3>
-                <div class="status-count">6</div>
+            <div class="status-card status-provisioning">
+                <h3>Provisioning</h3>
+                <div class="status-count">4</div>
                 <div class="status-percentage">
-                    28.6% du total
+                    8.0% du total
                 </div>
             </div>
             <div class="status-card status-running">
                 <h3>Running</h3>
-                <div class="status-count">5</div>
+                <div class="status-count">28</div>
                 <div class="status-percentage">
-                    23.8% du total
+                    56.0% du total
                 </div>
             </div>
             <div class="status-card status-paused">
                 <h3>Paused</h3>
                 <div class="status-count">4</div>
                 <div class="status-percentage">
-                    19.0% du total
+                    8.0% du total
                 </div>
             </div>
-            <div class="status-card status-provisioning">
-                <h3>Provisioning</h3>
-                <div class="status-count">3</div>
+            <div class="status-card status-deleting">
+                <h3>Deleting</h3>
+                <div class="status-count">2</div>
                 <div class="status-percentage">
-                    14.3% du total
+                    4.0% du total
                 </div>
             </div>
         </div>
@@ -168,36 +168,36 @@
         <div class="chart">
             <div>
                 <strong>Stopped        </strong>: 
-██ 3
-            </div>
-            <div>
-                <strong>Deleting       </strong>: 
-█████ 6
-            </div>
-            <div>
-                <strong>Running        </strong>: 
-████ 5
-            </div>
-            <div>
-                <strong>Paused         </strong>: 
-███ 4
+████ 12
             </div>
             <div>
                 <strong>Provisioning   </strong>: 
-██ 3
+█ 4
+            </div>
+            <div>
+                <strong>Running        </strong>: 
+███████████ 28
+            </div>
+            <div>
+                <strong>Paused         </strong>: 
+█ 4
+            </div>
+            <div>
+                <strong>Deleting       </strong>: 
+ 2
             </div>
         </div>
 
         <h2>🔍 Détails par Statut</h2>
-        <h3>Stopped (3 VMs)</h3>
+        <h3>Stopped (12 VMs)</h3>
         <p>
             🔴 <strong>Arrêtées</strong> - VMs éteintes mais disponibles
         </p>
-        <h3>Deleting (6 VMs)</h3>
+        <h3>Provisioning (4 VMs)</h3>
         <p>
-            🗑️ <strong>En cours de suppression</strong> - VMs en cours de suppression
+            ⚙️ <strong>En cours de provisionnement</strong> - VMs en cours de création
         </p>
-        <h3>Running (5 VMs)</h3>
+        <h3>Running (28 VMs)</h3>
         <p>
             🟢 <strong>En cours d'exécution</strong> - VMs actives et opérationnelles
         </p>
@@ -205,9 +205,9 @@
         <p>
             ⏸️ <strong>En pause</strong> - VMs temporairement suspendues
         </p>
-        <h3>Provisioning (3 VMs)</h3>
+        <h3>Deleting (2 VMs)</h3>
         <p>
-            ⚙️ <strong>En cours de provisionnement</strong> - VMs en cours de création
+            🗑️ <strong>En cours de suppression</strong> - VMs en cours de suppression
         </p>
 
         <div class="footer">

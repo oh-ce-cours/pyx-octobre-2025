@@ -1,6 +1,6 @@
 # 📊 Rapport de Statut des VMs
 
-**Généré le :** 2025-10-04T15:56:49.132331  
+**Généré le :** 2025-10-04T19:49:49.412376  
 **Générateur :** MarkdownReportGenerator  
 **Version :** 1.0.0
 
@@ -10,32 +10,32 @@
 
 | Métrique | Valeur |
 |----------|--------|
-| **Total VMs** | 21 |
-| **Total Utilisateurs** | 35 |
+| **Total VMs** | 50 |
+| **Total Utilisateurs** | 5 |
 
 ---
 
 ## 🖥️ Répartition par Statut
 
 ### Stopped
-- **Nombre :** 3 VMs
-- **Pourcentage :** 14.3%
+- **Nombre :** 12 VMs
+- **Pourcentage :** 24.0%
 
-### Deleting
-- **Nombre :** 6 VMs
-- **Pourcentage :** 28.6%
+### Provisioning
+- **Nombre :** 4 VMs
+- **Pourcentage :** 8.0%
 
 ### Running
-- **Nombre :** 5 VMs
-- **Pourcentage :** 23.8%
+- **Nombre :** 28 VMs
+- **Pourcentage :** 56.0%
 
 ### Paused
 - **Nombre :** 4 VMs
-- **Pourcentage :** 19.0%
+- **Pourcentage :** 8.0%
 
-### Provisioning
-- **Nombre :** 3 VMs
-- **Pourcentage :** 14.3%
+### Deleting
+- **Nombre :** 2 VMs
+- **Pourcentage :** 4.0%
 
 
 ---
@@ -43,31 +43,31 @@
 ## 📊 Graphique des Statuts
 
 ```
-Stopped        : ██ 3
-Deleting       : █████ 6
-Running        : ████ 5
-Paused         : ███ 4
-Provisioning   : ██ 3
+Stopped        : ████ 12
+Provisioning   : █ 4
+Running        : ███████████ 28
+Paused         : █ 4
+Deleting       :  2
 ```
 
 ---
 
 ## 🔍 Détails par Statut
 
-### Stopped (3 VMs)
+### Stopped (12 VMs)
 🔴 **Arrêtées** - VMs éteintes mais disponibles
 
-### Deleting (6 VMs)
-🗑️ **En cours de suppression** - VMs en cours de suppression
+### Provisioning (4 VMs)
+⚙️ **En cours de provisionnement** - VMs en cours de création
 
-### Running (5 VMs)
+### Running (28 VMs)
 🟢 **En cours d'exécution** - VMs actives et opérationnelles
 
 ### Paused (4 VMs)
 ⏸️ **En pause** - VMs temporairement suspendues
 
-### Provisioning (3 VMs)
-⚙️ **En cours de provisionnement** - VMs en cours de création
+### Deleting (2 VMs)
+🗑️ **En cours de suppression** - VMs en cours de suppression
 
 
 ---
