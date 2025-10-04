@@ -10,11 +10,10 @@ avec des données réalistes.
 import typer
 import time
 import sys
-from typing import Optional, List, Dict, Any, Callable
+from typing import Optional, List, Dict, Any
 from pathlib import Path
 import json
 from datetime import datetime
-from functools import wraps
 from rich.console import Console
 from rich.progress import (
     Progress,
@@ -376,13 +375,6 @@ def users(
         2.0, "--delay", "-d", help="Délai entre les lots (secondes)", min=0.5, max=10.0
     ),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Mode verbeux"),
-    max_retries: int = typer.Option(
-        5,
-        "--max-retries",
-        help="Nombre maximum de retries pour les erreurs 429",
-        min=1,
-        max=10,
-    ),
 ) -> None:
     """
     👥 Créer des utilisateurs via l'API avec des données Faker
@@ -420,7 +412,6 @@ def users(
             user_count=count,
             batch_size=batch_size,
             delay_between_batches=delay,
-            max_retries=max_retries,
         )
 
         # Statistiques
@@ -463,13 +454,6 @@ def vms(
         2.0, "--delay", "-d", help="Délai entre les lots (secondes)", min=0.5, max=10.0
     ),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Mode verbeux"),
-    max_retries: int = typer.Option(
-        5,
-        "--max-retries",
-        help="Nombre maximum de retries pour les erreurs 429",
-        min=1,
-        max=10,
-    ),
 ) -> None:
     """
     🖥️ Créer des VMs via l'API avec des données Faker
@@ -529,7 +513,6 @@ def vms(
             user_ids=user_ids,
             batch_size=batch_size,
             delay_between_batches=delay,
-            max_retries=max_retries,
         )
 
         # Statistiques
@@ -582,13 +565,6 @@ def full_dataset(
         help="Fichier de sortie pour sauvegarder les données créées",
     ),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Mode verbeux"),
-    max_retries: int = typer.Option(
-        5,
-        "--max-retries",
-        help="Nombre maximum de retries pour les erreurs 429",
-        min=1,
-        max=10,
-    ),
 ) -> None:
     """
     🎯 Créer un dataset complet via l'API avec des données Faker
@@ -635,7 +611,6 @@ def full_dataset(
             user_count=user_count,
             batch_size=batch_size,
             delay_between_batches=delay,
-            max_retries=max_retries,
         )
 
         # Étape 2: Créer les VMs
@@ -652,7 +627,6 @@ def full_dataset(
             user_ids=user_ids,
             batch_size=batch_size,
             delay_between_batches=delay,
-            max_retries=max_retries,
         )
 
         # Statistiques finales
