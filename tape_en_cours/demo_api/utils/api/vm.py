@@ -97,21 +97,27 @@ def create_vm(
         logger.debug(f"Envoi de la requête POST vers {base_url}/vm")
         logger.debug(f"Headers: {headers}")
         logger.debug(f"Payload: {payload}")
-        
+
         resp = requests.post(f"{base_url}/vm", json=payload, timeout=5, headers=headers)
         logger.debug(f"Réponse reçue - Status: {resp.status_code}")
         logger.debug(f"Headers de réponse: {dict(resp.headers)}")
         logger.debug(f"Contenu de la réponse: {resp.text[:500]}...")
-        
+
         resp.raise_for_status()
 
         # Vérifier que la réponse n'est pas vide
         if not resp.text or resp.text.strip() == "":
-            logger.error("Réponse API vide pour la création de VM", status_code=resp.status_code)
+            logger.error(
+                "Réponse API vide pour la création de VM", status_code=resp.status_code
+            )
             raise VMCreationError(
                 f"Réponse API vide lors de la création de la VM '{name}' pour l'utilisateur {user_id}",
                 status_code=resp.status_code,
-                response_data={"error": "empty_response", "user_id": user_id, "name": name},
+                response_data={
+                    "error": "empty_response",
+                    "user_id": user_id,
+                    "name": name,
+                },
                 user_id=user_id,
                 vm_name=name,
             )

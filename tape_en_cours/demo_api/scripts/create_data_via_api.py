@@ -360,14 +360,18 @@ def create_vms_via_api(
                     if not user_ids or len(user_ids) == 0:
                         logger.error(f"user_ids invalide: {user_ids}")
                         raise ValueError("Liste d'IDs d'utilisateurs vide ou None")
-                    
+
                     selected_user_id = user_ids[created_count % len(user_ids)]
-                    logger.debug(f"Utilisateur sélectionné: {selected_user_id} (type: {type(selected_user_id)})")
-                    
+                    logger.debug(
+                        f"Utilisateur sélectionné: {selected_user_id} (type: {type(selected_user_id)})"
+                    )
+
                     if selected_user_id is None:
-                        logger.error(f"ID utilisateur None trouvé dans user_ids: {user_ids}")
+                        logger.error(
+                            f"ID utilisateur None trouvé dans user_ids: {user_ids}"
+                        )
                         raise ValueError("ID utilisateur None trouvé")
-                    
+
                     # Générer les données VM avec Faker
                     vm_data = VMDataGenerator.generate_vm(
                         user_id=selected_user_id,
