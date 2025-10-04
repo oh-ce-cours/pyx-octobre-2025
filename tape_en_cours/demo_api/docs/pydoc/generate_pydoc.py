@@ -77,9 +77,40 @@ def generate_pydoc_html(module_name: str, output_dir: Path, project_root: Path) 
         html_file = output_dir / f"{module_name}.html"
         html_file.parent.mkdir(parents=True, exist_ok=True)
 
-        # Générer la documentation HTML
-        with open(html_file, "w", encoding="utf-8") as f:
-            pydoc.writedoc(module_name, f)
+        # Générer la documentation HTML avec pydoc
+        html_content = pydoc.HTMLDoc().document(module_name)
+        
+        # Ajouter un en-tête HTML complet
+        full_html = f"""<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{module_name} - Documentation pydoc</title>
+    <style>
+        body {{ font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }}
+        h1 {{ color: #333; border-bottom: 2px solid #eee; }}
+        h2 {{ color: #666; margin-top: 30px; }}
+        h3 {{ color: #888; }}
+        .back-link {{ margin-bottom: 20px; }}
+        .back-link a {{ color: #0066cc; text-decoration: none; }}
+        .back-link a:hover {{ text-decoration: underline; }}
+        pre {{ background-color: #f5f5f5; padding: 10px; border-radius: 5px; overflow-x: auto; }}
+        code {{ background-color: #f5f5f5; padding: 2px 4px; border-radius: 3px; }}
+        .function {{ margin: 15px 0; }}
+        .class {{ margin: 20px 0; border: 1px solid #ddd; padding: 15px; border-radius: 5px; }}
+    </style>
+</head>
+<body>
+    <div class="back-link">
+        <a href="index.html">← Retour à l'index</a>
+    </div>
+    {html_content}
+</body>
+</html>"""
+
+        # Écrire le fichier HTML complet
+        html_file.write_text(full_html, encoding="utf-8")
 
         print(f"✓ Généré: {html_file}")
 
