@@ -64,7 +64,7 @@ def generate_reports(
     logger.info(
         "Début de génération des rapports",
         report_type=report_type.value,
-        format=format.value,
+        format=report_format.value,
         output_dir=output_dir,
     )
 
@@ -77,16 +77,17 @@ def generate_reports(
 
     # Déterminer les formats à générer
     formats_to_generate = []
-    if format == ReportFormat.ALL:
+    if report_format == ReportFormat.ALL:
         formats_to_generate = [ReportFormat.JSON, ReportFormat.MARKDOWN, ReportFormat.HTML]
     else:
-        formats_to_generate = [format]
+        formats_to_generate = [report_format]
 
     # Génération des rapports utilisateurs/VMs
     if report_type in [ReportType.USERS_VMS, ReportType.ALL]:
         typer.echo("📊 Génération du rapport utilisateurs/VMs...")
 
         for fmt in formats_to_generate:
+            report_file = None
             if fmt == ReportFormat.JSON:
                 report_file = report_service.generate_users_vms_report("vm_users.json")
             elif fmt == ReportFormat.MARKDOWN:
@@ -106,6 +107,7 @@ def generate_reports(
         typer.echo("📈 Génération du rapport de statut des VMs...")
 
         for fmt in formats_to_generate:
+            status_file = None
             if fmt == ReportFormat.JSON:
                 status_file = report_service.generate_status_report("vm_status_report.json")
             elif fmt == ReportFormat.MARKDOWN:
