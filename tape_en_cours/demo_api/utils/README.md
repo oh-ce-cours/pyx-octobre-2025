@@ -13,17 +13,32 @@
 pip install -r requirements.txt
 ```
 
-## Variables d'environnement
+## Configuration centralisée
 
-Le système de gestion des mots de passe utilise les variables d'environnement suivantes :
+Le projet utilise maintenant un système de configuration centralisée avec `python-dotenv` qui gère automatiquement tous les paramètres de l'application.
+
+### Variables d'environnement disponibles
+
+Le système de configuration gère les variables d'environnement suivantes :
 
 ### Variables disponibles
 
+#### **Configuration API :**
+- `DEMO_API_BASE_URL` : URL de base de l'API (défaut: https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt)
+- `DEMO_API_TIMEOUT` : Timeout des requêtes en secondes (défaut: 5)
+- `DEMO_API_MAX_RETRIES` : Nombre de tentatives en cas d'échec (défaut: 3)
+
+#### **Authentification :**
 - `DEMO_API_EMAIL` : Email pour se connecter à l'API
 - `DEMO_API_PASSWORD` : Mot de passe pour se connecter à l'API
 - `DEMO_API_TOKEN` : Token d'authentification (optionnel - créé automatiquement)
+
+#### **Logging :**
 - `DEMO_API_DEBUG` : Active le mode debug (true/false)
 - `DEMO_API_LOG_LEVEL` : Niveau de logging (DEBUG, INFO, WARNING, ERROR)
+
+#### **Fichiers :**
+- `DEMO_API_OUTPUT_FILE` : Nom du fichier de sortie JSON (défaut: vm_users.json)
 
 ### Configuration
 
@@ -138,6 +153,48 @@ token = get_or_create_token(
 2. **Exécutions suivantes** : Utilise le token sauvegardé (plus rapide)
 3. **Token expiré** : Détecte automatiquement et recrée un nouveau token
 4. **Environnement de production** : Utilise uniquement les tokens des variables d'environnement
+
+## Utilisation de la configuration centralisée
+
+### Import et configuration
+
+```python
+from utils.config import config
+
+# Accès direct aux propriétés
+base_url = config.DEMO_API_BASE_URL
+timeout = config.DEMO_API_TIMEOUT
+debug_mode = config.DEMO_API_DEBUG
+```
+
+### Propriétés pratiques
+
+```python
+# Vérification de l'environnement
+if config.is_production:
+    print("Mode production activé")
+
+# Vérification des identifiants
+if config.has_credentials:
+    print("Identifiants disponibles")
+
+# Headers d'authentification automatiques
+headers = config.auth_headers
+if headers:
+    api_call(url, headers=headers)
+
+# Configuration client complète
+client_config = config.client_config
+# {'base_url': '...', 'timeout': 5, 'max_retries': 3, 'ssl_verify': True}
+```
+
+### Validation automatique
+
+Les configurations sont automatiquement validées au démarrage :
+- URL valide (commence par `http`)
+- Niveau de log valide
+- Valeurs numériques positives
+- Format des booléens
 
 ## Organisation des fichiers .env avec python-dotenv
 

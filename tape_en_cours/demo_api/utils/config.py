@@ -153,8 +153,8 @@ class Config:
         """Retourne la configuration sous forme de dictionnaire (sans les secrets)"""
         return {
             'demo_api_base_url': self.DEMO_API_BASE_URL,
-			'demo_api_debug': self.DEMO_API_DEBUG,
-			'demo_api_log_level': self.DEMO_API_LOG_LEVEL,
+            'demo_api_debug': self.DEMO_API_DEBUG,
+            'demo_api_log_level': self.DEMO_API_LOG_LEVEL,
             'demo_api_timeout': self.DEMO_API_TIMEOUT,
             'demo_api_max_retries': self.DEMO_API_MAX_RETRIES,
             'demo_api_output_file': self.DEMO_API_OUTPUT_FILE,
