@@ -1,10 +1,5 @@
-# 📚 Projet PYx - Formation Python Avancé
+# 📚 Projet PYX - Formation pour administrateurs système
 
-> Repository pédagogique pour la formation Python avancé incluant exercices, corrections et démonstrations pratiques
-
-## 🚀 À propos
-
-Ce repository contient un ensemble complet de ressources pédagogiques pour l'enseignement du Python avancé, incluant des exercices pratiques, leurs corrections détaillées, des démonstrations interactives et une API de démonstration fonctionnelle.
 
 ## 📁 Structure du projet
 
@@ -16,84 +11,6 @@ Ce repository contient un ensemble complet de ressources pédagogiques pour l'en
 ├── corrections.pdf         # Corrections des exercices
 └── medias/                 # Ressources multimédia (logs, images, données)
 ```
-
-### 🎯 Modules de formation
-
-#### 🛠️ Administration système
-**`corrections/administrationSysteme/`**
-- **IP/** : Manipulation des adresses IP (conversion, validation, calculs de sous-réseaux)
-- **manipulationFichiers/** : Exercices sur la gestion de fichiers (génération, organisation)
-- **manipulationLogs/** : Analyse de logs Apache avec Python
-- **manipulationTexte/** : Traitement de texte et extraction de données
-- **scraping/** : Techniques de web scraping et collecte de données
-
-#### 📊 Sciences des données
-**`corrections/scipy/`**
-- Scripts pandas pour manipulation de données
-- Analyses scientifiques avec matplotlib/seaborn
-- Simulations numériques (Lotka-Volterra, marches aléatoires)
-- Traitement d'images et filtrage de signaux
-- Nouvelles corrigées pour COVID-19
-
-#### 🎮 Programmation orientée objet
-**`corrections/poo/`** et **`pooAvancee/`**
-- Concepts fondamentaux de l'OOP
-- Design patterns et métaclasses
-- Injection de dépendances
-- Système d'événements personnalisés
-
-#### 🔄 Programmation parallèle
-**`corrections/parallelisme/`**
-- Multiprocessing avec bibliothèque `multiprocessing`
-- Concurrence asynchrone avec `asyncio`
-- Threading et optimisations de performance
-- Exemples pratiques de parallélisation
-
-#### 🌐 Interfaces graphiques
-**`corrections/gui/`**
-- Applications Qt avec PyInstaller
-- Tkinter pour interfaces simples
-- Applications métier (calculatrice, tableur, paint)
-
-#### 🔧 Intégration C/Python
-**`corrections/integrationC/`**
-- **ctypes/** : Interface avec bibliothèques C
-- **cython/** : Optimisation de performance
-- **embedPython/** : Intégration Python dans applications C
-
-#### ✨ Fonctions avancées
-**`corrections/fonctionsAvancees/`**
-- Générateurs et décorateurs
-- Pipelines de données fonctionnels
-- Fonctions deprecated et migrations
-- Patterns de programmation fonctionnelle
-
-#### 📊 Dash et visualisation
-**`corrections/dash/`**
-- Applications Dash interactives
-- Cross-filtering et dashboards
-- Intégration matplotlib avec Plotly
-- Application trading avec données en temps réel
-
-#### 🗃️ Bases de données et modules
-**`corrections/modules/`**
-- Connexions SQLite et requêtes avancées
-- Expressions régulières avancées
-- Patterns de connexion et gestion d'erreurs
-
-### 🔨 Autres cours spécialisés
-
-#### 🎭 Ansible
-**`autres_cours/ansible/`**
-- Playbooks complets pour architectures 3-tiers
-- Déploiement WordPress automatisé
-- Gestion d'inventaires et rôles
-- Exercices pratiques avec corrections
-
-#### 🐍 Python avancé
-**`autres_cours/python_avance/`**
-- Présentations et handouts spécialisés
-- Concepts avancés du langage Python
 
 ### 🚀 Démonstration API fonctionnelle
 
