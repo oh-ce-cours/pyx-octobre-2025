@@ -824,8 +824,8 @@ def status() -> None:
 
     Exemples:
 
-    \b
-    python create_data_via_api.py status
+    .. code-block:: shell
+        python create_data_via_api.py status
     """
     display_header("📊 Statut de l'API", "Récupération des statistiques actuelles")
 
