@@ -2,7 +2,12 @@ import requests
 from utils.date_utils import parse_unix_timestamp
 from utils.logging_config import get_logger
 from utils.config import config
-from .exceptions import UsersFetchError, UserCreationError, UserUpdateError, UserDeleteError
+from .exceptions import (
+    UsersFetchError,
+    UserCreationError,
+    UserUpdateError,
+    UserDeleteError,
+)
 
 # Logger pour ce module
 logger = get_logger(__name__)
@@ -117,18 +122,20 @@ def create_user(base_url, token, name, email, password=None):
     """
     logger.info("Création d'un nouvel utilisateur", name=name, email=email)
 
-    payload = {
-        "name": name,
-        "email": email
-    }
-    
+    payload = {"name": name, "email": email}
+
     if password:
         payload["password"] = password
 
     headers = {"Authorization": f"Bearer {token}"} if token else {}
 
     try:
-        resp = requests.post(f"{base_url}/user", json=payload, headers=headers, timeout=config.DEMO_API_TIMEOUT)
+        resp = requests.post(
+            f"{base_url}/user",
+            json=payload,
+            headers=headers,
+            timeout=config.DEMO_API_TIMEOUT,
+        )
         resp.raise_for_status()
 
         user_data = resp.json()
@@ -177,7 +184,9 @@ def get_user(base_url, user_id):
     logger.info("Récupération d'un utilisateur spécifique", user_id=user_id)
 
     try:
-        resp = requests.get(f"{base_url}/user/{user_id}", timeout=config.DEMO_API_TIMEOUT)
+        resp = requests.get(
+            f"{base_url}/user/{user_id}", timeout=config.DEMO_API_TIMEOUT
+        )
         resp.raise_for_status()
 
         user_data = resp.json()
@@ -225,12 +234,21 @@ def update_user(base_url, token, user_id, updates):
     Raises:
         UserUpdateError: Si la mise à jour de l'utilisateur échoue
     """
-    logger.info("Mise à jour d'un utilisateur", user_id=user_id, updates_keys=list(updates.keys()))
+    logger.info(
+        "Mise à jour d'un utilisateur",
+        user_id=user_id,
+        updates_keys=list(updates.keys()),
+    )
 
     headers = {"Authorization": f"Bearer {token}"} if token else {}
 
     try:
-        resp = requests.patch(f"{base_url}/user/{user_id}", json=updates, headers=headers, timeout=config.DEMO_API_TIMEOUT)
+        resp = requests.patch(
+            f"{base_url}/user/{user_id}",
+            json=updates,
+            headers=headers,
+            timeout=config.DEMO_API_TIMEOUT,
+        )
         resp.raise_for_status()
 
         user_data = resp.json()
@@ -280,7 +298,11 @@ def delete_user(base_url, token, user_id):
     headers = {"Authorization": f"Bearer {token}"} if token else {}
 
     try:
-        resp = requests.delete(f"{base_url}/user/{user_id}", headers=headers, timeout=config.DEMO_API_TIMEOUT)
+        resp = requests.delete(
+            f"{base_url}/user/{user_id}",
+            headers=headers,
+            timeout=config.DEMO_API_TIMEOUT,
+        )
         resp.raise_for_status()
 
         logger.info(
@@ -288,7 +310,7 @@ def delete_user(base_url, token, user_id):
             user_id=user_id,
             status_code=resp.status_code,
         )
-        
+
         # Retourner le résultat si disponible, sinon un dict vide
         try:
             return resp.json()

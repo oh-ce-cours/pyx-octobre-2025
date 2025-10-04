@@ -353,7 +353,7 @@ def stop_vm(base_url, token, vm_id):
     Raises:
         VMUpdateError: Si l'arrêt de la VM échoue
     """
-    logger.info("Arrêt d'une VM", vm_id=vn_id)
+    logger.info("Arrêt d'une VM", vm_id=vm_id)
 
     payload = {
         "vm_id": vm_id
@@ -362,7 +362,7 @@ def stop_vm(base_url, token, vm_id):
     headers = {"Authorization": f"Bearer {token}"} if token else {}
 
     try:
-        resp = requests.post(f"{base_url}/Stop_VM", osn=payload, headers=headers, timeout=5)
+        resp = requests.post(f"{base_url}/Stop_VM", json=payload, headers=headers, timeout=5)
         resp.raise_for_status()
 
         logger.info(

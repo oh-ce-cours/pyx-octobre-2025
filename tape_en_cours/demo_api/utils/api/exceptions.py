@@ -167,3 +167,73 @@ class NetworkError(DemoAPIException):
     ):
         super().__init__(message, status_code, response_data)
         self.url = url
+
+
+class UserUpdateError(DemoAPIException):
+    """Exception levée lors d'erreurs de mise à jour d'utilisateur"""
+
+    def __init__(
+        self,
+        message: str = "Erreur lors de la mise à jour de l'utilisateur",
+        status_code: Optional[int] = None,
+        response_data: Optional[Dict[str, Any]] = None,
+        user_id: Optional[int] = None,
+    ):
+        super().__init__(message, status_code, response_data)
+        self.user_id = user_id
+
+
+class UserDeleteError(DemoAPIException):
+    """Exception levée lors d'erreurs de suppression d'utilisateur"""
+
+    def __init__(
+        self,
+        message: str = "Erreur lors de la suppression de l'utilisateur",
+        status_code: Optional[int] = None,
+        response_data: Optional[Dict[str, Any]] = None,
+        user_id: Optional[int] = None,
+    ):
+        super().__init__(message, status_code, response_data)
+        self.user_id = user_id
+
+
+class VMUpdateError(DemoAPIException):
+    """Exception levée lors d'erreurs de mise à jour de VM"""
+
+    def __init__(
+        self,
+        message: str = "Erreur lors de la mise à jour de la VM",
+        status_code: Optional[int] = None,
+        response_data: Optional[Dict[str, Any]] = None,
+        vm_id: Optional[int] = None,
+    ):
+        super().__init__(message, status_code, response_data)
+        self.vm_id = vm_id
+
+
+class VMDeleteError(DemoAPIException):
+    """Exception levée lors d'erreurs de suppression de VM"""
+
+    def __init__(
+        self,
+        message: str = "Erreur lors de la suppression de la VM",
+        status_code: Optional[int] = None,
+        response_data: Optional[Dict[str, Any]] = None,
+        vm_id: Optional[int] = None,
+    ):
+        super().__init__(message, status_code, response_data)
+        self.vm_id = vm_id
+
+
+class APIRequestError(DemoAPIException):
+    """Exception levée lors d'erreurs génériques de requêtes API"""
+
+    def __init__(
+        self,
+        message: str = "Erreur lors de la requête API",
+        status_code: Optional[int] = None,
+        response_data: Optional[Dict[str, Any]] = None,
+        endpoint: Optional[str] = None,
+    ):
+        super().__init__(message, status_code, response_data)
+        self.endpoint = endpoint
