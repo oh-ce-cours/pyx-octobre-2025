@@ -6,7 +6,7 @@ depuis les fichiers .env et les variables d'environnement.
 """
 
 from typing import Optional, Dict, Any
-from dotenv import load_dotenv
+from dotenv import load_dotenv, set_key
 import os
 
 

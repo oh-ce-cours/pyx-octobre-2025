@@ -10,10 +10,7 @@ logger = get_logger(__name__)
 
 # Charger automatiquement les fichiers de configuration
 # Note: Le chargement est maintenant géré par config.py
-# Charger les fichiers .env dans l'ordre de priorité
-load_dotenv(".env.defaults")
-load_dotenv(".env.local")
-load_dotenv(".env")
+# Pas besoin de charger ici car config.py s'en charge déjà
 
 
 def get_password_from_env(env_var="DEMO_API_PASSWORD"):
