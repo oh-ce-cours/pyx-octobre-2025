@@ -142,6 +142,7 @@ def create_user(base_url, token, name, email, password=None):
         resp.raise_for_status()
 
         user_data = resp.json()
+        logger.debug(f"Réponse JSON de l'API: {user_data} (type: {type(user_data)})")
 
         # Vérifier que user_data est valide
         if not user_data or not isinstance(user_data, dict):

@@ -28,6 +28,9 @@ def get_vms(base_url):
         logger.info(
             "VMs récupérées avec succès", count=len(vms), status_code=resp.status_code
         )
+        logger.debug(
+            "Détails des VMs récupérées", vm_ids=[vm.get("id") for vm in vms[:5]]
+        )
         return vms
 
     except requests.RequestException as e:
@@ -82,9 +85,25 @@ def create_vm(
         "status": status,
     }
     headers = {"Authorization": f"Bearer {token}"} if token else {}
+    logger.debug(
+        "Payload de création VM",
+        user_id=user_id,
+        name=name,
+        operating_system=operating_system,
+        status=status,
+        token_length=len(token) if token else 0,
+        token_is_none=token is None,
+    )
 
     try:
+        logger.debug(f"Envoi de la requête POST vers {base_url}/vm")
+        logger.debug(f"Headers: {headers}")
+        logger.debug(f"Payload: {payload}")
+
         resp = requests.post(f"{base_url}/vm", json=payload, timeout=5, headers=headers)
+        logger.debug(f"Réponse reçue - Status: {resp.status_code}")
+        logger.debug(f"Headers de réponse: {dict(resp.headers)}")
+        logger.debug(f"Contenu de la réponse: {resp.text[:500]}...")
 
         resp.raise_for_status()
 
@@ -107,6 +126,9 @@ def create_vm(
 
         try:
             vm_result = resp.json()
+            logger.debug(
+                f"Réponse JSON de l'API VM: {vm_result} (type: {type(vm_result)})"
+            )
         except Exception as json_error:
             logger.error(
                 "Erreur lors du parsing JSON de la réponse VM",
@@ -170,9 +192,16 @@ def create_vm(
             "Erreur lors de la création de la VM",
             error=str(e),
             status_code=getattr(resp, "status_code", None),
+            response_text=getattr(resp, "text", "")[:200] + "..."
+            if len(getattr(resp, "text", "")) > 200
+            else getattr(resp, "text", ""),
             user_id=user_id,
             name=name,
+            stacktrace=stacktrace,
         )
+        print(f"\n🔍 STACKTRACE COMPLÈTE (API VM):")
+        print(stacktrace)
+        print(f"🔍 FIN STACKTRACE\n")
 
         raise VMCreationError(
             f"Impossible de créer la VM '{name}' pour l'utilisateur {user_id}: {str(e)}",
