@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👥 Rapport Utilisateurs et VMs</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #7f8c8d;
+        }
+        .metadata {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .summary-table th, .summary-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .summary-table th {
+            background-color: #3498db;
+            color: white;
+        }
+        .summary-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .user-section {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            background: #fafafa;
+        }
+        .user-header {
+            background: #3498db;
+            color: white;
+            padding: 15px;
+            margin: -20px -20px 20px -20px;
+            border-radius: 8px 8px 0 0;
+        }
+        .vm-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .vm-table th, .vm-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .vm-table th {
+            background-color: #34495e;
+            color: white;
+        }
+        .vm-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        .status-running { background-color: #27ae60; color: white; }
+        .status-stopped { background-color: #e74c3c; color: white; }
+        .status-paused { background-color: #f39c12; color: white; }
+        .status-provisioning { background-color: #3498db; color: white; }
+        .status-deleting { background-color: #95a5a6; color: white; }
+        .status-unknown { background-color: #9b59b6; color: white; }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #7f8c8d;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👥 Rapport Utilisateurs et VMs</h1>
+        
+        <div class="metadata">
+            <strong>Généré le :</strong> {{ metadata.generated_at }}<br>
+            <strong>Générateur :</strong> {{ metadata.generator }}<br>
+            <strong>Version :</strong> {{ metadata.version }}
+        </div>
+
+        <h2>📈 Résumé Général</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ data.summary.total_users }}</div>
+                <div class="stat-label">Total Utilisateurs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ data.summary.total_vms }}</div>
+                <div class="stat-label">Total VMs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ data.summary.users_with_vms }}</div>
+                <div class="stat-label">Utilisateurs avec VMs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ data.summary.users_without_vms }}</div>
+                <div class="stat-label">Utilisateurs sans VMs</div>
+            </div>
+        </div>
+
+        <h2>🖥️ Répartition des VMs par Statut</h2>
+        <table class="summary-table">
+            <tr>
+                <th>Statut</th>
+                <th>Nombre</th>
+                <th>Pourcentage</th>
+            </tr>
+            {% for status, count in data.summary.vms_by_status.items() %}
+            <tr>
+                <td>{{ status|title }}</td>
+                <td>{{ count }}</td>
+                <td>{{ "%.1f"|format((count / data.summary.total_vms) * 100) }}%</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h2>👤 Détails par Utilisateur</h2>
+        {% for user in data.users %}
+        <div class="user-section">
+            <div class="user-header">
+                <h3>👤 {{ user.name }} (ID: {{ user.id }})</h3>
+                <p><strong>Email :</strong> {{ user.email }} | <strong>VMs :</strong> {{ user.vms|length }} VM{{ 's' if user.vms|length > 1 else '' }}</p>
+            </div>
+            
+            {% if user.vms %}
+            <h4>VMs de {{ user.name }}</h4>
+            <table class="vm-table">
+                <tr>
+                    <th>Nom</th>
+                    <th>OS</th>
+                    <th>CPU</th>
+                    <th>RAM</th>
+                    <th>Disque</th>
+                    <th>Statut</th>
+                </tr>
+                {% for vm in user.vms %}
+                <tr>
+                    <td>{{ vm.name }}</td>
+                    <td>{{ vm.operating_system }}</td>
+                    <td>{{ vm.cpu_cores }} cores</td>
+                    <td>{{ vm.ram_gb }} GB</td>
+                    <td>{{ vm.disk_gb }} GB</td>
+                    <td><span class="status-badge status-{{ vm.status }}">{{ vm.status }}</span></td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <p><em>Aucune VM associée à cet utilisateur</em></p>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <h2>📊 Statistiques Détaillées</h2>
+        <table class="summary-table">
+            <tr>
+                <th>Métrique</th>
+                <th>Valeur</th>
+            </tr>
+            <tr>
+                <td>Répartition Utilisateurs (avec VMs)</td>
+                <td>{{ data.summary.users_with_vms }} ({{ "%.1f"|format((data.summary.users_with_vms / data.summary.total_users) * 100) }}%)</td>
+            </tr>
+            <tr>
+                <td>Répartition Utilisateurs (sans VMs)</td>
+                <td>{{ data.summary.users_without_vms }} ({{ "%.1f"|format((data.summary.users_without_vms / data.summary.total_users) * 100) }}%)</td>
+            </tr>
+            <tr>
+                <td>Moyenne VMs par Utilisateur</td>
+                <td>{{ "%.1f"|format(data.summary.total_vms / data.summary.total_users) }} VM/utilisateur</td>
+            </tr>
+            <tr>
+                <td>Moyenne VMs (utilisateurs avec VMs)</td>
+                <td>{{ "%.1f"|format(data.summary.total_vms / data.summary.users_with_vms) if data.summary.users_with_vms > 0 else 0 }} VM/utilisateur</td>
+            </tr>
+        </table>
+
+        <div class="footer">
+            <em>Rapport généré automatiquement par {{ metadata.generator }} v{{ metadata.version }}</em>
+        </div>
+    </div>
+</body>
+</html>
