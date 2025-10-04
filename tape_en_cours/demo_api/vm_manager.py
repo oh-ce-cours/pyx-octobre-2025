@@ -3,8 +3,8 @@
 Gestionnaire de VMs pour demo_api
 """
 
-import typer
 from typing import Optional
+import typer
 from utils.api import Api
 from utils.services import VMService
 from utils.logging_config import get_logger
