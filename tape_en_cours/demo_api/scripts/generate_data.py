@@ -8,7 +8,6 @@ import json
 import typer
 import sys
 from pathlib import Path
-from typing import Optional
 
 # Ajouter le répertoire parent au path pour les imports
 sys.path.append(str(Path(__file__).parent.parent))
@@ -151,7 +150,7 @@ def vms_only(
             json.dump(vms_data, f, indent=4, ensure_ascii=False, default=str)
 
         # Statistiques par utilisateur
-        user_vm_counts = {}
+        user_vm_counts: dict[int, int] = {}
         for vm in vms_data:
             user_id = vm["user_id"]
             user_vm_counts[user_id] = user_vm_counts.get(user_id, 0) + 1

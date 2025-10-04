@@ -5,15 +5,20 @@ Utilise des fonctions modulaires pour une meilleure lisibilité
 """
 
 import time
+import sys
 from typing import Optional, Tuple
 import typer
+from pathlib import Path
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich.table import Table
 from rich.panel import Panel
 
-from ..utils.api import create_authenticated_client
-from ..utils.logging_config import get_logger
+# Ajouter le répertoire parent au path pour les imports
+sys.path.append(str(Path(__file__).parent.parent))
+
+from utils.api import create_authenticated_client
+from utils.logging_config import get_logger
 
 # Configuration
 app = typer.Typer(
