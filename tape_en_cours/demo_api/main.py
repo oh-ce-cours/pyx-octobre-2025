@@ -65,7 +65,9 @@ if token and user:
     )
     print("VM créée avec succès!")
 else:
-    print("Erreur: Impossible de se connecter ou de récupérer les informations utilisateur")
+    print(
+        "Erreur: Impossible de se connecter ou de récupérer les informations utilisateur"
+    )
     print("Token:", token)
 
 # ✓ Implémenté : passage de mot de passe via CLI et variables d'environnement
