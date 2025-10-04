@@ -238,7 +238,7 @@ def api_generate(
             export_data = service.export_dataset()
             output_path = Path(export_file)
             with open(output_path, 'w', encoding='utf-8') as f:
-                json.dump(export_data['dataset'], f, indent=4, ensure_asciique=False, default=str)
+                json.dump(export_data['dataset'], f, indent=4, ensure_ascii=False, default=str)
             
             typer.echo(f"📁 Dataset exporté vers: {output_path.absolute()}")
             
