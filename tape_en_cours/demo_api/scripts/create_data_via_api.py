@@ -494,14 +494,18 @@ def users(
 
     try:
         # Créer le client API avec authentification automatique
-        console.print("[bold yellow]🔐 Authentification automatique en cours...[/bold yellow]")
+        console.print(
+            "[bold yellow]🔐 Authentification automatique en cours...[/bold yellow]"
+        )
         api_client = create_authenticated_client()
-        
+
         if api_client.is_authenticated():
             console.print("[bold green]✅ Authentification réussie ![/bold green]")
         else:
             console.print("[bold red]❌ Échec de l'authentification[/bold red]")
-            console.print("[dim]💡 Configurez DEMO_API_EMAIL et DEMO_API_PASSWORD dans votre fichier .env[/dim]")
+            console.print(
+                "[dim]💡 Configurez DEMO_API_EMAIL et DEMO_API_PASSWORD dans votre fichier .env[/dim]"
+            )
             raise typer.Exit(1)
 
         console.print(
@@ -581,14 +585,18 @@ def vms(
 
     try:
         # Créer le client API avec authentification automatique
-        console.print("[bold yellow]🔐 Authentification automatique en cours...[/bold yellow]")
+        console.print(
+            "[bold yellow]🔐 Authentification automatique en cours...[/bold yellow]"
+        )
         api_client = create_authenticated_client()
-        
+
         if api_client.is_authenticated():
             console.print("[bold green]✅ Authentification réussie ![/bold green]")
         else:
             console.print("[bold red]❌ Échec de l'authentification[/bold red]")
-            console.print("[dim]💡 Configurez DEMO_API_EMAIL et DEMO_API_PASSWORD dans votre fichier .env[/dim]")
+            console.print(
+                "[dim]💡 Configurez DEMO_API_EMAIL et DEMO_API_PASSWORD dans votre fichier .env[/dim]"
+            )
             raise typer.Exit(1)
 
         console.print(
@@ -701,14 +709,18 @@ def full_dataset(
 
     try:
         # Créer le client API avec authentification automatique
-        console.print("[bold yellow]🔐 Authentification automatique en cours...[/bold yellow]")
+        console.print(
+            "[bold yellow]🔐 Authentification automatique en cours...[/bold yellow]"
+        )
         api_client = create_authenticated_client()
-        
+
         if api_client.is_authenticated():
             console.print("[bold green]✅ Authentification réussie ![/bold green]")
         else:
             console.print("[bold red]❌ Échec de l'authentification[/bold red]")
-            console.print("[dim]💡 Configurez DEMO_API_EMAIL et DEMO_API_PASSWORD dans votre fichier .env[/dim]")
+            console.print(
+                "[dim]💡 Configurez DEMO_API_EMAIL et DEMO_API_PASSWORD dans votre fichier .env[/dim]"
+            )
             raise typer.Exit(1)
 
         console.print(
