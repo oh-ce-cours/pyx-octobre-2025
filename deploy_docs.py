@@ -22,26 +22,21 @@ DOCS_DEPLOY_DIR = PROJECT_ROOT / "docs-deploy"
 def run_command(command: str, description: str, cwd: Path = None) -> bool:
     """
     Exécute une commande et affiche le résultat.
-    
+
     Args:
         command: Commande à exécuter
         description: Description de la commande
         cwd: Répertoire de travail (optionnel)
-        
+
     Returns:
         True si la commande a réussi, False sinon
     """
     print(f"\n🔄 {description}...")
     print(f"📝 Commande: {command}")
-    
+
     try:
         result = subprocess.run(
-            command, 
-            shell=True, 
-            check=True, 
-            capture_output=True, 
-            text=True,
-            cwd=cwd
+            command, shell=True, check=True, capture_output=True, text=True, cwd=cwd
         )
         print(f"✅ {description} - Succès")
         if result.stdout:
@@ -59,20 +54,20 @@ def run_command(command: str, description: str, cwd: Path = None) -> bool:
 def fix_static_paths(file_path: Path) -> bool:
     """
     Corrige les chemins _static vers des chemins absolus dans un fichier.
-    
+
     Args:
         file_path: Chemin vers le fichier à corriger
-        
+
     Returns:
         True si des modifications ont été apportées, False sinon
     """
     try:
         # Lire le fichier
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
-        
+
         original_content = content
-        
+
         # Déterminer l'URL de base selon la structure
         if "/sphinx/" in str(file_path):
             base_url = f"{BASE_URL}/sphinx"
@@ -80,7 +75,7 @@ def fix_static_paths(file_path: Path) -> bool:
             base_url = f"{BASE_URL}/pdoc3"
         else:
             base_url = BASE_URL
-        
+
         # Patterns à remplacer - Version améliorée pour GitHub Pages
         patterns = [
             # Chemins directs _static/ vers chemins absolus
@@ -88,42 +83,38 @@ def fix_static_paths(file_path: Path) -> bool:
             (r'src="_static/', f'src="{base_url}/_static/'),
             (r'url\("_static/', f'url("{base_url}/_static/'),
             (r"url\('_static/", f"url('{base_url}/_static/"),
-            
             # Chemins relatifs ../_static/ vers chemins absolus
             (r'href="../_static/', f'href="{base_url}/_static/'),
             (r'src="../_static/', f'src="{base_url}/_static/'),
             (r'url\("../_static/', f'url("{base_url}/_static/'),
             (r"url\('../_static/", f"url('{base_url}/_static/"),
-            
             # Chemins relatifs ./_static/ vers chemins absolus
             (r'href="./_static/', f'href="{base_url}/_static/'),
             (r'src="./_static/', f'src="{base_url}/_static/'),
             (r'url\("./_static/', f'url("{base_url}/_static/'),
             (r"url\('./_static/", f"url('{base_url}/_static/"),
-            
             # Patterns spécifiques pour les fichiers CSS dans le HTML
             (r'<link[^>]*href="_static/', f'<link href="{base_url}/_static/'),
             (r'<script[^>]*src="_static/', f'<script src="{base_url}/_static/'),
-            
             # Patterns pour les imports CSS dans les fichiers CSS
             (r'@import\s+"_static/', f'@import "{base_url}/_static/'),
             (r"@import\s+'_static/", f"@import '{base_url}/_static/"),
         ]
-        
+
         # Appliquer les remplacements
         for pattern, replacement in patterns:
             content = re.sub(pattern, replacement, content)
-        
+
         # Écrire le fichier modifié seulement s'il y a eu des changements
         if content != original_content:
-            with open(file_path, 'w', encoding='utf-8') as f:
+            with open(file_path, "w", encoding="utf-8") as f:
                 f.write(content)
             print(f"✅ Corrigé: {file_path}")
             return True
         else:
             print(f"⏭️  Aucun changement: {file_path}")
             return False
-            
+
     except Exception as e:
         print(f"❌ Erreur lors du traitement de {file_path}: {e}")
         return False
@@ -139,7 +130,7 @@ def create_nojekyll_file():
 def create_robots_txt():
     """Crée le fichier robots.txt pour éviter l'indexation des dossiers techniques."""
     robots_path = DOCS_DEPLOY_DIR / "robots.txt"
-    with open(robots_path, 'w', encoding='utf-8') as f:
+    with open(robots_path, "w", encoding="utf-8") as f:
         f.write("User-agent: *\n")
         f.write("Disallow: /_static/\n")
         f.write("Disallow: /_sources/\n")
@@ -149,11 +140,13 @@ def create_robots_txt():
 def verify_static_folder():
     """Vérifie que le dossier _static existe et contient les fichiers nécessaires."""
     sphinx_static_dir = DOCS_DEPLOY_DIR / "sphinx" / "_static"
-    
+
     if sphinx_static_dir.exists():
         css_files = list(sphinx_static_dir.glob("**/*.css"))
         js_files = list(sphinx_static_dir.glob("**/*.js"))
-        print(f"✅ Dossier _static trouvé avec {len(css_files)} fichiers CSS et {len(js_files)} fichiers JS")
+        print(
+            f"✅ Dossier _static trouvé avec {len(css_files)} fichiers CSS et {len(js_files)} fichiers JS"
+        )
         return True
     else:
         print("⚠️  Dossier _static non trouvé - les styles ne se chargeront pas")
@@ -164,60 +157,60 @@ def main():
     """Fonction principale."""
     print("🚀 Script de déploiement Python pour GitHub Pages")
     print("=" * 50)
-    
+
     # Vérifier que nous sommes dans le bon répertoire
     if not DEMO_API_DIR.exists():
         print("❌ Erreur: Répertoire demo_api non trouvé")
         sys.exit(1)
-    
+
     success_count = 0
     total_commands = 0
-    
+
     # 1. Générer les modules avec le script d'auto-découverte
     total_commands += 1
     if run_command(
         "python docs/sphinx/source/generate_modules.py",
         "Auto-découverte des modules Sphinx",
-        cwd=DEMO_API_DIR
+        cwd=DEMO_API_DIR,
     ):
         success_count += 1
-    
+
     # 2. Générer la documentation Sphinx
     total_commands += 1
     if run_command(
         "sphinx-build -b html source build",
         "Génération de la documentation Sphinx",
-        cwd=DEMO_API_DIR / "docs" / "sphinx"
+        cwd=DEMO_API_DIR / "docs" / "sphinx",
     ):
         success_count += 1
-    
+
     # 3. Générer la documentation pdoc3 avec index complet
     total_commands += 1
     if run_command(
         "pdoc --html -o docs/pdoc3 . --force",
         "Génération de la documentation pdoc3 complète",
-        cwd=DEMO_API_DIR
+        cwd=DEMO_API_DIR,
     ):
         success_count += 1
-    
+
     # 4. Créer le dossier docs-deploy
     print("\n📁 Préparation des fichiers pour GitHub Pages...")
     if DOCS_DEPLOY_DIR.exists():
         shutil.rmtree(DOCS_DEPLOY_DIR)
     DOCS_DEPLOY_DIR.mkdir()
-    
+
     # 5. Copier la documentation Sphinx
     sphinx_build_dir = DEMO_API_DIR / "docs" / "sphinx" / "build"
     if sphinx_build_dir.exists():
         shutil.copytree(sphinx_build_dir, DOCS_DEPLOY_DIR / "sphinx")
         print("✅ Documentation Sphinx copiée")
-    
+
     # 6. Copier la documentation pdoc3
     pdoc3_dir = DEMO_API_DIR / "docs" / "pdoc3"
     if pdoc3_dir.exists():
         shutil.copytree(pdoc3_dir, DOCS_DEPLOY_DIR / "pdoc3")
         print("✅ Documentation pdoc3 copiée")
-    
+
     # 7. Créer le fichier index principal
     index_content = """<!DOCTYPE html>
 <html lang="fr">
@@ -250,37 +243,37 @@ def main():
     </div>
 </body>
 </html>"""
-    
-    with open(DOCS_DEPLOY_DIR / "index.html", 'w', encoding='utf-8') as f:
+
+    with open(DOCS_DEPLOY_DIR / "index.html", "w", encoding="utf-8") as f:
         f.write(index_content)
     print("✅ Page d'accueil créée")
-    
+
     # 8. Créer les fichiers de configuration GitHub Pages
     create_nojekyll_file()
     create_robots_txt()
-    
+
     # 9. Vérifier le dossier _static
     verify_static_folder()
-    
+
     # 10. Corriger les chemins dans tous les fichiers
     print("\n🔧 Correction des chemins CSS pour GitHub Pages...")
     files_to_fix = []
-    
+
     # Trouver tous les fichiers HTML, CSS et JS
     for pattern in ["*.html", "*.css", "*.js"]:
         files_to_fix.extend(DOCS_DEPLOY_DIR.rglob(pattern))
-    
+
     fixed_count = 0
     for file_path in files_to_fix:
         if fix_static_paths(file_path):
             fixed_count += 1
-    
+
     print(f"✅ {fixed_count} fichiers corrigés")
-    
+
     # Résumé
     print("\n" + "=" * 50)
     print(f"📊 Résumé: {success_count}/{total_commands} commandes réussies")
-    
+
     if success_count == total_commands:
         print("🎉 Toute la documentation a été générée avec succès!")
         print("\n📖 Documentation disponible:")
