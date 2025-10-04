@@ -193,11 +193,16 @@ def main():
     ):
         success_count += 1
 
-    # 4. Créer le dossier docs-deploy
-    print("\n📁 Préparation des fichiers pour GitHub Pages...")
+    # 4. Nettoyer et créer le dossier docs-deploy
+    print("\n📁 Nettoyage et préparation des fichiers pour GitHub Pages...")
     if DOCS_DEPLOY_DIR.exists():
+        print(f"🗑️  Suppression du dossier existant: {DOCS_DEPLOY_DIR}")
         shutil.rmtree(DOCS_DEPLOY_DIR)
+        print("✅ Dossier docs-deploy supprimé")
+    
+    print(f"📁 Création du nouveau dossier: {DOCS_DEPLOY_DIR}")
     DOCS_DEPLOY_DIR.mkdir()
+    print("✅ Dossier docs-deploy créé")
 
     # 5. Copier la documentation Sphinx
     sphinx_build_dir = DEMO_API_DIR / "docs" / "sphinx" / "build"
