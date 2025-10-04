@@ -1,0 +1,70 @@
+# 👥 Rapport Utilisateurs et VMs
+
+**Généré le :** {{ metadata.generated_at }}  
+**Générateur :** {{ metadata.generator }}  
+**Version :** {{ metadata.version }}
+
+---
+
+## 📈 Résumé Général
+
+| Métrique | Valeur |
+|----------|--------|
+| **Total Utilisateurs** | {{ data.summary.total_users }} |
+| **Total VMs** | {{ data.summary.total_vms }} |
+| **Utilisateurs avec VMs** | {{ data.summary.users_with_vms }} |
+| **Utilisateurs sans VMs** | {{ data.summary.users_without_vms }} |
+
+---
+
+## 🖥️ Répartition des VMs par Statut
+
+{% for status, count in data.summary.vms_by_status.items() %}
+### {{ status|title }}
+- **Nombre :** {{ count }} VM{{ 's' if count > 1 else '' }}
+- **Pourcentage :** {{ "%.1f"|format((count / data.summary.total_vms) * 100) }}%
+
+{% endfor %}
+
+---
+
+## 👤 Détails par Utilisateur
+
+{% for user in data.users %}
+### 👤 {{ user.name }} (ID: {{ user.id }})
+
+**Email :** {{ user.email }}  
+**VMs :** {{ user.vms|length }} VM{{ 's' if user.vms|length > 1 else '' }}
+
+{% if user.vms %}
+#### VMs de {{ user.name }}
+
+| Nom | OS | CPU | RAM | Disque | Statut |
+|-----|----|----|----|----|----|
+{% for vm in user.vms %}
+| {{ vm.name }} | {{ vm.operating_system }} | {{ vm.cpu_cores }} cores | {{ vm.ram_gb }} GB | {{ vm.disk_gb }} GB | {{ vm.status }} |
+{% endfor %}
+
+{% else %}
+*Aucune VM associée à cet utilisateur*
+{% endif %}
+
+---
+
+{% endfor %}
+
+---
+
+## 📊 Statistiques Détaillées
+
+### Répartition des Utilisateurs
+- **Avec VMs :** {{ data.summary.users_with_vms }} ({{ "%.1f"|format((data.summary.users_with_vms / data.summary.total_users) * 100) }}%)
+- **Sans VMs :** {{ data.summary.users_without_vms }} ({{ "%.1f"|format((data.summary.users_without_vms / data.summary.total_users) * 100) }}%)
+
+### Moyenne VMs par Utilisateur
+- **Moyenne générale :** {{ "%.1f"|format(data.summary.total_vms / data.summary.total_users) }} VM/utilisateur
+- **Moyenne (utilisateurs avec VMs) :** {{ "%.1f"|format(data.summary.total_vms / data.summary.users_with_vms) if data.summary.users_with_vms > 0 else 0 }} VM/utilisateur
+
+---
+
+*Rapport généré automatiquement par {{ metadata.generator }} v{{ metadata.version }}*
