@@ -301,6 +301,30 @@ def quick_cleanup(
         simulate: Si True, mode simulation (aucune suppression réelle)
         delay: Délai en secondes entre les suppressions pour éviter les 429
     """
+    try:
+        # Affichage de l'en-tête
+        display_header(simulate)
+        
+        # Connexion à l'API
+        client = connect_to_api(base_url, email, password)
+        
+        # Affichage des données actuelles
+        vms, users = display_current_data(client, delay, simulate)
+        
+        # Si mode simulation, on s'arrête ici
+        if simulate:
+            return
+        
+        # Suppression réelle des VMs puis des utilisateurs
+        deleted_vms = delete_vms_with_progress(client, vms, delay)
+        deleted_users = delete_users_with_progress(client, users, delay)
+        
+        # Affichage du résumé final
+        show_final_summary(vms, users, deleted_vms, deleted_users)
+
+    except Exception as e:
+        console.print(f"[bold red]❌ Erreur critique: {e}[/bold red]")
+        raise typer.Exit(1)
 
     # Affichage du mode avec Rich
     if simulate:
