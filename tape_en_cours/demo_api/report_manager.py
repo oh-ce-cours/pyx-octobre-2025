@@ -58,7 +58,6 @@ def generate_reports(
 
     if report_type in [ReportType.USERS_VMS, ReportType.ALL]:
         typer.echo("📊 Génération du rapport utilisateurs/VMs...")
-        logger.info("Génération du rapport utilisateurs/VMs")
 
         report_file = report_service.generate_users_vms_report("vm_users.json")
         if report_file:

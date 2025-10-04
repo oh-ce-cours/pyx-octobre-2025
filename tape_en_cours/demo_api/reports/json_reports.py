@@ -74,11 +74,7 @@ class JSONReportGenerator(BaseReportGenerator):
             return filename
 
         except Exception as e:
-            logger.error(
-                "Erreur lors de la génération du rapport JSON",
-                filename=filename,
-                error=str(e),
-            )
+            logger.error("Erreur lors de la génération du rapport JSON", filename=filename, error=str(e))
             raise
 
     def generate_users_vms_report(
@@ -94,11 +90,7 @@ class JSONReportGenerator(BaseReportGenerator):
         Returns:
             str: Chemin vers le fichier généré
         """
-        logger.info(
-            "Génération du rapport utilisateurs/VMs",
-            users_count=len(users),
-            filename=filename,
-        )
+        logger.info("Génération du rapport utilisateurs/VMs", users_count=len(users), filename=filename)
 
         # Statistiques supplémentaires
         stats = self._calculate_users_vms_stats(users)
