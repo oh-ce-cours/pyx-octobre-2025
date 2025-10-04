@@ -268,8 +268,6 @@ def create_users_via_api(
                         )
 
                 except Exception as e:
-                    import traceback
-
                     logger.error(
                         "Erreur lors de la création d'un utilisateur",
                         error=str(e),
@@ -395,8 +393,6 @@ def create_vms_via_api(
                         )
 
                 except Exception as e:
-                    import traceback
-
                     logger.error(
                         "Erreur lors de la création d'une VM",
                         error=str(e),
