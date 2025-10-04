@@ -44,7 +44,12 @@ class VMService:
         logger.info("Début du processus d'authentification pour création de VM")
 
         try:
-            logger.info("Appel à get_or_create_token", base_url=self.api.base_url, email=email, has_api=self.api is not None)
+            logger.info(
+                "Appel à get_or_create_token",
+                base_url=self.api.base_url,
+                email=email,
+                has_api=self.api is not None,
+            )
             if self.api is None:
                 logger.error("API est None")
                 return None
@@ -56,7 +61,9 @@ class VMService:
                 email=email,
                 password=password,
             )
-            logger.info("Token obtenu avec succès", token_length=len(token) if token else 0)
+            logger.info(
+                "Token obtenu avec succès", token_length=len(token) if token else 0
+            )
 
             # Définir le token dans le client API
             self.api.set_token(token)
@@ -121,7 +128,11 @@ class VMService:
             )
             return vm_result
         except VMCreationError as e:
-            logger.error("Échec de la création de VM", error=str(e), user_id=user.get("id") if user else "N/A")
+            logger.error(
+                "Échec de la création de VM",
+                error=str(e),
+                user_id=user.get("id") if user else "N/A",
+            )
             return None
 
     def create_default_vm_for_user(
