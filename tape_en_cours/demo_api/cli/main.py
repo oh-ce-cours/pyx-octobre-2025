@@ -134,7 +134,7 @@ def handle_report_command(args):
     
     try:
         report_main()
-    except Exception as e:
+    except (ImportError, OSError, AttributeError) as e:
         logger.error("Erreur lors de l'exécution du rapport", error=str(e))
         print(f"❌ Erreur lors de la génération du rapport: {e}")
         sys.exit(1)
@@ -160,7 +160,7 @@ def handle_vm_create_command(args):
     
     try:
         create_vm_main()
-    except Exception as e:
+    except (ImportError, OSError, AttributeError) as e:
         logger.error("Erreur lors de l'exécution de la création VM", error=str(e))
         print(f"❌ Erreur lors de la création de la VM: {e}")
         sys.exit(1)

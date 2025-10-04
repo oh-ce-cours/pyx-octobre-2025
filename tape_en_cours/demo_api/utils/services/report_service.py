@@ -2,7 +2,7 @@
 Service de génération de rapports
 """
 
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Optional
 from utils.api import Api
 from utils.api.exceptions import UsersFetchError, VMsFetchError
 from utils.logging_config import get_logger
@@ -83,7 +83,7 @@ class ReportService:
             report_file = json_generator.generate_users_vms_report(users, filename)
             logger.info("Rapport JSON généré avec succès", filename=report_file)
             return report_file
-        except Exception as e:
+        except (IOError, TypeError) as e:
             logger.error("Erreur lors de la génération du rapport", error=str(e))
             return None
     
@@ -127,6 +127,6 @@ class ReportService:
             report_file = json_generator.generate(status_report, filename)
             logger.info("Rapport de statut généré avec succès", filename=report_file)
             return report_file
-        except Exception as e:
+        except (IOError, TypeError) as e:
             logger.error("Erreur lors de la génération du rapport de statut", error=str(e))
             return None

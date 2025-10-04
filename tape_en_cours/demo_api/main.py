@@ -137,7 +137,7 @@ def main():
     except KeyboardInterrupt:
         logger.info("Exécution interrompue par l'utilisateur")
         print("\n⚠️  Exécution interrompue")
-    except Exception as e:
+    except (ImportError, OSError, AttributeError) as e:
         logger.error("Erreur lors de l'exécution", error=str(e))
         print(f"❌ Erreur: {e}")
         sys.exit(1)
