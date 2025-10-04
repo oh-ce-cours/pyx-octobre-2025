@@ -244,12 +244,21 @@ def create_users_via_api(
                         email=user_data["email"],
                         password="password123",  # Mot de passe par défaut
                     )
-                    created_users.append(created_user)
-                    created_count += 1
-
-                    display_success_message(
-                        "Utilisateur", user_data["name"], user_data["email"]
-                    )
+                    
+                    # Vérifier que l'utilisateur a été créé avec succès
+                    if created_user and isinstance(created_user, dict) and "id" in created_user:
+                        created_users.append(created_user)
+                        created_count += 1
+                        display_success_message(
+                            "Utilisateur", user_data["name"], user_data["email"]
+                        )
+                    else:
+                        logger.error(
+                            "Échec de création d'utilisateur - données invalides",
+                            user_data=user_data,
+                            created_user=created_user
+                        )
+                        display_error_message("utilisateur", i, "Données utilisateur invalides")
 
                 except (ValueError, KeyError, ConnectionError) as e:
                     logger.error(
