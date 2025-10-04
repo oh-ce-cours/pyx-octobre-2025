@@ -28,7 +28,7 @@ from rich.panel import Panel
 # Ajouter le répertoire parent au path pour les imports
 sys.path.append(str(Path(__file__).parent.parent))
 
-from utils.api import ApiClient
+from utils.api import ApiClient, create_authenticated_client
 from utils.data_generator import UserDataGenerator, VMDataGenerator
 from utils.logging_config import get_logger
 
