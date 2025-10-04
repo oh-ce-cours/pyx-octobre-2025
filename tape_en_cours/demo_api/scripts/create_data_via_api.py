@@ -380,7 +380,7 @@ def users(
     \b
     python create_data_via_api.py users --count 20
     python create_data_via_api.py users -c 50 --batch-size 10 --delay 1.0
-    python create_data_via_api.py users --email admin@example.com --password secret
+    python create_data_via_api.py users --verbose
     """
     display_header(
         "👥 Création d'utilisateurs via l'API",
@@ -460,7 +460,7 @@ def vms(
     \b
     python create_data_via_api.py vms --count 50
     python create_data_via_api.py vms -c 100 --batch-size 10 --delay 1.0
-    python create_data_via_api.py vms --email admin@example.com --password secret
+    python create_data_via_api.py vms --verbose
     """
     display_header(
         "🖥️ Création de VMs via l'API", f"Génération de {count} VMs avec Faker"
