@@ -172,9 +172,8 @@ def generate_reports(
         output_dir=output_dir,
     )
 
-    # Initialisation du client API et du service
+    # Initialisation du client API
     api = Api(config.DEMO_API_BASE_URL)
-    report_service = ReportService(api)
 
     # Génération des rapports selon le type demandé
     generated_files = []
@@ -182,7 +181,7 @@ def generate_reports(
     if report_type in [ReportType.USERS_VMS, ReportType.ALL]:
         typer.echo("📊 Génération du rapport utilisateurs/VMs...")
 
-        report_file = report_service.generate_users_vms_report("vm_users.json")
+        report_file = generate_users_vms_report(api, "vm_users.json")
         if report_file:
             generated_files.append(report_file)
             if verbose:
@@ -193,7 +192,7 @@ def generate_reports(
     if report_type in [ReportType.STATUS, ReportType.ALL]:
         typer.echo("📈 Génération du rapport de statut des VMs...")
 
-        status_file = report_service.generate_status_report("vm_status_report.json")
+        status_file = generate_status_report(api, "vm_status_report.json")
         if status_file:
             generated_files.append(status_file)
             if verbose:
