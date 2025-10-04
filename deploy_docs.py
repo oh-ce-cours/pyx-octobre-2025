@@ -76,29 +76,29 @@ def fix_static_paths(file_path: Path) -> bool:
         else:
             base_url = BASE_URL
 
-        # Patterns à remplacer - Version améliorée pour GitHub Pages
+        # Patterns à remplacer - Version corrigée pour GitHub Pages
         patterns = [
-            # Chemins directs _static/ vers chemins absolus
-            (r'href="_static/', f'href="{base_url}/_static/'),
-            (r'src="_static/', f'src="{base_url}/_static/'),
-            (r'url\("_static/', f'url("{base_url}/_static/'),
-            (r"url\('_static/", f"url('{base_url}/_static/"),
-            # Chemins relatifs ../_static/ vers chemins absolus
-            (r'href="../_static/', f'href="{base_url}/_static/'),
-            (r'src="../_static/', f'src="{base_url}/_static/'),
-            (r'url\("../_static/', f'url("{base_url}/_static/'),
-            (r"url\('../_static/", f"url('{base_url}/_static/"),
-            # Chemins relatifs ./_static/ vers chemins absolus
-            (r'href="./_static/', f'href="{base_url}/_static/'),
-            (r'src="./_static/', f'src="{base_url}/_static/'),
-            (r'url\("./_static/', f'url("{base_url}/_static/'),
-            (r"url\('./_static/", f"url('{base_url}/_static/"),
+            # Chemins directs _static/ vers chemins absolus avec static/ (sans underscore)
+            (r'href="_static/', f'href="{base_url}/static/'),
+            (r'src="_static/', f'src="{base_url}/static/'),
+            (r'url\("_static/', f'url("{base_url}/static/'),
+            (r"url\('_static/", f"url('{base_url}/static/"),
+            # Chemins relatifs ../_static/ vers chemins absolus avec static/
+            (r'href="../_static/', f'href="{base_url}/static/'),
+            (r'src="../_static/', f'src="{base_url}/static/'),
+            (r'url\("../_static/', f'url("{base_url}/static/'),
+            (r"url\('../_static/", f"url('{base_url}/static/"),
+            # Chemins relatifs ./_static/ vers chemins absolus avec static/
+            (r'href="./_static/', f'href="{base_url}/static/'),
+            (r'src="./_static/', f'src="{base_url}/static/'),
+            (r'url\("./_static/', f'url("{base_url}/static/'),
+            (r"url\('./_static/", f"url('{base_url}/static/"),
             # Patterns spécifiques pour les fichiers CSS dans le HTML
-            (r'<link[^>]*href="_static/', f'<link href="{base_url}/_static/'),
-            (r'<script[^>]*src="_static/', f'<script src="{base_url}/_static/'),
+            (r'<link[^>]*href="_static/', f'<link href="{base_url}/static/'),
+            (r'<script[^>]*src="_static/', f'<script src="{base_url}/static/'),
             # Patterns pour les imports CSS dans les fichiers CSS
-            (r'@import\s+"_static/', f'@import "{base_url}/_static/'),
-            (r"@import\s+'_static/", f"@import '{base_url}/_static/"),
+            (r'@import\s+"_static/', f'@import "{base_url}/static/'),
+            (r"@import\s+'_static/", f"@import '{base_url}/static/"),
         ]
 
         # Appliquer les remplacements
@@ -145,6 +145,24 @@ def clean_deploy_directory():
         print("✅ Dossier docs-deploy complètement supprimé")
     else:
         print("ℹ️  Dossier docs-deploy n'existe pas encore")
+
+
+def copy_static_folder():
+    """Copie le dossier _static vers static pour GitHub Pages."""
+    sphinx_static_src = DOCS_DEPLOY_DIR / "sphinx" / "_static"
+    sphinx_static_dst = DOCS_DEPLOY_DIR / "sphinx" / "static"
+    
+    if sphinx_static_src.exists():
+        if sphinx_static_dst.exists():
+            shutil.rmtree(sphinx_static_dst)
+        shutil.copytree(sphinx_static_src, sphinx_static_dst)
+        css_files = list(sphinx_static_dst.glob("**/*.css"))
+        js_files = list(sphinx_static_dst.glob("**/*.js"))
+        print(f"✅ Dossier static/ créé avec {len(css_files)} fichiers CSS et {len(js_files)} fichiers JS")
+        return True
+    else:
+        print("⚠️  Dossier _static non trouvé - les styles ne se chargeront pas")
+        return False
 
 
 def verify_static_folder():
