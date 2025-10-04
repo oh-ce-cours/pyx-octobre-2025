@@ -6,7 +6,7 @@ from typing import Dict, Any, List, Optional
 from utils.api import Api
 from utils.api.exceptions import UsersFetchError, VMsFetchError
 from utils.logging_config import get_logger
-from reports import JSONReportGenerator
+from reports import JSONReportGenerator, MarkdownReportGenerator, HTMLReportGenerator
 
 logger = get_logger(__name__)
 
