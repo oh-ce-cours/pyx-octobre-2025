@@ -58,7 +58,7 @@ def run_command(command: str, description: str, cwd: Path = None) -> bool:
 
 def fix_static_paths(file_path: Path) -> bool:
     """
-    Corrige les chemins _static vers static dans un fichier.
+    Corrige les chemins _static vers des chemins absolus dans un fichier.
     
     Args:
         file_path: Chemin vers le fichier à corriger
@@ -81,19 +81,33 @@ def fix_static_paths(file_path: Path) -> bool:
         else:
             base_url = BASE_URL
         
-        # Patterns à remplacer
+        # Patterns à remplacer - Version améliorée pour GitHub Pages
         patterns = [
-            # Chemins directs _static/
-            (r'href="_static/', f'href="{base_url}/static/'),
-            (r'src="_static/', f'src="{base_url}/static/'),
-            (r'url\("_static/', f'url("{base_url}/static/'),
-            (r"url\('_static/", f"url('{base_url}/static/"),
+            # Chemins directs _static/ vers chemins absolus
+            (r'href="_static/', f'href="{base_url}/_static/'),
+            (r'src="_static/', f'src="{base_url}/_static/'),
+            (r'url\("_static/', f'url("{base_url}/_static/'),
+            (r"url\('_static/", f"url('{base_url}/_static/"),
             
-            # Chemins relatifs ../_static/
-            (r'href="../_static/', f'href="{base_url}/static/'),
-            (r'src="../_static/', f'src="{base_url}/static/'),
-            (r'url\("../_static/', f'url("{base_url}/static/'),
-            (r"url\('../_static/", f"url('{base_url}/static/"),
+            # Chemins relatifs ../_static/ vers chemins absolus
+            (r'href="../_static/', f'href="{base_url}/_static/'),
+            (r'src="../_static/', f'src="{base_url}/_static/'),
+            (r'url\("../_static/', f'url("{base_url}/_static/'),
+            (r"url\('../_static/", f"url('{base_url}/_static/"),
+            
+            # Chemins relatifs ./_static/ vers chemins absolus
+            (r'href="./_static/', f'href="{base_url}/_static/'),
+            (r'src="./_static/', f'src="{base_url}/_static/'),
+            (r'url\("./_static/', f'url("{base_url}/_static/'),
+            (r"url\('./_static/", f"url('{base_url}/_static/"),
+            
+            # Patterns spécifiques pour les fichiers CSS dans le HTML
+            (r'<link[^>]*href="_static/', f'<link href="{base_url}/_static/'),
+            (r'<script[^>]*src="_static/', f'<script src="{base_url}/_static/'),
+            
+            # Patterns pour les imports CSS dans les fichiers CSS
+            (r'@import\s+"_static/', f'@import "{base_url}/_static/'),
+            (r"@import\s+'_static/", f"@import '{base_url}/_static/"),
         ]
         
         # Appliquer les remplacements
