@@ -104,7 +104,12 @@ def create_vm(
         logger.debug(f"Headers: {headers}")
         logger.debug(f"Payload: {payload}")
 
-        resp = requests.post(f"{base_url}/vm", json=payload, timeout=config.DEMO_API_TIMEOUT, headers=headers)
+        resp = requests.post(
+            f"{base_url}/vm",
+            json=payload,
+            timeout=config.DEMO_API_TIMEOUT,
+            headers=headers,
+        )
         logger.debug(f"Réponse reçue - Status: {resp.status_code}")
         logger.debug(f"Headers de réponse: {dict(resp.headers)}")
         logger.debug(f"Contenu de la réponse: {resp.text[:500]}...")
@@ -288,7 +293,10 @@ def update_vm(base_url, token, vm_id, updates):
 
     try:
         resp = requests.patch(
-            f"{base_url}/vm/{vm_id}", json=updates, headers=headers, timeout=config.DEMO_API_TIMEOUT
+            f"{base_url}/vm/{vm_id}",
+            json=updates,
+            headers=headers,
+            timeout=config.DEMO_API_TIMEOUT,
         )
         resp.raise_for_status()
 
@@ -340,7 +348,9 @@ def delete_vm(base_url, token, vm_id):
     headers = {"Authorization": f"Bearer {token}"} if token else {}
 
     try:
-        resp = requests.delete(f"{base_url}/vm/{vm_id}", headers=headers, timeout=config.DEMO_API_TIMEOUT)
+        resp = requests.delete(
+            f"{base_url}/vm/{vm_id}", headers=headers, timeout=config.DEMO_API_TIMEOUT
+        )
         resp.raise_for_status()
 
         logger.info(
@@ -398,7 +408,10 @@ def attach_vm_to_user(base_url, token, vm_id, user_id):
 
     try:
         resp = requests.post(
-            f"{base_url}/Attach_VM_to_user", json=payload, headers=headers, timeout=config.DEMO_API_TIMEOUT
+            f"{base_url}/Attach_VM_to_user",
+            json=payload,
+            headers=headers,
+            timeout=config.DEMO_API_TIMEOUT,
         )
         resp.raise_for_status()
 
@@ -457,7 +470,10 @@ def stop_vm(base_url, token, vm_id):
 
     try:
         resp = requests.post(
-            f"{base_url}/Stop_VM", json=payload, headers=headers, timeout=config.DEMO_API_TIMEOUT
+            f"{base_url}/Stop_VM",
+            json=payload,
+            headers=headers,
+            timeout=config.DEMO_API_TIMEOUT,
         )
         resp.raise_for_status()
 
