@@ -105,6 +105,17 @@ def create_vm(
         
         resp.raise_for_status()
 
+        # Vérifier que la réponse n'est pas vide
+        if not resp.text or resp.text.strip() == "":
+            logger.error("Réponse API vide pour la création de VM", status_code=resp.status_code)
+            raise VMCreationError(
+                f"Réponse API vide lors de la création de la VM '{name}' pour l'utilisateur {user_id}",
+                status_code=resp.status_code,
+                response_data={"error": "empty_response", "user_id": user_id, "name": name},
+                user_id=user_id,
+                vm_name=name,
+            )
+
         vm_result = resp.json()
         logger.debug(f"Réponse JSON de l'API VM: {vm_result} (type: {type(vm_result)})")
 
