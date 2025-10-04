@@ -36,8 +36,6 @@ def report(
     python main.py report --type users-vms
     python main.py report -t status -o ./rapports --verbose
     """
-    typer.echo(f"🚀 Génération du rapport: {report_type}")
-
     # Importer et exécuter le gestionnaire de rapports
     from report_manager import generate_reports, ReportType
 

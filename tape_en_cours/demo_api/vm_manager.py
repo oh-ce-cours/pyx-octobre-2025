@@ -44,15 +44,15 @@ def create_vm(
     vm_name = name or "VM de Jean"
 
     if verbose:
-        print(f"🔧 Configuration VM:")
-        print(f"   Nom: {vm_name}")
-        print(f"   OS: {os}")
-        print(f"   CPU: {cores} cores")
-        print(f"   RAM: {ram} GB")
-        print(f"   Disque: {disk} GB")
-        print(f"   Statut: {status}")
-        print(f"   Email: {email}")
-        print()
+        typer.echo(f"🔧 Configuration VM:")
+        typer.echo(f"   Nom: {vm_name}")
+        typer.echo(f"   OS: {os}")
+        typer.echo(f"   CPU: {cores} cores")
+        typer.echo(f"   RAM: {ram} GB")
+        typer.echo(f"   Disque: {disk} GB")
+        typer.echo(f"   Statut: {status}")
+        typer.echo(f"   Email: {email}")
+        typer.echo()
 
     logger.info("Début du processus de création de VM", email=email, vm_name=vm_name)
 
@@ -62,7 +62,6 @@ def create_vm(
 
     # Authentification de l'utilisateur
     typer.echo("🔐 Authentification de l'utilisateur...")
-    logger.info("Authentification de l'utilisateur")
     user = vm_service.authenticate_user(email=email, password=config.DEMO_API_PASSWORD)
 
     if not user:
@@ -85,13 +84,13 @@ def create_vm(
     }
 
     if verbose:
-        print(f"🚀 Création de la VM...")
+        typer.echo(f"🚀 Création de la VM...")
 
     # Création de la VM
     logger.info("Création de la VM", **vm_config)
     vm_result = vm_service.create_vm_for_user(user, vm_config)
 
-    print()
+    typer.echo()
     if vm_result:
         logger.info("VM créée avec succès", vm_id=vm_result.get("id"))
         typer.echo("🎉 VM créée avec succès!")
