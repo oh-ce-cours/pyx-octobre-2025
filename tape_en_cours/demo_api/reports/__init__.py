@@ -9,6 +9,5 @@ Ce module contient tous les générateurs de rapports :
 """
 
 from .json_reports import JSONReportGenerator
-from .base import BaseReportGenerator
 
-__all__ = ["JSONReportGenerator", "BaseReportGenerator"]
+__all__ = ["JSONReportGenerator"]
