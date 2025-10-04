@@ -724,39 +724,53 @@ def status(
     python create_data_via_api.py status
     python create_data_via_api.py status --email admin@example.com --password secret
     """
-    typer.echo("📊 Récupération du statut de l'API...")
+    display_header(
+        "📊 Statut de l'API",
+        "Récupération des statistiques actuelles"
+    )
 
     try:
         # Créer le client API avec authentification
         api_client = create_authenticated_client(email=email, password=password)
 
         if not api_client.is_authenticated():
-            typer.echo("❌ Impossible de s'authentifier avec l'API")
-            typer.echo(
-                "💡 Utilisez --email et --password ou configurez les identifiants dans la config"
+            console.print(
+                Panel.fit(
+                    "[bold red]❌ Impossible de s'authentifier avec l'API[/bold red]\n"
+                    "[dim]💡 Utilisez --email et --password ou configurez les identifiants dans la config[/dim]",
+                    border_style="red",
+                )
             )
             raise typer.Exit(1)
 
-        typer.echo(f"🔐 Authentifié avec succès sur {api_client.base_url}")
+        console.print(f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]")
+        console.print()
+
+        # Afficher la configuration
+        display_api_config(api_client)
 
         # Récupérer toutes les données
-        typer.echo("📋 Récupération des données...")
-        all_data = api_client.get_all_data()
+        with console.status("[bold green]Récupération des données..."):
+            all_data = api_client.get_all_data()
 
         # Afficher les statistiques
-        typer.echo(f"\n📊 Statut actuel de l'API:")
-        typer.echo(f"   • URL de l'API: {api_client.base_url}")
-        typer.echo(f"   • Utilisateurs total: {all_data['total_users']}")
-        typer.echo(f"   • VMs totales: {all_data['total_vms']}")
-        typer.echo(f"   • Utilisateurs avec VMs: {all_data['users_with_vms']}")
+        display_api_status(all_data, api_client.base_url)
 
-        if all_data["total_users"] > 0:
-            avg_vms = all_data["total_vms"] / all_data["total_users"]
-            typer.echo(f"   • Moyenne VMs/utilisateur: {avg_vms:.1f}")
+        console.print(
+            Panel.fit(
+                "[bold green]✅ STATUT RÉCUPÉRÉ AVEC SUCCÈS ![/bold green]",
+                border_style="green",
+            )
+        )
 
     except Exception as e:
         logger.error("Erreur lors de la récupération du statut", error=str(e))
-        typer.echo(f"❌ Erreur lors de la récupération: {e}")
+        console.print(
+            Panel.fit(
+                f"[bold red]❌ Erreur lors de la récupération:[/bold red]\n{e}",
+                border_style="red",
+            )
+        )
         raise typer.Exit(1)
 
 
