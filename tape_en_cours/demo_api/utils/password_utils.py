@@ -2,6 +2,7 @@ import os
 import getpass
 from dotenv import load_dotenv, set_key
 from .logging_config import get_logger
+from .api.exceptions import CredentialsError, TokenError
 
 # Logger pour ce module
 logger = get_logger(__name__)
@@ -321,13 +322,17 @@ def get_or_create_token(
     Args:
         base_url (str): URL de base de l'API
         email (str|None): Email pour l'authentification
-        password (str|None): Mot de passe poxr l'authentification
+        password (str|None): Mot de passe pour l'authentification
         token_env_var (str): Variable d'environnement pour le token
 
     Returns:
-        str|None: Token valide ou None si échec
+        str: Token valide
+        
+    Raises:
+        CredentialsError: Si les identifiants sont invalides
+        TokenError: Si la création/récupération du token échoue
     """
-    from .api.auth import Auth
+    from .api.auth import Auth, UserCreationError, UserLoginError, UserInfoError
 
     # Essayer d'abord de récupérer depuis les variables d'environnement
     existing_token = get_token_from_env(token_env_var)
@@ -336,14 +341,13 @@ def get_or_create_token(
 
         # Tester si le token est encore valide
         auth = Auth(base_url)
-        user_info = auth.get_logged_user_info(existing_token)
-
-        if user_info:
+        try:
+            user_info = auth.get_logged_user_info(existing_token)
             logger.info(
                 "Token existant validé avec succès", user_id=user_info.get("id")
             )
             return existing_token
-        else:
+        except UserInfoError:
             logger.warning(
                 "Token existant expiré ou invalide, nouvelle authentification nécessaire"
             )
@@ -354,25 +358,36 @@ def get_or_create_token(
 
     # Récupérer les identifiants si non fournis
     if not email or not password:
-        email, password = get_credentials(email=email)
+        try:
+            email, password = get_credentials(email=email)
+        except ValueError as e:
+            raise CredentialsError(f"Erreur lors de la récupération des identifiants: {str(e)}")
 
     # Authentification
     auth = Auth(base_url)
 
     # Essayer de créer un utilisateur, sinon se connecter
-    token = auth.create_user("Demo User", email, password)
-    if not token:
-        logger.warning("Utilisateur déjà existant, tentative de connexion", email=email)
-        token = auth.login_user(email, password)
+    try:
+        token = auth.create_user("Demo User", email, password)
+        logger.info("Nouvel utilisateur créé avec succès", email=email)
+    except UserCreationError as e:
+        if "Utilisateur déjà existant" in str(e):
+            logger.warning("Utilisateur déjà existant, tentative de connexion", email=email)
+            try:
+                token = auth.login_user(email, password)
+            except UserLoginError as login_error:
+                raise CredentialsError(
+                    f"Impossible de se connecter avec l'email {email}: {str(login_error)}",
+                    email=email,
+                    password_provided=bool(password)
+                )
+        else:
+            raise TokenError(f"Impossible de créer l'utilisateur {email}: {str(e)}")
 
-    if token:
-        # Sauvegarder le token pour les prochaines utilisations
-        save_token_to_env(token, token_env_var)
-        logger.info("Nouveau token créé et sauvegardé", email=email)
-        return token
-    else:
-        logger.error("Échec de création du token", email=email)
-        return None
+    # Sauvegarder le token pour les prochaines utilisations
+    save_token_to_env(token, token_env_var)
+    logger.info("Nouveau token créé et sauvegardé", email=email)
+    return token
 
 
 # === Utilitaires pour fichier .env ===
