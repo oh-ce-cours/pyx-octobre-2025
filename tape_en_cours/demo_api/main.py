@@ -119,7 +119,7 @@ def signup(
             
             # Récupérer les informations complètes de l'utilisateur
             typer.echo("📋 Récupération des informations utilisateur...")
-            user_info = api.auth.get_logged_user_info(token)
+            user_info = api._auth.get_logged_user_info(token)
             
             if user_info:
                 typer.echo("✅ Informations utilisateur récupérées:")
