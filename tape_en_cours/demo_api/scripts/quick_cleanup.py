@@ -314,6 +314,57 @@ def delete_items_with_progress(
     return len(items)
 
 
+def delete_items_with_progress_and_global(
+    client, items: list, item_type: str, delay: float, global_progress, global_task
+) -> int:
+    """Supprime des éléments avec barre de progression détaillée et mise à jour globale"""
+
+    if not items:
+        return 0
+
+    # Affichage du panneau de suppression
+    display_deletion_progress(item_type, delay)
+
+    # Calcul du temps estimé total (suppression + délais)
+    estimated_time = len(items) * delay + (len(items) - 1) * delay
+    console.print(f"[dim]⏱️  Temps estimé: ~{estimated_time:.1f}s[/dim]")
+    console.print()
+
+    for i, item in enumerate(items):
+        # Mise à jour de la barre globale avec le nom de l'élément
+        item_name = item.get("name", f"ID {item['id']}")
+        global_progress.update(
+            global_task, 
+            description=f"Suppression {item_type}: {item_name}",
+            advance=0
+        )
+        
+        # Suppression avec affichage
+        if item_type == "vm":
+            delete_single_vm_with_display(client, item)
+        else:  # user
+            delete_single_user_with_display(client, item)
+
+        global_progress.update(global_task, advance=1)
+
+        # Pause si pas le dernier élément
+        if i < len(items) - 1:
+            global_progress.update(
+                global_task, 
+                description=f"Pause {delay}s avant le prochain {item_type}..."
+            )
+            time.sleep(delay)
+
+    # Affichage du résultat
+    display_deletion_result(item_type, len(items), len(items))
+
+    # Pause supplémentaire avant prochaine section
+    if item_type == "vm":
+        display_pause_message(delay + 1, "Pause avant les utilisateurs")
+
+    return len(items)
+
+
 def delete_single_vm_with_display(client, vm: dict) -> bool:
     """Supprime une VM avec affichage"""
     with console.status(f"Suppression VM {vm['id']}: {vm['name']}..."):
