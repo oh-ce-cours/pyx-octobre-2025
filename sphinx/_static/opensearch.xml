@@ -4,7 +4,7 @@
   <Description>Search Demo API - Documentation</Description>
   <InputEncoding>utf-8</InputEncoding>
   <Url type="text/html" method="get"
-       template="https://oh-ce-cours.github.io/pyx-octobre-2025//https://oh-ce-cours.github.io/pyx-octobre-2025/search?q={searchTerms}"/>
+       template="https://oh-ce-cours.github.io/pyx-octobre-2025/sphinx//https://oh-ce-cours.github.io/pyx-octobre-2025/sphinx/search?q={searchTerms}"/>
   <LongName>Demo API - Documentation</LongName>
   
 </OpenSearchDescription>
