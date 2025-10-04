@@ -113,7 +113,7 @@ class ReportService:
             return None
 
         # Compter les VMs par statut
-        status_counts = {}
+        status_counts: Dict[str, int] = {}
         for vm in vms:
             status = vm.get("status", "unknown")
             status_counts[status] = status_counts.get(status, 0) + 1
