@@ -119,6 +119,14 @@ def signup(
             typer.echo(f"   🔑 Token: {token[:20]}...")
             typer.echo()
 
+            # Sauvegarder le token dans les variables d'environnement de la session
+            from utils.password_utils import save_token_to_env
+            if save_token_to_env(token):
+                typer.echo("💾 Token sauvegardé dans la session courante")
+            else:
+                typer.echo("⚠️ Impossible de sauvegarder le token")
+            typer.echo()
+
             # Récupérer les informations complètes de l'utilisateur
             typer.echo("📋 Récupération des informations utilisateur...")
             user_info = auth.get_logged_user_info(token)
@@ -148,6 +156,7 @@ def signup(
 
                 typer.echo()
                 typer.echo("✨ Utilisateur prêt à utiliser!")
+                typer.echo("💡 Vous pouvez maintenant utiliser la commande 'create' pour créer des VMs")
             else:
                 typer.echo(
                     "⚠️ Utilisateur créé mais impossible de récupérer les informations"
