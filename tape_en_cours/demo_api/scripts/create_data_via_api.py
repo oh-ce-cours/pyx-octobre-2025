@@ -306,6 +306,10 @@ def create_users_via_api(
                     display_error_message("utilisateur", i, str(e))
 
                 progress.update(task, advance=1)
+                
+                # Délai entre chaque création d'utilisateur
+                if i < batch_size_actual - 1 or batch_end < user_count:
+                    time.sleep(delay_between_batches / 2)
 
             # Délai entre les lots pour éviter de surcharger l'API
             if batch_end < user_count:
@@ -368,17 +372,19 @@ def create_vms_via_api(
                         vm_id=created_count + 1,
                     )
 
-                    # Créer la VM via l'API
-                    created_vm = api_client.vms.create(
-                        user_id=vm_data["user_id"],
-                        name=vm_data["name"],
-                        operating_system=vm_data["operating_system"],
-                        cpu_cores=vm_data["cpu_cores"],
-                        ram_gb=vm_data["ram_gb"],
-                        disk_gb=vm_data["disk_gb"],
-                        status=vm_data["status"],
-                    )
+                    # Créer la VM via l'API avec retry pour les erreurs 429
+                    def create_vm_call():
+                        return api_client.vms.create(
+                            user_id=vm_data["user_id"],
+                            name=vm_data["name"],
+                            operating_system=vm_data["operating_system"],
+                            cpu_cores=vm_data["cpu_cores"],
+                            ram_gb=vm_data["ram_gb"],
+                            disk_gb=vm_data["disk_gb"],
+                            status=vm_data["status"],
+                        )
 
+                    created_vm = retry_with_backoff(create_vm_call, max_retries=3, base_delay=2.0)
                     created_vms.append(created_vm)
                     created_count += 1
 
