@@ -86,3 +86,5 @@ Tous les scripts utilisent la configuration définie dans `utils/config.py` pour
 ⚠️ **Attention** : Le script `quick_cleanup.py` peut supprimer définitivement toutes les données. Utilisez toujours le mode simulation (`--real` non spécifié) pour tester d'abord.
 
 💡 **Conseil** : Utilisez `generate_data.py` pour créer des données de test, puis `create_data_via_api.py` pour les insérer dans l'API.
+
+⚡ **API Limits** : Le script `create_data_via_api.py` gère automatiquement les erreurs 429 (Too Many Requests) avec retry et backoff exponentiel. Les délais par défaut ont été augmentés à 2.0s pour respecter les limites de l'API.
