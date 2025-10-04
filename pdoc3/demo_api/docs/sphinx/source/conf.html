@@ -101,9 +101,11 @@ el.replaceWith(d);
         &#34;&#34;&#34;Corrige les chemins statiques dans le contexte HTML.&#34;&#34;&#34;
         if app.builder.name == &#34;html&#34;:
             base_url = app.config.html_baseurl.rstrip(&#34;/&#34;)
-            
+
             # Force les chemins absolus pour tous les assets statiques
-            context[&#34;pathto&#34;] = lambda other, *args, **kwargs: f&#34;{base_url}/{other.lstrip(&#39;/&#39;)}&#34;
+            context[&#34;pathto&#34;] = (
+                lambda other, *args, **kwargs: f&#34;{base_url}/{other.lstrip(&#39;/&#39;)}&#34;
+            )
             context[&#34;static_url&#34;] = f&#34;{base_url}/_static&#34;
             context[&#34;base_url&#34;] = base_url
 
