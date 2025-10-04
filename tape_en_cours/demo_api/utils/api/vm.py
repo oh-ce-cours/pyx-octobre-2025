@@ -1,6 +1,5 @@
 import requests
 import datetime
-from typing import Dict, List, Optional, Any
 from utils.logging_config import get_logger
 from .decorators import retry_on_429
 from .exceptions import VMsFetchError, VMCreationError, VMUpdateError, VMDeleteError
@@ -9,56 +8,12 @@ from .exceptions import VMsFetchError, VMCreationError, VMUpdateError, VMDeleteE
 logger = get_logger(__name__)
 
 
-class VMClient:
-    """
-    Client pour les opérations liées aux machines virtuelles.
-    
-    Cette classe encapsule toutes les opérations d'API pour les VMs,
-    fournissant une interface cohérente et réutilisable.
-    """
-    
-    def __init__(self, base_url: str, token: Optional[str] = None, timeout: int = 5):
-        """
-        Initialise le client VM.
-        
-        Args:
-            base_url: URL de base de l'API
-            token: Token d'authentification (optionnel)
-            timeout: Timeout des requêtes en secondes (défaut: 5)
-        """
-        self.base_url = base_url.rstrip('/')
-        self.token = token
-        self.timeout = timeout
-        self.logger = get_logger(f"{__name__}.VMClient")
-
-
 def parse_unix_timestamp(ts):
-    """
-    Convertit un timestamp Unix (en millisecondes) en objet datetime.
-
-    Args:
-        ts (int): Timestamp Unix en millisecondes
-
-    Returns:
-        datetime.datetime: Objet datetime correspondant
-    """
     return datetime.datetime.fromtimestamp(ts / 1e3)
 
 
 @retry_on_429()
 def get_vms(base_url):
-    """
-    Récupère la liste des VMs depuis l'API.
-
-    Args:
-        base_url (str): URL de base de l'API
-
-    Returns:
-        list: Liste des VMs avec leurs dates de création converties
-
-    Raises:
-        VMsFetchError: Si la récupération des VMs échoue
-    """
     logger.info("Récupération des VMs depuis l'API", base_url=base_url)
 
     try:
@@ -109,26 +64,6 @@ def create_vm(
     disk_gb,
     status="running",
 ):
-    """
-    Crée une nouvelle VM via l'API.
-
-    Args:
-        token (str): Token d'authentification
-        base_url (str): URL de base de l'API
-        user_id (int): ID de l'utilisateur propriétaire
-        name (str): Nom de la VM
-        operating_system (str): Système d'exploitation
-        cpu_cores (int): Nombre de cœurs CPU
-        ram_gb (int): Quantité de RAM en GB
-        disk_gb (int): Taille du disque en GB
-        status (str): Statut initial de la VM (défaut: "running")
-
-    Returns:
-        dict: Données de la VM créée
-
-    Raises:
-        VMCreationError: Si la création de la VM échoue
-    """
     logger.info(
         "Création d'une nouvelle VM",
         name=name,
