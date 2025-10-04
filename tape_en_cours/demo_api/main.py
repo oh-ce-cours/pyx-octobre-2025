@@ -14,36 +14,26 @@ from utils.api import Api, create_authenticated_client
 from utils.password_utils import get_or_create_token
 from utils.logging_config import get_logger
 from utils.config import config
-import json
+from reports import JSONReportGenerator
 
 # Configuration du logger pour ce module
 logger = get_logger(__name__)
 
 # Initialisation du client API unifié
 api = Api(config.DEMO_API_BASE_URL)
-
 logger.info("Début de l'exécution de demo_api", base_url=api.base_url)
 
 users = api.users.get()
 logger.info("Utilisateurs récupérés", count=len(users))
-
 vms = api.vms.get()
 logger.info("VMs récupérées", count=len(vms))
-
 api.users.add_vms_to_users(users, vms)
 
-logger.info(
-    "Sauvegarde des données utilisateurs/VMs en JSON",
-    filename=config.DEMO_API_OUTPUT_FILE,
-)
-json.dump(
-    users,
-    open(config.DEMO_API_OUTPUT_FILE, "w", encoding="utf8"),
-    indent=4,
-    sort_keys=True,
-    default=str,
-)
-logger.info("Sauvegarde terminée avec succès")
+# Génération du rapport JSON avec le générateur dédié
+logger.info("Génération du rapport utilisateurs/VMs")
+json_generator = JSONReportGenerator()
+report_file = json_generator.generate_users_vms_report(users, "vm_users.json")
+logger.info("Rapport JSON généré avec succès", filename=report_file)
 
 
 # Gestion intelligente des tokens d'authentification
