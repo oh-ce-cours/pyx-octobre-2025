@@ -473,34 +473,50 @@ def vms(
     python create_data_via_api.py vms -c 100 --batch-size 10 --delay 1.0
     python create_data_via_api.py vms --email admin@example.com --password secret
     """
-    typer.echo(f"🖥️ Création de {count} VMs via l'API...")
+    display_header(
+        "🖥️ Création de VMs via l'API",
+        f"Génération de {count} VMs avec Faker"
+    )
 
     try:
         # Créer le client API avec authentification
         api_client = create_authenticated_client(email=email, password=password)
 
         if not api_client.is_authenticated():
-            typer.echo("❌ Impossible de s'authentifier avec l'API")
-            typer.echo(
-                "💡 Utilisez --email et --password ou configurez les identifiants dans la config"
+            console.print(
+                Panel.fit(
+                    "[bold red]❌ Impossible de s'authentifier avec l'API[/bold red]\n"
+                    "[dim]💡 Utilisez --email et --password ou configurez les identifiants dans la config[/dim]",
+                    border_style="red",
+                )
             )
             raise typer.Exit(1)
 
-        typer.echo(f"🔐 Authentifié avec succès sur {api_client.base_url}")
+        console.print(f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]")
+        console.print()
+
+        # Afficher la configuration
+        display_api_config(api_client)
 
         # Récupérer les utilisateurs existants
-        typer.echo("📋 Récupération des utilisateurs existants...")
-        existing_users = api_client.users.get()
+        with console.status("[bold green]Récupération des utilisateurs existants..."):
+            existing_users = api_client.users.get()
 
         if not existing_users:
-            typer.echo("❌ Aucun utilisateur trouvé dans l'API")
-            typer.echo("💡 Créez d'abord des utilisateurs avec la commande 'users'")
+            console.print(
+                Panel.fit(
+                    "[bold red]❌ Aucun utilisateur trouvé dans l'API[/bold red]\n"
+                    "[dim]💡 Créez d'abord des utilisateurs avec la commande 'users'[/dim]",
+                    border_style="red",
+                )
+            )
             raise typer.Exit(1)
 
         user_ids = [user["id"] for user in existing_users]
-        typer.echo(
-            f"👥 {len(user_ids)} utilisateurs disponibles pour l'association des VMs"
-        )
+        console.print(f"[bold cyan]👥 {len(user_ids)} utilisateurs disponibles pour l'association des VMs[/bold cyan]")
+        console.print()
+
+        display_operation_config("VMs", count, batch_size, delay)
 
         # Créer les VMs
         created_vms = create_vms_via_api(
@@ -512,23 +528,31 @@ def vms(
         )
 
         # Statistiques
-        typer.echo(f"\n✅ Création terminée !")
-        typer.echo(f"📊 Statistiques:")
-        typer.echo(f"   • VMs créées: {len(created_vms)}")
-        typer.echo(f"   • Taux de succès: {len(created_vms) / count * 100:.1f}%")
+        stats = {
+            "VMs créées": len(created_vms),
+            "Taux de succès": f"{len(created_vms) / count * 100:.1f}%",
+            "Utilisateurs concernés": len(user_ids),
+        }
+        display_statistics("Résultat de la création", stats)
 
         if verbose and created_vms:
-            typer.echo(f"\n🔍 Aperçu des VMs créées:")
-            for i, vm in enumerate(created_vms[:5]):
-                typer.echo(
-                    f"   {i + 1}. {vm.get('name', 'N/A')} ({vm.get('operating_system', 'N/A')})"
-                )
-            if len(created_vms) > 5:
-                typer.echo(f"   ... et {len(created_vms) - 5} autres VMs")
+            display_preview("Aperçu des VMs créées", created_vms)
+
+        console.print(
+            Panel.fit(
+                "[bold green]✅ CRÉATION TERMINÉE AVEC SUCCÈS ![/bold green]",
+                border_style="green",
+            )
+        )
 
     except Exception as e:
         logger.error("Erreur lors de la création des VMs", error=str(e))
-        typer.echo(f"❌ Erreur lors de la création: {e}")
+        console.print(
+            Panel.fit(
+                f"[bold red]❌ Erreur lors de la création:[/bold red]\n{e}",
+                border_style="red",
+            )
+        )
         raise typer.Exit(1)
 
 
