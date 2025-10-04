@@ -578,7 +578,7 @@ def full_dataset(
         20, "--users", "-u", help="Nombre d'utilisateurs à créer", min=1, max=100
     ),
     vm_count: int = typer.Option(
-        50, "--vms", "-v", help="Nombre de VMs à créer", min=1, max=200
+        50, "--vms", help="Nombre de VMs à créer", min=1, max=200
     ),
     batch_size: int = typer.Option(
         5, "--batch-size", "-b", help="Taille des lots", min=1, max=20
