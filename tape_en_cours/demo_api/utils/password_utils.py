@@ -1,6 +1,5 @@
 import os
 import getpass
-from dotenv import load_dotenv, set_key
 from .logging_config import get_logger
 from .api.exceptions import CredentialsError, TokenError
 
@@ -8,33 +7,25 @@ from .api.exceptions import CredentialsError, TokenError
 logger = get_logger(__name__)
 
 
-# Charger automatiquement les fichiers de configuration
-# Note: Le chargement est maintenant géré par config.py
-# Pas besoin de charger ici car config.py s'en charge déjà
-
-
-def get_password_from_env(env_var="DEMO_API_PASSWORD"):
+def get_password_from_config():
     """
-    Récupère un mot de passe depuis une variable d'environnement uniquement.
-
-    Args:
-        env_var (str): Nom de la variable d'environnement contenant le mot de passe
+    Récupère le mot de passe depuis le gestionnaire de configuration.
 
     Returns:
         str|None: Le mot de passe récupéré ou None si pas trouvé
     """
-    password = os.environ.get(env_var)
+    from .config import config
+    
+    password = config.DEMO_API_PASSWORD
 
     if password:
         logger.info(
-            "Mot de passe récupéré depuis la variable d'environnement",
-            env_var=env_var,
+            "Mot de passe récupéré depuis le gestionnaire de configuration",
             password_length=len(password),
         )
     else:
         logger.debug(
-            "Aucun mot de passe trouvé dans les variables d'environnement",
-            env_var=env_var,
+            "Aucun mot de passe trouvé dans la configuration",
         )
 
     return password
