@@ -5,26 +5,6 @@ import sys
 import os
 
 
-# Configuration des processeurs structlog
-def customize_logging_format(_, method_name, event_dict):
-    """
-    Personnalise le format des logs avec des informations supplémentaires.
-    """
-    # Ajouter le timestamp si pas présent
-    if "timestamp" not in event_dict:
-        from datetime import datetime
-
-        event_dict["timestamp"] = datetime.utcnow().isoformat() + "Z"
-
-    # Ajouter le niveau de log de manière plus claire
-    event_dict["level"] = method_name.upper()
-
-    # Ajouter des métadonnées utiles
-    event_dict["app"] = "demo_api"
-
-    return event_dict
-
-
 def setup_logging():
     """
     Configure structlog avec un format JSON joli et structuré.
@@ -42,7 +22,6 @@ def setup_logging():
         structlog.processors.TimeStamper(fmt="iso"),
         structlog.processors.StackInfoRenderer(),
         structlog.processors.format_exc_info,
-        customize_logging_format,
     ]
 
     # Configuration pour la console (format humain)
@@ -53,7 +32,6 @@ def setup_logging():
     # Configuration selon le niveau de détail souhaité
     if debug_mode:
         # Mode debug : plus de détails
-        processors.append(structlog.processors.dict_tracebacks)
         console_processors.append(structlog.processors.dict_tracebacks)
 
     # Configuration structlog
