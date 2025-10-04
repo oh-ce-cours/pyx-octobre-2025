@@ -264,7 +264,7 @@ def get_token_from_env(env_var="DEMO_API_TOKEN"):
 
 def save_token_to_env(token, env_var="DEMO_API_TOKEN"):
     """
-    Sauvegarde un token dans une variable d'environnement et dans le fichier env.local.
+    Sauvegarde un token en utilisant le gestionnaire de configuration.
 
     Args:
         token (str): Le token à sauvegarder
@@ -277,32 +277,27 @@ def save_token_to_env(token, env_var="DEMO_API_TOKEN"):
         logger.error("Impossible de sauvegarder un token vide")
         return False
 
-    # Sauvegarder dans les variables d'environnement de la session
-    os.environ[env_var] = token
-    logger.info(
-        "Token sauvegardé dans les variables d'environnement de la session",
-        env_var=env_var,
-        token_length=len(token),
-    )
-
-    # Sauvegarder aussi dans le fichier env.local pour la persistance
-    try:
-        # Utiliser python-dotenv pour sauvegarder dans env.local
-        set_key(".env.local", env_var, token)
+    # Utiliser le gestionnaire de configuration pour sauvegarder
+    from .config import config
+    
+    if env_var == "DEMO_API_TOKEN":
+        success = config.update_token(token)
+    else:
+        success = config.save_to_env_file(env_var, token)
+    
+    if success:
         logger.info(
-            "Token sauvegardé dans le fichier .env.local pour la persistance",
-            env_file=".env.local",
+            "Token sauvegardé avec succès via le gestionnaire de configuration",
+            env_var=env_var,
+            token_length=len(token),
+        )
+    else:
+        logger.warning(
+            "Impossible de sauvegarder le token via le gestionnaire de configuration",
             env_var=env_var,
         )
-        return True
-    except (OSError, IOError, PermissionError) as e:
-        logger.warning(
-            "Impossible de sauvegarder le token dans .env.local",
-            error=str(e),
-            env_file=".env.local",
-        )
-        # Retourner True quand même car la sauvegarde en session a réussi
-        return True
+    
+    return success
 
 
 def remove_token_from_env(env_var="DEMO_API_TOKEN"):
