@@ -24,7 +24,7 @@ jobs:
 
       - name: Deploy Documentation
         run: |
-          ./deploy_docs.sh
+          python3 deploy_docs.py
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
