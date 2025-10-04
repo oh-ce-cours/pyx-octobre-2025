@@ -345,3 +345,51 @@ api = create_authenticated_client()
 - **⚡ Méthodes raccourcies** : `api.login()` au lieu de `api.auth.login()`
 - **🛡️ Type hinting** : Documentation et validation automatique
 - **🔧 Configuration intégrée** : Utilise automatiquement la configuration centralisée
+
+## Module de génération de rapports
+
+Le projet dispose maintenant d'un module dédié pour la génération de rapports dans différents formats.
+
+### Structure des fichiers
+
+```
+demo_api/
+├── reports/                  # Module de génération de rapports
+│   ├── __init__.py         # Interface du module
+│   ├── base.py             # Classe de base abstraite
+│   ├── json_reports.py     # Générateur de rapports JSON
+│   └── .gitkeep           # Garde le dossier dans git
+├── outputs/                 # Dossier de sortie (créé automatiquement)
+│   ├── json/               # Rapports JSON
+│   ├── html/               # Rapports HTML (futur)
+│   ├── markdown/           # Rapports Markdown (futur)
+│   ├── csv/                # Rapports CSV (futur)
+│   └── .gitkeep           # Garde le dossier dans git
+├── utils/
+├── main.py
+└── ...
+```
+
+### Utilisation du générateur JSON
+
+```python
+from reports import JSONReportGenerator
+
+# Création du générateur
+json_generator = JSONReportGenerator()
+
+# Génération d'un rapport utilisateurs/VMs
+report_file = json_generator.generate_users_vms_report(users, "vm_users.json")
+
+# Génération d'un rapport personnalisé
+report_file = json_generator.generate(data, "custom_report.json")
+```
+
+### Avantages de cette organisation
+
+- **📦 Modularité** : Code de génération séparé du code métier
+- **🔧 Extensibilité** : Facile d'ajouter de nouveaux formats (HTML, Markdown, CSV)
+- **📊 Statistiques** : Calcul automatique de métriques et statistiques
+- **🛡️ Robustesse** : Gestion d'erreurs et validation des données
+- **📝 Métadonnées** : Ajout automatique de métadonnées aux rapports
+- **🎯 Spécialisation** : Méthodes dédiées pour chaque type de rapport
