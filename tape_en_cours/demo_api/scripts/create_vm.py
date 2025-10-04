@@ -66,28 +66,29 @@ def create_vm(
     vm_service = VMService(api)
 
     # Authentification de l'utilisateur
+    typer.echo("🔐 Authentification de l'utilisateur...")
     logger.info("Authentification de l'utilisateur")
     user = vm_service.authenticate_user(
-        email=args.email, password=config.DEMO_API_PASSWORD
+        email=email, password=config.DEMO_API_PASSWORD
     )
 
     if not user:
         logger.error("Authentification échouée")
-        print("❌ Échec de l'authentification")
-        sys.exit(1)
+        typer.echo("❌ Échec de l'authentification")
+        raise typer.Exit(1)
 
     logger.info("Authentification réussie", user_id=user.get("id"))
-    print(f"✅ Utilisateur authentifié: {user.get('name', args.email)}")
+    typer.echo(f"✅ Utilisateur authentifié: {user.get('name', email)}")
 
     # Configuration de la VM
     vm_config = {
         "user_id": user["id"],
-        "name": args.name,
-        "operating_system": args.os,
-        "cpu_cores": args.cores,
-        "ram_gb": args.ram,
-        "disk_gb": args.disk,
-        "status": args.status,
+        "name": name,
+        "operating_system": os,
+        "cpu_cores": cores,
+        "ram_gb": ram,
+        "disk_gb": disk,
+        "status": status,
     }
 
     # Création de la VM
