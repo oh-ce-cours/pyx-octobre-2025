@@ -2,7 +2,6 @@
 
 import structlog
 import sys
-import os
 
 
 def setup_logging():
