@@ -22,6 +22,7 @@ cp -r tape_en_cours/demo_api/docs/pdoc3/* docs-deploy/pdoc3/
 
 # Ajouter les fichiers nécessaires pour GitHub Pages
 touch docs-deploy/.nojekyll
+echo "✅ Fichier .nojekyll créé pour désactiver Jekyll sur GitHub Pages"
 
 # Corriger les chemins CSS dans tous les fichiers HTML pour GitHub Pages
 echo "🔧 Correction des chemins CSS pour GitHub Pages..."
