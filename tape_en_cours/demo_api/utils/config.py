@@ -123,11 +123,22 @@ class Config:
             raise ValueError(f"Nombre de retry invalide: {self.DEMO_API_MAX_RETRIES}")
     
     def _ensure_output_directory(self) -> None:
-        """Crée le dossier de sortie s'il n'existe pas"""
+        """Crée tous les dossiers de sortie s'ils n'existent pas"""
         import os
-        output_dir = os.path.dirname(self.DEMO_API_OUTPUT_FILE)
-        if output_dir and not os.path.exists(output_dir):
-            os.makedirs(output_dir, exist_ok=True)
+        
+        # Créer tous les dossiers de rapports
+        output_dirs = [
+            self.output_directory,
+            self.json_output_directory,
+            self.html_output_directory,
+            self.markdown_output_directory,
+            self.csv_output_directory,
+            self.logs_output_directory,
+        ]
+        
+        for output_dir in output_dirs:
+            if not os.path.exists(output_dir):
+                os.makedirs(output_dir, exist_ok=True)
 
     # Propriétés de configuration pour l'accès facile
     @property
