@@ -11,7 +11,9 @@ def setup_logging():
     """
     # Configuration de la sortie selon l'environnement
     debug_mode = os.environ.get("DEMO_API_DEBUG", "false").lower() == "true"
-    log_level = os.environ.get("DEMO_API_LOG_LEVEL", "DEBUG" if debug_mode else "WARNING")
+    log_level = os.environ.get(
+        "DEMO_API_LOG_LEVEL", "DEBUG" if debug_mode else "WARNING"
+    )
 
     # Configuration des processeurs
     processors = [
