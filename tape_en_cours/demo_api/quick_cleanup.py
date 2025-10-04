@@ -222,33 +222,83 @@ def show_summary(vms: list, users: list, deleted_vms: int, deleted_users: int) -
     )
 
 
-def delete_items_with_progress(
-    client, items: list, item_type: str, delay: float
-) -> int:
-    """Supprime des éléments avec barre de progression
+# =============================================================================
+# FONCTIONS PURES DE MANIPULATION DES DONNÉES
+# =============================================================================
 
+def delete_vm_data(client, vm: dict) -> bool:
+    """Supprime une VM (logique pure sans affichage)"""
+    try:
+        client.vms.delete(vm["id"])
+        return True
+    except Exception:
+        return False
+
+
+def delete_user_data(client, user: dict) -> bool:
+    """Supprime un utilisateur (logique pure sans affichage)"""
+    try:
+        client.users.delete_user(user["id"])
+        return True
+    except Exception:
+        return False
+
+
+def delete_items_batch(client, items: list, item_type: str, delay: float) -> int:
+    """Supprime une liste d'éléments avec gestion des pauses
+    
     Args:
         client: Client API
         items: Liste des éléments à supprimer
         item_type: Type d'élément ('vm' ou 'user')
         delay: Délai entre suppressions
-
+        
     Returns:
         Nombre d'éléments supprimés
     """
     if not items:
-        console.print(f"[yellow]⚠️  Aucun{item_type} à supprimer[/yellow]")
         return 0
 
     deleted_count = 0
+    
+    for i, item in enumerate(items):
+        # Suppression selon le type
+        if item_type == "vm":
+            success = delete_vm_data(client, item)
+        else:  # user
+            success = delete_user_data(client, item)
+            
+        if success:
+            deleted_count += 1
+            
+        # Pause si pas le dernier élément
+        if i < len(items) - 1:
+            time.sleep(delay)
+    
+    # Pause supplémentaire avant prochaine section
+    if deleted_count > 0 and item_type == "vm":
+        time.sleep(delay + 1)
+    
+    return deleted_count
 
-    console.print(
-        Panel.fit(
-            f"[bold red]🗑️  Suppression des {item_type}s...[/bold red]\n"
-            f"Délai: [bold]{delay}s[/bold]",
-            border_style="red",
-        )
-    )
+
+# =============================================================================
+# FONCTIONS DE SUPPRESSION AVEC AFFICHAGE
+# =============================================================================
+
+def delete_items_with_progress(
+    client, items: list, item_type: str, delay: float
+) -> int:
+    """Supprime des éléments avec barre de progression et affichage"""
+
+    if not items:
+        console.print(f"[yellow]⚠️  Aucun{item_type} à supprimer[/yellow]")
+        return 0
+
+    # Affichage du panneau de suppression
+    display_deletion_progress(item_type, delay)
+
+    deleted_count = 0
 
     with Progress(
         SpinnerColumn(),
@@ -260,10 +310,11 @@ def delete_items_with_progress(
         )
 
         for i, item in enumerate(items):
+            # Suppression avec affichage
             if item_type == "vm":
-                success = delete_single_vm(client, item)
+                success = delete_single_vm_with_display(client, item)
             else:  # user
-                success = delete_single_user(client, item)
+                success = delete_single_user_with_display(client, item)
 
             if success:
                 deleted_count += 1
@@ -272,44 +323,39 @@ def delete_items_with_progress(
 
             # Pause si pas le dernier élément
             if i < len(items) - 1:
-                console.print(f"[dim]⏱️  Pause de {delay}s...[/dim]")
-                time.sleep(delay)
+                display_pause_message(delay)
 
-    console.print(
-        f"[bold cyan]📊 {item_type}s supprimés: [green]{deleted_count}/{len(items)}[/green][/bold cyan]"
-    )
+    # Affichage du résultat
+    display_deletion_result(item_type, deleted_count, len(items))
 
     # Pause supplémentaire avant prochaine section
     if deleted_count > 0 and item_type == "vm":
-        console.print(f"[dim]⏱️  Pause de {delay + 1}s avant les utilisateurs...[/dim]")
-        time.sleep(delay + 1)
+        display_pause_message(delay + 1, "Pause avant les utilisateurs")
 
     return deleted_count
 
 
-def delete_single_vm(client, vm: dict) -> bool:
-    """Supprime une VM individuelle"""
+def delete_single_vm_with_display(client, vm: dict) -> bool:
+    """Supprime une VM avec affichage"""
     try:
         with console.status(f"Suppression VM {vm['id']}: {vm['name']}..."):
             client.vms.delete(vm["id"])
-        console.print(f"[green]✅ VM supprimée: [bold]{vm['name']}[/bold][/green]")
+        display_success_message("VM", vm['name'])
         return True
     except Exception as e:
-        console.print(f"[red]❌ Erreur suppression VM {vm['id']}: {e}[/red]")
+        display_error_message("VM", vm['id'], str(e))
         return False
 
 
-def delete_single_user(client, user: dict) -> bool:
-    """Supprime un utilisateur individuel"""
+def delete_single_user_with_display(client, user: dict) -> bool:
+    """Supprime un utilisateur avec affichage"""
     try:
         with console.status(f"Suppression utilisateur {user['id']}: {user['name']}..."):
             client.users.delete_user(user["id"])
-        console.print(
-            f"[green]✅ Utilisateur supprimé: [bold]{user['name']}[/bold][/green]"
-        )
+        display_success_message("Utilisateur", user['name'])
         return True
     except Exception as e:
-        console.print(f"[red]❌ Erreur suppression User {user['id']}: {e}[/red]")
+        display_error_message("User", user['id'], str(e))
         return False
 
 
