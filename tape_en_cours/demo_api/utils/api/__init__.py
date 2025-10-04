@@ -141,22 +141,30 @@ class AuthAPI:
         logger.info("Connexion réussie via API unifiée", email=email)
         return token
 
-    def create_user(self, name: str, email: str, password: str) -> Optional[str]:
-        """Création d'un utilisateur"""
+    def create_user(self, name: str, email: str, password: str) -> str:
+        """Création d'un utilisateur
+        
+        Raises:
+            UserCreationError: Si la création d'utilisateur échoue
+        """
         logger.info("Création utilisateur via API unifiée", email=email, name=name)
         token = self._api._auth.create_user(name, email, password)
-        if token:
-            self._api.token = token
-            logger.info("Utilisateur créé avec succès via API unifiée", email=email)
+        self._api.token = token
+        logger.info("Utilisateur créé avec succès via API unifiée", email=email)
         return token
 
-    def get_user_info(self) -> Optional[Dict[str, Any]]:
-        """Récupère les informations de l'utilisateur connecté"""
+    def get_user_info(self) -> Dict[str, Any]:
+        """Récupère les informations de l'utilisateur connecté
+        
+        Raises:
+            TokenError: Si aucun token n'est disponible
+            UserInfoError: Si la récupération des informations échoue
+        """
         if not self._api.token:
             logger.warning(
                 "Aucun token disponible pour récupérer les informations utilisateur"
             )
-            return None
+            raise TokenError("Aucun token disponible pour récupérer les informations utilisateur")
 
         logger.info("Récupération des informations utilisateur via API unifiée")
         return self._api._auth.get_logged_user_info(self._api.token)
@@ -188,15 +196,15 @@ class ApiClient:
             has_token=bool(self.token),
         )
 
-    def login(self, email: str, password: str) -> Optional[str]:
+    def login(self, email: str, password: str) -> str:
         """Méthode de connexion directe (raccourci)"""
         return self.auth.login(email, password)
 
-    def create_user(self, name: str, email: str, password: str) -> Optional[str]:
+    def create_user(self, name: str, email: str, password: str) -> str:
         """Méthode de création d'utilisateur directe (raccourci)"""
         return self.auth.create_user(name, email, password)
 
-    def get_user_info(self) -> Optional[Dict[str, Any]]:
+    def get_user_info(self) -> Dict[str, Any]:
         """Méthode d'information utilisateur directe (raccourci)"""
         return self.auth.get_user_info()
 
@@ -244,15 +252,19 @@ def create_authenticated_client(
 
     # Essayer d'abord avec les identifiants fournis
     if email and password:
-        token = client.login(email, password)
-        if token:
+        try:
+            client.login(email, password)
             return client
+        except UserLoginError:
+            logger.warning("Échec de connexion avec les identifiants fournis", email=email)
 
     # Essayer avec les identifiants de la configuration
     if config.has_credentials:
-        token = client.login(config.DEMO_API_EMAIL, config.DEMO_API_PASSWORD)
-        if token:
+        try:
+            client.login(config.DEMO_API_EMAIL, config.DEMO_API_PASSWORD)
             return client
+        except UserLoginError:
+            logger.warning("Échec de connexion avec les identifiants de configuration")
 
     # Si pas d'authentification, retourner le client sans token
     logger.warning("Aucune authentification réussie, client créé sans token")
