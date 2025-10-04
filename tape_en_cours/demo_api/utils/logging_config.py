@@ -2,15 +2,14 @@
 
 import structlog
 import sys
+from .config import config
 
 
 def setup_logging():
     """
     Configure structlog avec un format JSON joli et structuré.
     """
-    # Configuration de la sortie selon l'environnement via le gestionnaire de config
-    from .config import config
-    
+
     debug_mode = config.DEMO_API_DEBUG
     log_level = config.DEMO_API_LOG_LEVEL
 
