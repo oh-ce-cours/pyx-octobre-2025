@@ -70,11 +70,11 @@ def main():
     ):
         success_count += 1
 
-    # 3. Générer la documentation pdoc3
+    # 3. Générer la documentation pdoc3 avec index complet
     total_commands += 1
     if run_command(
-        f"cd {project_root} && pdoc --html -o docs/pdoc3_html main report_manager utils.config",
-        "Génération de la documentation pdoc3",
+        f"cd {project_root} && pdoc --html -o docs/pdoc3_build .",
+        "Génération de la documentation pdoc3 complète",
     ):
         success_count += 1
 
