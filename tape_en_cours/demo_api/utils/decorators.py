@@ -4,7 +4,7 @@ Décorateurs utilitaires pour l'application.
 
 import time
 from functools import wraps
-from typing import Callable, Any
+from typing import Callable
 from utils.logging_config import get_logger
 
 # Logger pour ce module
