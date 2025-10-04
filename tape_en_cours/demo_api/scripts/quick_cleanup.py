@@ -111,24 +111,16 @@ def fetch_data(client) -> Tuple[list, list]:
     # Récupération VMs
     console.print("[bold cyan]📊 Données actuelles:[/bold cyan]")
 
-    try:
-        with console.status("[bold green]Récupérations des VMs..."):
-            vms = client.vms.get()
-        display_vms_table(vms)
-        console.print()
-    except Exception as e:
-        console.print(f"[red]❌ Erreur VMs: {e}[/red]")
-        vms = []
+    with console.status("[bold green]Récupérations des VMs..."):
+        vms = client.vms.get()
+    display_vms_table(vms)
+    console.print()
 
     # Récupération utilisateurs
-    try:
-        with console.status("[bold green]Récupération des utilisateurs..."):
-            users = client.users.get()
-        display_users_table(users)
-        console.print()
-    except Exception as e:
-        console.print(f"[red]❌ Erreur Utilisateurs: {e}[/red]")
-        users = []
+    with console.status("[bold green]Récupération des utilisateurs..."):
+        users = client.users.get()
+    display_users_table(users)
+    console.print()
 
     return vms, users
 
@@ -199,11 +191,6 @@ def display_success_message(item_type: str, item_name: str) -> None:
     console.print(f"[green]✅ {item_type} supprimé: [bold]{item_name}[/bold][/green]")
 
 
-def display_error_message(item_type: str, item_id: str, error: str) -> None:
-    """Affiche un message d'erreur"""
-    console.print(f"[red]❌ Erreur suppression {item_type} {item_id}: {error}[/red]")
-
-
 # =============================================================================
 # FONCTIONS PURES DE MANIPULATION DES DONNÉES
 # =============================================================================
@@ -271,8 +258,6 @@ def delete_items_with_progress(
     # Affichage du panneau de suppression
     display_deletion_progress(item_type, delay)
 
-    deleted_count = 0
-
     with Progress(
         SpinnerColumn(),
         TextColumn("[progress.description]{task.description}"),
@@ -285,12 +270,9 @@ def delete_items_with_progress(
         for i, item in enumerate(items):
             # Suppression avec affichage
             if item_type == "vm":
-                success = delete_single_vm_with_display(client, item)
+                delete_single_vm_with_display(client, item)
             else:  # user
-                success = delete_single_user_with_display(client, item)
-
-            if success:
-                deleted_count += 1
+                delete_single_user_with_display(client, item)
 
             progress.update(task, advance=1)
 
@@ -299,13 +281,13 @@ def delete_items_with_progress(
                 display_pause_message(delay)
 
     # Affichage du résultat
-    display_deletion_result(item_type, deleted_count, len(items))
+    display_deletion_result(item_type, len(items), len(items))
 
     # Pause supplémentaire avant prochaine section
-    if deleted_count > 0 and item_type == "vm":
+    if item_type == "vm":
         display_pause_message(delay + 1, "Pause avant les utilisateurs")
 
-    return deleted_count
+    return len(items)
 
 
 def delete_single_vm_with_display(client, vm: dict) -> bool:
