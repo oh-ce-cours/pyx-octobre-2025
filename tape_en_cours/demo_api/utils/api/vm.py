@@ -184,6 +184,7 @@ def create_vm(
 
     except requests.RequestException as e:
         import traceback
+
         stacktrace = traceback.format_exc()
         logger.error(
             "Erreur lors de la création de la VM",

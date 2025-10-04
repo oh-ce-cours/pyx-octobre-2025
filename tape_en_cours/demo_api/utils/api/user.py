@@ -175,6 +175,9 @@ def create_user(base_url, token, name, email, password=None):
         return user_data
 
     except requests.RequestException as e:
+        import traceback
+
+        stacktrace = traceback.format_exc()
         logger.error(
             "Erreur lors de la création de l'utilisateur",
             error=str(e),
@@ -184,7 +187,11 @@ def create_user(base_url, token, name, email, password=None):
             else getattr(resp, "text", ""),
             name=name,
             email=email,
+            stacktrace=stacktrace,
         )
+        print(f"\n🔍 STACKTRACE COMPLÈTE (API User):")
+        print(stacktrace)
+        print(f"🔍 FIN STACKTRACE\n")
 
         raise UserCreationError(
             f"Impossible de créer l'utilisateur '{name}' ({email}): {str(e)}",
