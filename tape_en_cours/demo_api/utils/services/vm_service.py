@@ -60,17 +60,10 @@ class VMService:
                 logger.info("Récupération des informations utilisateur authentifié")
                 try:
                     user = self.api.get_user_info()
-                    logger.info(
-                        "Informations utilisateur récupérées pour création VM",
-                        user_id=user.get("id"),
-                        user_name=user.get("name"),
-                    )
+                    logger.info("Informations utilisateur récupérées pour création VM", user_id=user.get("id"), user_name=user.get("name"))
                     return user
                 except UserInfoError as e:
-                    logger.error(
-                        "Impossible de récupérer les informations utilisateur",
-                        error=str(e),
-                    )
+                    logger.error("Impossible de récupérer les informations utilisateur", error=str(e))
                     return None
             else:
                 logger.error("Aucun token disponible après authentification")
@@ -101,11 +94,7 @@ class VMService:
 
         try:
             vm_result = self.api.users.create_vm(**vm_config)
-            logger.info(
-                "VM créée avec succès",
-                vm_id=vm_result.get("id"),
-                status=vm_config.get("status"),
-            )
+            logger.info("VM créée avec succès", vm_id=vm_result.get("id"), status=vm_config.get("status"))
             return vm_result
         except VMCreationError as e:
             logger.error("Échec de la création de VM", error=str(e), user_id=user["id"])

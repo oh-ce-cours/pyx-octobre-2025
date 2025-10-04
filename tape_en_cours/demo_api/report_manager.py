@@ -85,9 +85,7 @@ def generate_reports(
     # Résumé
     typer.echo()
     if generated_files:
-        logger.info(
-            "Génération terminée avec succès", files_generated=len(generated_files)
-        )
+        logger.info("Génération terminée avec succès", files_generated=len(generated_files))
         typer.echo(f"🎉 {len(generated_files)} rapport(s) généré(s) avec succès")
         for file in generated_files:
             typer.echo(f"   📄 {file}")
