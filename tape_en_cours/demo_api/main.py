@@ -10,15 +10,9 @@
 # ...
 
 
-from utils.api import (
-    get_users,
-    get_vms,
-    add_vms_to_users,
-    create_user,
-    login_user,
-    create_vm,
-    get_logged_user_info,
-)
+from utils.api.user import get_users, add_vms_to_users
+from utils.api.vm import get_vms, create_vm
+from utils.api.auth import Auth
 from utils.password_utils import get_credentials
 from utils.logging_config import get_logger
 import json
