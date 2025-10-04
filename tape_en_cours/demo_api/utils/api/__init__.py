@@ -199,6 +199,85 @@ class VMsAPI:
             status=status,
         )
 
+    def get_vm(self, vm_id: int) -> Dict[str, Any]:
+        """Récupère une VM spécifique par son ID
+
+        Args:
+            vm_id: ID de la VM
+
+        Returns:
+            Dict contenant les informations de la VM
+
+        Raises:
+            VMsFetchError: Si la récupération de la VM échoue
+        """
+        logger.info("Récupération d'une VM spécifique via API unifiée", vm_id=vm_id)
+        return get_vm(self._api.base_url, vm_id)
+
+    def update(self, vm_id: int, updates: Dict[str, Any]) -> Dict[str, Any]:
+        """Met à jour une VM existante
+
+        Args:
+            vm_id: ID de la VM
+            updates: Données à mettre à jour
+
+        Returns:
+            Dict contenant les informations de la VM mise à jour
+
+        Raises:
+            VMUpdateError: Si la mise à jour de la VM échoue
+        """
+        logger.info("Mise à jour d'une VM via API unifiée", vm_id=vm_id)
+        return update_vm(self._api.base_url, self._api.token, vm_id, updates)
+
+    def delete(self, vm_id: int) -> Dict[str, Any]:
+        """Supprime une VM
+
+        Args:
+            vm_id: ID de la VM
+
+        Returns:
+            Dict contenant le résultat de la suppression
+
+        Raises:
+            VMDeleteError: Si la suppression échoue
+        """
+        logger.info("Suppression d'une VM via API unifiée", vm_id=vm_id)
+        return delete_vm(self._api.base_url, self._api.token, vm_id)
+
+    def attach_to_user(self, vm_id: int, user_id: int) -> Dict[str, Any]:
+        """Associe une VM à un utilisateur
+
+        Args:
+            vm_id: ID de la VM
+            user_id: ID de l'utilisateur
+
+        Returns:
+            Dict contenant le résultat de l'association
+
+        Raises:
+            VMUpdateError: Si l'association échoue
+        """
+        logger.info(
+            "Association VM-utilisateur via API unifiée", vm_id=vm_id, user_id=user_id
+        )
+        return attach_vm_to_user(self._api.base_url, self._api.token, vm_id, user_id)
+
+    def stop(self, vm_id: int) -> Dict[str, Any]:
+        """Arrête une VM
+
+        Args:
+            vm_id: ID de la VM
+
+        Returns:
+            Dict contenant le résultat de l'arrêt
+
+        Raises:
+            VMUpdateError: Si l'arrêt de la VM échoue
+        """
+        logger.info("Arrêt d'une VM via API unifiée", vm_id=vm_id)
+        return stop_vm(self._api.base_url, self._api.token, vm_id)
+
 
 class AuthAPI:
     """Interface pour les opérations d'authentification"""
