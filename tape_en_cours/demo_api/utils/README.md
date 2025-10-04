@@ -38,7 +38,7 @@ Le système de configuration gère les variables d'environnement suivantes :
 - `DEMO_API_LOG_LEVEL` : Niveau de logging (DEBUG, INFO, WARNING, ERROR)
 
 #### **Fichiers :**
-- `DEMO_API_OUTPUT_FILE` : Nom du fichier de sortie JSON (défaut: vm_users.json)
+- `DEMO_API_OUTPUT_FILE` : Nom du fichier de sortie JSON (défaut: output/vm_users.json)
 
 ### Configuration
 

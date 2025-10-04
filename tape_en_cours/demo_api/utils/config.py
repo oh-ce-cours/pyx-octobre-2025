@@ -121,6 +121,13 @@ class Config:
 
         if self.DEMO_API_MAX_RETRIES < 0:
             raise ValueError(f"Nombre de retry invalide: {self.DEMO_API_MAX_RETRIES}")
+    
+    def _ensure_output_directory(self) -> None:
+        """Crée le dossier de sortie s'il n'existe pas"""
+        import os
+        output_dir = os.path.dirname(self.DEMO_API_OUTPUT_FILE)
+        if output_dir and not os.path.exists(output_dir):
+            os.makedirs(output_dir, exist_ok=True)
 
     # Propriétés de configuration pour l'accès facile
     @property
@@ -137,6 +144,12 @@ class Config:
     def has_token(self) -> bool:
         """Vérifie si un token est disponible"""
         return bool(self.DEMO_API_TOKEN)
+    
+    @property
+    def output_directory(self) -> str:
+        """Retourne le dossier de sortie"""
+        import os
+        return os.path.dirname(self.DEMO_API_OUTPUT_FILE)
 
     @property
     def auth_headers(self) -> Dict[str, str]:
