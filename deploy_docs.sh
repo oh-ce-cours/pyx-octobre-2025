@@ -64,7 +64,8 @@ fix_css_paths() {
     echo "   Base URL: $relative_path"
     
     # Détecter le système d'exploitation pour la compatibilité sed
-    if [[ "$OSTYPE" == "darwin"* ]]; then
+    # Vérifier si on est sur macOS (qui nécessite sed -i '')
+    if [[ "$OSTYPE" == "darwin"* ]] || [[ "$(uname)" == "Darwin" ]]; then
         # macOS
         sed -i '' \
             -e "s|href=\"_static/|href=\"${relative_path}/static/|g" \
