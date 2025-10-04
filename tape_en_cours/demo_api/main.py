@@ -9,6 +9,8 @@
 # VM paused: 2
 # ...
 
+from typing import Optional, Dict, Any
+
 
 from utils.api import Api
 from utils.api.exceptions import (
@@ -30,6 +32,9 @@ logger = get_logger(__name__)
 # Initialisation du client API unifié
 api = Api(config.DEMO_API_BASE_URL)
 logger.info("Début de l'exécution de demo_api", base_url=api.base_url)
+
+# Variables pour stocker les données
+user: Optional[Dict[str, Any]] = None
 
 try:
     users = api.users.get()

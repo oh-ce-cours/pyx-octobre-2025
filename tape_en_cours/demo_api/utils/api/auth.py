@@ -4,8 +4,7 @@ from .exceptions import (
     UserCreationError, 
     UserLoginError, 
     UserInfoError, 
-    TokenError,
-    NetworkError
+    TokenError
 )
 
 # Logger pour ce module
