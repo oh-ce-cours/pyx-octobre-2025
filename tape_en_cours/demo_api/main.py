@@ -49,7 +49,6 @@ if not token:
 user = get_logged_user_info(BASE_URL, token)
 print("User info:", user)
 
-# Le token est déjà récupéré lors de la connexion ci-dessus
 if token and user:
     print("=== Création d'une VM ===")
     create_vm(
