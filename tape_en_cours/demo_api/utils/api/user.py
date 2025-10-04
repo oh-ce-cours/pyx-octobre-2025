@@ -2,7 +2,7 @@ import requests
 from utils.date_utils import parse_unix_timestamp
 from utils.logging_config import get_logger
 from utils.config import config
-from utils.decorators import retry_on_429
+from .decorators import retry_on_429
 from .exceptions import (
     UsersFetchError,
     UserCreationError,
