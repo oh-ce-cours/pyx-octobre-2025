@@ -214,11 +214,11 @@ def create(
 
     Exemples:
 
-    \b
-    python main.py create
-    python main.py create --name "Ma VM" --email "alice@example.com" --password "motdepasse"
-    python main.py create -n "VM Test" --ram 8 --disk 100 --verbose
-    python main.py create --name "Ma VM" --use-token
+    .. code-block:: shell
+        python main.py create
+        python main.py create --name "Ma VM" --email "alice@example.com" --password "motdepasse"
+        python main.py create -n "VM Test" --ram 8 --disk 100 --verbose
+        python main.py create --name "Ma VM" --use-token
     """
     # Vérifier si on doit utiliser le token sauvegardé
     if use_saved_token:
