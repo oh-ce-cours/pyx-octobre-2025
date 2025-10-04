@@ -20,7 +20,9 @@ def get_vms(base_url):
         vm["created_at"] = parse_unix_timestamp(vm["created_at"])
         vms.append(vm)
 
-    logger.info("VMs récupérées avec succès", count=len(vms), status_code=resp.status_code)
+    logger.info(
+        "VMs récupérées avec succès", count=len(vms), status_code=resp.status_code
+    )
     logger.debug("Détails des VMs récupérées", vm_ids=[vm.get("id") for vm in vms[:5]])
     return vms
 
@@ -36,6 +38,17 @@ def create_vm(
     disk_gb,
     status="running",
 ):
+    logger.info(
+        "Création d'une nouvelle VM",
+        name=name,
+        user_id=user_id,
+        operating_system=operating_system,
+        cpu_cores=cpu_cores,
+        ram_gb=ram_gb,
+        disk_gb=disk_gb,
+        status=status,
+    )
+
     payload = {
         "user_id": user_id,
         "name": name,
@@ -46,13 +59,36 @@ def create_vm(
         "status": status,
     }
     headers = {"Authorization": f"Bearer {token}"}
+    logger.debug(
+        "Payload de création VM",
+        user_id=user_id,
+        name=name,
+        operating_system=operating_system,
+        status=status,
+        token_length=len(token),
+    )
 
     resp = requests.post(f"{base_url}/vm", json=payload, timeout=5, headers=headers)
     try:
         resp.raise_for_status()
+        vm_result = resp.json()
+        logger.info(
+            "VM créée avec succès",
+            vm_id=vm_result.get("id"),
+            name=name,
+            user_id=user_id,
+            status_code=resp.status_code,
+        )
+        return vm_result
     except requests.RequestException as e:
-        print(f"Erreur lors de la création de la VM: {e}")
-        print(f"Payload: {payload}")
-        print(f"Response: {resp.text}")
+        logger.error(
+            "Erreur lors de la création de la VM",
+            error=str(e),
+            status_code=resp.status_code,
+            response_text=resp.text[:200] + "..."
+            if len(resp.text) > 200
+            else resp.text,
+            user_id=user_id,
+            name=name,
+        )
         return None
-    return resp.json()

@@ -1,5 +1,9 @@
 import requests
 from utils.date_utils import parse_unix_timestamp
+from ..logging_config import get_logger
+
+# Logger pour ce module
+logger = get_logger(__name__)
 
 
 def get_users(base_url):
