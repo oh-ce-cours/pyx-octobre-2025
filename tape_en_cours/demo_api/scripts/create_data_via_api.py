@@ -688,6 +688,7 @@ def full_dataset(
             user_count=user_count,
             batch_size=batch_size,
             delay_between_batches=delay,
+            max_retries=max_retries,
         )
 
         # Étape 2: Créer les VMs
