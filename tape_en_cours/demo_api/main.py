@@ -69,7 +69,9 @@ def report(
 
 @app.command()
 def signup(
-    name: str = typer.Option("Jean Dupont", "--name", "-n", help="Nom de l'utilisateur"),
+    name: str = typer.Option(
+        "Jean Dupont", "--name", "-n", help="Nom de l'utilisateur"
+    ),
     email: str = typer.Option(
         "jean@dupont21.com", "--email", "-e", help="Email de l'utilisateur"
     ),
@@ -92,7 +94,7 @@ def signup(
     """
     from utils.api.auth import Auth
     from utils.config import config
-    
+
     if verbose:
         typer.echo("🔧 Configuration utilisateur:")
         typer.echo(f"   Nom: {name}")
@@ -104,23 +106,23 @@ def signup(
 
     # Initialisation du client Auth
     auth = Auth(config.DEMO_API_BASE_URL)
-    
+
     try:
         # Création de l'utilisateur via /auth/signup
         typer.echo("🔐 Création de l'utilisateur...")
         token = auth.create_user(name=name, email=email, password=password)
-        
+
         if token:
             typer.echo("✅ Utilisateur créé avec succès!")
             typer.echo(f"   👤 Nom: {name}")
             typer.echo(f"   📧 Email: {email}")
             typer.echo(f"   🔑 Token: {token[:20]}...")
             typer.echo()
-            
+
             # Récupérer les informations complètes de l'utilisateur
             typer.echo("📋 Récupération des informations utilisateur...")
             user_info = auth.get_logged_user_info(token)
-            
+
             if user_info:
                 typer.echo("✅ Informations utilisateur récupérées:")
                 typer.echo(f"   🆔 ID: {user_info.get('id')}")
@@ -130,11 +132,13 @@ def signup(
                 typer.echo()
                 typer.echo("✨ Utilisateur prêt à utiliser!")
             else:
-                typer.echo("⚠️ Utilisateur créé mais impossible de récupérer les informations")
+                typer.echo(
+                    "⚠️ Utilisateur créé mais impossible de récupérer les informations"
+                )
         else:
             typer.echo("❌ Échec de la création de l'utilisateur")
             raise typer.Exit(1)
-            
+
     except Exception as e:
         logger.error("Erreur lors de la création de l'utilisateur", error=str(e))
         typer.echo(f"❌ Erreur lors de la création: {e}")
