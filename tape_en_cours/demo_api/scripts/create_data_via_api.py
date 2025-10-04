@@ -10,7 +10,7 @@ avec des données réalistes.
 import typer
 import time
 import sys
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Callable
 from pathlib import Path
 import json
 from datetime import datetime
@@ -186,6 +186,49 @@ def display_api_status(all_data: Dict[str, Any], api_url: str) -> None:
 # =============================================================================
 # PARTIE LOGIQUE MÉTIER / DONNÉES
 # =============================================================================
+
+
+def retry_with_backoff(
+    func: Callable[[], Any], 
+    max_retries: int = 3, 
+    base_delay: float = 1.0
+) -> Any:
+    """
+    Exécute une fonction avec retry et backoff exponentiel pour les errores 429.
+    
+    Args:
+        func: Fonction à exécuter
+        max_retries: Nombre maximum de tentatives
+        base_delay: Délai de base en secondes
+    
+    Returns:
+        Résultat de la fonction si elle réussit
+    
+    Raises:
+        Exception: Si toutes les tentatives échouent
+    """
+    last_exception = None
+    
+    for attempt in range(max_retries + 1):
+        try:
+            return func()
+        except Exception as e:
+            last_exception = e
+            error_str = str(e).lower()
+            
+            # Si c'est une erreur 429 (Too Many Requests), on retry avec backoff
+            if "429" in error_str and "too many requests" in error_str:
+                if attempt < max_retries:
+                    delay = base_delay * (2 ** attempt)  # Backoff exponentiel
+                    console.print(f"[yellow]⚠️ Limite API atteinte, attente {delay}s avant retry {attempt + 1}/{max_retries}[/yellow]")
+                    time.sleep(delay)
+                    continue
+            else:
+                # Pour les autres erreurs, on ne retry pas
+                raise e
+    
+    # Si on arrive ici, toutes les tentatives ont échoué
+    raise last_exception
 
 
 def create_users_via_api(
@@ -366,7 +409,7 @@ def users(
         5, "--batch-size", "-b", help="Taille des lots", min=1, max=20
     ),
     delay: float = typer.Option(
-        0.5, "--delay", "-d", help="Délai entre les lots (secondes)", min=0.1, max=5.0
+        2.0, "--delay", "-d", help="Délai entre les lots (secondes)", min=0.5, max=10.0
     ),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Mode verbeux"),
 ) -> None:
@@ -445,7 +488,7 @@ def vms(
         5, "--batch-size", "-b", help="Taille des lots", min=1, max=20
     ),
     delay: float = typer.Option(
-        0.5, "--delay", "-d", help="Délai entre les lots (secondes)", min=0.1, max=5.0
+        2.0, "--delay", "-d", help="Délai entre les lots (secondes)", min=0.5, max=10.0
     ),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Mode verbeux"),
 ) -> None:
@@ -550,7 +593,7 @@ def full_dataset(
         5, "--batch-size", "-b", help="Taille des lots", min=1, max=20
     ),
     delay: float = typer.Option(
-        0.5, "--delay", "-d", help="Délai entre les lots (secondes)", min=0.1, max=5.0
+        2.0, "--delay", "-d", help="Délai entre les lots (secondes)", min=0.5, max=10.0
     ),
     output_file: Optional[str] = typer.Option(
         None,
