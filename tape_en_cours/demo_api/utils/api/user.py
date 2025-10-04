@@ -15,12 +15,24 @@ def get_users(base_url):
     Returns:
         list: Liste des utilisateurs avec leurs dates de création converties
     """
+    logger.info("Récupération des utilisateurs depuis l'API", base_url=base_url)
     resp = requests.get(f"{base_url}/user", timeout=5)
     resp.raise_for_status()
+
     users = []
     for user in resp.json():
         user["created_at"] = parse_unix_timestamp(user["created_at"])
         users.append(user)
+
+    logger.info(
+        "Utilisateurs récupérés avec succès",
+        count=len(users),
+        status_code=resp.status_code,
+    )
+    logger.debug(
+        "Détails des utilisateurs récupérés",
+        user_ids=[user.get("id") for user in users[:5]],
+    )
     return users
 
 
