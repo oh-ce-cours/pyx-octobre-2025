@@ -14,9 +14,9 @@ from vm_manager import create_vm
 logger = get_logger(__name__)
 
 # Callback pour gérer -h et --help
-def show_help(ctx: typer.Context, help: bool = typer.Option(False, "--help", "-h", help="Afficher l'aide")):
+def show_help(ctx: Context, show_help_flag: bool = typer.Option(False, "--help", "-h", help="Afficher l'aide")):
     """Afficher l'aide"""
-    if help:
+    if show_help_flag:
         typer.echo(ctx.get_help())
         raise typer.Exit()
 
