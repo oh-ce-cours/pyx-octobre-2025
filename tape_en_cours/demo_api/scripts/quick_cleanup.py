@@ -236,27 +236,22 @@ def delete_items_batch(client, items: list, item_type: str, delay: float) -> int
     if not items:
         return 0
 
-    deleted_count = 0
-
     for i, item in enumerate(items):
         # Suppression selon le type
         if item_type == "vm":
-            success = delete_vm_data(client, item)
+            delete_vm_data(client, item)
         else:  # user
-            success = delete_user_data(client, item)
-
-        if success:
-            deleted_count += 1
+            delete_user_data(client, item)
 
         # Pause si pas le dernier élément
         if i < len(items) - 1:
             time.sleep(delay)
 
     # Pause supplémentaire avant prochaine section
-    if deleted_count > 0 and item_type == "vm":
+    if item_type == "vm":
         time.sleep(delay + 1)
 
-    return deleted_count
+    return len(items)
 
 
 # =============================================================================
@@ -323,14 +318,10 @@ def delete_single_vm_with_display(client, vm: dict) -> bool:
 
 def delete_single_user_with_display(client, user: dict) -> bool:
     """Supprime un utilisateur avec affichage"""
-    try:
-        with console.status(f"Suppression utilisateur {user['id']}: {user['name']}..."):
-            client.users.delete_user(user["id"])
-        display_success_message("Utilisateur", user["name"])
-        return True
-    except Exception as e:
-        display_error_message("User", user["id"], str(e))
-        return False
+    with console.status(f"Suppression utilisateur {user['id']}: {user['name']}..."):
+        client.users.delete_user(user["id"])
+    display_success_message("Utilisateur", user["name"])
+    return True
 
 
 # =============================================================================
