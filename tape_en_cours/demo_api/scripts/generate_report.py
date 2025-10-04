@@ -26,6 +26,7 @@ app = typer.Typer(help="Générer les rapports de l'API demo")
 
 class ReportType(str, Enum):
     """Types de rapport disponibles"""
+
     USERS_VMS = "users-vms"
     STATUS = "status"
     ALL = "all"
@@ -35,28 +36,28 @@ def generate_reports(
     report_type: ReportType = typer.Option(
         ReportType.ALL, "--report-type", "-t", help="Type de rapport à générer"
     ),
-        output_dir: str = typer.Option(
+    output_dir: str = typer.Option(
         "outputs", "--output-dir", "-o", help="Répertoire de sortie pour les rapports"
     ),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Mode verbeux"),
 ) -> None:
     """
     Générer les rapports de l'API demo
-    
+
     Exemples:
-    
+
     \b
     python scripts/generate_report.py
     python scripts/generate_report.py --report-type users-vms
     python scripts/generate_report.py -t all -o ./rapports
     """
-    
+
     if verbose:
         print(f"🔧 Configuration:")
         print(f"   Type de rapport: {report_type.value}")
         print(f"   Répertoire de sortie: {output_dir}")
         print()
-    
+
     logger.info(
         "Début de génération des rapports",
         report_type=report_type.value,
@@ -73,7 +74,7 @@ def generate_reports(
     if report_type in [ReportType.USERS_VMS, ReportType.ALL]:
         logger.info("Génération du rapport utilisateurs/VMs")
         typer.echo("📊 Génération du rapport utilisateurs/VMs...")
-        
+
         report_file = report_service.generate_users_vms_report("vm_users.json")
         if report_file:
             generated_files.append(report_file)
@@ -86,7 +87,7 @@ def generate_reports(
     if report_type in [ReportType.STATUS, ReportType.ALL]:
         logger.info("Génération du rapport de statut des VMs")
         typer.echo("📈 Génération du rapport de statut des VMs...")
-        
+
         status_file = report_service.generate_status_report("vm_status_report.json")
         if status_file:
             generated_files.append(status_file)
