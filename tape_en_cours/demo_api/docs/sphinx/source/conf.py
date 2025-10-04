@@ -140,27 +140,47 @@ def setup(app):
     """Configuration personnalisée pour forcer les chemins absolus."""
     from sphinx.builders.html import StandaloneHTMLBuilder
     from sphinx.util import logging
+    import re
 
-    def add_github_pages_context(app, pagename, templatename, context, doctree):
-        """Ajoute le contexte nécessaire pour GitHub Pages."""
+    def fix_html_output(app, pagename, templatename, context, doctree):
+        """Corrige les chemins des assets statiques dans le HTML généré."""
         if app.builder.name == "html":
+            base_url = app.config.html_baseurl.rstrip("/")
+            
             # Force l'utilisation de chemins absolus pour les assets statiques
-            base_url = app.config.html_baseurl.rstrip("/")
-            context["pathto"] = (
-                lambda other, *args, **kwargs: f"{base_url}/{other.lstrip('/')}"
-            )
+            context["pathto"] = lambda other, *args, **kwargs: f"{base_url}/{other.lstrip('/')}"
+            
+            # Ajoute des variables de contexte pour les chemins absolus
+            context["static_url"] = f"{base_url}/_static"
+            context["base_url"] = base_url
 
-    def fix_static_paths(app, pagename, templatename, context, doctree):
-        """Corrige les chemins des assets statiques pour GitHub Pages."""
+    def fix_css_js_paths(app, pagename, templatename, context, doctree):
+        """Corrige spécifiquement les chemins CSS et JS."""
         if app.builder.name == "html":
             base_url = app.config.html_baseurl.rstrip("/")
-            # Remplace tous les chemins relatifs par des chemins absolus
-            for key, value in context.items():
-                if isinstance(value, str) and "_static/" in value:
-                    context[key] = value.replace("_static/", f"{base_url}/_static/")
+            
+            # Liste des fichiers CSS et JS à corriger
+            css_files = context.get("css_files", [])
+            js_files = context.get("js_files", [])
+            
+            # Corrige les chemins CSS
+            for i, css_file in enumerate(css_files):
+                if isinstance(css_file, str) and css_file.startswith("_static/"):
+                    css_files[i] = f"{base_url}/{css_file}"
+                elif isinstance(css_file, (list, tuple)) and len(css_file) > 0:
+                    if css_file[0].startswith("_static/"):
+                        css_files[i] = (f"{base_url}/{css_file[0]}",) + css_file[1:]
+            
+            # Corrige les chemins JS
+            for i, js_file in enumerate(js_files):
+                if isinstance(js_file, str) and js_file.startswith("_static/"):
+                    js_files[i] = f"{base_url}/{js_file}"
+                elif isinstance(js_file, (list, tuple)) and len(js_file) > 0:
+                    if js_file[0].startswith("_static/"):
+                        js_files[i] = (f"{base_url}/{js_file[0]}",) + js_file[1:]
 
-    app.connect("html-page-context", add_github_pages_context)
-    app.connect("html-page-context", fix_static_paths)
+    app.connect("html-page-context", fix_html_output)
+    app.connect("html-page-context", fix_css_js_paths)
 
 
 # -- Extension configuration -------------------------------------------------
