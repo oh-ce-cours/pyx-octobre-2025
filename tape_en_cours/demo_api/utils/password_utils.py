@@ -2,6 +2,7 @@ import os
 import getpass
 from .logging_config import get_logger
 from .api.exceptions import CredentialsError, TokenError
+from .config import config
 
 # Logger pour ce module
 logger = get_logger(__name__)
@@ -14,7 +15,6 @@ def get_password_from_config():
     Returns:
         str|None: Le mot de passe récupéré ou None si pas trouvé
     """
-    from .config import config
 
     password = config.DEMO_API_PASSWORD
 
@@ -219,7 +219,7 @@ def get_token_from_config():
         str|None: Le token récupéré ou None si pas trouvé
     """
     from .config import config
-    
+
     token = config.DEMO_API_TOKEN
 
     if token:

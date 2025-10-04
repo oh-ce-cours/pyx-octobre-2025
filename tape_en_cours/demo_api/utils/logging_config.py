@@ -9,11 +9,11 @@ def setup_logging():
     """
     Configure structlog avec un format JSON joli et structuré.
     """
-    # Configuration de la sortie selon l'environnement
-    debug_mode = os.environ.get("DEMO_API_DEBUG", "false").lower() == "true"
-    log_level = os.environ.get(
-        "DEMO_API_LOG_LEVEL", "DEBUG" if debug_mode else "WARNING"
-    )
+    # Configuration de la sortie selon l'environnement via le gestionnaire de config
+    from .config import config
+    
+    debug_mode = config.DEMO_API_DEBUG
+    log_level = config.DEMO_API_LOG_LEVEL
 
     # Configuration des processeurs
     processors = [
