@@ -78,17 +78,17 @@ def fix_static_paths(file_path: Path) -> bool:
 
         # Patterns à remplacer - Version corrigée pour GitHub Pages
         patterns = [
-            # Chemins directs _static/ vers chemins absolus avec static/ (sans underscore)
+            # Chemins directs _static/ vers chemins absolus
             (r'href="_static/', f'href="{base_url}/_static/'),
             (r'src="_static/', f'src="{base_url}/_static/'),
             (r'url\("_static/', f'url("{base_url}/_static/'),
             (r"url\('_static/", f"url('{base_url}/_static/"),
-            # Chemins relatifs ../_static/ vers chemins absolus avec static/
+            # Chemins relatifs ../_static/ vers chemins absolus
             (r'href="../_static/', f'href="{base_url}/_static/'),
             (r'src="../_static/', f'src="{base_url}/_static/'),
             (r'url\("../_static/', f'url("{base_url}/_static/'),
             (r"url\('../_static/", f"url('{base_url}/_static/"),
-            # Chemins relatifs ./_static/ vers chemins absolus avec static/
+            # Chemins relatifs ./_static/ vers chemins absolus
             (r'href="./_static/', f'href="{base_url}/_static/'),
             (r'src="./_static/', f'src="{base_url}/_static/'),
             (r'url\("./_static/', f'url("{base_url}/_static/'),
@@ -97,8 +97,8 @@ def fix_static_paths(file_path: Path) -> bool:
             (r'<link[^>]*href="_static/', f'<link href="{base_url}/static/'),
             (r'<script[^>]*src="_static/', f'<script src="{base_url}/static/'),
             # Patterns pour les imports CSS dans les fichiers CSS
-            (r'@import\s+"_static/', f'@import "{base_url}/static/'),
-            (r"@import\s+'_static/", f"@import '{base_url}/static/"),
+            (r'@import\s+"_static/', f'@import "{base_url}/_static/'),
+            (r"@import\s+'_static/", f"@import '{base_url}/_static/"),
         ]
 
         # Appliquer les remplacements
