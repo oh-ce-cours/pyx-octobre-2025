@@ -51,19 +51,27 @@ class Auth:
         return token
 
     def login_user(self, email, password) -> None | str:
+        logger.info("Tentative de connexion utilisateur", email=email)
         payload = {"email": email, "password": password}
+        logger.debug("Payload de connexion (password masqué)", 
+                    email=email, 
+                    password="[HIDDEN]",
+                    base_url=self.base_url)
         headers = {"accept": "application/json", "Content-Type": "application/json"}
         resp = requests.post(
             f"{self.base_url}/auth/login", json=payload, headers=headers, timeout=5
-        )
         try:
             resp.raise_for_status()
+            logger.info("Utilisateur connecté avec succès", email=email, status_code=resp.status_code)
         except requests.RequestException as e:
-            print(f"Erreur lors de la connexion de l'utilisateur: {e}")
-            print(f"Payload: {payload}")
-            print(f"Response: {resp.text}")
+            logger.error("Erreur lors de la connexion utilisateur", 
+                        error=str(e), 
+                        status_code=resp.status_code,
+                        response_text=resp.text[:200] + "..." if len(resp.text) > 200 else resp.text,
+                        email=email)
             return None
         token = resp.json()["authToken"]
+        logger.debug("Token généré pour connexion", email=email, token_length=len(token))
         return token
 
     def get_logged_user_info(self, token):
