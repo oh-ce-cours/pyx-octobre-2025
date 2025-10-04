@@ -1,5 +1,9 @@
 import os
 import getpass
+from .logging_config import get_logger
+
+# Logger pour ce module
+logger = get_logger(__name__)
 
 
 def get_password(prompt="Mot de passe: ", env_var="DEMO_API_PASSWORD"):

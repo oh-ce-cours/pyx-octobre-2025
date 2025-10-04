@@ -46,6 +46,9 @@ def add_vms_to_users(users, vms):
     Returns:
         None: Modifie la liste des utilisateurs en place en ajoutant les VMs
     """
+    logger.info("Association des VMs aux utilisateurs", user_count=len(users), vm_count=len(vms))
+    
+    association_count = 0
     for user in users:
         user_id = user["id"]
         user_vms = []
@@ -53,4 +56,13 @@ def add_vms_to_users(users, vms):
             user_vm_id = vm["user_id"]
             if user_vm_id == user_id:
                 user_vms.append(vm)
+                association_count += 1
         user["vms"] = user_vms
+        logger.debug("VMs associées à l'utilisateur", 
+                    user_id=user_id, 
+                    user_name=user.get("name"), 
+                    vm_count=len(user_vms))
+    
+    logger.info("Association des VMs terminée", 
+               total_associations=association_count,
+               users_with_vms=len([u for u in users if u["vms"]])
