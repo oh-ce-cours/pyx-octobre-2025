@@ -51,7 +51,9 @@ def fetch_report_data(api: Api) -> tuple[List[Dict[str, Any]], List[Dict[str, An
     return users, vms
 
 
-def generate_users_vms_report(api: Api, filename: str = "vm_users.json") -> Optional[str]:
+def generate_users_vms_report(
+    api: Api, filename: str = "vm_users.json"
+) -> Optional[str]:
     """
     Génère un rapport utilisateurs/VMs
 
@@ -90,7 +92,9 @@ def generate_users_vms_report(api: Api, filename: str = "vm_users.json") -> Opti
         return None
 
 
-def generate_status_report(api: Api, filename: str = "vm_status_report.json") -> Optional[str]:
+def generate_status_report(
+    api: Api, filename: str = "vm_status_report.json"
+) -> Optional[str]:
     """
     Génère un rapport des VMs par statut
 
@@ -134,9 +138,7 @@ def generate_status_report(api: Api, filename: str = "vm_status_report.json") ->
         logger.info("Rapport de statut généré avec succès", filename=report_file)
         return report_file
     except (IOError, TypeError) as e:
-        logger.error(
-            "Erreur lors de la génération du rapport de statut", error=str(e)
-        )
+        logger.error("Erreur lors de la génération du rapport de statut", error=str(e))
         return None
 
 

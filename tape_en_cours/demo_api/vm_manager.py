@@ -19,7 +19,9 @@ from utils.password_utils import get_or_create_token
 logger = get_logger(__name__)
 
 
-def authenticate_user(api: Api, email: str = "jean@dupont21.com", password: str = None) -> Optional[Dict[str, Any]]:
+def authenticate_user(
+    api: Api, email: str = "jean@dupont21.com", password: str = None
+) -> Optional[Dict[str, Any]]:
     """
     Authentifie un utilisateur et retourne ses informations
 
@@ -71,7 +73,9 @@ def authenticate_user(api: Api, email: str = "jean@dupont21.com", password: str 
         return None
 
 
-def create_vm_for_user(api: Api, user: Dict[str, Any], vm_config: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+def create_vm_for_user(
+    api: Api, user: Dict[str, Any], vm_config: Dict[str, Any]
+) -> Optional[Dict[str, Any]]:
     """
     Crée une VM pour un utilisateur spécifique
 
@@ -102,7 +106,9 @@ def create_vm_for_user(api: Api, user: Dict[str, Any], vm_config: Dict[str, Any]
         return None
 
 
-def create_default_vm_for_user(api: Api, user: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+def create_default_vm_for_user(
+    api: Api, user: Dict[str, Any]
+) -> Optional[Dict[str, Any]]:
     """
     Crée une VM par défaut pour un utilisateur
 
