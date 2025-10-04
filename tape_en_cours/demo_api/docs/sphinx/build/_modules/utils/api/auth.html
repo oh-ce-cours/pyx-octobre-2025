@@ -85,15 +85,42 @@
 <div class="viewcode-block" id="Auth">
 <a class="viewcode-back" href="../../../api/utils/api/auth.html#utils.api.auth.Auth">[docs]</a>
 <span class="k">class</span> <span class="nc">Auth</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Classe d&#39;authentification pour l&#39;API demo_api.</span>
+
+<span class="sd">    Gère la création d&#39;utilisateurs, la connexion et la récupération</span>
+<span class="sd">    des informations utilisateur via les endpoints d&#39;authentification.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
 <div class="viewcode-block" id="Auth.__init__">
 <a class="viewcode-back" href="../../../api/utils/api/auth.html#utils.api.auth.Auth.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_url</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialise le client d&#39;authentification.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            base_url (str): URL de base de l&#39;API</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="n">base_url</span></div>
 
 
 <div class="viewcode-block" id="Auth.create_user">
 <a class="viewcode-back" href="../../../api/utils/api/auth.html#utils.api.auth.Auth.create_user">[docs]</a>
     <span class="k">def</span> <span class="nf">create_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Crée un nouvel utilisateur via l&#39;endpoint /auth/signup.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): Nom de l&#39;utilisateur</span>
+<span class="sd">            email (str): Email de l&#39;utilisateur</span>
+<span class="sd">            password (str): Mot de passe de l&#39;utilisateur</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Token d&#39;authentification généré</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            UserCreationError: Si la création de l&#39;utilisateur échoue</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Tentative de création d&#39;utilisateur&quot;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
         <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">email</span><span class="p">,</span> <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="n">password</span><span class="p">}</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
@@ -143,7 +170,7 @@
                     <span class="n">status_code</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="s2">&quot;status_code&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
                     <span class="n">response_data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;duplicate_user&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">email</span><span class="p">},</span>
                     <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span>
-                <span class="p">)</span>
+                <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 
             <span class="c1"># Autres erreurs de création</span>
             <span class="k">raise</span> <span class="n">UserCreationError</span><span class="p">(</span>
@@ -151,12 +178,25 @@
                 <span class="n">status_code</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="s2">&quot;status_code&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
                 <span class="n">response_data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">email</span><span class="p">},</span>
                 <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span>
-            <span class="p">)</span></div>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
 
 
 <div class="viewcode-block" id="Auth.login_user">
 <a class="viewcode-back" href="../../../api/utils/api/auth.html#utils.api.auth.Auth.login_user">[docs]</a>
     <span class="k">def</span> <span class="nf">login_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Connecte un utilisateur existant via l&#39;endpoint /auth/login.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            email (str): Email de l&#39;utilisateur</span>
+<span class="sd">            password (str): Mot de passe de l&#39;utilisateur</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Token d&#39;authentification généré</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            UserLoginError: Si la connexion échoue</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Tentative de connexion utilisateur&quot;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span>
         <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">email</span><span class="p">,</span> <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="n">password</span><span class="p">}</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
@@ -201,12 +241,25 @@
                 <span class="n">status_code</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="s2">&quot;status_code&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
                 <span class="n">response_data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">email</span><span class="p">},</span>
                 <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span>
-            <span class="p">)</span></div>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
 
 
 <div class="viewcode-block" id="Auth.get_logged_user_info">
 <a class="viewcode-back" href="../../../api/utils/api/auth.html#utils.api.auth.Auth.get_logged_user_info">[docs]</a>
     <span class="k">def</span> <span class="nf">get_logged_user_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Récupère les informations de l&#39;utilisateur connecté via l&#39;endpoint /auth/me.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            token (str): Token d&#39;authentification</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Informations de l&#39;utilisateur connecté</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            TokenError: Si le token est manquant</span>
+<span class="sd">            UserInfoError: Si la récupération des informations échoue</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Token manquant pour récupérer les informations utilisateur&quot;</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">TokenError</span><span class="p">(</span>
@@ -224,6 +277,12 @@
             <span class="n">resp</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
 
             <span class="n">user_info</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">user_info</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Réponse JSON vide pour les informations utilisateur&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">UserInfoError</span><span class="p">(</span>
+                    <span class="s2">&quot;Réponse vide lors de la récupération des informations utilisateur&quot;</span><span class="p">,</span>
+                    <span class="n">token_length</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">),</span>
+                <span class="p">)</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                 <span class="s2">&quot;Informations utilisateur récupérées&quot;</span><span class="p">,</span>
                 <span class="n">user_id</span><span class="o">=</span><span class="n">user_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">),</span>
@@ -248,7 +307,7 @@
                 <span class="n">status_code</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="s2">&quot;status_code&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
                 <span class="n">response_data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)},</span>
                 <span class="n">token_length</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">),</span>
-            <span class="p">)</span></div>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
 </div>
 
 </pre></div>

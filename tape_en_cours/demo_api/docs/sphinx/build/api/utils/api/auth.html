@@ -83,22 +83,63 @@
 <dt class="sig sig-object py" id="utils.api.auth.Auth">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">utils.api.auth.</span></span><span class="sig-name descname"><span class="pre">Auth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/utils/api/auth.html#Auth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.api.auth.Auth" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Classe d’authentification pour l’API demo_api.</p>
+<p>Gère la création d’utilisateurs, la connexion et la récupération
+des informations utilisateur via les endpoints d’authentification.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="utils.api.auth.Auth.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/utils/api/auth.html#Auth.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.api.auth.Auth.__init__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Initialise le client d’authentification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>base_url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – URL de base de l’API</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="utils.api.auth.Auth.create_user">
 <span class="sig-name descname"><span class="pre">create_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/utils/api/auth.html#Auth.create_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.api.auth.Auth.create_user" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Crée un nouvel utilisateur via l’endpoint /auth/signup.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Nom de l’utilisateur</p></li>
+<li><p><strong>email</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Email de l’utilisateur</p></li>
+<li><p><strong>password</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Mot de passe de l’utilisateur</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Token d’authentification généré</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="exceptions.html#utils.api.exceptions.UserCreationError" title="utils.api.exceptions.UserCreationError"><strong>UserCreationError</strong></a> – Si la création de l’utilisateur échoue</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="utils.api.auth.Auth.login_user">
 <span class="sig-name descname"><span class="pre">login_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/utils/api/auth.html#Auth.login_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.api.auth.Auth.login_user" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Connecte un utilisateur existant via l’endpoint /auth/login.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>email</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Email de l’utilisateur</p></li>
+<li><p><strong>password</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Mot de passe de l’utilisateur</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Token d’authentification généré</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="exceptions.html#utils.api.exceptions.UserLoginError" title="utils.api.exceptions.UserLoginError"><strong>UserLoginError</strong></a> – Si la connexion échoue</p>
 </dd>
 </dl>
 </dd></dl>
@@ -106,7 +147,25 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="utils.api.auth.Auth.get_logged_user_info">
 <span class="sig-name descname"><span class="pre">get_logged_user_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/utils/api/auth.html#Auth.get_logged_user_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.api.auth.Auth.get_logged_user_info" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Récupère les informations de l’utilisateur connecté via l’endpoint /auth/me.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>token</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Token d’authentification</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Informations de l’utilisateur connecté</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="exceptions.html#utils.api.exceptions.TokenError" title="utils.api.exceptions.TokenError"><strong>TokenError</strong></a> – Si le token est manquant</p></li>
+<li><p><a class="reference internal" href="exceptions.html#utils.api.exceptions.UserInfoError" title="utils.api.exceptions.UserInfoError"><strong>UserInfoError</strong></a> – Si la récupération des informations échoue</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

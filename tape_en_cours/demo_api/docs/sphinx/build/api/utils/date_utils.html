@@ -79,10 +79,29 @@
              
   <section id="module-utils.date_utils">
 <span id="module-utils-date-utils"></span><h1>Module utils.date_utils<a class="headerlink" href="#module-utils.date_utils" title="Link to this heading"></a></h1>
+<p>Utilitaires pour la manipulation des dates et timestamps.</p>
+<p>Ce module fournit des fonctions utilitaires pour convertir
+et manipuler les timestamps Unix utilisés par l’API.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="utils.date_utils.parse_unix_timestamp">
 <span class="sig-prename descclassname"><span class="pre">utils.date_utils.</span></span><span class="sig-name descname"><span class="pre">parse_unix_timestamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/utils/date_utils.html#parse_unix_timestamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.date_utils.parse_unix_timestamp" title="Link to this definition"></a></dt>
 <dd><p>Convertit un timestamp Unix (en millisecondes) en objet datetime.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ts</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Timestamp Unix en millisecondes</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Objet datetime correspondant</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.13)">datetime.datetime</a></p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">parse_unix_timestamp</span><span class="p">(</span><span class="mi">1640995200000</span><span class="p">)</span>
+<span class="go">datetime.datetime(2022, 1, 1, 0, 0)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>

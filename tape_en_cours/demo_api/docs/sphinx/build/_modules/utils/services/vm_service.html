@@ -131,7 +131,6 @@
                 <span class="n">base_url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span>
                 <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span>
                 <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span>
-                <span class="n">token_env_var</span><span class="o">=</span><span class="s2">&quot;DEMO_API_TOKEN&quot;</span><span class="p">,</span>
             <span class="p">)</span>
 
             <span class="c1"># Définir le token dans le client API</span>
@@ -143,6 +142,9 @@
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Récupération des informations utilisateur authentifié&quot;</span><span class="p">)</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_user_info</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Les informations utilisateur sont nulles&quot;</span><span class="p">)</span>
+                        <span class="k">return</span> <span class="kc">None</span>
                     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                         <span class="s2">&quot;Informations utilisateur récupérées pour création VM&quot;</span><span class="p">,</span>
                         <span class="n">user_id</span><span class="o">=</span><span class="n">user</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">),</span>
@@ -194,7 +196,11 @@
             <span class="p">)</span>
             <span class="k">return</span> <span class="n">vm_result</span>
         <span class="k">except</span> <span class="n">VMCreationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Échec de la création de VM&quot;</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">user_id</span><span class="o">=</span><span class="n">user</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="s2">&quot;Échec de la création de VM&quot;</span><span class="p">,</span>
+                <span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
+                <span class="n">user_id</span><span class="o">=</span><span class="n">user</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">user</span> <span class="k">else</span> <span class="s2">&quot;N/A&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span></div>
 
 
