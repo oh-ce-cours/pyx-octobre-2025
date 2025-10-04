@@ -88,7 +88,7 @@ el.replaceWith(d);
     # 3. Générer la documentation pdoc3 avec index complet
     total_commands += 1
     if run_command(
-        f&#34;cd {project_root} &amp;&amp; pdoc --html -o docs/pdoc3_build . --force&#34;,
+        f&#34;cd {project_root} &amp;&amp; pdoc --html -o docs/pdoc3 . --force&#34;,
         &#34;Génération de la documentation pdoc3 complète&#34;,
     ):
         success_count += 1
@@ -101,7 +101,7 @@ el.replaceWith(d);
         print(&#34;🎉 Toute la documentation a été générée avec succès!&#34;)
         print(&#34;\n📖 Documentation disponible:&#34;)
         print(f&#34;   • Sphinx (complexe): {project_root}/docs/sphinx/build/index.html&#34;)
-        print(f&#34;   • pdoc3 (moderne avec index): {project_root}/docs/pdoc3_build/index.html&#34;)
+        print(f&#34;   • pdoc3 (moderne avec index): {project_root}/docs/pdoc3/index.html&#34;)
         print(&#34;\n🚀 Pour développement rapide:&#34;)
         print(f&#34;   • Serveur pdoc3: pdoc --http :8080 .&#34;)
     else:
