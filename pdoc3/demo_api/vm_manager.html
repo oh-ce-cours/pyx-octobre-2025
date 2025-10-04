@@ -71,10 +71,11 @@ el.replaceWith(d);
 
     Exemples:
 
-    \b
-    python vm_manager.py create
-    python vm_manager.py create --name &#34;Ma VM&#34; --email &#34;alice@example.com&#34; --password &#34;motdepasse&#34;
-    python vm_manager.py create -n &#34;VM Test&#34; --ram 8 --disk 100 --verbose
+    .. code-block:: shell
+
+        python vm_manager.py create
+        python vm_manager.py create --name &#34;Ma VM&#34; --email &#34;alice@example.com&#34; --password &#34;motdepasse&#34;
+        python vm_manager.py create -n &#34;VM Test&#34; --ram 8 --disk 100 --verbose
     &#34;&#34;&#34;
 
     # Configurer le nom par défaut si non fourni
@@ -144,10 +145,11 @@ el.replaceWith(d);
 <div class="desc"><p>🖥️ Créer une VM pour un utilisateur existant</p>
 <p>Authentifie un utilisateur existant et crée une VM pour lui.</p>
 <p>Exemples:</p>
-<p>
-python vm_manager.py create
-python vm_manager.py create &ndash;name "Ma VM" &ndash;email "alice@example.com" &ndash;password "motdepasse"
-python vm_manager.py create -n "VM Test" &ndash;ram 8 &ndash;disk 100 &ndash;verbose</p></div>
+<p>.. code-block:: shell</p>
+<pre><code>python vm_manager.py create
+python vm_manager.py create --name "Ma VM" --email "alice@example.com" --password "motdepasse"
+python vm_manager.py create -n "VM Test" --ram 8 --disk 100 --verbose
+</code></pre></div>
 </dd>
 <dt id="demo_api.vm_manager.create_vm_cli"><code class="name flex">
 <span>def <span class="ident">create_vm_cli</span></span>(<span>name: str | None = &lt;typer.models.OptionInfo object&gt;,<br>email: str = &lt;typer.models.OptionInfo object&gt;,<br>password: str = &lt;typer.models.OptionInfo object&gt;,<br>os: str = &lt;typer.models.OptionInfo object&gt;,<br>cores: int = &lt;typer.models.OptionInfo object&gt;,<br>ram: int = &lt;typer.models.OptionInfo object&gt;,<br>disk: int = &lt;typer.models.OptionInfo object&gt;,<br>status: str = &lt;typer.models.OptionInfo object&gt;,<br>verbose: bool = &lt;typer.models.OptionInfo object&gt;) ‑> None</span>
@@ -183,20 +185,22 @@ python vm_manager.py create -n "VM Test" &ndash;ram 8 &ndash;disk 100 &ndash;ver
 
     Exemples:
 
-    \b
-    python vm_manager.py create
-    python vm_manager.py create --name &#34;Ma VM&#34; --email &#34;alice@example.com&#34; --password &#34;motdepasse&#34;
-    python vm_manager.py create -n &#34;VM Test&#34; --ram 8 --disk 100 --verbose
+    .. code-block:: shell
+
+        python vm_manager.py create
+        python vm_manager.py create --name &#34;Ma VM&#34; --email &#34;alice@example.com&#34; --password &#34;motdepasse&#34;
+        python vm_manager.py create -n &#34;VM Test&#34; --ram 8 --disk 100 --verbose
     &#34;&#34;&#34;
     create_vm(name, email, password, os, cores, ram, disk, status, verbose)</code></pre>
 </details>
 <div class="desc"><p>🖥️ Créer une VM pour un utilisateur existant</p>
 <p>Authentifie un utilisateur existant et crée une VM pour lui.</p>
 <p>Exemples:</p>
-<p>
-python vm_manager.py create
-python vm_manager.py create &ndash;name "Ma VM" &ndash;email "alice@example.com" &ndash;password "motdepasse"
-python vm_manager.py create -n "VM Test" &ndash;ram 8 &ndash;disk 100 &ndash;verbose</p></div>
+<p>.. code-block:: shell</p>
+<pre><code>python vm_manager.py create
+python vm_manager.py create --name "Ma VM" --email "alice@example.com" --password "motdepasse"
+python vm_manager.py create -n "VM Test" --ram 8 --disk 100 --verbose
+</code></pre></div>
 </dd>
 </dl>
 </section>
