@@ -1,9 +1,13 @@
 import os
 import getpass
+from dotenv import load_dotenv, set_key
 from .logging_config import get_logger
 
 # Logger pour ce module
 logger = get_logger(__name__)
+
+# Charger automatiquement le fichier .env s'il existe
+load_dotenv()
 
 
 def get_password_from_env(env_var="DEMO_API_PASSWORD"):
@@ -374,46 +378,24 @@ def get_or_create_token(
 
 def save_token_to_env_file(token, env_file_path=".env", token_key="DEMO_API_TOKEN"):
     """
-    Sauvegarde un token dans un fichier .env.
-
+    Sauvegarde un token dans un fichier .env en utilisant python-dotenv.
+    
     Args:
         token (str): Token à sauvegarder
         env_file_path (str): Chemin vers le fichier .env
         token_key (str): Clé pour le token dans le fichier
-
+        
     Returns:
         bool: True si sauvegardé avec succès
     """
     if not token:
         logger.error("Impossible de sauvegarder un token vide")
         return False
-
+    
     try:
-        # Lire le contenu existant du fichier
-        env_content = ""
-        if os.path.exists(env_file_path):
-            with open(env_file_path, "r", encoding="utf-8") as f:
-                env_content = f.read()
-
-        # Ajouter ou mettre à jour la ligne du token
-        token_line = f"{token_key}={token}\n"
-
-        # Si le token existe déjà, le remplacer
-        lines = env_content.splitlines()
-        updated = False
-        for i, line in enumerate(lines):
-            if line.startswith(f"{token_key}="):
-                lines[i] = token_line.strip()
-                updated = True
-                break
-
-        if not updated:
-            lines.append(token_line.strip())
-
-        # Sauvegarder le fichier
-        with open(env_file_path, "w", encoding="utf-8") as f:
-            f.write("\n".join(lines) + "\n")
-
+        # Utiliser python-dotenv pour sauvegarder
+        set_key(env_file_path, token_key, token)
+        
         logger.info(
             "Token sauvegardé dans le fichier .env",
             env_file=env_file_path,
@@ -421,7 +403,7 @@ def save_token_to_env_file(token, env_file_path=".env", token_key="DEMO_API_TOKE
             token_length=len(token),
         )
         return True
-
+        
     except Exception as e:
         logger.error(
             "Erreur lors de la sauvegarde du token dans .env",

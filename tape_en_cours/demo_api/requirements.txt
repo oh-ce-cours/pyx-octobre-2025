@@ -2,6 +2,7 @@
 # Dépendances pour demo_api
 requests==2.32.5
 structlog>=25.4.0
+python-dotenv>=1.0.0
 click>=8.3.0
 types-python-dateutil==2.9.0.20250822
 typer==0.19.2
