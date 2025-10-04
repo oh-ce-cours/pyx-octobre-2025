@@ -15,6 +15,7 @@ echo "📁 Préparation des fichiers pour GitHub Pages..."
 cd ../../
 mkdir -p docs-deploy
 cp -r tape_en_cours/demo_api/docs/sphinx/build/* docs-deploy/
+mkdir -p docs-deploy/pdoc3
 cp -r tape_en_cours/demo_api/docs/pdoc3/* docs-deploy/pdoc3/
 
 # Ajouter les fichiers nécessaires pour GitHub Pages
