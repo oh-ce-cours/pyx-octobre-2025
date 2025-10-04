@@ -76,6 +76,18 @@ html_static_path = ["_static"]
 html_show_sourcelink = False
 html_show_sphinx = False
 
+# Configuration spécifique pour GitHub Pages - CRUCIAL pour les CSS
+# Force l'utilisation de chemins absolus pour tous les assets statiques
+html_css_files = []
+html_js_files = []
+
+# Configuration pour forcer les chemins absolus des assets statiques
+# Cette option indique à Sphinx d'utiliser des chemins absolus basés sur html_baseurl
+html_use_index = True
+html_add_permalinks = True
+html_permalinks = True
+html_permalinks_icon = "§"
+
 # -- Options for Furo theme ------------------------------------------------
 html_title = "Demo API - Documentation"
 html_logo = None  # Ajoutez ici le chemin vers votre logo si vous en avez un
@@ -105,6 +117,25 @@ html_sidebars = {
         "sidebar/scroll-end.html",
     ]
 }
+
+# -- Configuration pour GitHub Pages (assets statiques) ---------------------
+
+# Configuration cruciale pour forcer les chemins absolus des assets statiques
+# Cette configuration force Sphinx à utiliser des chemins absolus basés sur html_baseurl
+# pour tous les assets statiques (CSS, JS, images, etc.)
+
+# Force l'utilisation de chemins absolus pour les assets statiques
+def setup(app):
+    """Configuration personnalisée pour forcer les chemins absolus."""
+    from sphinx.builders.html import StandaloneHTMLBuilder
+    
+    def add_github_pages_context(app, pagename, templatename, context, doctree):
+        """Ajoute le contexte nécessaire pour GitHub Pages."""
+        if app.builder.name == 'html':
+            # Force l'utilisation de chemins absolus pour les assets statiques
+            context['pathto'] = lambda other, *args, **kwargs: f"{app.config.html_baseurl}{other}"
+    
+    app.connect('html-page-context', add_github_pages_context)
 
 # -- Extension configuration -------------------------------------------------
 
