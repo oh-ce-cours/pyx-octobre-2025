@@ -15,12 +15,14 @@ from utils.api.vm import get_vms, create_vm
 from utils.api.auth import Auth
 from utils.password_utils import get_credentials, get_or_create_token
 from utils.logging_config import get_logger
+from utils.config import config
 import json
 
 # Configuration du logger pour ce module
 logger = get_logger(__name__)
 
-BASE_URL = "https://x8ki-letl-twmt.n7.xano.io/api:N1uLlTBt"
+# Utiliser la configuration centralisée
+BASE_URL = config.DEMO_API_BASE_URL
 
 logger.info("Début de l'exécution de demo_api", base_url=BASE_URL)
 
