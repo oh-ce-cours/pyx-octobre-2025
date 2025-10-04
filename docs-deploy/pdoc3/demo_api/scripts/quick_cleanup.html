@@ -1,0 +1,833 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>demo_api.scripts.quick_cleanup API documentation</title>
+<meta name="description" content="Script de nettoyage simplifié pour les VMs et utilisateurs avec Typer et Rich
+Utilise des fonctions modulaires pour une meilleure lisibilité">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>demo_api.scripts.quick_cleanup</code></h1>
+</header>
+<section id="section-intro">
+<p>Script de nettoyage simplifié pour les VMs et utilisateurs avec Typer et Rich
+Utilise des fonctions modulaires pour une meilleure lisibilité</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="demo_api.scripts.quick_cleanup.cleanup"><code class="name flex">
+<span>def <span class="ident">cleanup</span></span>(<span>base_url: str | None = &lt;typer.models.OptionInfo object&gt;,<br>email: str | None = &lt;typer.models.OptionInfo object&gt;,<br>password: str | None = &lt;typer.models.OptionInfo object&gt;,<br>real: bool = &lt;typer.models.OptionInfo object&gt;,<br>delay: float = &lt;typer.models.OptionInfo object&gt;) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.command()
+def cleanup(
+    base_url: Optional[str] = typer.Option(
+        None, &#34;--base-url&#34;, &#34;-u&#34;, help=&#34;URL de base de l&#39;API&#34;
+    ),
+    email: Optional[str] = typer.Option(
+        None, &#34;--email&#34;, &#34;-e&#34;, help=&#34;Email pour l&#39;authentification&#34;
+    ),
+    password: Optional[str] = typer.Option(
+        None, &#34;--password&#34;, &#34;-p&#34;, help=&#34;Mot de passe pour l&#39;authentification&#34;
+    ),
+    real: bool = typer.Option(
+        False, &#34;--real&#34;, &#34;-r&#34;, help=&#34;Effectue la suppression réelle&#34;
+    ),
+    delay: float = typer.Option(
+        0, &#34;--delay&#34;, &#34;-d&#34;, help=&#34;Délai en secondes entre les opérations&#34;
+    ),
+) -&gt; None:
+    &#34;&#34;&#34;
+    Script de nettoyage pour les VMs et utilisateurs
+
+    💡 Exemples d&#39;usage:
+
+    • Mode simulation (par défaut):
+       python quick_cleanup_simplified.py
+
+    • Suppression réelle:
+       python quick_cleanup_simplified.py --real
+
+    • Avec délai personnalisé:
+       python quick_cleanup_simplified.py --real --delay 3
+    &#34;&#34;&#34;
+    simulate = not real
+    quick_cleanup(base_url, email, password, simulate, delay)</code></pre>
+</details>
+<div class="desc"><p>Script de nettoyage pour les VMs et utilisateurs</p>
+<p>💡 Exemples d'usage:</p>
+<p>• Mode simulation (par défaut):
+python quick_cleanup_simplified.py</p>
+<p>• Suppression réelle:
+python quick_cleanup_simplified.py &ndash;real</p>
+<p>• Avec délai personnalisé:
+python quick_cleanup_simplified.py &ndash;real &ndash;delay 3</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.cleanup_data"><code class="name flex">
+<span>def <span class="ident">cleanup_data</span></span>(<span>client, vms: list, users: list, delay: float) ‑> Tuple[int, int]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def cleanup_data(client, vms: list, users: list, delay: float) -&gt; Tuple[int, int]:
+    &#34;&#34;&#34;Logique métier principale de nettoyage avec barre de progression globale
+
+    Args:
+        client: Client API
+        vms: Liste des VMs
+        users: Liste des utilisateurs
+        delay: Délai entre suppressions
+
+    Returns:
+        Tuple (deleted_vms, deleted_users)
+    &#34;&#34;&#34;
+    total_items = len(vms) + len(users)
+
+    if total_items == 0:
+        console.print(&#34;[yellow]⚠️  Aucun élément à supprimer[/yellow]&#34;)
+        return 0, 0
+
+    # Affichage du résumé global
+    console.print(
+        Panel.fit(
+            f&#34;[bold cyan]🚀 DÉBUT DU NETTOYAGE[/bold cyan]\n&#34;
+            f&#34;Total: [bold]{total_items}[/bold] éléments à supprimer\n&#34;
+            f&#34;VMs: [bold]{len(vms)}[/bold] | Utilisateurs: [bold]{len(users)}[/bold]&#34;,
+            border_style=&#34;cyan&#34;,
+        )
+    )
+    console.print()
+
+    # Barre de progression globale
+    with Progress(
+        SpinnerColumn(),
+        TextColumn(&#34;[progress.description]{task.description}&#34;),
+        BarColumn(bar_width=None),
+        MofNCompleteColumn(),
+        TextColumn(&#34;•&#34;),
+        TimeElapsedColumn(),
+        TextColumn(&#34;•&#34;),
+        TimeRemainingColumn(),
+        console=console,
+        expand=True,
+    ) as global_progress:
+        global_task = global_progress.add_task(&#34;Nettoyage global&#34;, total=total_items)
+
+        # Suppression des VMs
+        deleted_vms = delete_items_with_progress_and_global(
+            client, vms, &#34;vm&#34;, delay, global_progress, global_task
+        )
+
+        # Suppression des utilisateurs
+        deleted_users = delete_items_with_progress_and_global(
+            client, users, &#34;user&#34;, delay, global_progress, global_task
+        )
+
+    return deleted_vms, deleted_users</code></pre>
+</details>
+<div class="desc"><p>Logique métier principale de nettoyage avec barre de progression globale</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>client</code></strong></dt>
+<dd>Client API</dd>
+<dt><strong><code>vms</code></strong></dt>
+<dd>Liste des VMs</dd>
+<dt><strong><code>users</code></strong></dt>
+<dd>Liste des utilisateurs</dd>
+<dt><strong><code>delay</code></strong></dt>
+<dd>Délai entre suppressions</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Tuple (deleted_vms, deleted_users)</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.connect_to_api"><code class="name flex">
+<span>def <span class="ident">connect_to_api</span></span>(<span>base_url: str | None, email: str | None, password: str | None)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def connect_to_api(
+    base_url: Optional[str], email: Optional[str], password: Optional[str]
+):
+    &#34;&#34;&#34;Se connecte à l&#39;API et retourne le client&#34;&#34;&#34;
+    with console.status(&#34;[bold green]Connexion à l&#39;API...&#34;):
+        client = create_authenticated_client(base_url, email, password)
+    return client</code></pre>
+</details>
+<div class="desc"><p>Se connecte à l'API et retourne le client</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.delete_items_batch"><code class="name flex">
+<span>def <span class="ident">delete_items_batch</span></span>(<span>client, items: list, item_type: str, delay: float) ‑> int</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete_items_batch(client, items: list, item_type: str, delay: float) -&gt; int:
+    &#34;&#34;&#34;Supprime une liste d&#39;éléments avec gestion des pauses
+
+    Args:
+        client: Client API
+        items: Liste des éléments à supprimer
+        item_type: Type d&#39;élément (&#39;vm&#39; ou &#39;user&#39;)
+        delay: Délai entre suppressions
+
+    Returns:
+        Nombre d&#39;éléments supprimés
+    &#34;&#34;&#34;
+    if not items:
+        return 0
+
+    for i, item in enumerate(items):
+        # Suppression selon le type
+        if item_type == &#34;vm&#34;:
+            delete_vm_data(client, item)
+        else:  # user
+            delete_user_data(client, item)
+
+        # Pause si pas le dernier élément
+        if i &lt; len(items) - 1:
+            time.sleep(delay)
+
+    # Pause supplémentaire avant prochaine section
+    if item_type == &#34;vm&#34;:
+        time.sleep(delay + 1)
+
+    return len(items)</code></pre>
+</details>
+<div class="desc"><p>Supprime une liste d'éléments avec gestion des pauses</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>client</code></strong></dt>
+<dd>Client API</dd>
+<dt><strong><code>items</code></strong></dt>
+<dd>Liste des éléments à supprimer</dd>
+<dt><strong><code>item_type</code></strong></dt>
+<dd>Type d'élément ('vm' ou 'user')</dd>
+<dt><strong><code>delay</code></strong></dt>
+<dd>Délai entre suppressions</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Nombre d'éléments supprimés</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.delete_items_with_progress"><code class="name flex">
+<span>def <span class="ident">delete_items_with_progress</span></span>(<span>client, items: list, item_type: str, delay: float) ‑> int</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete_items_with_progress(
+    client, items: list, item_type: str, delay: float
+) -&gt; int:
+    &#34;&#34;&#34;Supprime des éléments avec barre de progression détaillée et affichage&#34;&#34;&#34;
+
+    if not items:
+        console.print(f&#34;[yellow]⚠️  Aucun{item_type} à supprimer[/yellow]&#34;)
+        return 0
+
+    # Affichage du panneau de suppression
+    display_deletion_progress(item_type, delay)
+
+    # Calcul du temps estimé total (suppression + délais)
+    estimated_time = len(items) * delay + (len(items) - 1) * delay
+    console.print(f&#34;[dim]⏱️  Temps estimé: ~{estimated_time:.1f}s[/dim]&#34;)
+    console.print()
+
+    with Progress(
+        SpinnerColumn(),
+        TextColumn(&#34;[progress.description]{task.description}&#34;),
+        BarColumn(bar_width=None),
+        MofNCompleteColumn(),
+        TextColumn(&#34;•&#34;),
+        TimeElapsedColumn(),
+        TextColumn(&#34;•&#34;),
+        TimeRemainingColumn(),
+        console=console,
+        expand=True,
+    ) as progress:
+        task = progress.add_task(f&#34;Suppression des {item_type}s&#34;, total=len(items))
+
+        for i, item in enumerate(items):
+            # Mise à jour de la description avec le nom de l&#39;élément
+            item_name = item.get(&#34;name&#34;, f&#34;ID {item[&#39;id&#39;]}&#34;)
+            progress.update(
+                task, description=f&#34;Suppression {item_type}: {item_name}&#34;, advance=0
+            )
+
+            # Suppression avec affichage
+            if item_type == &#34;vm&#34;:
+                delete_single_vm_with_display(client, item)
+            else:  # user
+                delete_single_user_with_display(client, item)
+
+            progress.update(task, advance=1)
+
+            # Pause si pas le dernier élément
+            if i &lt; len(items) - 1:
+                progress.update(
+                    task, description=f&#34;Pause {delay}s avant le prochain {item_type}...&#34;
+                )
+                time.sleep(delay)
+
+    # Affichage du résultat
+    display_deletion_result(item_type, len(items), len(items))
+
+    # Pause supplémentaire avant prochaine section
+    if item_type == &#34;vm&#34;:
+        display_pause_message(delay + 1, &#34;Pause avant les utilisateurs&#34;)
+
+    return len(items)</code></pre>
+</details>
+<div class="desc"><p>Supprime des éléments avec barre de progression détaillée et affichage</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.delete_items_with_progress_and_global"><code class="name flex">
+<span>def <span class="ident">delete_items_with_progress_and_global</span></span>(<span>client, items: list, item_type: str, delay: float, global_progress, global_task) ‑> int</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete_items_with_progress_and_global(
+    client, items: list, item_type: str, delay: float, global_progress, global_task
+) -&gt; int:
+    &#34;&#34;&#34;Supprime des éléments avec barre de progression détaillée et mise à jour globale&#34;&#34;&#34;
+
+    if not items:
+        return 0
+
+    # Affichage du panneau de suppression
+    display_deletion_progress(item_type, delay)
+
+    # Calcul du temps estimé total (suppression + délais)
+    estimated_time = len(items) * delay + (len(items) - 1) * delay
+    console.print(f&#34;[dim]⏱️  Temps estimé: ~{estimated_time:.1f}s[/dim]&#34;)
+    console.print()
+
+    for i, item in enumerate(items):
+        # Mise à jour de la barre globale avec le nom de l&#39;élément
+        item_name = item.get(&#34;name&#34;, f&#34;ID {item[&#39;id&#39;]}&#34;)
+        global_progress.update(
+            global_task, description=f&#34;Suppression {item_type}: {item_name}&#34;, advance=0
+        )
+
+        # Suppression avec affichage
+        if item_type == &#34;vm&#34;:
+            delete_single_vm_with_display(client, item)
+        else:  # user
+            delete_single_user_with_display(client, item)
+
+        global_progress.update(global_task, advance=1)
+
+        # Pause si pas le dernier élément
+        if i &lt; len(items) - 1:
+            global_progress.update(
+                global_task,
+                description=f&#34;Pause {delay}s avant le prochain {item_type}...&#34;,
+            )
+            time.sleep(delay)
+
+    # Affichage du résultat
+    display_deletion_result(item_type, len(items), len(items))
+
+    # Pause supplémentaire avant prochaine section
+    if item_type == &#34;vm&#34;:
+        display_pause_message(delay + 1, &#34;Pause avant les utilisateurs&#34;)
+
+    return len(items)</code></pre>
+</details>
+<div class="desc"><p>Supprime des éléments avec barre de progression détaillée et mise à jour globale</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.delete_single_user_with_display"><code class="name flex">
+<span>def <span class="ident">delete_single_user_with_display</span></span>(<span>client, user: dict) ‑> bool</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete_single_user_with_display(client, user: dict) -&gt; bool:
+    &#34;&#34;&#34;Supprime un utilisateur avec affichage&#34;&#34;&#34;
+    with console.status(f&#34;Suppression utilisateur {user[&#39;id&#39;]}: {user[&#39;name&#39;]}...&#34;):
+        client.users.delete_user(user[&#34;id&#34;])
+    display_success_message(&#34;Utilisateur&#34;, user[&#34;name&#34;])
+    return True</code></pre>
+</details>
+<div class="desc"><p>Supprime un utilisateur avec affichage</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.delete_single_vm_with_display"><code class="name flex">
+<span>def <span class="ident">delete_single_vm_with_display</span></span>(<span>client, vm: dict) ‑> bool</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete_single_vm_with_display(client, vm: dict) -&gt; bool:
+    &#34;&#34;&#34;Supprime une VM avec affichage&#34;&#34;&#34;
+    with console.status(f&#34;Suppression VM {vm[&#39;id&#39;]}: {vm[&#39;name&#39;]}...&#34;):
+        client.vms.delete(vm[&#34;id&#34;])
+    display_success_message(&#34;VM&#34;, vm[&#34;name&#34;])
+    return True</code></pre>
+</details>
+<div class="desc"><p>Supprime une VM avec affichage</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.delete_user_data"><code class="name flex">
+<span>def <span class="ident">delete_user_data</span></span>(<span>client, user: dict) ‑> bool</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete_user_data(client, user: dict) -&gt; bool:
+    &#34;&#34;&#34;Supprime un utilisateur (logique pure sans affichage)&#34;&#34;&#34;
+    client.users.delete_user(user[&#34;id&#34;])
+    return True</code></pre>
+</details>
+<div class="desc"><p>Supprime un utilisateur (logique pure sans affichage)</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.delete_vm_data"><code class="name flex">
+<span>def <span class="ident">delete_vm_data</span></span>(<span>client, vm: dict) ‑> bool</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete_vm_data(client, vm: dict) -&gt; bool:
+    &#34;&#34;&#34;Supprime une VM (logique pure sans affichage)&#34;&#34;&#34;
+    client.vms.delete(vm[&#34;id&#34;])
+    return True</code></pre>
+</details>
+<div class="desc"><p>Supprime une VM (logique pure sans affichage)</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.display_api_config"><code class="name flex">
+<span>def <span class="ident">display_api_config</span></span>(<span>client) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def display_api_config(client) -&gt; None:
+    &#34;&#34;&#34;Affiche la configuration de l&#39;API&#34;&#34;&#34;
+    config_table = Table(title=&#34;🔗 Configuration API&#34;)
+    config_table.add_column(&#34;Paramètre&#34;, style=&#34;cyan&#34;)
+    config_table.add_column(&#34;Valeur&#34;, style=&#34;magenta&#34;)
+
+    config_table.add_row(&#34;Base URL&#34;, client.base_url)
+    config_table.add_row(
+        &#34;Authentifié&#34;, &#34;✅ Oui&#34; if client.is_authenticated() else &#34;❌ Non&#34;
+    )
+
+    console.print(config_table)
+    console.print()</code></pre>
+</details>
+<div class="desc"><p>Affiche la configuration de l'API</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.display_deletion_progress"><code class="name flex">
+<span>def <span class="ident">display_deletion_progress</span></span>(<span>item_type: str, delay: float) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def display_deletion_progress(item_type: str, delay: float) -&gt; None:
+    &#34;&#34;&#34;Affiche le panneau de suppression&#34;&#34;&#34;
+    console.print(
+        Panel.fit(
+            f&#34;[bold red]🗑️  Suppression des {item_type}s...[/bold red]\n&#34;
+            f&#34;Délai: [bold]{delay}s[/bold]&#34;,
+            border_style=&#34;red&#34;,
+        )
+    )</code></pre>
+</details>
+<div class="desc"><p>Affiche le panneau de suppression</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.display_deletion_result"><code class="name flex">
+<span>def <span class="ident">display_deletion_result</span></span>(<span>item_type: str, deleted_count: int, total_count: int) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def display_deletion_result(
+    item_type: str, deleted_count: int, total_count: int
+) -&gt; None:
+    &#34;&#34;&#34;Affiche le résultat de suppression&#34;&#34;&#34;
+    console.print(
+        f&#34;[bold cyan]📊 {item_type}s supprimés: [green]{deleted_count}/{total_count}[/green][/bold cyan]&#34;
+    )</code></pre>
+</details>
+<div class="desc"><p>Affiche le résultat de suppression</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.display_header"><code class="name flex">
+<span>def <span class="ident">display_header</span></span>(<span>simulate: bool) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def display_header(simulate: bool) -&gt; None:
+    &#34;&#34;&#34;Affiche l&#39;en-tête selon le mode&#34;&#34;&#34;
+    if simulate:
+        console.print(
+            Panel.fit(
+                &#34;[bold blue]🧹 MODE SIMULATION[/bold blue]\n&#34;
+                &#34;Aucune donnée ne sera supprimée&#34;,
+                border_style=&#34;blue&#34;,
+            )
+        )
+    else:
+        console.print(
+            Panel.fit(
+                &#34;[bold red]🗑️ MODE SUPPRESSION RÉELLE[/bold red]\n&#34;
+                &#34;⚠️ TOUTES LES DONNÉES SERONT SUPPRIMÉES !&#34;,
+                border_style=&#34;red&#34;,
+            )
+        )</code></pre>
+</details>
+<div class="desc"><p>Affiche l'en-tête selon le mode</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.display_operation_config"><code class="name flex">
+<span>def <span class="ident">display_operation_config</span></span>(<span>delay: float, simulate: bool) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def display_operation_config(delay: float, simulate: bool) -&gt; None:
+    &#34;&#34;&#34;Affiche la configuration des opérations&#34;&#34;&#34;
+    config_table = Table(title=&#34;🔧 Configuration&#34;)
+    config_table.add_column(&#34;Paramètre&#34;, style=&#34;cyan&#34;)
+    config_table.add_column(&#34;Valeur&#34;, style=&#34;magenta&#34;)
+    config_table.add_row(&#34;Délai entre opérations&#34;, f&#34;{delay}s&#34;)
+    config_table.add_row(&#34;Mode&#34;, &#34;Simulation&#34; if simulate else &#34;Suppression réelle&#34;)
+    console.print(config_table)
+    console.print()</code></pre>
+</details>
+<div class="desc"><p>Affiche la configuration des opérations</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.display_pause_message"><code class="name flex">
+<span>def <span class="ident">display_pause_message</span></span>(<span>delay: float, context: str = '') ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def display_pause_message(delay: float, context: str = &#34;&#34;) -&gt; None:
+    &#34;&#34;&#34;Affiche un message de pause&#34;&#34;&#34;
+    if context:
+        console.print(f&#34;[dim]⏱️  {context} ({delay}s)...[/dim]&#34;)
+    else:
+        console.print(f&#34;[dim]⏱️  Pause de {delay}s...[/dim]&#34;)</code></pre>
+</details>
+<div class="desc"><p>Affiche un message de pause</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.display_simulation_message"><code class="name flex">
+<span>def <span class="ident">display_simulation_message</span></span>(<span>) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def display_simulation_message() -&gt; None:
+    &#34;&#34;&#34;Affiche le message de simulation&#34;&#34;&#34;
+    console.print(
+        Panel.fit(
+            &#34;[bold blue]📋 Mode simulation - aucune suppression réelle[/bold blue]\n&#34;
+            &#34;Utilisez [bold]--real[/bold] pour effectuer les suppressions&#34;,
+            border_style=&#34;blue&#34;,
+        )
+    )</code></pre>
+</details>
+<div class="desc"><p>Affiche le message de simulation</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.display_success_message"><code class="name flex">
+<span>def <span class="ident">display_success_message</span></span>(<span>item_type: str, item_name: str) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def display_success_message(item_type: str, item_name: str) -&gt; None:
+    &#34;&#34;&#34;Affiche un message de succès&#34;&#34;&#34;
+    console.print(f&#34;[green]✅ {item_type} supprimé: [bold]{item_name}[/bold][/green]&#34;)</code></pre>
+</details>
+<div class="desc"><p>Affiche un message de succès</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.display_users_table"><code class="name flex">
+<span>def <span class="ident">display_users_table</span></span>(<span>users: list) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def display_users_table(users: list) -&gt; None:
+    &#34;&#34;&#34;Affiche les utilisateurs dans un tableau&#34;&#34;&#34;
+    table = Table(title=&#34;👥 Utilisateurs&#34;)
+    table.add_column(&#34;ID&#34;, style=&#34;cyan&#34;)
+    table.add_column(&#34;Nom&#34;, style=&#34;green&#34;)
+    table.add_column(&#34;Email&#34;, style=&#34;yellow&#34;)
+
+    console.print(f&#34;[green]✅ {len(users)} utilisateurs trouvés[/green]&#34;)
+
+    for user in users:
+        table.add_row(str(user[&#34;id&#34;]), user[&#34;name&#34;], user[&#34;email&#34;])
+
+    console.print(table)</code></pre>
+</details>
+<div class="desc"><p>Affiche les utilisateurs dans un tableau</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.display_vms_table"><code class="name flex">
+<span>def <span class="ident">display_vms_table</span></span>(<span>vms: list) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def display_vms_table(vms: list) -&gt; None:
+    &#34;&#34;&#34;Affiche les VMs dans un tableau&#34;&#34;&#34;
+    table = Table(title=&#34;💻 Machines virtuelles&#34;)
+    table.add_column(&#34;ID&#34;, style=&#34;cyan&#34;)
+    table.add_column(&#34;Nom&#34;, style=&#34;green&#34;)
+    table.add_column(&#34;Utilisateur&#34;, style=&#34;yellow&#34;)
+    table.add_column(&#34;Status&#34;, style=&#34;magenta&#34;)
+
+    console.print(f&#34;[green]✅ {len(vms)} VMs trouvées[/green]&#34;)
+
+    for vm in vms:
+        table.add_row(
+            str(vm[&#34;id&#34;]), vm[&#34;name&#34;], str(vm[&#34;user_id&#34;]), vm.get(&#34;status&#34;, &#34;Inconnu&#34;)
+        )
+
+    console.print(table)</code></pre>
+</details>
+<div class="desc"><p>Affiche les VMs dans un tableau</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.fetch_data"><code class="name flex">
+<span>def <span class="ident">fetch_data</span></span>(<span>client) ‑> Tuple[list, list]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fetch_data(client) -&gt; Tuple[list, list]:
+    &#34;&#34;&#34;Récupère les données VMs et utilisateurs&#34;&#34;&#34;
+    # Récupération VMs
+    console.print(&#34;[bold cyan]📊 Données actuelles:[/bold cyan]&#34;)
+
+    with console.status(&#34;[bold green]Récupérations des VMs...&#34;):
+        vms = client.vms.get()
+    display_vms_table(vms)
+    console.print()
+
+    # Récupération utilisateurs
+    with console.status(&#34;[bold green]Récupération des utilisateurs...&#34;):
+        users = client.users.get()
+    display_users_table(users)
+    console.print()
+
+    return vms, users</code></pre>
+</details>
+<div class="desc"><p>Récupère les données VMs et utilisateurs</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.main"><code class="name flex">
+<span>def <span class="ident">main</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def main():
+    &#34;&#34;&#34;Point d&#39;entrée principal&#34;&#34;&#34;
+    app()</code></pre>
+</details>
+<div class="desc"><p>Point d'entrée principal</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.quick_cleanup"><code class="name flex">
+<span>def <span class="ident">quick_cleanup</span></span>(<span>base_url: str | None = None,<br>email: str | None = None,<br>password: str | None = None,<br>simulate: bool = True,<br>delay: float = 2.5) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def quick_cleanup(
+    base_url: Optional[str] = None,
+    email: Optional[str] = None,
+    password: Optional[str] = None,
+    simulate: bool = True,
+    delay: float = 2.5,
+) -&gt; None:
+    &#34;&#34;&#34;Fonction principale orchestrant le nettoyage&#34;&#34;&#34;
+    try:
+        # 1. AFFICHAGE - En-tête selon le mode
+        display_header(simulate)
+
+        # 2. DONNÉES - Connexion et récupération
+        client = connect_to_api(base_url, email, password)
+        display_api_config(client)
+        vms, users = fetch_data(client)
+
+        # 3. AFFICHAGE - Configuration des opérations
+        display_operation_config(delay, simulate)
+
+        # 4. LOGIQUE MÉTIER - Si simulation, arrêt ici
+        if simulate:
+            display_simulation_message()
+            return
+
+        # 5. LOGIQUE MÉTIER - Suppressions réelles
+        deleted_vms, deleted_users = cleanup_data(client, vms, users, delay)
+
+        # 6. AFFICHAGE - Résumé final
+        show_summary(vms, users, deleted_vms, deleted_users)
+
+    except Exception as e:
+        console.print(f&#34;[bold red]❌ Erreur critique: {e}[/bold red]&#34;)
+        raise typer.Exit(1)</code></pre>
+</details>
+<div class="desc"><p>Fonction principale orchestrant le nettoyage</p></div>
+</dd>
+<dt id="demo_api.scripts.quick_cleanup.show_summary"><code class="name flex">
+<span>def <span class="ident">show_summary</span></span>(<span>vms: list, users: list, deleted_vms: int, deleted_users: int) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_summary(vms: list, users: list, deleted_vms: int, deleted_users: int) -&gt; None:
+    &#34;&#34;&#34;Affiche le résumé final&#34;&#34;&#34;
+    total_deleted = deleted_vms + deleted_users
+
+    summary_table = Table(title=&#34;🎯 Résumé du nettoyage&#34;)
+    summary_table.add_column(&#34;Type&#34;, style=&#34;cyan&#34;)
+    summary_table.add_column(&#34;Supprimé&#34;, style=&#34;green&#34;)
+    summary_table.add_column(&#34;Total&#34;, style=&#34;yellow&#34;)
+
+    summary_table.add_row(&#34;VMs&#34;, str(deleted_vms), str(len(vms)))
+    summary_table.add_row(&#34;Utilisateurs&#34;, str(deleted_users), str(len(users)))
+    summary_table.add_row(
+        &#34;**TOTAL**&#34;,
+        f&#34;[bold]{total_deleted}[/bold]&#34;,
+        f&#34;[bold]{len(vms) + len(users)}[/bold]&#34;,
+    )
+
+    console.print(summary_table)
+    console.print(
+        Panel.fit(
+            &#34;[bold green]✅ NETTOYAGE TERMINÉ AVEC SUCCÈS ![/bold green]&#34;,
+            border_style=&#34;green&#34;,
+        )
+    )</code></pre>
+</details>
+<div class="desc"><p>Affiche le résumé final</p></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="demo_api.scripts" href="index.html">demo_api.scripts</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="demo_api.scripts.quick_cleanup.cleanup" href="#demo_api.scripts.quick_cleanup.cleanup">cleanup</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.cleanup_data" href="#demo_api.scripts.quick_cleanup.cleanup_data">cleanup_data</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.connect_to_api" href="#demo_api.scripts.quick_cleanup.connect_to_api">connect_to_api</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.delete_items_batch" href="#demo_api.scripts.quick_cleanup.delete_items_batch">delete_items_batch</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.delete_items_with_progress" href="#demo_api.scripts.quick_cleanup.delete_items_with_progress">delete_items_with_progress</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.delete_items_with_progress_and_global" href="#demo_api.scripts.quick_cleanup.delete_items_with_progress_and_global">delete_items_with_progress_and_global</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.delete_single_user_with_display" href="#demo_api.scripts.quick_cleanup.delete_single_user_with_display">delete_single_user_with_display</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.delete_single_vm_with_display" href="#demo_api.scripts.quick_cleanup.delete_single_vm_with_display">delete_single_vm_with_display</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.delete_user_data" href="#demo_api.scripts.quick_cleanup.delete_user_data">delete_user_data</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.delete_vm_data" href="#demo_api.scripts.quick_cleanup.delete_vm_data">delete_vm_data</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.display_api_config" href="#demo_api.scripts.quick_cleanup.display_api_config">display_api_config</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.display_deletion_progress" href="#demo_api.scripts.quick_cleanup.display_deletion_progress">display_deletion_progress</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.display_deletion_result" href="#demo_api.scripts.quick_cleanup.display_deletion_result">display_deletion_result</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.display_header" href="#demo_api.scripts.quick_cleanup.display_header">display_header</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.display_operation_config" href="#demo_api.scripts.quick_cleanup.display_operation_config">display_operation_config</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.display_pause_message" href="#demo_api.scripts.quick_cleanup.display_pause_message">display_pause_message</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.display_simulation_message" href="#demo_api.scripts.quick_cleanup.display_simulation_message">display_simulation_message</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.display_success_message" href="#demo_api.scripts.quick_cleanup.display_success_message">display_success_message</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.display_users_table" href="#demo_api.scripts.quick_cleanup.display_users_table">display_users_table</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.display_vms_table" href="#demo_api.scripts.quick_cleanup.display_vms_table">display_vms_table</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.fetch_data" href="#demo_api.scripts.quick_cleanup.fetch_data">fetch_data</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.main" href="#demo_api.scripts.quick_cleanup.main">main</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.quick_cleanup" href="#demo_api.scripts.quick_cleanup.quick_cleanup">quick_cleanup</a></code></li>
+<li><code><a title="demo_api.scripts.quick_cleanup.show_summary" href="#demo_api.scripts.quick_cleanup.show_summary">show_summary</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

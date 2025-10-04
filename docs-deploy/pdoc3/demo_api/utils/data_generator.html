@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>demo_api.utils.data_generator API documentation</title>
+<meta name="description" content="Module de génération de données factices avec Faker.
+Génère des données réalistes pour les utilisateurs et les machines virtuelles.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>demo_api.utils.data_generator</code></h1>
+</header>
+<section id="section-intro">
+<p>Module de génération de données factices avec Faker.
+Génère des données réalistes pour les utilisateurs et les machines virtuelles.</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="demo_api.utils.data_generator.DataGenerator"><code class="flex name class">
+<span>class <span class="ident">DataGenerator</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DataGenerator:
+    &#34;&#34;&#34;Générateur principal pour créer des datasets complets.&#34;&#34;&#34;
+
+    @classmethod
+    def generate_users_with_vms(
+        cls, user_count: int = 50, vm_per_user_range: tuple = (0, 5)
+    ) -&gt; List[Dict[str, Any]]:
+        &#34;&#34;&#34;
+        Génère un dataset complet d&#39;utilisateurs avec leurs VMs.
+
+        Args:
+            user_count: Nombre d&#39;utilisateurs à générer
+            vm_per_user_range: Tuple (min, max) du nombre de VMs par utilisateur
+
+        Returns:
+            Liste des utilisateurs avec leurs VMs associées
+        &#34;&#34;&#34;
+        logger.info(
+            &#34;Génération du dataset&#34;, user_count=user_count, vm_range=vm_per_user_range
+        )
+
+        users = []
+        vm_counter = 1
+
+        for user_id in range(1, user_count + 1):
+            # Générer l&#39;utilisateur
+            user = UserDataGenerator.generate_user(user_id)
+
+            # Générer les VMs pour cet utilisateur
+            vm_count = random.randint(vm_per_user_range[0], vm_per_user_range[1])
+            user_vms = []
+
+            for _ in range(vm_count):
+                vm = VMDataGenerator.generate_vm(user_id, vm_counter)
+                user_vms.append(vm)
+                vm_counter += 1
+
+            user[&#34;vms&#34;] = user_vms
+            users.append(user)
+
+            logger.debug(
+                &#34;Utilisateur généré avec VMs&#34;,
+                user_id=user_id,
+                vm_count=vm_count,
+                user_name=user[&#34;name&#34;],
+            )
+
+        total_vms = sum(len(user[&#34;vms&#34;]) for user in users)
+        logger.info(
+            &#34;Dataset généré avec succès&#34;,
+            total_users=len(users),
+            total_vms=total_vms,
+            avg_vms_per_user=total_vms / len(users) if users else 0,
+        )
+
+        return users
+
+    @classmethod
+    def generate_vms_only(
+        cls, vm_count: int, user_ids: List[int]
+    ) -&gt; List[Dict[str, Any]]:
+        &#34;&#34;&#34;
+        Génère uniquement des VMs pour des utilisateurs existants.
+
+        Args:
+            vm_count: Nombre de VMs à générer
+            user_ids: Liste des IDs d&#39;utilisateurs existants
+
+        Returns:
+            Liste des VMs générées
+        &#34;&#34;&#34;
+        logger.info(
+            &#34;Génération de VMs&#34;, vm_count=vm_count, available_users=len(user_ids)
+        )
+
+        vms = []
+        for vm_id in range(1, vm_count + 1):
+            user_id = random.choice(user_ids)
+            vm = VMDataGenerator.generate_vm(user_id, vm_id)
+            vms.append(vm)
+
+        logger.info(&#34;VMs générées avec succès&#34;, count=len(vms))
+        return vms</code></pre>
+</details>
+<div class="desc"><p>Générateur principal pour créer des datasets complets.</p></div>
+<h3>Static methods</h3>
+<dl>
+<dt id="demo_api.utils.data_generator.DataGenerator.generate_users_with_vms"><code class="name flex">
+<span>def <span class="ident">generate_users_with_vms</span></span>(<span>user_count: int = 50, vm_per_user_range: tuple = (0, 5)) ‑> List[Dict[str, Any]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Génère un dataset complet d'utilisateurs avec leurs VMs.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>user_count</code></strong></dt>
+<dd>Nombre d'utilisateurs à générer</dd>
+<dt><strong><code>vm_per_user_range</code></strong></dt>
+<dd>Tuple (min, max) du nombre de VMs par utilisateur</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Liste des utilisateurs avec leurs VMs associées</p></div>
+</dd>
+<dt id="demo_api.utils.data_generator.DataGenerator.generate_vms_only"><code class="name flex">
+<span>def <span class="ident">generate_vms_only</span></span>(<span>vm_count: int, user_ids: List[int]) ‑> List[Dict[str, Any]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Génère uniquement des VMs pour des utilisateurs existants.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>vm_count</code></strong></dt>
+<dd>Nombre de VMs à générer</dd>
+<dt><strong><code>user_ids</code></strong></dt>
+<dd>Liste des IDs d'utilisateurs existants</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Liste des VMs générées</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="demo_api.utils.data_generator.UserDataGenerator"><code class="flex name class">
+<span>class <span class="ident">UserDataGenerator</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UserDataGenerator:
+    &#34;&#34;&#34;Générateur de données pour les utilisateurs.&#34;&#34;&#34;
+
+    # Domaines d&#39;entreprise réalistes
+    COMPANY_DOMAINS = [
+        &#34;gmail.com&#34;,
+        &#34;outlook.com&#34;,
+        &#34;yahoo.com&#34;,
+        &#34;hotmail.com&#34;,
+        &#34;company.com&#34;,
+        &#34;entreprise.fr&#34;,
+        &#34;corp.com&#34;,
+        &#34;business.org&#34;,
+        &#34;tech.io&#34;,
+        &#34;startup.com&#34;,
+        &#34;innovation.fr&#34;,
+        &#34;digital.net&#34;,
+    ]
+
+    @classmethod
+    def generate_email(cls, name: str) -&gt; str:
+        &#34;&#34;&#34;Génère un email réaliste basé sur le nom.&#34;&#34;&#34;
+        # Nettoyer le nom pour l&#39;email : supprimer les accents et caractères spéciaux
+        # Normaliser les caractères Unicode
+        normalized = unicodedata.normalize(&#34;NFD&#34;, name.lower())
+        # Supprimer les caractères diacritiques (accents)
+        clean_name = &#34;&#34;.join(c for c in normalized if unicodedata.category(c) != &#34;Mn&#34;)
+        # Remplacer les espaces par des points et supprimer autres caractères spéciaux
+        clean_name = clean_name.replace(&#34; &#34;, &#34;.&#34;).replace(&#34;-&#34;, &#34;&#34;).replace(&#34;&#39;&#34;, &#34;&#34;)
+        # Garder seulement les caractères alphanumériques et les points
+        clean_name = &#34;&#34;.join(c for c in clean_name if c.isalnum() or c == &#34;.&#34;)
+
+        domain = random.choice(cls.COMPANY_DOMAINS)
+        return f&#34;{clean_name}@{domain}&#34;
+
+    @classmethod
+    def generate_user(cls, user_id: int) -&gt; Dict[str, Any]:
+        &#34;&#34;&#34;Génère un utilisateur complet avec des données réalistes.&#34;&#34;&#34;
+        # Générer un nom français réaliste
+        name = fake.name()
+
+        # Date de création dans les 12 derniers mois
+        created_at = fake.date_time_between(start_date=&#34;-12M&#34;, end_date=&#34;now&#34;)
+
+        user_data = {
+            &#34;id&#34;: user_id,
+            &#34;name&#34;: name,
+            &#34;email&#34;: cls.generate_email(name),
+            &#34;created_at&#34;: created_at,
+            &#34;vms&#34;: [],  # Les VMs seront ajoutées séparément
+        }
+
+        logger.debug(
+            &#34;Utilisateur généré&#34;, user_id=user_id, name=name, email=user_data[&#34;email&#34;]
+        )
+        return user_data</code></pre>
+</details>
+<div class="desc"><p>Générateur de données pour les utilisateurs.</p></div>
+<h3>Class variables</h3>
+<dl>
+<dt id="demo_api.utils.data_generator.UserDataGenerator.COMPANY_DOMAINS"><code class="name">var <span class="ident">COMPANY_DOMAINS</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="demo_api.utils.data_generator.UserDataGenerator.generate_email"><code class="name flex">
+<span>def <span class="ident">generate_email</span></span>(<span>name: str) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Génère un email réaliste basé sur le nom.</p></div>
+</dd>
+<dt id="demo_api.utils.data_generator.UserDataGenerator.generate_user"><code class="name flex">
+<span>def <span class="ident">generate_user</span></span>(<span>user_id: int) ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Génère un utilisateur complet avec des données réalistes.</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="demo_api.utils.data_generator.VMDataGenerator"><code class="flex name class">
+<span>class <span class="ident">VMDataGenerator</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class VMDataGenerator:
+    &#34;&#34;&#34;Générateur de données pour les machines virtuelles.&#34;&#34;&#34;
+
+    # Systèmes d&#39;exploitation réalistes
+    OPERATING_SYSTEMS = [
+        &#34;Ubuntu 22.04 LTS&#34;,
+        &#34;Ubuntu 20.04 LTS&#34;,
+        &#34;CentOS 8&#34;,
+        &#34;Red Hat Enterprise Linux 8&#34;,
+        &#34;Windows Server 2022&#34;,
+        &#34;Windows Server 2019&#34;,
+        &#34;Debian 11&#34;,
+        &#34;SUSE Linux Enterprise Server 15&#34;,
+        &#34;AlmaLinux 8&#34;,
+        &#34;Rocky Linux 8&#34;,
+        &#34;Fedora 38&#34;,
+        &#34;openSUSE Leap 15.4&#34;,
+    ]
+
+    # Statuts possibles des VMs
+    VM_STATUSES = [&#34;running&#34;, &#34;stopped&#34;, &#34;paused&#34;, &#34;provisioning&#34;, &#34;deleting&#34;]
+
+    # Probabilités de statut (plus réalistes)
+    STATUS_PROBABILITIES = {
+        &#34;running&#34;: 0.6,  # 60% des VMs sont en cours d&#39;exécution
+        &#34;stopped&#34;: 0.25,  # 25% sont arrêtées
+        &#34;paused&#34;: 0.05,  # 5% sont en pause
+        &#34;provisioning&#34;: 0.05,  # 5% sont en cours de création
+        &#34;deleting&#34;: 0.05,  # 5% sont en cours de suppression
+    }
+
+    @classmethod
+    def generate_vm_name(cls) -&gt; str:
+        &#34;&#34;&#34;Génère un nom réaliste pour une VM.&#34;&#34;&#34;
+        prefixes = [
+            &#34;web&#34;,
+            &#34;db&#34;,
+            &#34;app&#34;,
+            &#34;api&#34;,
+            &#34;cache&#34;,
+            &#34;monitor&#34;,
+            &#34;backup&#34;,
+            &#34;test&#34;,
+            &#34;dev&#34;,
+            &#34;prod&#34;,
+        ]
+        suffix = fake.word().capitalize()
+        return f&#34;{random.choice(prefixes)}-{suffix}&#34;
+
+    @classmethod
+    def generate_cpu_cores(cls) -&gt; int:
+        &#34;&#34;&#34;Génère un nombre réaliste de cœurs CPU.&#34;&#34;&#34;
+        # Distribution réaliste : plus de VMs avec peu de cœurs
+        weights = [0.3, 0.4, 0.2, 0.1]  # 1-2, 4, 8, 16+ cœurs
+        ranges = [(1, 2), (4, 4), (8, 8), (16, 32)]
+        range_choice = random.choices(ranges, weights=weights)[0]
+        return random.randint(range_choice[0], range_choice[1])
+
+    @classmethod
+    def generate_ram_gb(cls) -&gt; int:
+        &#34;&#34;&#34;Génère une quantité réaliste de RAM.&#34;&#34;&#34;
+        # Distribution réaliste : plus de VMs avec peu de RAM
+        weights = [0.2, 0.3, 0.3, 0.2]  # 2-4, 8, 16, 32+ GB
+        ranges = [(2, 4), (8, 8), (16, 16), (32, 128)]
+        range_choice = random.choices(ranges, weights=weights)[0]
+        return random.randint(range_choice[0], range_choice[1])
+
+    @classmethod
+    def generate_disk_gb(cls) -&gt; int:
+        &#34;&#34;&#34;Génère une taille réaliste de disque.&#34;&#34;&#34;
+        # Distribution réaliste : plus de VMs avec des disques moyens
+        weights = [0.1, 0.4, 0.3, 0.2]  # 20-50, 100, 200, 500+ GB
+        ranges = [(20, 50), (100, 100), (200, 200), (500, 2000)]
+        range_choice = random.choices(ranges, weights=weights)[0]
+        return random.randint(range_choice[0], range_choice[1])
+
+    @classmethod
+    def generate_status(cls) -&gt; str:
+        &#34;&#34;&#34;Génère un statut réaliste basé sur les probabilités.&#34;&#34;&#34;
+        return random.choices(
+            list(cls.STATUS_PROBABILITIES.keys()),
+            weights=list(cls.STATUS_PROBABILITIES.values()),
+        )[0]
+
+    @classmethod
+    def generate_vm(cls, user_id: int, vm_id: int) -&gt; Dict[str, Any]:
+        &#34;&#34;&#34;Génère une VM complète avec des données réalistes.&#34;&#34;&#34;
+        # Date de création dans les 6 derniers mois
+        created_at = fake.date_time_between(start_date=&#34;-6M&#34;, end_date=&#34;now&#34;)
+
+        vm_data = {
+            &#34;id&#34;: vm_id,
+            &#34;user_id&#34;: user_id,
+            &#34;name&#34;: cls.generate_vm_name(),
+            &#34;operating_system&#34;: random.choice(cls.OPERATING_SYSTEMS),
+            &#34;cpu_cores&#34;: cls.generate_cpu_cores(),
+            &#34;ram_gb&#34;: cls.generate_ram_gb(),
+            &#34;disk_gb&#34;: cls.generate_disk_gb(),
+            &#34;status&#34;: cls.generate_status(),
+            &#34;created_at&#34;: created_at,
+        }
+
+        logger.debug(&#34;VM générée&#34;, vm_id=vm_id, user_id=user_id, name=vm_data[&#34;name&#34;])
+        return vm_data</code></pre>
+</details>
+<div class="desc"><p>Générateur de données pour les machines virtuelles.</p></div>
+<h3>Class variables</h3>
+<dl>
+<dt id="demo_api.utils.data_generator.VMDataGenerator.OPERATING_SYSTEMS"><code class="name">var <span class="ident">OPERATING_SYSTEMS</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="demo_api.utils.data_generator.VMDataGenerator.STATUS_PROBABILITIES"><code class="name">var <span class="ident">STATUS_PROBABILITIES</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="demo_api.utils.data_generator.VMDataGenerator.VM_STATUSES"><code class="name">var <span class="ident">VM_STATUSES</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="demo_api.utils.data_generator.VMDataGenerator.generate_cpu_cores"><code class="name flex">
+<span>def <span class="ident">generate_cpu_cores</span></span>(<span>) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Génère un nombre réaliste de cœurs CPU.</p></div>
+</dd>
+<dt id="demo_api.utils.data_generator.VMDataGenerator.generate_disk_gb"><code class="name flex">
+<span>def <span class="ident">generate_disk_gb</span></span>(<span>) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Génère une taille réaliste de disque.</p></div>
+</dd>
+<dt id="demo_api.utils.data_generator.VMDataGenerator.generate_ram_gb"><code class="name flex">
+<span>def <span class="ident">generate_ram_gb</span></span>(<span>) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Génère une quantité réaliste de RAM.</p></div>
+</dd>
+<dt id="demo_api.utils.data_generator.VMDataGenerator.generate_status"><code class="name flex">
+<span>def <span class="ident">generate_status</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Génère un statut réaliste basé sur les probabilités.</p></div>
+</dd>
+<dt id="demo_api.utils.data_generator.VMDataGenerator.generate_vm"><code class="name flex">
+<span>def <span class="ident">generate_vm</span></span>(<span>user_id: int, vm_id: int) ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Génère une VM complète avec des données réalistes.</p></div>
+</dd>
+<dt id="demo_api.utils.data_generator.VMDataGenerator.generate_vm_name"><code class="name flex">
+<span>def <span class="ident">generate_vm_name</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Génère un nom réaliste pour une VM.</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="demo_api.utils" href="index.html">demo_api.utils</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="demo_api.utils.data_generator.DataGenerator" href="#demo_api.utils.data_generator.DataGenerator">DataGenerator</a></code></h4>
+<ul class="">
+<li><code><a title="demo_api.utils.data_generator.DataGenerator.generate_users_with_vms" href="#demo_api.utils.data_generator.DataGenerator.generate_users_with_vms">generate_users_with_vms</a></code></li>
+<li><code><a title="demo_api.utils.data_generator.DataGenerator.generate_vms_only" href="#demo_api.utils.data_generator.DataGenerator.generate_vms_only">generate_vms_only</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="demo_api.utils.data_generator.UserDataGenerator" href="#demo_api.utils.data_generator.UserDataGenerator">UserDataGenerator</a></code></h4>
+<ul class="">
+<li><code><a title="demo_api.utils.data_generator.UserDataGenerator.COMPANY_DOMAINS" href="#demo_api.utils.data_generator.UserDataGenerator.COMPANY_DOMAINS">COMPANY_DOMAINS</a></code></li>
+<li><code><a title="demo_api.utils.data_generator.UserDataGenerator.generate_email" href="#demo_api.utils.data_generator.UserDataGenerator.generate_email">generate_email</a></code></li>
+<li><code><a title="demo_api.utils.data_generator.UserDataGenerator.generate_user" href="#demo_api.utils.data_generator.UserDataGenerator.generate_user">generate_user</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="demo_api.utils.data_generator.VMDataGenerator" href="#demo_api.utils.data_generator.VMDataGenerator">VMDataGenerator</a></code></h4>
+<ul class="">
+<li><code><a title="demo_api.utils.data_generator.VMDataGenerator.OPERATING_SYSTEMS" href="#demo_api.utils.data_generator.VMDataGenerator.OPERATING_SYSTEMS">OPERATING_SYSTEMS</a></code></li>
+<li><code><a title="demo_api.utils.data_generator.VMDataGenerator.STATUS_PROBABILITIES" href="#demo_api.utils.data_generator.VMDataGenerator.STATUS_PROBABILITIES">STATUS_PROBABILITIES</a></code></li>
+<li><code><a title="demo_api.utils.data_generator.VMDataGenerator.VM_STATUSES" href="#demo_api.utils.data_generator.VMDataGenerator.VM_STATUSES">VM_STATUSES</a></code></li>
+<li><code><a title="demo_api.utils.data_generator.VMDataGenerator.generate_cpu_cores" href="#demo_api.utils.data_generator.VMDataGenerator.generate_cpu_cores">generate_cpu_cores</a></code></li>
+<li><code><a title="demo_api.utils.data_generator.VMDataGenerator.generate_disk_gb" href="#demo_api.utils.data_generator.VMDataGenerator.generate_disk_gb">generate_disk_gb</a></code></li>
+<li><code><a title="demo_api.utils.data_generator.VMDataGenerator.generate_ram_gb" href="#demo_api.utils.data_generator.VMDataGenerator.generate_ram_gb">generate_ram_gb</a></code></li>
+<li><code><a title="demo_api.utils.data_generator.VMDataGenerator.generate_status" href="#demo_api.utils.data_generator.VMDataGenerator.generate_status">generate_status</a></code></li>
+<li><code><a title="demo_api.utils.data_generator.VMDataGenerator.generate_vm" href="#demo_api.utils.data_generator.VMDataGenerator.generate_vm">generate_vm</a></code></li>
+<li><code><a title="demo_api.utils.data_generator.VMDataGenerator.generate_vm_name" href="#demo_api.utils.data_generator.VMDataGenerator.generate_vm_name">generate_vm_name</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

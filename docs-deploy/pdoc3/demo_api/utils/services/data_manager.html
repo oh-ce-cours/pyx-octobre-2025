@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>demo_api.utils.services.data_manager API documentation</title>
+<meta name="description" content="Gestionnaire de données centralisé pour éviter les requêtes multiples">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>demo_api.utils.services.data_manager</code></h1>
+</header>
+<section id="section-intro">
+<p>Gestionnaire de données centralisé pour éviter les requêtes multiples</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="demo_api.utils.services.data_manager.DataManager"><code class="flex name class">
+<span>class <span class="ident">DataManager</span></span>
+<span>(</span><span>api_client: utils.api.ApiClient)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DataManager:
+    &#34;&#34;&#34;Gestionnaire centralisé des données pour éviter les requêtes multiples&#34;&#34;&#34;
+
+    def __init__(self, api_client: Api):
+        &#34;&#34;&#34;
+        Initialise le gestionnaire de données
+
+        Args:
+            api_client: Client API unifié
+        &#34;&#34;&#34;
+        self.api = api_client
+        self._users_cache: Optional[List[Dict[str, Any]]] = None
+        self._vms_cache: Optional[List[Dict[str, Any]]] = None
+        self._data_fetched = False
+
+    def fetch_all_data(self) -&gt; Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
+        &#34;&#34;&#34;
+        Récupère toutes les données nécessaires (utilisateurs et VMs) en une seule fois
+
+        Returns:
+            Tuple contenant (users, vms) ou ([], []) en cas d&#39;erreur
+        &#34;&#34;&#34;
+        if self._data_fetched:
+            logger.info(&#34;Utilisation des données en cache&#34;)
+            return self._users_cache or [], self._vms_cache or []
+
+        logger.info(&#34;Début de récupération centralisée des données&#34;)
+
+        # Récupération des utilisateurs
+        try:
+            self._users_cache = self.api.users.get()
+            logger.info(&#34;Utilisateurs récupérés&#34;, count=len(self._users_cache))
+        except UsersFetchError as e:
+            logger.error(&#34;Impossible de récupérer les utilisateurs&#34;, error=str(e))
+            self._users_cache = []
+
+        # Récupération des VMs
+        try:
+            self._vms_cache = self.api.vms.get()
+            logger.info(&#34;VMs récupérées&#34;, count=len(self._vms_cache))
+        except VMsFetchError as e:
+            logger.error(&#34;Impossible de récupérer les VMs&#34;, error=str(e))
+            self._vms_cache = []
+
+        self._data_fetched = True
+        logger.info(&#34;Récupération centralisée des données terminée&#34;)
+
+        return self._users_cache or [], self._vms_cache or []
+
+    def get_users(self) -&gt; List[Dict[str, Any]]:
+        &#34;&#34;&#34;
+        Retourne les utilisateurs (doit être appelé après fetch_all_data)
+
+        Returns:
+            Liste des utilisateurs
+        &#34;&#34;&#34;
+        if not self._data_fetched:
+            raise RuntimeError(&#34;fetch_all_data() doit être appelé avant get_users()&#34;)
+        return self._users_cache or []
+
+    def get_vms(self) -&gt; List[Dict[str, Any]]:
+        &#34;&#34;&#34;
+        Retourne les VMs (doit être appelé après fetch_all_data)
+
+        Returns:
+            Liste des VMs
+        &#34;&#34;&#34;
+        if not self._data_fetched:
+            raise RuntimeError(&#34;fetch_all_data() doit être appelé avant get_vms()&#34;)
+        return self._vms_cache or []
+
+    def get_users_with_vms(self) -&gt; List[Dict[str, Any]]:
+        &#34;&#34;&#34;
+        Retourne les utilisateurs avec leurs VMs associées
+
+        Returns:
+            Liste des utilisateurs avec leurs VMs
+        &#34;&#34;&#34;
+        users = self.get_users()
+        vms = self.get_vms()
+
+        # Associer les VMs aux utilisateurs
+        self.api.users.add_vms_to_users(users, vms)
+        return users
+
+    def clear_cache(self) -&gt; None:
+        &#34;&#34;&#34;Vide le cache des données&#34;&#34;&#34;
+        self._users_cache = None
+        self._vms_cache = None
+        self._data_fetched = False
+        logger.info(&#34;Cache des données vidé&#34;)
+
+    @property
+    def is_data_loaded(self) -&gt; bool:
+        &#34;&#34;&#34;Indique si les données sont chargées&#34;&#34;&#34;
+        return self._data_fetched</code></pre>
+</details>
+<div class="desc"><p>Gestionnaire centralisé des données pour éviter les requêtes multiples</p>
+<p>Initialise le gestionnaire de données</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>api_client</code></strong></dt>
+<dd>Client API unifié</dd>
+</dl></div>
+<h3>Instance variables</h3>
+<dl>
+<dt id="demo_api.utils.services.data_manager.DataManager.is_data_loaded"><code class="name">prop <span class="ident">is_data_loaded</span> : bool</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def is_data_loaded(self) -&gt; bool:
+    &#34;&#34;&#34;Indique si les données sont chargées&#34;&#34;&#34;
+    return self._data_fetched</code></pre>
+</details>
+<div class="desc"><p>Indique si les données sont chargées</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="demo_api.utils.services.data_manager.DataManager.clear_cache"><code class="name flex">
+<span>def <span class="ident">clear_cache</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def clear_cache(self) -&gt; None:
+    &#34;&#34;&#34;Vide le cache des données&#34;&#34;&#34;
+    self._users_cache = None
+    self._vms_cache = None
+    self._data_fetched = False
+    logger.info(&#34;Cache des données vidé&#34;)</code></pre>
+</details>
+<div class="desc"><p>Vide le cache des données</p></div>
+</dd>
+<dt id="demo_api.utils.services.data_manager.DataManager.fetch_all_data"><code class="name flex">
+<span>def <span class="ident">fetch_all_data</span></span>(<span>self) ‑> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fetch_all_data(self) -&gt; Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
+    &#34;&#34;&#34;
+    Récupère toutes les données nécessaires (utilisateurs et VMs) en une seule fois
+
+    Returns:
+        Tuple contenant (users, vms) ou ([], []) en cas d&#39;erreur
+    &#34;&#34;&#34;
+    if self._data_fetched:
+        logger.info(&#34;Utilisation des données en cache&#34;)
+        return self._users_cache or [], self._vms_cache or []
+
+    logger.info(&#34;Début de récupération centralisée des données&#34;)
+
+    # Récupération des utilisateurs
+    try:
+        self._users_cache = self.api.users.get()
+        logger.info(&#34;Utilisateurs récupérés&#34;, count=len(self._users_cache))
+    except UsersFetchError as e:
+        logger.error(&#34;Impossible de récupérer les utilisateurs&#34;, error=str(e))
+        self._users_cache = []
+
+    # Récupération des VMs
+    try:
+        self._vms_cache = self.api.vms.get()
+        logger.info(&#34;VMs récupérées&#34;, count=len(self._vms_cache))
+    except VMsFetchError as e:
+        logger.error(&#34;Impossible de récupérer les VMs&#34;, error=str(e))
+        self._vms_cache = []
+
+    self._data_fetched = True
+    logger.info(&#34;Récupération centralisée des données terminée&#34;)
+
+    return self._users_cache or [], self._vms_cache or []</code></pre>
+</details>
+<div class="desc"><p>Récupère toutes les données nécessaires (utilisateurs et VMs) en une seule fois</p>
+<h2 id="returns">Returns</h2>
+<p>Tuple contenant (users, vms) ou ([], []) en cas d'erreur</p></div>
+</dd>
+<dt id="demo_api.utils.services.data_manager.DataManager.get_users"><code class="name flex">
+<span>def <span class="ident">get_users</span></span>(<span>self) ‑> List[Dict[str, Any]]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_users(self) -&gt; List[Dict[str, Any]]:
+    &#34;&#34;&#34;
+    Retourne les utilisateurs (doit être appelé après fetch_all_data)
+
+    Returns:
+        Liste des utilisateurs
+    &#34;&#34;&#34;
+    if not self._data_fetched:
+        raise RuntimeError(&#34;fetch_all_data() doit être appelé avant get_users()&#34;)
+    return self._users_cache or []</code></pre>
+</details>
+<div class="desc"><p>Retourne les utilisateurs (doit être appelé après fetch_all_data)</p>
+<h2 id="returns">Returns</h2>
+<p>Liste des utilisateurs</p></div>
+</dd>
+<dt id="demo_api.utils.services.data_manager.DataManager.get_users_with_vms"><code class="name flex">
+<span>def <span class="ident">get_users_with_vms</span></span>(<span>self) ‑> List[Dict[str, Any]]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_users_with_vms(self) -&gt; List[Dict[str, Any]]:
+    &#34;&#34;&#34;
+    Retourne les utilisateurs avec leurs VMs associées
+
+    Returns:
+        Liste des utilisateurs avec leurs VMs
+    &#34;&#34;&#34;
+    users = self.get_users()
+    vms = self.get_vms()
+
+    # Associer les VMs aux utilisateurs
+    self.api.users.add_vms_to_users(users, vms)
+    return users</code></pre>
+</details>
+<div class="desc"><p>Retourne les utilisateurs avec leurs VMs associées</p>
+<h2 id="returns">Returns</h2>
+<p>Liste des utilisateurs avec leurs VMs</p></div>
+</dd>
+<dt id="demo_api.utils.services.data_manager.DataManager.get_vms"><code class="name flex">
+<span>def <span class="ident">get_vms</span></span>(<span>self) ‑> List[Dict[str, Any]]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_vms(self) -&gt; List[Dict[str, Any]]:
+    &#34;&#34;&#34;
+    Retourne les VMs (doit être appelé après fetch_all_data)
+
+    Returns:
+        Liste des VMs
+    &#34;&#34;&#34;
+    if not self._data_fetched:
+        raise RuntimeError(&#34;fetch_all_data() doit être appelé avant get_vms()&#34;)
+    return self._vms_cache or []</code></pre>
+</details>
+<div class="desc"><p>Retourne les VMs (doit être appelé après fetch_all_data)</p>
+<h2 id="returns">Returns</h2>
+<p>Liste des VMs</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="demo_api.utils.services" href="index.html">demo_api.utils.services</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="demo_api.utils.services.data_manager.DataManager" href="#demo_api.utils.services.data_manager.DataManager">DataManager</a></code></h4>
+<ul class="two-column">
+<li><code><a title="demo_api.utils.services.data_manager.DataManager.clear_cache" href="#demo_api.utils.services.data_manager.DataManager.clear_cache">clear_cache</a></code></li>
+<li><code><a title="demo_api.utils.services.data_manager.DataManager.fetch_all_data" href="#demo_api.utils.services.data_manager.DataManager.fetch_all_data">fetch_all_data</a></code></li>
+<li><code><a title="demo_api.utils.services.data_manager.DataManager.get_users" href="#demo_api.utils.services.data_manager.DataManager.get_users">get_users</a></code></li>
+<li><code><a title="demo_api.utils.services.data_manager.DataManager.get_users_with_vms" href="#demo_api.utils.services.data_manager.DataManager.get_users_with_vms">get_users_with_vms</a></code></li>
+<li><code><a title="demo_api.utils.services.data_manager.DataManager.get_vms" href="#demo_api.utils.services.data_manager.DataManager.get_vms">get_vms</a></code></li>
+<li><code><a title="demo_api.utils.services.data_manager.DataManager.is_data_loaded" href="#demo_api.utils.services.data_manager.DataManager.is_data_loaded">is_data_loaded</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>
