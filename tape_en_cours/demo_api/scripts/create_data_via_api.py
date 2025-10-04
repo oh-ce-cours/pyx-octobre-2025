@@ -217,9 +217,10 @@ def retry_with_backoff(
             # Si c'est une erreur 429 (Too Many Requests), on retry avec backoff
             if "429" in error_str and "too many requests" in error_str:
                 if attempt < max_retries:
-                    delay = base_delay * (2**attempt)  # Backoff exponentiel
+                    # Backoff exponentiel avec délai maximum de 30s
+                    delay = min(base_delay * (2**attempt), 30.0)
                     console.print(
-                        f"[yellow]⚠️ Limite API atteinte, attente {delay}s avant retry {attempt + 1}/{max_retries}[/yellow]"
+                        f"[yellow]⚠️ Limite API atteinte, attente {delay:.1f}s avant retry {attempt + 1}/{max_retries}[/yellow]"
                     )
                     time.sleep(delay)
                     continue
