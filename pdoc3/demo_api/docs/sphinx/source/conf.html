@@ -62,10 +62,12 @@ el.replaceWith(d);
         &#34;&#34;&#34;Corrige les chemins des assets statiques dans le HTML généré.&#34;&#34;&#34;
         if app.builder.name == &#34;html&#34;:
             base_url = app.config.html_baseurl.rstrip(&#34;/&#34;)
-            
+
             # Force l&#39;utilisation de chemins absolus pour les assets statiques
-            context[&#34;pathto&#34;] = lambda other, *args, **kwargs: f&#34;{base_url}/{other.lstrip(&#39;/&#39;)}&#34;
-            
+            context[&#34;pathto&#34;] = (
+                lambda other, *args, **kwargs: f&#34;{base_url}/{other.lstrip(&#39;/&#39;)}&#34;
+            )
+
             # Ajoute des variables de contexte pour les chemins absolus
             context[&#34;static_url&#34;] = f&#34;{base_url}/_static&#34;
             context[&#34;base_url&#34;] = base_url
@@ -74,11 +76,11 @@ el.replaceWith(d);
         &#34;&#34;&#34;Corrige spécifiquement les chemins CSS et JS.&#34;&#34;&#34;
         if app.builder.name == &#34;html&#34;:
             base_url = app.config.html_baseurl.rstrip(&#34;/&#34;)
-            
+
             # Liste des fichiers CSS et JS à corriger
             css_files = context.get(&#34;css_files&#34;, [])
             js_files = context.get(&#34;js_files&#34;, [])
-            
+
             # Corrige les chemins CSS
             for i, css_file in enumerate(css_files):
                 if isinstance(css_file, str) and css_file.startswith(&#34;_static/&#34;):
@@ -86,7 +88,7 @@ el.replaceWith(d);
                 elif isinstance(css_file, (list, tuple)) and len(css_file) &gt; 0:
                     if css_file[0].startswith(&#34;_static/&#34;):
                         css_files[i] = (f&#34;{base_url}/{css_file[0]}&#34;,) + css_file[1:]
-            
+
             # Corrige les chemins JS
             for i, js_file in enumerate(js_files):
                 if isinstance(js_file, str) and js_file.startswith(&#34;_static/&#34;):
