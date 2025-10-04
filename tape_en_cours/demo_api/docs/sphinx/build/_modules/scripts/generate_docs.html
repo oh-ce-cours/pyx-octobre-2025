@@ -154,7 +154,7 @@
     <span class="c1"># 3. Générer la documentation pdoc3 avec index complet</span>
     <span class="n">total_commands</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="k">if</span> <span class="n">run_command</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2"> &amp;&amp; pdoc --html -o docs/pdoc3_build .&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2"> &amp;&amp; pdoc --html -o docs/pdoc3_build . --force&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Génération de la documentation pdoc3 complète&quot;</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="n">success_count</span> <span class="o">+=</span> <span class="mi">1</span>
