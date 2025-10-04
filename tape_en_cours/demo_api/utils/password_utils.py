@@ -6,8 +6,29 @@ from .logging_config import get_logger
 # Logger pour ce module
 logger = get_logger(__name__)
 
-# Charger automatiquement le fichier .env s'il existe
-load_dotenv()
+# Charger automatiquement les fichiers .env s'ils existent
+def load_env_files():
+    """
+    Charge les fichiers de configuration .env dans l'ordre de priorité.
+    
+    Priorité (du plus bas au plus haut) :
+    1. .env.defaults (valeurs par défaut)
+    2. .env.local (configuration locale, pas dans git)
+    3. .env (configuration générale)
+    """
+    env_files = [".env.defaults", ".env.local", ".env"]
+    loaded_count = 0
+    
+    for env_file in env_files:
+        if load_dotenv(env_file):
+            loaded_count += 1
+            logger.debug(f"Fichier {env_file} chargé")
+    
+    logger.info(f"Configuration chargée depuis {loaded_count} fichier(s) .env")
+    return loaded_count
+
+# Charger automatiquement les fichiers de configuration
+load_env_files()
 
 
 def get_password_from_env(env_var="DEMO_API_PASSWORD"):
@@ -415,36 +436,42 @@ def save_token_to_env_file(token, env_file_path=".env", token_key="DEMO_API_TOKE
 
 def load_token_from_env_file(env_file_path=".env", token_key="DEMO_API_TOKEN"):
     """
-    Charge un token depuis un fichier .env.
-
+    Charge un token depuis un fichier .env en utilisant python-dotenv.
+    
     Args:
         env_file_path (str): Chemin vers le fichier .env
         token_key (str): Clé pour le token dans le fichier
-
+        
     Returns:
         str|None: Token chargé ou None si non trouvé/erreur
     """
     try:
-        if not os.path.exists(env_file_path):
+        # Charger le fichier .env spécifique
+        loaded = load_dotenv(env_file_path)
+        
+        if not loaded:
             logger.debug("Fichier .env non trouvé", env_file=env_file_path)
             return None
-
-        with open(env_file_path, "r", encoding="utf-8") as f:
-            for line in f:
-                line = line.strip()
-                if line.startswith(f"{token_key}="):
-                    token = line.split("=", 1)[1].strip()
-                    if token:
-                        logger.info(
-                            "Token chargé depuis le fichier .env",
-                            env_file=env_file_path,
-                            token_length=len(token),
-                        )
-                        return token
-
-        logger.debug("Token non trouvé dans le fichier .env", env_file=env_file_path)
-        return None
-
+        
+        # Récupérer la valeur depuis les variables d'environnement (maintenant chargées)
+        token = os.environ.get(token_key)
+        
+        if token:
+            logger.info(
+                "Token chargé depuis le fichier .env",
+                env_file=env_file_path,
+                token_key=token_key,
+                token_length=len(token),
+            )
+        else:
+            logger.debug(
+                "Token non trouvé dans le fichier .env", 
+                env_file=env_file_path,
+                token_key=token_key
+            )
+        
+        return token
+        
     except Exception as e:
         logger.error(
             "Erreur lors du chargement du token depuis .env",
