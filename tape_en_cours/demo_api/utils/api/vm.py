@@ -1,11 +1,35 @@
 import requests
 import datetime
+from typing import Dict, List, Optional, Any
 from utils.logging_config import get_logger
 from .decorators import retry_on_429
 from .exceptions import VMsFetchError, VMCreationError, VMUpdateError, VMDeleteError
 
 # Logger pour ce module
 logger = get_logger(__name__)
+
+
+class VMClient:
+    """
+    Client pour les opérations liées aux machines virtuelles.
+    
+    Cette classe encapsule toutes les opérations d'API pour les VMs,
+    fournissant une interface cohérente et réutilisable.
+    """
+    
+    def __init__(self, base_url: str, token: Optional[str] = None, timeout: int = 5):
+        """
+        Initialise le client VM.
+        
+        Args:
+            base_url: URL de base de l'API
+            token: Token d'authentification (optionnel)
+            timeout: Timeout des requêtes en secondes (défaut: 5)
+        """
+        self.base_url = base_url.rstrip('/')
+        self.token = token
+        self.timeout = timeout
+        self.logger = get_logger(f"{__name__}.VMClient")
 
 
 def parse_unix_timestamp(ts):
