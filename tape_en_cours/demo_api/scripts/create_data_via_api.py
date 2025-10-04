@@ -244,9 +244,13 @@ def create_users_via_api(
                         email=user_data["email"],
                         password="password123",  # Mot de passe par défaut
                     )
-                    
+
                     # Vérifier que l'utilisateur a été créé avec succès
-                    if created_user and isinstance(created_user, dict) and "id" in created_user:
+                    if (
+                        created_user
+                        and isinstance(created_user, dict)
+                        and "id" in created_user
+                    ):
                         created_users.append(created_user)
                         created_count += 1
                         display_success_message(
@@ -256,9 +260,11 @@ def create_users_via_api(
                         logger.error(
                             "Échec de création d'utilisateur - données invalides",
                             user_data=user_data,
-                            created_user=created_user
+                            created_user=created_user,
                         )
-                        display_error_message("utilisateur", i, "Données utilisateur invalides")
+                        display_error_message(
+                            "utilisateur", i, "Données utilisateur invalides"
+                        )
 
                 except (ValueError, KeyError, ConnectionError) as e:
                     logger.error(
@@ -343,9 +349,13 @@ def create_vms_via_api(
                         disk_gb=vm_data["disk_gb"],
                         status=vm_data["status"],
                     )
-                    
+
                     # Vérifier que la VM a été créée avec succès
-                    if created_vm and isinstance(created_vm, dict) and "id" in created_vm:
+                    if (
+                        created_vm
+                        and isinstance(created_vm, dict)
+                        and "id" in created_vm
+                    ):
                         created_vms.append(created_vm)
                         created_count += 1
                         vm_details = f"{vm_data['operating_system']} - {vm_data['cpu_cores']}c/{vm_data['ram_gb']}GB"
@@ -354,7 +364,7 @@ def create_vms_via_api(
                         logger.error(
                             "Échec de création de VM - données invalides",
                             vm_data=vm_data,
-                            created_vm=created_vm
+                            created_vm=created_vm,
                         )
                         display_error_message("VM", i, "Données VM invalides")
 
@@ -648,8 +658,12 @@ def full_dataset(
                 )
             )
             raise typer.Exit(1)
-        
-        user_ids = [user["id"] for user in created_users if user and isinstance(user, dict) and "id" in user]
+
+        user_ids = [
+            user["id"]
+            for user in created_users
+            if user and isinstance(user, dict) and "id" in user
+        ]
         if not user_ids:
             console.print(
                 Panel.fit(
@@ -659,7 +673,7 @@ def full_dataset(
                 )
             )
             raise typer.Exit(1)
-            
+
         created_vms = create_vms_via_api(
             api_client=api_client,
             vm_count=vm_count,
