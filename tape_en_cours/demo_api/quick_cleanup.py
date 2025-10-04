@@ -359,6 +359,29 @@ def delete_single_user_with_display(client, user: dict) -> bool:
         return False
 
 
+# =============================================================================
+# LOGIQUE MÉTIER PRINCIPALE
+# =============================================================================
+
+def cleanup_data(client, vms: list, users: list, delay: float) -> Tuple[int, int]:
+    """Logique métier principale de nettoyage
+    
+    Args:
+        client: Client API
+        vms: Liste des VMs
+        users: Liste des utilisateurs
+        delay: Délai entre suppressions
+        
+    Returns:
+        Tuple (deleted_vms, deleted_users)
+    """
+    # Suppression des VMs puis des utilisateurs
+    deleted_vms = delete_items_with_progress(client, vms, "vm", delay)
+    deleted_users = delete_items_with_progress(client, users, "user", delay)
+    
+    return deleted_vms, deleted_users
+
+
 def show_summary(vms: list, users: list, deleted_vms: int, deleted_users: int) -> None:
     """Affiche le résumé final"""
     total_deleted = deleted_vms + deleted_users
@@ -385,6 +408,10 @@ def show_summary(vms: list, users: list, deleted_vms: int, deleted_users: int) -
     )
 
 
+# =============================================================================
+# FONCTION PRINCIPALE ORCHESTRANT TOUT
+# =============================================================================
+
 def quick_cleanup(
     base_url: Optional[str] = None,
     email: Optional[str] = None,
@@ -392,40 +419,28 @@ def quick_cleanup(
     simulate: bool = True,
     delay: float = 2.5,
 ) -> None:
-    """Fonction principale de nettoyage"""
+    """Fonction principale orchestrant le nettoyage"""
     try:
-        # Affichage de l'en-tête
+        # 1. AFFICHAGE - En-tête selon le mode
         display_header(simulate)
 
-        # Connexion et récupération des données
+        # 2. DONNÉES - Connexion et récupération
         client = connect_to_api(base_url, email, password)
+        display_api_config(client)
         vms, users = fetch_data(client)
 
-        # Configuration table
-        config_table = Table(title="🔧 Configuration")
-        config_table.add_column("Paramètre", style="cyan")
-        config_table.add_column("Valeur", style="magenta")
-        config_table.add_row("Délai entre opérations", f"{delay}s")
-        config_table.add_row("Mode", "Simulation" if simulate else "Suppression réelle")
-        console.print(config_table)
-        console.print()
+        # 3. AFFICHAGE - Configuration des opérations
+        display_operation_config(delay, simulate)
 
-        # Si simulation, arrêt ici
+        # 4. LOGIQUE MÉTIER - Si simulation, arrêt ici
         if simulate:
-            console.print(
-                Panel.fit(
-                    "[bold blue]📋 Mode simulation - aucune suppression réelle[/bold blue]\n"
-                    "Utilisez [bold]--real[/bold] pour effectuer les suppressions",
-                    border_style="blue",
-                )
-            )
+            display_simulation_message()
             return
 
-        # Suppressions réelles
-        deleted_vms = delete_items_with_progress(client, vms, "vm", delay)
-        deleted_users = delete_items_with_progress(client, users, "user", delay)
+        # 5. LOGIQUE MÉTIER - Suppressions réelles
+        deleted_vms, deleted_users = cleanup_data(client, vms, users, delay)
 
-        # Résumé final
+        # 6. AFFICHAGE - Résumé final
         show_summary(vms, users, deleted_vms, deleted_users)
 
     except Exception as e:
