@@ -172,6 +172,11 @@ def display_api_status(all_data: Dict[str, Any], api_url: str) -> None:
     console.print()
 
 
+# =============================================================================
+# PARTIE LOGIQUE MÉTIER / DONNÉES
+# =============================================================================
+
+
 def create_users_via_api(
     api_client: ApiClient,
     user_count: int,
@@ -197,40 +202,56 @@ def create_users_via_api(
     created_users = []
     created_count = 0
 
-    for batch_start in range(0, user_count, batch_size):
-        batch_end = min(batch_start + batch_size, user_count)
-        batch_size_actual = batch_end - batch_start
-
-        typer.echo(
-            f"📝 Création du lot {batch_start // batch_size + 1}: utilisateurs {batch_start + 1}-{batch_end}"
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        BarColumn(),
+        TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
+        TimeElapsedColumn(),
+        console=console,
+    ) as progress:
+        task = progress.add_task(
+            f"Création de {user_count} utilisateurs...", total=user_count
         )
 
-        for i in range(batch_size_actual):
-            try:
-                # Générer les données utilisateur avec Faker
-                user_data = UserDataGenerator.generate_user(created_count + 1)
+        for batch_start in range(0, user_count, batch_size):
+            batch_end = min(batch_start + batch_size, user_count)
+            batch_size_actual = batch_end - batch_start
 
-                # Créer l'utilisateur via l'API
-                created_user = api_client.users.create_user(
-                    name=user_data["name"],
-                    email=user_data["email"],
-                    password="password123",  # Mot de passe par défaut
-                )
+            display_batch_progress(
+                batch_start // batch_size + 1, batch_start, batch_end, user_count
+            )
 
-                created_users.append(created_user)
-                created_count += 1
+            for i in range(batch_size_actual):
+                try:
+                    # Générer les données utilisateur avec Faker
+                    user_data = UserDataGenerator.generate_user(created_count + 1)
 
-                typer.echo(f"   ✅ {user_data['name']} ({user_data['email']})")
+                    # Créer l'utilisateur via l'API
+                    created_user = api_client.users.create_user(
+                        name=user_data["name"],
+                        email=user_data["email"],
+                        password="password123",  # Mot de passe par défaut
+                    )
 
-            except (ValueError, KeyError, ConnectionError) as e:
-                logger.error(
-                    "Erreur lors de la création d'un utilisateur", error=str(e)
-                )
-                typer.echo(f"   ❌ Erreur pour l'utilisateur {i + 1}: {e}")
+                    created_users.append(created_user)
+                    created_count += 1
 
-        # Délai entre les lots pour éviter de surcharger l'API
-        if batch_end < user_count:
-            time.sleep(delay_between_batches)
+                    display_success_message(
+                        "Utilisateur", user_data['name'], user_data['email']
+                    )
+
+                except (ValueError, KeyError, ConnectionError) as e:
+                    logger.error(
+                        "Erreur lors de la création d'un utilisateur", error=str(e)
+                    )
+                    display_error_message("utilisateur", i, str(e))
+
+                progress.update(task, advance=1)
+
+            # Délai entre les lots pour éviter de surcharger l'API
+            if batch_end < user_count:
+                time.sleep(delay_between_batches)
 
     logger.info("Utilisateurs créés avec succès", count=len(created_users))
     return created_users
