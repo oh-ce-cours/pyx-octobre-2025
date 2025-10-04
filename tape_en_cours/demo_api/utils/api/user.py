@@ -254,6 +254,7 @@ def get_user(base_url, user_id):
         )
 
 
+@retry_on_429(max_retries=5, base_delay=2.0)
 def update_user(base_url, token, user_id, updates):
     """Met à jour un utilisateur existant.
 

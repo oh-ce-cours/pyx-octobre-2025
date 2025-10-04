@@ -262,6 +262,7 @@ def get_vm(base_url, vm_id):
         )
 
 
+@retry_on_429(max_retries=5, base_delay=2.0)
 def update_vm(base_url, token, vm_id, updates):
     """Met à jour une VM existante.
 
@@ -369,6 +370,7 @@ def delete_vm(base_url, token, vm_id):
         )
 
 
+@retry_on_429(max_retries=5, base_delay=2.0)
 def attach_vm_to_user(base_url, token, vm_id, user_id):
     """Associe une VM à un utilisateur.
 
@@ -428,6 +430,7 @@ def attach_vm_to_user(base_url, token, vm_id, user_id):
         )
 
 
+@retry_on_429(max_retries=5, base_delay=2.0)
 def stop_vm(base_url, token, vm_id):
     """Arrête une VM.
 
