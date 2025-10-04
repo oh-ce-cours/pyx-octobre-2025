@@ -51,17 +51,20 @@ logger.info("Début du processus d'authentification")
 user_email, user_password = get_credentials(email="jean@dupont21.com")
 logger.info("Identifiants récupérés", email=user_email, password_source="secure_input")
 
+# Initialisation de l'authentification
+auth = Auth(BASE_URL)
+
 # Tentative de création d'utilisateur, puis connexion si l'utilisateur existe déjà
 logger.info("Tentative de création d'utilisateur", email=user_email, name="Jean Dupont")
-token = create_user(BASE_URL, "Jean Dupont", user_email, user_password)
+token = auth.create_user("Jean Dupont", user_email, user_password)
 if not token:
     logger.warning(
         "Utilisateur déjà existant, tentative de connexion", email=user_email
     )
-    token = login_user(BASE_URL, user_email, user_password)
+    token = auth.login_user(user_email, user_password)
 
 logger.info("Récupération des informations utilisateur authentifié")
-user = get_logged_user_info(BASE_URL, token)
+user = auth.get_logged_user_info(token)
 logger.info(
     "Informations utilisateur récupérées",
     user_id=user.get("id"),
