@@ -27,11 +27,9 @@ logger.info("Début de l'exécution de demo_api", base_url=api.base_url)
 users = api.users.get()
 logger.info("Utilisateurs récupérés", count=len(users))
 
-logger.info("Récupération des VMs depuis l'API")
 vms = api.vms.get()
 logger.info("VMs récupérées", count=len(vms))
 
-logger.info("Association des VMs aux utilisateurs")
 api.users.add_vms_to_users(users, vms)
 
 logger.info(
