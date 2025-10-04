@@ -46,14 +46,14 @@ sphinx-build -b html source build
 # Serveur de développement (recommandé)
 pdoc --http :8080 main report_manager utils.config
 
-# Génération statique HTML
-pdoc --html -o docs/pdoc3_html main report_manager
+# Génération statique HTML complète avec index
+pdoc --html -o docs/pdoc3 . --force
 ```
 
 ## 📖 Accès à la Documentation
 
 ### Développement quotidien
-- **pdoc3** : http://localhost:8080 (serveur automatique)
+- **pdoc3** : http://localhost:8080 (serveur automatique) ou `docs/pdoc3/index.html` (statique)
 - **Moderne et rapide** avec CSS intégré
 
 ### Documentation finale

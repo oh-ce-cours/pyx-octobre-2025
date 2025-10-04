@@ -86,9 +86,7 @@ def main():
         print("🎉 Toute la documentation a été générée avec succès!")
         print("\n📖 Documentation disponible:")
         print(f"   • Sphinx (complexe): {project_root}/docs/sphinx/build/index.html")
-        print(
-            f"   • pdoc3 (moderne avec index): {project_root}/docs/pdoc3_build/index.html"
-        )
+        print(f"   • pdoc3 (moderne avec index): {project_root}/docs/pdoc3/index.html")
         print("\n🚀 Pour développement rapide:")
         print(f"   • Serveur pdoc3: pdoc --http :8080 .")
     else:
