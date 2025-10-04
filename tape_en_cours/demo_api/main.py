@@ -26,6 +26,9 @@ def report(
     report_type: str = typer.Option(
         "all", "--type", "-t", help="Type de rapport à générer (all, users-vms, status)"
     ),
+    format: str = typer.Option(
+        "all", "--format", "-f", help="Format de rapport (all, json, markdown, html)"
+    ),
     output_dir: str = typer.Option(
         "outputs", "--output-dir", "-o", help="Répertoire de sortie pour les rapports"
     ),

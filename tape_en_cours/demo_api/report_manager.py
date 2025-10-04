@@ -49,13 +49,15 @@ def generate_reports(
 
     \b
     python report_manager.py
-    python report_manager.py --type users-vms
-    python report_manager.py -t status -o ./rapports --verbose
+    python report_manager.py --type users-vms --format markdown
+    python report_manager.py -t status -f html -o ./rapports --verbose
+    python report_manager.py --format all --type all
     """
 
     if verbose:
         typer.echo("🔧 Configuration:")
         typer.echo(f"   Type de rapport: {report_type.value}")
+        typer.echo(f"   Format: {format.value}")
         typer.echo(f"   Répertoire de sortie: {output_dir}")
         typer.echo()
 
