@@ -25,8 +25,15 @@ python scripts/generate_data.py users-with-vms --users 100 --max-vms 3
 python scripts/generate_data.py preview --users 10
 ```
 
-### 🚀 `create_data_via_api.py`
-Créateur de données via l'API en utilisant le générateur Faker.
+### 🚀 `create_data_via_api.py` ✨ **AMÉLIORÉ AVEC RICH**
+Créateur de données via l'API en utilisant le générateur Faker avec un affichage Rich modernisé.
+
+**Nouvelles fonctionnalités Rich :**
+- 🎨 Panneaux colorés et encadrés pour les sections
+- 📊 Tableaux structurés pour la configuration et statistiques  
+- ⏳ Barres de progression en temps réel avec spinner
+- 🎯 Messages contextuels colorés (succès/erreur)
+- 🔄 Séparation claire entre logique métier et représentation
 
 **Commandes disponibles :**
 - `users` : Crée des utilisateurs via l'API
@@ -75,14 +82,31 @@ Tous les scripts utilisent la configuration définie dans `utils/config.py` pour
 - Identifiants d'authentification
 - Paramètres de connexion
 
+## Scripts de Démonstration
+
+### 🎭 `demo_rich_improvements.py`
+Démonstration des améliorations Rich dans `create_data_via_api.py`. Montre la différence entre l'ancien style (typer.echo) et le nouveau style (Rich) sans nécessiter une connexion API.
+
+```bash
+# Voir la démonstration des améliorations
+python scripts/demo_rich_improvements.py
+```
+
+### 🧪 `test_rich_display.py`
+Script de test pour valider les fonctionnalités Rich utilisées dans le script principal.
+
 ## Prérequis
 
 - Python 3.8+
 - Dépendances installées (`pip install -r requirements.txt`)
-- API démarrée et accessible
+  - `rich` pour l'affichage amélioré
+  - `typer` pour l'interface CLI
+- API démarrée et accessible (pour les scripts de création de données)
 
 ## Notes Importantes
 
 ⚠️ **Attention** : Le script `quick_cleanup.py` peut supprimer définitivement toutes les données. Utilisez toujours le mode simulation (`--real` non spécifié) pour tester d'abord.
 
 💡 **Conseil** : Utilisez `generate_data.py` pour créer des données de test, puis `create_data_via_api.py` pour les insérer dans l'API.
+
+🎨 **Rich** : Le script `create_data_via_api.py` utilise maintenant Rich pour un affichage moderne avec couleurs, tableaux et barres de progression.
