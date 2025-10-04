@@ -6,7 +6,7 @@ Gestionnaire de rapports pour demo_api
 import typer
 from enum import Enum
 from utils.api import Api
-from utils.services import ReportService
+from utils.services import ReportService, DataManager
 from utils.logging_config import get_logger
 from utils.config import config
 
@@ -71,9 +71,21 @@ def generate_reports(
         output_dir=output_dir,
     )
 
-    # Initialisation du client API et du service
+    # Initialisation du client API, du gestionnaire de données et du service
     api = Api(config.DEMO_API_BASE_URL)
+    data_manager = DataManager(api)
     report_service = ReportService(api)
+    
+    # Récupération centralisée des données (une seule fois)
+    typer.echo("📡 Récupération des données...")
+    users, vms = data_manager.fetch_all_data()
+    
+    if not users and not vms:
+        typer.echo("❌ Impossible de récupérer les données nécessaires")
+        raise typer.Exit(1)
+    
+    typer.echo(f"   ✅ {len(users)} utilisateur(s) et {len(vms)} VM(s) récupéré(s)")
+    typer.echo()
 
     # Génération des rapports selon le type et format demandés
     generated_files = []
