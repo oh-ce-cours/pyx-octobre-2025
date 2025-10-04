@@ -336,7 +336,7 @@ def delete_single_user_with_display(client, user: dict) -> bool:
 
 
 def cleanup_data(client, vms: list, users: list, delay: float) -> Tuple[int, int]:
-    """Logique métier principale de nettoyage
+    """Logique métier principale de nettoyage avec barre de progression globale
 
     Args:
         client: Client API
@@ -347,9 +347,49 @@ def cleanup_data(client, vms: list, users: list, delay: float) -> Tuple[int, int
     Returns:
         Tuple (deleted_vms, deleted_users)
     """
-    # Suppression des VMs puis des utilisateurs
-    deleted_vms = delete_items_with_progress(client, vms, "vm", delay)
-    deleted_users = delete_items_with_progress(client, users, "user", delay)
+    total_items = len(vms) + len(users)
+    
+    if total_items == 0:
+        console.print("[yellow]⚠️  Aucun élément à supprimer[/yellow]")
+        return 0, 0
+
+    # Affichage du résumé global
+    console.print(
+        Panel.fit(
+            f"[bold cyan]🚀 DÉBUT DU NETTOYAGE[/bold cyan]\n"
+            f"Total: [bold]{total_items}[/bold] éléments à supprimer\n"
+            f"VMs: [bold]{len(vms)}[/bold] | Utilisateurs: [bold]{len(users)}[/bold]",
+            border_style="cyan",
+        )
+    )
+    console.print()
+
+    # Barre de progression globale
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        BarColumn(bar_width=None),
+        MofNCompleteColumn(),
+        TextColumn("•"),
+        TimeElapsedColumn(),
+        TextColumn("•"),
+        TimeRemainingColumn(),
+        console=console,
+        expand=True,
+    ) as global_progress:
+        global_task = global_progress.add_task(
+            "Nettoyage global", total=total_items
+        )
+
+        # Suppression des VMs
+        deleted_vms = delete_items_with_progress_and_global(
+            client, vms, "vm", delay, global_progress, global_task
+        )
+        
+        # Suppression des utilisateurs
+        deleted_users = delete_items_with_progress_and_global(
+            client, users, "user", delay, global_progress, global_task
+        )
 
     return deleted_vms, deleted_users
 
