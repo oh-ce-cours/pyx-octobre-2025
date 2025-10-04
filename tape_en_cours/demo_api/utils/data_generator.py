@@ -153,14 +153,14 @@ class UserDataGenerator:
         """Génère un email réaliste basé sur le nom."""
         # Nettoyer le nom pour l'email : supprimer les accents et caractères spéciaux
         # Normaliser les caractères Unicode
-        normalized = unicodedata.normalize('NFD', name.lower())
+        normalized = unicodedata.normalize("NFD", name.lower())
         # Supprimer les caractères diacritiques (accents)
-        clean_name = ''.join(c for c in normalized if unicodedata.category(c) != 'Mn')
+        clean_name = "".join(c for c in normalized if unicodedata.category(c) != "Mn")
         # Remplacer les espaces par des points et supprimer autres caractères spéciaux
         clean_name = clean_name.replace(" ", ".").replace("-", "").replace("'", "")
         # Garder seulement les caractères alphanumériques et les points
-        clean_name = ''.join(c for c in clean_name if c.isalnum() or c == '.')
-        
+        clean_name = "".join(c for c in clean_name if c.isalnum() or c == ".")
+
         domain = random.choice(cls.COMPANY_DOMAINS)
         return f"{clean_name}@{domain}"
 
