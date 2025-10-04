@@ -343,11 +343,20 @@ def create_vms_via_api(
                         disk_gb=vm_data["disk_gb"],
                         status=vm_data["status"],
                     )
-                    created_vms.append(created_vm)
-                    created_count += 1
-
-                    vm_details = f"{vm_data['operating_system']} - {vm_data['cpu_cores']}c/{vm_data['ram_gb']}GB"
-                    display_success_message("VM", vm_data["name"], vm_details)
+                    
+                    # Vérifier que la VM a été créée avec succès
+                    if created_vm and isinstance(created_vm, dict) and "id" in created_vm:
+                        created_vms.append(created_vm)
+                        created_count += 1
+                        vm_details = f"{vm_data['operating_system']} - {vm_data['cpu_cores']}c/{vm_data['ram_gb']}GB"
+                        display_success_message("VM", vm_data["name"], vm_details)
+                    else:
+                        logger.error(
+                            "Échec de création de VM - données invalides",
+                            vm_data=vm_data,
+                            created_vm=created_vm
+                        )
+                        display_error_message("VM", i, "Données VM invalides")
 
                 except (ValueError, KeyError, ConnectionError) as e:
                     logger.error("Erreur lors de la création d'une VM", error=str(e))
@@ -629,7 +638,28 @@ def full_dataset(
                 border_style="blue",
             )
         )
-        user_ids = [user["id"] for user in created_users]
+        # Vérifier qu'on a des utilisateurs créés avec succès
+        if not created_users:
+            console.print(
+                Panel.fit(
+                    "[bold red]❌ Aucun utilisateur créé avec succès[/bold red]\n"
+                    "[dim]💡 Impossible de créer des VMs sans utilisateurs[/dim]",
+                    border_style="red",
+                )
+            )
+            raise typer.Exit(1)
+        
+        user_ids = [user["id"] for user in created_users if user and isinstance(user, dict) and "id" in user]
+        if not user_ids:
+            console.print(
+                Panel.fit(
+                    "[bold red]❌ Aucun ID d'utilisateur valide trouvé[/bold red]\n"
+                    "[dim]💡 Impossible de créer des VMs[/dim]",
+                    border_style="red",
+                )
+            )
+            raise typer.Exit(1)
+            
         created_vms = create_vms_via_api(
             api_client=api_client,
             vm_count=vm_count,
