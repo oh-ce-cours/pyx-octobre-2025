@@ -14,6 +14,7 @@ from typing import Optional, List, Dict, Any, Callable
 from pathlib import Path
 import json
 from datetime import datetime
+from functools import wraps
 from rich.console import Console
 from rich.progress import (
     Progress,

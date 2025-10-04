@@ -5,8 +5,10 @@ Génère des données réalistes pour les utilisateurs et les machines virtuelle
 
 import random
 import unicodedata
+import time
 from datetime import datetime, timedelta
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Callable
+from functools import wraps
 from faker import Faker
 from faker.providers import internet, company, lorem, date_time
 
