@@ -116,12 +116,12 @@ def generate(
 ) -> None:
     """
     🎲 Générer des données factices avec Faker
-    
+
     Génère un dataset complet d'utilisateurs français avec des VMs réalistes.
     Les données sont sauvegardées dans un fichier JSON.
-    
+
     Exemples:
-    
+
     \b
     python main.py generate
     python main.py generate --users 100 --max-vms 3
@@ -130,40 +130,43 @@ def generate(
     if min_vms > max_vms:
         typer.echo("❌ Le nombre minimum de VMs ne peut pas être supérieur au maximum")
         raise typer.Exit(1)
-    
-    typer.echo(f"🎲 Génération de {user_count} utilisateurs avec {min_vms}-{max_vms} VMs chacun...")
-    
+
+    typer.echo(
+        f"🎲 Génération de {user_count} utilisateurs avec {min_vms}-{max_vms} VMs chacun..."
+    )
+
     try:
         # Générer les données
         users_data = DataGenerator.generate_users_with_vms(
-            user_count=user_count,
-            vm_per_user_range=(min_vms, max_vms)
+            user_count=user_count, vm_per_user_range=(min_vms, max_vms)
         )
-        
+
         # Sauvegarder dans le fichier JSON
         output_path = Path(output_file)
-        with open(output_path, 'w', encoding='utf-8') as f:
+        with open(output_path, "w", encoding="utf-8") as f:
             json.dump(users_data, f, indent=4, ensure_ascii=False, default=str)
-        
+
         # Statistiques
         total_vms = sum(len(user["vms"]) for user in users_data)
         users_with_vms_count = len([u for u in users_data if u["vms"]])
-        
+
         typer.echo(f"✅ Données générées avec succès !")
         typer.echo(f"📊 Statistiques:")
         typer.echo(f"   • Utilisateurs: {len(users_data)}")
         typer.echo(f"   • VMs totales: {total_vms}")
         typer.echo(f"   • Utilisateurs avec VMs: {users_with_vms_count}")
-        typer.echo(f"   • Moyenne VMs/utilisateur: {total_vms/len(users_data):.1f}")
+        typer.echo(f"   • Moyenne VMs/utilisateur: {total_vms / len(users_data):.1f}")
         typer.echo(f"📁 Fichier sauvegardé: {output_path.absolute()}")
-        
+
         if verbose:
             typer.echo("\n🔍 Aperçu des données générées:")
             for i, user in enumerate(users_data[:3]):
-                typer.echo(f"   {i+1}. {user['name']} ({user['email']}) - {len(user['vms'])} VMs")
+                typer.echo(
+                    f"   {i + 1}. {user['name']} ({user['email']}) - {len(user['vms'])} VMs"
+                )
             if len(users_data) > 3:
                 typer.echo(f"   ... et {len(users_data) - 3} autres utilisateurs")
-        
+
     except Exception as e:
         logger.error("Erreur lors de la génération des données", error=str(e))
         typer.echo(f"❌ Erreur lors de la génération: {e}")
