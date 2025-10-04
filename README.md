@@ -37,6 +37,9 @@ python-dotenv>=1.0.0    # Gestion des variables d'environnement
 ```
 
 **Commandes disponibles :**
+
+:warning: Il faut se placer dans le dossier /tape_en_cours/demo_api
+
 ```bash
 # Créer un utilisateur
 python main.py signup --name "Alice Dupont" --email "alice@exemple.com"
