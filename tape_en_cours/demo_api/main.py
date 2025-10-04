@@ -36,7 +36,6 @@ report_file = json_generator.generate_users_vms_report(users, "vm_users.json")
 logger.info("Rapport JSON généré avec succès", filename=report_file)
 
 
-# Gestion intelligente des tokens d'authentification
 logger.info("Début du processus d'authentification")
 logger.info("Configuration chargée", config_summary=config.to_dict())
 
