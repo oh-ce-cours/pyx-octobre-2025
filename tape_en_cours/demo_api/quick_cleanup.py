@@ -26,6 +26,265 @@ console = Console()
 logger = get_logger(__name__)
 
 
+def display_header(simulate: bool) -> None:
+    """Affiche l'en-tête du script selon le mode"""
+    if simulate:
+        console.print(Panel.fit(
+            "[bold blue]🧹 MODE SIMULATION[/bold blue]\n"
+            "Aucune donnée ne sera supprimée",
+            border_style="blue"
+        ))
+    else:
+        console.print(Panel.fit(
+            "[bold red]🗑️  MODE SUPPRESSION RÉELLE[/bold red]\n"
+            "⚠️  TOUTES LES DONNÉES SERONT SUPPRIMÉES !",
+            border_style="red"
+        ))
+
+
+def connect_to_api(base_url: Optional[str] = None, email: Optional[str] = None, password: Optional[str] = None):
+    """Se connecte à l'API et retourne le client"""
+    with console.status("[bold green]Connexion à l'API..."):
+        client = create_authenticated_client(base_url, email, password)
+    
+    # Affichage des infos de connexion
+    table = Table(title="🔗 Configuration API")
+    table.add_column("Paramètre we", style="cyan")
+    table.add_column("Valeur", style="magenta")
+    
+    table.add_row("Base URL", client.base_url)
+    table.add_row("Authentifié", "✅ Oui" if client.is_authenticated() else "❌ Non")
+    
+    console.print(table)
+    console.print()
+    
+    return client
+
+
+def display_current_data(client, delay: float, simulate: bool) -> tuple:
+    """Affiche les données actuelles et retourne les listes"""
+    console.print("[bold cyan]📊 Données actuelles:[/bold cyan]")
+
+    # Configuration table dans le tableau
+    config_table = Table(title="🔧 Configuration")
+    config_table.add_column("Paramètre", style="cyan")
+    config_table.add_column("Valeur", style="magenta")
+    config_table.add_row("Délai entre opérations", f"{delay}s")
+    config_table.add_row("Mode", "Simulation" if simulate else "Suppression réelle")
+    console.print(config_table)
+    console.print()
+
+    # Récupération et affichage des VMs
+    vms = fetch_and_display_vms(client)
+    console.print()
+
+    # Récupération et affichage des utilisateurs
+    users = fetch_and_display_users(client)
+    console.print()
+
+    if simulate:
+        console.print(Panel.fit(
+            "[bold blue]📋 Mode simulation - aucune suppression réelle[/bold blue]\n"
+            "Utilisez [bold]--real[/bold] pour effectuer les suppressions",
+            border_style="blue"
+        ))
+
+    return vms, users
+
+
+def fetch_and_display_vms(client):
+    """Récupère et affiche les VMs dans un tableau"""
+    vms_table = Table(title="💻 Machines virtuelles")
+    vms_table.add_column("ID", style="cyan")
+    vms_table.add_column("Nom", style="green")
+    vms_table.add_column("Utilisateur", style="yellow")
+    vms_table.add_column("Status", style="magenta")
+
+    try:
+        with console.status("[bold green]Récupérations des VMs..."):
+            vms = client.vms.get()
+            
+        console.print(f"[green]✅ {len(vms)} VMs trouvées[/green]")
+        
+        for vm in vms:
+            vms_table.add_row(
+                str(vm['id']), 
+                vm['name'], 
+                str(vm['user_id']), 
+                vm.get('status', 'Inconnu')
+            )
+            
+    except Exception as e:
+        console.print(f"[red]❌ Erreur VMs: {e}[/red]")
+        vms = []
+
+    console.print(vms_table)
+    return vms
+
+
+def fetch_and_display_users(client):
+    """Récupère et affiche les utilisateurs dans un tableau"""
+    users_table = Table(title="👥 Utilisateurs")
+    users_table.add_column("ID", style="cyan")
+    users_table.add_column("Nom", style="green")
+    users_table.add_column("Email", style="yellow")
+
+    try:
+        with console.status("[bold green]Récupération des utilisateurs..."):
+            users = client.users.get()
+            
+        console.print(f"[green]✅ {len(users)} utilisateurs trouvés[/green]")
+        
+        for user in users:
+            users_table.add_row(
+                str(user['id']), 
+                user['name'], 
+                user['email']
+            )
+            
+    except Exception as e:
+        console.print(f"[red]❌ Erreur Utilisateurs: {e}[/red]")
+        users = []
+
+    console.print(users_table)
+    return users
+
+
+def delete_vms_with_progress(client, vms: list, delay: float) -> int:
+    """Supprime les VMs avec barre de progression et retourne le nombre supprimé"""
+    if not vms:
+        console.print("[yellow]⚠️  Aucune VM à supprimer[/yellow]")
+        return 0
+
+    deleted_count = 0
+    
+    console.print(Panel.fit(
+        "[bold red]🗑️  Suppression des VMs...[/bold red]\n"
+        f"Délai entre suppressions: [bold]{delay}s[/bold]",
+        border_style="red"
+    ))
+    
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        console=console
+    ) as progress:
+        task = progress.add_task(f"Suppression de {len(vms)} VMs...", total=len(vms))
+        
+        for i, vm in enumerate(vms):
+            if delete_single_vm(client, vm, i, len(vms), delay):
+                deleted_count += 1
+            progress.update(task, advance=1)
+
+    console.print(f"[bold cyan]📊 VMs supprimées: [green]{deleted_count}/{len(vms)}[/green][/bold cyan]")
+    
+    # Pause avant utilisateurs
+    if deleted_count > 0:
+        console.print(f"[dim]⏱️  Pause de {delay + 1}s avant les utilisateurs...[/dim]")
+        time.sleep(delay + 1)
+
+    return deleted_count
+
+
+def delete_single_vm(client, vm: dict, index: int, total: int, delay: float) -> bool:
+    """Supprime une VM individuelle et retourne True si succès"""
+    try:
+        with console.status(f"Suppression VM {vm['id']}: {vm['name']}..."):
+            client.vms.delete(vm["id"])
+            
+        console.print(f"[green]✅ VM supprimée ({index + 1}/{total}): [bold]{vm['name']}[/bold][/green]")
+        
+        # Pause si pas la dernière
+        if index < total - 1:
+            console.print(f"[dim]⏱️  Pause de {delay}s...[/dim]")
+            time.sleep(delay)s
+        return True
+
+    except Exception as e:
+        console.print(f"[red]❌ Erreur suppression VM {vm['id']}: {e}[/red]")
+        
+        # Pause même en cas d'erreur
+        if index < total - 1:
+            console.print(f"[dim]⏱️  Pause après erreur ({delay}s)...[/dim]")
+            time.sleep(delay)
+        return False
+
+
+def delete_users_with_progress(client, users: list, delay: float) -> int:
+    """Supprime les utilisateurs avec barre de progression et retourne le nombre supprimé"""
+    if not users:
+        console.print("[yellow]⚠️  Aucun utilisateur à supprimer[/yellow]")
+        return 0
+
+    deleted_count = 0
+    
+    console.print(Panel.fit(
+        "[bold red]🗑️ Suprression des utilisateurs...[/bold red]\n"
+        f"Délai entre suppressions: [bold]{delay}s[/bold]",
+        border_style="red"
+    ))
+    
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        console=console
+    ) as progress:
+        task = progress.add_task(f"Suppression de {len(users)} utilisateurs...", total=len(users))
+        
+        for i, user in enumerate(users):
+            if delete_single_user(client, user, i, len(users), delay):
+                deleted_count += 1
+            progress.update(task, advance=1)
+
+    console.print(f"[bold cyan]📊 Utilisateurs supprimés: [green]{deleted_count}/{len(users)}[/green][/bold cyan]")
+    return deleted_count
+
+
+def delete_single_user(client, user: dict, index: int, total: int, delay: float) -> bool:
+    """Supprime un utilisateur individuel et retourne True si succès"""
+    try:
+        with console.status(f"Suppression utilisateur {user['id']}: {user['name']}..."):
+            client.users.delete_user(user["id"])
+            
+        console.print(f"[green]✅ Utilisateur supprimé ({index + 1}/{total}): [bold]{user['name']}[/bold][/green]")
+        
+        # Pause si pas le dernier
+        if index < total - 1:
+            console.print(f"[dim]⏱️  Pause de {delay}s...[/dim]")
+            time.sleep(delay)
+        return True
+
+    except Exception as e:
+        console.print(f"[red]❌ Erreur suppression User {user['id']}: {e}[/red]")
+        
+        # Pause même en cas d'erreur
+        if index < total - 1:
+            console.print(f"[dim]⏱️  Pause après erreur d{delay}s)...[/dim]")
+            time.sleep(delay)
+")
+        return False
+
+
+def show_final_summary(vms: list, users: list, deleted_vms: int, deleted_users: int) -> None:
+    """Affiche le résumé final du nettoyage"""
+    total_deleted = deleted_vms + deleted_users
+    
+    summary_table = Table(title="🎯 Résumé du nettoyage")
+    summary_table.add_column("Type", style="cyan")
+    summary_table.add_column("Supprimé", style="green")
+    summary_table.add_column("Total", style="yellow")
+    
+    summary_table.add_row("VMs", str(deleted_vms), str(len(vms)))
+    summary_table.add_row("Utilisateurs", str(deleted_users), str(len(users)))
+    summary_table.add_row("**TOTAL**", f"[bold]{total_deleted}[/bold]", f"[bold]{len(vms) + len(users)}[/bold]")
+    
+    console.print(summary_table)
+    console.print(Panel.fit(
+        "[bold green]✅ NETTOYAGE TERMINÉ AVEC SUCCÈS ![/bold green]",
+        border_style="green"
+    ))
+
+
 def quick_cleanup(
     base_url: Optional[str] = None,
     email: Optional[str] = None,
