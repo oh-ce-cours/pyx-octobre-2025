@@ -402,12 +402,12 @@ def users(
         if not api_client.is_authenticated():
             console.print(
                 Panel.fit(
-                    "[bold red]❌ Impossible de s'authentifier avec l'API[/bold red]\n"
-                    "[dim]💡 Utilisez --email et --password ou configurez les identifiants dans la config[/dim]",
-                    border_style="red",
+                    "[bold yellow]⚠️ Non authentifié avec l'API[/bold yellow]\n"
+                    "[dim]💡 Les données seront créées sans authentification (mode démo)[/dim]",
+                    border_style="yellow",
                 )
             )
-            raise typer.Exit(1)
+            console.print()
 
         console.print(
             f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]"
@@ -497,12 +497,12 @@ def vms(
         if not api_client.is_authenticated():
             console.print(
                 Panel.fit(
-                    "[bold red]❌ Impossible de s'authentifier avec l'API[/bold red]\n"
-                    "[dim]💡 Utilisez --email et --password ou configurez les identifiants dans la config[/dim]",
-                    border_style="red",
+                    "[bold yellow]⚠️ Non authentifié avec l'API[/bold yellow]\n"
+                    "[dim]💡 Les données seront créées sans authentification (mode démo)[/dim]",
+                    border_style="yellow",
                 )
             )
-            raise typer.Exit(1)
+            console.print()
 
         console.print(
             f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]"
@@ -512,24 +512,32 @@ def vms(
         # Afficher la configuration
         display_api_config(api_client)
 
-        # Récupérer les utilisateurs existants
-        with console.status("[bold green]Récupération des utilisateurs existants..."):
-            existing_users = api_client.users.get()
+        # Récupérer les utilisateurs existants ou utiliser des IDs fictifs
+        if api_client.is_authenticated():
+            with console.status("[bold green]Récupération des utilisateurs existants..."):
+                existing_users = api_client.users.get()
 
-        if not existing_users:
-            console.print(
-                Panel.fit(
-                    "[bold red]❌ Aucun utilisateur trouvé dans l'API[/bold red]\n"
-                    "[dim]💡 Créez d'abord des utilisateurs avec la commande 'users'[/dim]",
-                    border_style="red",
+            if not existing_users:
+                console.print(
+                    Panel.fit(
+                        "[bold red]❌ Aucun utilisateur trouvé dans l'API[/bold red]\n"
+                        "[dim]💡 Créez d'abord des utilisateurs avec la commande 'users'[/dim]",
+                        border_style="red",
+                    )
                 )
-            )
-            raise typer.Exit(1)
+                raise typer.Exit(1)
 
-        user_ids = [user["id"] for user in existing_users]
-        console.print(
-            f"[bold cyan]👥 {len(user_ids)} utilisateurs disponibles pour l'association des VMs[/bold cyan]"
-        )
+            user_ids = [user["id"] for user in existing_users]
+            console.print(
+                f"[bold cyan]👥 {len(user_ids)} utilisateurs disponibles pour l'association des VMs[/bold cyan]"
+            )
+        else:
+            # Mode démo : utiliser des IDs fictifs
+            user_ids = list(range(1, 6))  # IDs 1 à 5
+            console.print(
+                f"[bold yellow]👥 Mode démo : {len(user_ids)} utilisateurs fictifs pour l'association des VMs[/bold yellow]"
+            )
+        
         console.print()
 
         display_operation_config("VMs", count, batch_size, delay)
@@ -625,12 +633,12 @@ def full_dataset(
         if not api_client.is_authenticated():
             console.print(
                 Panel.fit(
-                    "[bold red]❌ Impossible de s'authentifier avec l'API[/bold red]\n"
-                    "[dim]💡 Utilisez --email et --password ou configurez les identifiants dans la config[/dim]",
-                    border_style="red",
+                    "[bold yellow]⚠️ Non authentifié avec l'API[/bold yellow]\n"
+                    "[dim]💡 Les données seront créées sans authentification (mode démo)[/dim]",
+                    border_style="yellow",
                 )
             )
-            raise typer.Exit(1)
+            console.print()
 
         console.print(
             f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]"
@@ -753,12 +761,12 @@ def status(
         if not api_client.is_authenticated():
             console.print(
                 Panel.fit(
-                    "[bold red]❌ Impossible de s'authentifier avec l'API[/bold red]\n"
-                    "[dim]💡 Utilisez --email et --password ou configurez les identifiants dans la config[/dim]",
-                    border_style="red",
+                    "[bold yellow]⚠️ Non authentifié avec l'API[/bold yellow]\n"
+                    "[dim]💡 Les données seront créées sans authentification (mode démo)[/dim]",
+                    border_style="yellow",
                 )
             )
-            raise typer.Exit(1)
+            console.print()
 
         console.print(
             f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]"
