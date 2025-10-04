@@ -6,11 +6,12 @@ from .logging_config import get_logger
 # Logger pour ce module
 logger = get_logger(__name__)
 
+
 # Charger automatiquement les fichiers .env s'ils existent
 def load_env_files():
     """
     Charge les fichiers de configuration .env dans l'ordre de priorité.
-    
+
     Priorité (du plus bas au plus haut) :
     1. .env.defaults (valeurs par défaut)
     2. .env.local (configuration locale, pas dans git)
@@ -18,14 +19,15 @@ def load_env_files():
     """
     env_files = [".env.defaults", ".env.local", ".env"]
     loaded_count = 0
-    
+
     for env_file in env_files:
         if load_dotenv(env_file):
             loaded_count += 1
             logger.debug(f"Fichier {env_file} chargé")
-    
+
     logger.info(f"Configuration chargée depuis {loaded_count} fichier(s) .env")
     return loaded_count
+
 
 # Charger automatiquement les fichiers de configuration
 load_env_files()
@@ -400,23 +402,23 @@ def get_or_create_token(
 def save_token_to_env_file(token, env_file_path=".env", token_key="DEMO_API_TOKEN"):
     """
     Sauvegarde un token dans un fichier .env en utilisant python-dotenv.
-    
+
     Args:
         token (str): Token à sauvegarder
         env_file_path (str): Chemin vers le fichier .env
         token_key (str): Clé pour le token dans le fichier
-        
+
     Returns:
         bool: True si sauvegardé avec succès
     """
     if not token:
         logger.error("Impossible de sauvegarder un token vide")
         return False
-    
+
     try:
         # Utiliser python-dotenv pour sauvegarder
         set_key(env_file_path, token_key, token)
-        
+
         logger.info(
             "Token sauvegardé dans le fichier .env",
             env_file=env_file_path,
@@ -424,7 +426,7 @@ def save_token_to_env_file(token, env_file_path=".env", token_key="DEMO_API_TOKE
             token_length=len(token),
         )
         return True
-        
+
     except Exception as e:
         logger.error(
             "Erreur lors de la sauvegarde du token dans .env",
@@ -437,25 +439,25 @@ def save_token_to_env_file(token, env_file_path=".env", token_key="DEMO_API_TOKE
 def load_token_from_env_file(env_file_path=".env", token_key="DEMO_API_TOKEN"):
     """
     Charge un token depuis un fichier .env en utilisant python-dotenv.
-    
+
     Args:
         env_file_path (str): Chemin vers le fichier .env
         token_key (str): Clé pour le token dans le fichier
-        
+
     Returns:
         str|None: Token chargé ou None si non trouvé/erreur
     """
     try:
         # Charger le fichier .env spécifique
         loaded = load_dotenv(env_file_path)
-        
+
         if not loaded:
             logger.debug("Fichier .env non trouvé", env_file=env_file_path)
             return None
-        
+
         # Récupérer la valeur depuis les variables d'environnement (maintenant chargées)
         token = os.environ.get(token_key)
-        
+
         if token:
             logger.info(
                 "Token chargé depuis le fichier .env",
@@ -465,13 +467,13 @@ def load_token_from_env_file(env_file_path=".env", token_key="DEMO_API_TOKEN"):
             )
         else:
             logger.debug(
-                "Token non trouvé dans le fichier .env", 
+                "Token non trouvé dans le fichier .env",
                 env_file=env_file_path,
-                token_key=token_key
+                token_key=token_key,
             )
-        
+
         return token
-        
+
     except Exception as e:
         logger.error(
             "Erreur lors du chargement du token depuis .env",
