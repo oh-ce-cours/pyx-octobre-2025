@@ -28,7 +28,7 @@ from rich.panel import Panel
 # Ajouter le répertoire parent au path pour les imports
 sys.path.append(str(Path(__file__).parent.parent))
 
-from utils.api import ApiClient, create_authenticated_client
+from utils.api import ApiClient
 from utils.data_generator import UserDataGenerator, VMDataGenerator
 from utils.logging_config import get_logger
 
@@ -396,21 +396,11 @@ def users(
     )
 
     try:
-        # Créer le client API avec authentification
-        api_client = create_authenticated_client(email=email, password=password)
-
-        if not api_client.is_authenticated():
-            console.print(
-                Panel.fit(
-                    "[bold red]❌ Impossible de s'authentifier avec l'API[/bold red]\n"
-                    "[dim]💡 Utilisez --email et --password ou configurez les identifiants dans la config[/dim]",
-                    border_style="red",
-                )
-            )
-            raise typer.Exit(1)
+        # Créer le client API simple
+        api_client = ApiClient()
 
         console.print(
-            f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]"
+            f"[bold green]🔗 Connexion à l'API sur {api_client.base_url}[/bold green]"
         )
         console.print()
 
@@ -491,21 +481,11 @@ def vms(
     )
 
     try:
-        # Créer le client API avec authentification
-        api_client = create_authenticated_client(email=email, password=password)
-
-        if not api_client.is_authenticated():
-            console.print(
-                Panel.fit(
-                    "[bold red]❌ Impossible de s'authentifier avec l'API[/bold red]\n"
-                    "[dim]💡 Utilisez --email et --password ou configurez les identifiants dans la config[/dim]",
-                    border_style="red",
-                )
-            )
-            raise typer.Exit(1)
+        # Créer le client API simple
+        api_client = ApiClient()
 
         console.print(
-            f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]"
+            f"[bold green]🔗 Connexion à l'API sur {api_client.base_url}[/bold green]"
         )
         console.print()
 
@@ -619,21 +599,11 @@ def full_dataset(
     )
 
     try:
-        # Créer le client API avec authentification
-        api_client = create_authenticated_client(email=email, password=password)
-
-        if not api_client.is_authenticated():
-            console.print(
-                Panel.fit(
-                    "[bold red]❌ Impossible de s'authentifier avec l'API[/bold red]\n"
-                    "[dim]💡 Utilisez --email et --password ou configurez les identifiants dans la config[/dim]",
-                    border_style="red",
-                )
-            )
-            raise typer.Exit(1)
+        # Créer le client API simple
+        api_client = ApiClient()
 
         console.print(
-            f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]"
+            f"[bold green]🔗 Connexion à l'API sur {api_client.base_url}[/bold green]"
         )
         console.print()
 
@@ -747,21 +717,11 @@ def status(
     display_header("📊 Statut de l'API", "Récupération des statistiques actuelles")
 
     try:
-        # Créer le client API avec authentification
-        api_client = create_authenticated_client(email=email, password=password)
-
-        if not api_client.is_authenticated():
-            console.print(
-                Panel.fit(
-                    "[bold red]❌ Impossible de s'authentifier avec l'API[/bold red]\n"
-                    "[dim]💡 Utilisez --email et --password ou configurez les identifiants dans la config[/dim]",
-                    border_style="red",
-                )
-            )
-            raise typer.Exit(1)
+        # Créer le client API simple
+        api_client = ApiClient()
 
         console.print(
-            f"[bold green]🔐 Authentifié avec succès sur {api_client.base_url}[/bold green]"
+            f"[bold green]🔗 Connexion à l'API sur {api_client.base_url}[/bold green]"
         )
         console.print()
 
