@@ -28,14 +28,148 @@ from utils.data_generator import UserDataGenerator, VMDataGenerator
 from utils.logging_config import get_logger
 
 logger = get_logger(__name__)
+console = Console()
 
 app = typer.Typer(
     name="create-data-via-api",
     help="🚀 Créateur de données via API avec Faker",
-    rich_markup_mode="markdown",
+    rich_markup_mode="rich",
     add_completion=False,
     no_args_is_help=True,
 )
+
+
+# =============================================================================
+# PARTIE REPRÉSENTATION / AFFICHAGE
+# =============================================================================
+
+
+def display_header(title: str, subtitle: str = "") -> None:
+    """Affiche l'en-tête principal"""
+    header_text = f"[bold blue]{title}[/bold blue]"
+    if subtitle:
+        header_text += f"\n[dim]{subtitle}[/dim]"
+    
+    console.print(
+        Panel.fit(
+            header_text,
+            border_style="blue",
+        )
+    )
+
+
+def display_api_config(client: ApiClient) -> None:
+    """Affiche la configuration de l'API"""
+    config_table = Table(title="🔗 Configuration API")
+    config_table.add_column("Paramètre", style="cyan")
+    config_table.add_column("Valeur", style="magenta")
+
+    config_table.add_row("Base URL", client.base_url)
+    config_table.add_row(
+        "Authentifié", "✅ Oui" if client.is_authenticated() else "❌ Non"
+    )
+
+    console.print(config_table)
+    console.print()
+
+
+def display_operation_config(operation: str, count: int, batch_size: int, delay: float) -> None:
+    """Affiche la configuration des opérations"""
+    config_table = Table(title=f"🔧 Configuration - {operation}")
+    config_table.add_column("Paramètre", style="cyan")
+    config_table.add_column("Valeur", style="magenta")
+    
+    config_table.add_row("Nombre total", str(count))
+    config_table.add_row("Taille des lots", str(batch_size))
+    config_table.add_row("Délai entre lots", f"{delay}s")
+    
+    console.print(config_table)
+    console.print()
+
+
+def display_batch_progress(batch_num: int, start: int, end: int, total: int) -> None:
+    """Affiche le progrès d'un lot"""
+    console.print(
+        f"[bold cyan]📝 Lot {batch_num}:[/bold cyan] éléments {start + 1}-{end} sur {total}"
+    )
+
+
+def display_success_message(item_type: str, item_name: str, item_details: str = "") -> None:
+    """Affiche un message de succès"""
+    message = f"[green]✅ {item_type} créé:[/green] [bold]{item_name}[/bold]"
+    if item_details:
+        message += f" [dim]({item_details})[/dim]"
+    console.print(message)
+
+
+def display_error_message(item_type: str, item_index: int, error: str) -> None:
+    """Affiche un message d'erreur"""
+    console.print(f"[red]❌ Erreur {item_type} {item_index + 1}:[/red] {error}")
+
+
+def display_statistics(title: str, stats: Dict[str, Any]) -> None:
+    """Affiche les statistiques dans un tableau"""
+    stats_table = Table(title=f"📊 {title}")
+    stats_table.add_column("Métrique", style="cyan")
+    stats_table.add_column("Valeur", style="green")
+    
+    for key, value in stats.items():
+        stats_table.add_row(key, str(value))
+    
+    console.print(stats_table)
+    console.print()
+
+
+def display_preview(title: str, items: List[Dict[str, Any]], max_items: int = 5) -> None:
+    """Affiche un aperçu des éléments créés"""
+    if not items:
+        return
+        
+    console.print(f"[bold cyan]🔍 {title}:[/bold cyan]")
+    
+    for i, item in enumerate(items[:max_items]):
+        if "name" in item and "email" in item:
+            # Utilisateur
+            console.print(f"   {i + 1}. [bold]{item['name']}[/bold] ({item['email']})")
+        elif "name" in item and "operating_system" in item:
+            # VM
+            console.print(f"   {i + 1}. [bold]{item['name']}[/bold] ({item['operating_system']})")
+        else:
+            console.print(f"   {i + 1}. {item}")
+    
+    if len(items) > max_items:
+        console.print(f"   ... et {len(items) - max_items} autres éléments")
+    
+    console.print()
+
+
+def display_dataset_saved(file_path: Path) -> None:
+    """Affiche le message de sauvegarde du dataset"""
+    console.print(
+        Panel.fit(
+            f"[bold green]💾 Dataset sauvegardé:[/bold green]\n{file_path.absolute()}",
+            border_style="green",
+        )
+    )
+
+
+def display_api_status(all_data: Dict[str, Any], api_url: str) -> None:
+    """Affiche le statut de l'API"""
+    status_table = Table(title="📊 Statut de l'API")
+    status_table.add_column("Métrique", style="cyan")
+    status_table.add_column("Valeur", style="green")
+    
+    status_table.add_row("URL de l'API", api_url)
+    status_table.add_row("Utilisateurs total", str(all_data['total_users']))
+    status_table.add_row("VMs totales", str(all_data['total_vms']))
+    status_table.add_row("Utilisateurs avec VMs", str(all_data['users_with_vms']))
+    
+    if all_data["total_users"] > 0:
+        avg_vms = all_data["total_vms"] / all_data["total_users"]
+        status_table.add_row("Moyenne VMs/utilisateur", f"{avg_vms:.1f}")
+    
+    console.print(status_table)
+    console.print()
 
 
 def create_users_via_api(
