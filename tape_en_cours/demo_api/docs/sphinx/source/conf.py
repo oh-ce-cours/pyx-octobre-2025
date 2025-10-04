@@ -103,6 +103,11 @@ html_show_sphinx = False
 # Cette configuration indique à Sphinx d'utiliser des chemins absolus basés sur html_baseurl
 html_static_path = ["_static"]
 
+# Configuration pour forcer les chemins absolus - CRUCIAL pour GitHub Pages
+# Cette option force Sphinx à utiliser des chemins absolus pour les assets statiques
+html_show_sourcelink = False
+html_show_sphinx = False
+
 # Profondeur de titre pour la TdM de gauche et droite (Furo)
 toc_object_entries_show = False
 html_sidebars = {
