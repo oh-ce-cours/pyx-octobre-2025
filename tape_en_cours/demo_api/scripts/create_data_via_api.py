@@ -364,7 +364,9 @@ def create_vms_via_api(
                     logger.debug(f"Données VM générées: {vm_data}")
 
                     # Créer la VM via l'API (retry automatique via décorateur)
-                    logger.debug(f"Tentative de création de VM: {vm_data['name']} pour utilisateur {vm_data['user_id']}")
+                    logger.debug(
+                        f"Tentative de création de VM: {vm_data['name']} pour utilisateur {vm_data['user_id']}"
+                    )
                     created_vm = api_client.vms.create(
                         user_id=vm_data["user_id"],
                         name=vm_data["name"],
@@ -374,7 +376,9 @@ def create_vms_via_api(
                         disk_gb=vm_data["disk_gb"],
                         status=vm_data["status"],
                     )
-                    logger.debug(f"Résultat de création de VM: {created_vm} (type: {type(created_vm)})")
+                    logger.debug(
+                        f"Résultat de création de VM: {created_vm} (type: {type(created_vm)})"
+                    )
 
                     # Vérifier que la VM a été créée avec succès
                     if (
@@ -384,7 +388,9 @@ def create_vms_via_api(
                     ):
                         created_vms.append(created_vm)
                         created_count += 1
-                        logger.debug(f"VM ajoutée à la liste. Total créées: {len(created_vms)}")
+                        logger.debug(
+                            f"VM ajoutée à la liste. Total créées: {len(created_vms)}"
+                        )
                         vm_details = f"{vm_data['operating_system']} - {vm_data['cpu_cores']}c/{vm_data['ram_gb']}GB"
                         display_success_message("VM", vm_data["name"], vm_details)
                     else:
@@ -394,14 +400,16 @@ def create_vms_via_api(
                             created_vm=created_vm,
                             created_vm_type=type(created_vm),
                         )
-                        display_error_message("VM", i, f"Données VM invalides: {created_vm}")
+                        display_error_message(
+                            "VM", i, f"Données VM invalides: {created_vm}"
+                        )
 
                 except Exception as e:
                     logger.error(
-                        "Erreur lors de la création d'une VM", 
-                        error=str(e), 
+                        "Erreur lors de la création d'une VM",
+                        error=str(e),
                         error_type=type(e).__name__,
-                        vm_data=vm_data if 'vm_data' in locals() else None
+                        vm_data=vm_data if "vm_data" in locals() else None,
                     )
                     display_error_message("VM", i, f"{type(e).__name__}: {str(e)}")
 
