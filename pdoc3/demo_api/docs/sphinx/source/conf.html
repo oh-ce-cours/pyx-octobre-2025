@@ -54,6 +54,7 @@ el.replaceWith(d);
 </summary>
 <pre><code class="python">def setup(app):
     &#34;&#34;&#34;Configuration personnalisée pour forcer les chemins absolus.&#34;&#34;&#34;
+
     def fix_html_output(app, _pagename, _templatename, context, _doctree):
         &#34;&#34;&#34;Corrige les chemins des assets statiques dans le HTML généré.&#34;&#34;&#34;
         if app.builder.name == &#34;html&#34;:
