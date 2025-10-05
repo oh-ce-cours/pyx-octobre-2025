@@ -42,77 +42,6 @@ el.replaceWith(d);
 <section>
 </section>
 <section>
-<h2 class="section-title" id="header-functions">Functions</h2>
-<dl>
-<dt id="demo_api.docs.sphinx.source.conf.setup"><code class="name flex">
-<span>def <span class="ident">setup</span></span>(<span>app)</span>
-</code></dt>
-<dd>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def setup(app):
-    &#34;&#34;&#34;Configuration personnalisée pour forcer les chemins absolus.&#34;&#34;&#34;
-
-    def fix_html_output(app, _pagename, _templatename, context, _doctree):
-        &#34;&#34;&#34;Corrige les chemins des assets statiques dans le HTML généré.&#34;&#34;&#34;
-        if app.builder.name == &#34;html&#34;:
-            base_url = app.config.html_baseurl.rstrip(&#34;/&#34;)
-
-            # Force l&#39;utilisation de chemins absolus pour les assets statiques
-            context[&#34;pathto&#34;] = (
-                lambda other, *args, **kwargs: f&#34;{base_url}/{other.lstrip(&#39;/&#39;)}&#34;
-            )
-
-            # Ajoute des variables de contexte pour les chemins absolus
-            context[&#34;static_url&#34;] = f&#34;{base_url}/_static&#34;
-            context[&#34;base_url&#34;] = base_url
-
-    def fix_css_js_paths(app, _pagename, _templatename, context, _doctree):
-        &#34;&#34;&#34;Corrige spécifiquement les chemins CSS et JS.&#34;&#34;&#34;
-        if app.builder.name == &#34;html&#34;:
-            base_url = app.config.html_baseurl.rstrip(&#34;/&#34;)
-
-            # Liste des fichiers CSS et JS à corriger
-            css_files = context.get(&#34;css_files&#34;, [])
-            js_files = context.get(&#34;js_files&#34;, [])
-
-            # Corrige les chemins CSS
-            for i, css_file in enumerate(css_files):
-                if isinstance(css_file, str) and css_file.startswith(&#34;_static/&#34;):
-                    css_files[i] = f&#34;{base_url}/{css_file}&#34;
-                elif isinstance(css_file, (list, tuple)) and len(css_file) &gt; 0:
-                    if css_file[0].startswith(&#34;_static/&#34;):
-                        css_files[i] = (f&#34;{base_url}/{css_file[0]}&#34;,) + css_file[1:]
-
-            # Corrige les chemins JS
-            for i, js_file in enumerate(js_files):
-                if isinstance(js_file, str) and js_file.startswith(&#34;_static/&#34;):
-                    js_files[i] = f&#34;{base_url}/{js_file}&#34;
-                elif isinstance(js_file, (list, tuple)) and len(js_file) &gt; 0:
-                    if js_file[0].startswith(&#34;_static/&#34;):
-                        js_files[i] = (f&#34;{base_url}/{js_file[0]}&#34;,) + js_file[1:]
-
-    def fix_static_paths_in_html(app, _pagename, _templatename, context, _doctree):
-        &#34;&#34;&#34;Corrige les chemins statiques dans le contexte HTML.&#34;&#34;&#34;
-        if app.builder.name == &#34;html&#34;:
-            base_url = app.config.html_baseurl.rstrip(&#34;/&#34;)
-
-            # Force les chemins absolus pour tous les assets statiques
-            context[&#34;pathto&#34;] = (
-                lambda other, *args, **kwargs: f&#34;{base_url}/{other.lstrip(&#39;/&#39;)}&#34;
-            )
-            context[&#34;static_url&#34;] = f&#34;{base_url}/_static&#34;
-            context[&#34;base_url&#34;] = base_url
-
-    app.connect(&#34;html-page-context&#34;, fix_html_output)
-    app.connect(&#34;html-page-context&#34;, fix_css_js_paths)
-    app.connect(&#34;html-page-context&#34;, fix_static_paths_in_html)</code></pre>
-</details>
-<div class="desc"><p>Configuration personnalisée pour forcer les chemins absolus.</p></div>
-</dd>
-</dl>
 </section>
 <section>
 </section>
@@ -125,11 +54,6 @@ el.replaceWith(d);
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="demo_api.docs.sphinx.source" href="index.html">demo_api.docs.sphinx.source</a></code></li>
-</ul>
-</li>
-<li><h3><a href="#header-functions">Functions</a></h3>
-<ul class="">
-<li><code><a title="demo_api.docs.sphinx.source.conf.setup" href="#demo_api.docs.sphinx.source.conf.setup">setup</a></code></li>
 </ul>
 </li>
 </ul>
