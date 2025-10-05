@@ -61,15 +61,11 @@ html_theme = "furo"
 # -- Options for HTML output -------------------------------------------------
 
 # Configuration pour GitHub Pages
-html_baseurl = "https://oh-ce-cours.github.io/pyx-octobre-2025/sphinx/"
-
-# Configuration des chemins pour GitHub Pages
-html_use_opensearch = "https://oh-ce-cours.github.io/pyx-octobre-2025/sphinx/"
+html_baseurl = "https://oh-ce-cours.github.io/pyx-octobre-2025/"
 html_short_title = "Demo API Docs"
 
 # Force l'utilisation de chemins absolus pour tous les assets
 html_use_index = True
-html_add_permalinks = True
 html_permalinks = True
 html_permalinks_icon = "§"
 
@@ -90,10 +86,6 @@ html_js_files = []
 
 # Configuration pour forcer les chemins absolus des assets statiques
 # Cette option indique à Sphinx d'utiliser des chemins absolus basés sur html_baseurl
-html_use_index = True
-html_add_permalinks = True
-html_permalinks = True
-html_permalinks_icon = "§"
 
 # Configuration alternative pour GitHub Pages - Force les chemins absolus
 # Cette configuration est cruciale pour que les CSS se chargent correctement
