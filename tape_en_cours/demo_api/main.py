@@ -5,14 +5,16 @@ Point d'entrée principal pour demo_api
 Interface d'orchestration avec Typer pour le management des utilisateurs et VMs.
 """
 
-import typer
-from utils.logging_config import get_logger
-from report_manager import generate_reports, ReportType, ReportFormat
-from vm_manager import create_vm
-from utils.data_generator import DataGenerator
 import json
 from pathlib import Path
+
+import typer
+
+from report_manager import ReportFormat, ReportType, generate_reports
+from utils.data_generator import DataGenerator
+from utils.logging_config import get_logger
 from utils.password_utils import save_token_to_env
+from vm_manager import create_vm
 
 logger = get_logger(__name__)
 
