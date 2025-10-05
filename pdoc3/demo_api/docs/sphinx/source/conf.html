@@ -54,11 +54,7 @@ el.replaceWith(d);
 </summary>
 <pre><code class="python">def setup(app):
     &#34;&#34;&#34;Configuration personnalisée pour forcer les chemins absolus.&#34;&#34;&#34;
-    from sphinx.builders.html import StandaloneHTMLBuilder
-    from sphinx.util import logging
-    import re
-
-    def fix_html_output(app, pagename, templatename, context, doctree):
+    def fix_html_output(app, _pagename, _templatename, context, _doctree):
         &#34;&#34;&#34;Corrige les chemins des assets statiques dans le HTML généré.&#34;&#34;&#34;
         if app.builder.name == &#34;html&#34;:
             base_url = app.config.html_baseurl.rstrip(&#34;/&#34;)
@@ -72,7 +68,7 @@ el.replaceWith(d);
             context[&#34;static_url&#34;] = f&#34;{base_url}/_static&#34;
             context[&#34;base_url&#34;] = base_url
 
-    def fix_css_js_paths(app, pagename, templatename, context, doctree):
+    def fix_css_js_paths(app, _pagename, _templatename, context, _doctree):
         &#34;&#34;&#34;Corrige spécifiquement les chemins CSS et JS.&#34;&#34;&#34;
         if app.builder.name == &#34;html&#34;:
             base_url = app.config.html_baseurl.rstrip(&#34;/&#34;)
@@ -97,7 +93,7 @@ el.replaceWith(d);
                     if js_file[0].startswith(&#34;_static/&#34;):
                         js_files[i] = (f&#34;{base_url}/{js_file[0]}&#34;,) + js_file[1:]
 
-    def fix_static_paths_in_html(app, pagename, templatename, context, doctree):
+    def fix_static_paths_in_html(app, _pagename, _templatename, context, _doctree):
         &#34;&#34;&#34;Corrige les chemins statiques dans le contexte HTML.&#34;&#34;&#34;
         if app.builder.name == &#34;html&#34;:
             base_url = app.config.html_baseurl.rstrip(&#34;/&#34;)
