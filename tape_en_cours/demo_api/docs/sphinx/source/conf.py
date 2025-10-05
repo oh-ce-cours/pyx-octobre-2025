@@ -141,6 +141,7 @@ html_sidebars = {
 # Force l'utilisation de chemins absolus pour les assets statiques
 def setup(app):
     """Configuration personnalisée pour forcer les chemins absolus."""
+
     def fix_html_output(app, _pagename, _templatename, context, _doctree):
         """Corrige les chemins des assets statiques dans le HTML généré."""
         if app.builder.name == "html":
