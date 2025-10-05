@@ -12,6 +12,7 @@
 #
 import os
 import sys
+from typing import List
 
 sys.path.insert(0, os.path.abspath("../../.."))
 
@@ -45,12 +46,12 @@ extensions = [
 ]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ["_templates"]
+templates_path: List[str] = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = []
+exclude_patterns: List[str] = []
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -61,7 +62,10 @@ html_theme = "furo"
 # -- Options for HTML output -------------------------------------------------
 
 # Configuration pour GitHub Pages
-html_baseurl = "https://oh-ce-cours.github.io/pyx-octobre-2025/"
+html_baseurl = "https://oh-ce-cours.github.io/pyx-octobre-2025/sphinx/"
+
+# Configuration des chemins pour GitHub Pages
+html_use_opensearch = "https://oh-ce-cours.github.io/pyx-octobre-2025/sphinx/"
 html_short_title = "Demo API Docs"
 
 # Force l'utilisation de chemins absolus pour tous les assets
@@ -72,8 +76,8 @@ html_permalinks_icon = "§"
 
 # Configuration pour renommer _static en static pour GitHub Pages
 # GitHub Pages peut avoir des problèmes avec les dossiers commençant par _
-html_static_path = ["_static"]
-html_extra_path = []
+html_static_path: List[str] = ["_static"]
+html_extra_path: List[str] = []
 
 # Configuration cruciale pour GitHub Pages - force les chemins absolus
 html_show_sourcelink = False
@@ -81,8 +85,8 @@ html_show_sphinx = False
 
 # Configuration spécifique pour GitHub Pages - CRUCIAL pour les CSS
 # Force l'utilisation de chemins absolus pour tous les assets statiques
-html_css_files = []
-html_js_files = []
+html_css_files: List[str] = []
+html_js_files: List[str] = []
 
 # Configuration pour forcer les chemins absolus des assets statiques
 # Cette option indique à Sphinx d'utiliser des chemins absolus basés sur html_baseurl
@@ -137,11 +141,7 @@ html_sidebars = {
 # Force l'utilisation de chemins absolus pour les assets statiques
 def setup(app):
     """Configuration personnalisée pour forcer les chemins absolus."""
-    from sphinx.builders.html import StandaloneHTMLBuilder
-    from sphinx.util import logging
-    import re
-
-    def fix_html_output(app, pagename, templatename, context, doctree):
+    def fix_html_output(app, _pagename, _templatename, context, _doctree):
         """Corrige les chemins des assets statiques dans le HTML généré."""
         if app.builder.name == "html":
             base_url = app.config.html_baseurl.rstrip("/")
@@ -155,7 +155,7 @@ def setup(app):
             context["static_url"] = f"{base_url}/_static"
             context["base_url"] = base_url
 
-    def fix_css_js_paths(app, pagename, templatename, context, doctree):
+    def fix_css_js_paths(app, _pagename, _templatename, context, _doctree):
         """Corrige spécifiquement les chemins CSS et JS."""
         if app.builder.name == "html":
             base_url = app.config.html_baseurl.rstrip("/")
@@ -180,7 +180,7 @@ def setup(app):
                     if js_file[0].startswith("_static/"):
                         js_files[i] = (f"{base_url}/{js_file[0]}",) + js_file[1:]
 
-    def fix_static_paths_in_html(app, pagename, templatename, context, doctree):
+    def fix_static_paths_in_html(app, _pagename, _templatename, context, _doctree):
         """Corrige les chemins statiques dans le contexte HTML."""
         if app.builder.name == "html":
             base_url = app.config.html_baseurl.rstrip("/")
