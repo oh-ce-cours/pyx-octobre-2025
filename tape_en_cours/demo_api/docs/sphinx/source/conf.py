@@ -88,9 +88,6 @@ html_show_sphinx = False
 html_css_files: List[str] = []
 html_js_files: List[str] = []
 
-# Configuration pour forcer les chemins absolus des assets statiques
-# Cette option indique à Sphinx d'utiliser des chemins absolus basés sur html_baseurl
-
 # Configuration alternative pour GitHub Pages - Force les chemins absolus
 # Cette configuration est cruciale pour que les CSS se chargent correctement
 html_context = {
