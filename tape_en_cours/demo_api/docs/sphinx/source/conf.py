@@ -73,9 +73,6 @@ html_add_permalinks = True
 html_permalinks = True
 html_permalinks_icon = "§"
 
-# Configuration pour forcer les chemins absolus des assets statiques
-html_css_files = []
-html_js_files = []
 
 # Configuration pour renommer _static en static pour GitHub Pages
 # GitHub Pages peut avoir des problèmes avec les dossiers commençant par _
