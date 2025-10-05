@@ -8,7 +8,7 @@ nb = 842
 
 def main_numpy():
     def carre(x):
-        return x ** 2
+        return x**2
 
     def cos(x):
         return np.cos(x)
@@ -23,7 +23,7 @@ def main_numpy():
 
 def main_python():
     def carre(xs):
-        return [x ** 2 for x in xs]
+        return [x**2 for x in xs]
 
     def cos(xs):
         return [math.cos(x) for x in xs]
@@ -39,7 +39,7 @@ def main_python():
 
 def main_vectorize():
     def carre(x):
-        return x ** 2
+        return x**2
 
     def cos(x):
         return math.cos(x)

@@ -1,9 +1,24 @@
-from tkinter import Tk, Entry, Frame, END, Label, N, S, W, E, Scale, OptionMenu, StringVar
+from tkinter import (
+    Tk,
+    Entry,
+    Frame,
+    END,
+    Label,
+    N,
+    S,
+    W,
+    E,
+    Scale,
+    OptionMenu,
+    StringVar,
+)
 
 import random
 
+
 def debug(event):
     print(event)
+
 
 FIELDS = ["id", "name", "age"]
 
@@ -30,6 +45,7 @@ data = (
 def get_unique_names(data):
     return sorted(set([i[1] for i in data]), key=lambda row: row[1])
 
+
 def filter_by_name(data, name):
     return [i for i in filter(lambda row: row[1] == name, data)]
 
@@ -46,11 +62,11 @@ class Data:
         self.current_data = []
 
         self.frame_control = Frame(root)
-        self.frame_control.grid(row=1, sticky=N+S+E+W)
+        self.frame_control.grid(row=1, sticky=N + S + E + W)
         self.init_control(self.data)
 
         self.frame_data = Frame(root)
-        self.frame_data.grid(row=2, sticky=N+S+E+W)
+        self.frame_data.grid(row=2, sticky=N + S + E + W)
 
         self.update_display(self.data)
 
@@ -58,19 +74,23 @@ class Data:
         self.root.rowconfigure(0, weight=1)
         self.root.rowconfigure(1, weight=1)
 
-
-
     def init_control(self, data):
         Label(self.frame_control, text="Age max").grid(column=1, row=0)
-        self.age_scale = Scale(self.frame_control, orient="horizontal", command=self.update_data_age)
+        self.age_scale = Scale(
+            self.frame_control, orient="horizontal", command=self.update_data_age
+        )
         self.age_scale.grid(column=2, row=0)
-
 
         Label(self.frame_control, text="Name").grid(column=3, row=0)
         names = get_unique_names(self.data)
         self.selected_name = StringVar(self.frame_control)
-        self.selected_name.set(names[0]) # default value
-        self.name_option = OptionMenu(self.frame_control, self.selected_name, *names, command=self.update_data_name)
+        self.selected_name.set(names[0])  # default value
+        self.name_option = OptionMenu(
+            self.frame_control,
+            self.selected_name,
+            *names,
+            command=self.update_data_name,
+        )
         self.name_option.grid(column=4, row=0)
 
     def update_data_name(self, name):
@@ -94,7 +114,6 @@ class Data:
             # from : https://stackoverflow.com/questions/15781802/python-tkinter-clearing-a-frame
             widget.destroy()
 
-
         # header
         for index, field in enumerate(FIELDS):
             Label(self.frame_data, text=field).grid(column=index, row=0)
@@ -106,7 +125,7 @@ class Data:
             for index_col, (field, name) in enumerate(zip(user, FIELDS)):
                 entry = Entry(self.frame_data)
                 entry.insert(0, str(field))
-                entry.grid(column=index_col, row=index_row, sticky=N+S+E+W)
+                entry.grid(column=index_col, row=index_row, sticky=N + S + E + W)
                 entry.__field_name = name
                 entry.__id = id_
 
@@ -119,6 +138,6 @@ class Data:
 
 if __name__ == "__main__":
     root = Tk()
-    root.tk.call('tk', 'scaling', 2.0)
+    root.tk.call("tk", "scaling", 2.0)
     d = Data(root, data)
     root.mainloop()

@@ -71,4 +71,3 @@ ss.existe_maintenant
 Cela peut être utile pour surveiller les accès à des attributs.
 On peut le mettre dans une classe mère pour le DRY...
 """
-

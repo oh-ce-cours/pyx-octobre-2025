@@ -79,7 +79,7 @@ class Data:
             self.frame_control,
             self.selected_name,
             *names,
-            command=self.update_data_name
+            command=self.update_data_name,
         )
         self.name_option.grid(column=4, row=0)
 

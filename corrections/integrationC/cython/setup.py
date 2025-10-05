@@ -14,17 +14,11 @@ from Cython.Distutils import build_ext
 ext_modules = [
     Extension(
         "test_mview",
-        [
-            "test_mview.pyx"
-        ],
+        ["test_mview.pyx"],
         libraries=["m"],
         extra_compile_args=["-ffast-math", "-fopenmp", "-O3"],
         extra_link_args=["-fopenmp"],
     )
 ]
 
-setup(
-    name="test_mview",
-    cmdclass={"build_ext": build_ext},
-    ext_modules=ext_modules
-)
+setup(name="test_mview", cmdclass={"build_ext": build_ext}, ext_modules=ext_modules)

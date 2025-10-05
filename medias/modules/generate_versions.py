@@ -1,4 +1,5 @@
 import random
+
 P = "Python {}.{}"
 p = "python {}.{}"
 j = "Java {}"

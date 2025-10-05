@@ -8,7 +8,7 @@ NB_REPETITIONS = 500
 
 
 def messages():
-    with open('../media/phrases_magic_8_ball.txt') as f:
+    with open("../media/phrases_magic_8_ball.txt") as f:
         reponses = (l.strip() for l in f.readlines())
         reponses = [l for l in reponses if l]
     return reponses
@@ -49,7 +49,6 @@ def magic_numpy():
 
 
 def verification():
-
     def chi_deux(c):
         observe = [v for k, v in c.items()]
         return chisquare(observe)

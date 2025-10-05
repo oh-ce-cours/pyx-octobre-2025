@@ -19,16 +19,15 @@ hello("💭")
 # [1]    5309 abort (core dumped)  ipython
 
 
-
-
-
 # ==========================================
 
 # Structures
 
 from test_mview import (
-    WrapFormation, get_eleves_from_formation,
-    get_profs_from_formation, get_nom_prof_from_formation
+    WrapFormation,
+    get_eleves_from_formation,
+    get_profs_from_formation,
+    get_nom_prof_from_formation,
 )
 
 f = WrapFormation(10)
@@ -43,5 +42,6 @@ print("nb profs :", get_profs_from_formation(f))
 
 from test_mview import sum_np_array
 import numpy as np
+
 d = np.ones((3, 3))
 sum_np_array(d)

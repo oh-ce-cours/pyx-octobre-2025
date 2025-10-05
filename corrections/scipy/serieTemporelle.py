@@ -20,4 +20,3 @@ df_production.interpolate(inplace=True, method="linear")
 df_production[
     ["GB_GBN_solar_generation_actual", "GB_UKM_wind_offshore_generation_actual"]
 ].rolling("365d").mean().plot()
-

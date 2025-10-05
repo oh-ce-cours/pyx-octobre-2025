@@ -32,7 +32,7 @@ def parser_ligne_apache(outputs):
     Elles sont appelées les unes après les autres.
     """
     while True:
-        ligne = (yield)
+        ligne = yield
         ligne_parsee = parser_ligne_log_apache(ligne)
         if ligne_parsee:
             for output in outputs:
@@ -41,10 +41,9 @@ def parser_ligne_apache(outputs):
 
 @coroutine
 def trouver_erreur_404(output):
-    """Notifie sa sortie quand on a une erreur 404
-    """
+    """Notifie sa sortie quand on a une erreur 404"""
     while True:
-        ligne = (yield)
+        ligne = yield
         if ligne[3] == "404":
             output.send("erreur 404, " + ligne[2])
 
@@ -56,7 +55,7 @@ def poids_images(output):
     """
     poids_total = 0
     while True:
-        ligne = (yield)
+        ligne = yield
         if "jpg" in ligne[2]:
             poids_total += int(ligne[4])
             output.send(
@@ -70,7 +69,7 @@ def poids_images(output):
 def afficher():
     """Coroutine de terminaison. N'a pas d'output"""
     while True:
-        x = (yield)
+        x = yield
         print(x)
 
 
@@ -98,4 +97,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

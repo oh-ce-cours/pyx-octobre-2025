@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-class Personne():
+class Personne:
     AGE_MAJORITE = 18
 
     def __init__(self, nom, naissance):
@@ -30,9 +30,7 @@ class Personne():
         return self.age > self.AGE_MAJORITE
 
     def __str__(self):
-        return "Bonjour, je suis {} et j'ai {} ans".format(
-            self.nom, self.age
-        )
+        return "Bonjour, je suis {} et j'ai {} ans".format(self.nom, self.age)
 
 
 class Eleve(Personne):
@@ -64,18 +62,15 @@ class Prof(Personne):
         else:
             m = ", ".join(self.matieres[:-1]) + " et " + self.matieres[-1]
 
-        return "Je suis un prof. Trop fort en : {}".format(
-            m
-        )
+        return "Je suis un prof. Trop fort en : {}".format(m)
 
     def can_teach_to(self, eleve):
-        """Je ne sais pas si c'est du bon OOP
-        """
+        """Je ne sais pas si c'est du bon OOP"""
         print(eleve)
         return eleve.est_majeur() and eleve.paye_frais_inscription
 
 
-class Formation():
+class Formation:
     def __init__(self, sujet, prof, eleves):
         self.prof = prof
         self.sujet = sujet
@@ -99,9 +94,7 @@ def main():
 
     p = Prof("P", 1950, ["Python"])
 
-    formation = Formation(
-        "Python", p, [bon_eleve, mauvais_payeur, jeune]
-    )
+    formation = Formation("Python", p, [bon_eleve, mauvais_payeur, jeune])
     print("Eleves")
     print(formation.eleves)
 

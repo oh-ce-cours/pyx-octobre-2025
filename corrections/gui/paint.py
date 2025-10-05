@@ -1,7 +1,7 @@
 from tkinter import Tk, Canvas, Frame, Menu, filedialog
 
 
-class Mycanvas():
+class Mycanvas:
     def __init__(self, master):
         self.last_pos = ()
         self.current_color = "black"
@@ -34,7 +34,7 @@ class Mycanvas():
 
     def save(self):
         file_selected = filedialog.asksaveasfilename()
-        self.w.postscript(file=file_selected, colormode='color')
+        self.w.postscript(file=file_selected, colormode="color")
         print("saved", file_selected)
 
     def set_color(self, color):

@@ -14,7 +14,6 @@ def fizz_buzz_1():
 
 def fizz_buzz_2():
     def rule(n):
-        return (
-            "fizz" * (n % 3 == 0) + "buzz" * (n % 5 == 0) or str(n)
-        )
+        return "fizz" * (n % 3 == 0) + "buzz" * (n % 5 == 0) or str(n)
+
     print("\n".join(map(rule, range(101))))

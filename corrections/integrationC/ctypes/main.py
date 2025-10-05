@@ -1,21 +1,18 @@
-from ctypes import (
-    CDLL, c_char_p,
-    create_string_buffer, c_int
-)
+from ctypes import CDLL, c_char_p, create_string_buffer, c_int
 
 SIZE = 40
 
+
 def main_factorielle():
-    lib_factorielle = CDLL('./libtest2.so')
+    lib_factorielle = CDLL("./libtest2.so")
     factorielle = lib_factorielle.factorielle
 
     for i in range(10):
-        print("factorielle {} : {}".format(
-            i, factorielle(i))
-        )
+        print("factorielle {} : {}".format(i, factorielle(i)))
+
 
 def main_hello():
-    lib_hello = CDLL('./libtest1.so')
+    lib_hello = CDLL("./libtest1.so")
 
     res = create_string_buffer(SIZE)
 
@@ -28,6 +25,7 @@ def main_hello():
     print(res.value)
     print(res.raw)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main_hello()
     main_factorielle()

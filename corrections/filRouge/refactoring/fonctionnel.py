@@ -23,7 +23,7 @@ def jeu(nom_joueur_1, nom_joueur_2):
     if joueur_b == ciseaux:
         human_b = "ciseaux"
 
-    print(nom_joueur_1, human_a, joueur_a, '-', nom_joueur_2, human_b, joueur_b)
+    print(nom_joueur_1, human_a, joueur_a, "-", nom_joueur_2, human_b, joueur_b)
     gagnant = (joueur_a - joueur_b) % 3
     if gagnant == 1:
         print(nom_joueur_1, "a gagné")

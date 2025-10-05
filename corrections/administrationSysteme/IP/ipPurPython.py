@@ -1,19 +1,19 @@
 def ip_to_int(ip) -> int:
     ints = [int(part) for part in ip.split(".")]
     res = (
-        (256 ** 3 * ints[0])
-        + (256 ** 2 * ints[1])
-        + (256 ** 1 * ints[2])
-        + (256 ** 0 * ints[3])
+        (256**3 * ints[0])
+        + (256**2 * ints[1])
+        + (256**1 * ints[2])
+        + (256**0 * ints[3])
     )
     return res
 
 
 def int_to_ip(ipnum: int) -> str:
-    part1 = int(ipnum / 256 ** 3) % 256
-    part2 = int(ipnum / 256 ** 2) % 256
-    part3 = int(ipnum / 256 ** 1) % 256
-    part4 = int(ipnum / 256 ** 0) % 256
+    part1 = int(ipnum / 256**3) % 256
+    part2 = int(ipnum / 256**2) % 256
+    part3 = int(ipnum / 256**1) % 256
+    part4 = int(ipnum / 256**0) % 256
     return f"{part1}.{part2}.{part3}.{part4}"
 
 

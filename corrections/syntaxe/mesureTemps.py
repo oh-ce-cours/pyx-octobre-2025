@@ -11,6 +11,7 @@ def deco_tempo(f, n):
     """Décorateur permettant de mesurer le temps
     d'exécution d'une fonction
     """
+
     def wrapper(*args, **kwargs):
         durees = []
         for _ in range(n):
@@ -20,17 +21,11 @@ def deco_tempo(f, n):
             print("Temps : {}s".format(tac - tic))
             durees.append(tac - tic)
         print(
-            (
-                "Stats (en s) :"
-                "\n\tmin : {}"
-                "\n\tmoyen : {}"
-                "\n\tmax : {}"
-                "\n\tstd : {}"
-            ).format(
-                min(durees), mean(durees),
-                max(durees), stdev(durees)
+            ("Stats (en s) :\n\tmin : {}\n\tmoyen : {}\n\tmax : {}\n\tstd : {}").format(
+                min(durees), mean(durees), max(durees), stdev(durees)
             )
         )
+
     return wrapper
 
 
@@ -39,28 +34,23 @@ def context_manager_timer():
     tic = time.time()
     yield
     tac = time.time()
-    print(
-        "cm -- temps écoulé: {}".format(tac - tic)
-    )
+    print("cm -- temps écoulé: {}".format(tac - tic))
 
 
-class TimerContext():
+class TimerContext:
     def __enter__(self):
         self.tic = time.time()
 
     def __exit__(self, *args):
         self.toc = time.time()
-        print("class manager : {}s".format(
-            self.toc - self.tic))
+        print("class manager : {}s".format(self.toc - self.tic))
 
 
 def basique(f):
     tic = time.time()
     f()
     tac = time.time()
-    print(
-        "basique -- temps écoulé: {}".format(tac - tic)
-    )
+    print("basique -- temps écoulé: {}".format(tac - tic))
 
 
 def main():

@@ -39,13 +39,9 @@ def deco_tempo(f, n):
             print("Temps : {}s".format(tac - tic))
             durees.append(tac - tic)
         print(
-            (
-                "Stats (en s) :"
-                "\n\tmin : {}"
-                "\n\tmoyen : {}"
-                "\n\tmax : {}"
-                "\n\tstd : {}"
-            ).format(min(durees), mean(durees), max(durees), stdev(durees))
+            ("Stats (en s) :\n\tmin : {}\n\tmoyen : {}\n\tmax : {}\n\tstd : {}").format(
+                min(durees), mean(durees), max(durees), stdev(durees)
+            )
         )
 
     return wrapper

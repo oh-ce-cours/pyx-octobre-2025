@@ -11,8 +11,8 @@ ys = np.cos(pi_2 * xs) + np.cos(pi_2 * 100 * xs)
 f = fftpack.fft(ys)
 freqs = fftpack.fftfreq(xs.size, xs[1] - xs[0])
 
-plt.plot(freqs, f.real); plt.show()
-
+plt.plot(freqs, f.real)
+plt.show()
 
 
 # passe bande
@@ -22,7 +22,8 @@ plt.plot(bw_filter)
 plt.show()
 
 f *= bw_filter
-plt.plot(freqs, f.real); plt.show()
+plt.plot(freqs, f.real)
+plt.show()
 
 ys2 = fftpack.ifft(f)
 

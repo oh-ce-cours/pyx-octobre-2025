@@ -4,17 +4,18 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import datetime
 
-plt.style.use('fivethirtyeight')
+plt.style.use("fivethirtyeight")
 
 df = pd.read_csv(
     "https://blockchain.info/charts/market-price?"
     "address=&daysAverageString=1&format=csv"
     "&scale=0&showDataPoints=false&"
-    "show_header=true&timespan=")
+    "show_header=true&timespan="
+)
 
 df.columns = ("date", "price")
 df.date = pd.to_datetime(df.date)
-df = df.set_index('date')
+df = df.set_index("date")
 df["diff_price"] = df.price.diff()
 df.plot()
 
@@ -36,11 +37,10 @@ def diff_plot(df):
     """Plotte les différence sur une sorte d'histogramme.
     Rouge si négatif, vert si positif
     """
-    ax =df.diff_price[df.diff_price >= 0].plot(kind="bar", color="g")
-    (-1*df.diff_price[df.diff_price < 0]).plot(kind="bar", color="r", ax=ax)
+    ax = df.diff_price[df.diff_price >= 0].plot(kind="bar", color="g")
+    (-1 * df.diff_price[df.diff_price < 0]).plot(kind="bar", color="r", ax=ax)
     plt.legend()
     plt.show()
-
 
 
 def moving_avg(df):

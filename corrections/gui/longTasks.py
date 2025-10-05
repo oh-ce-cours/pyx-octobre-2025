@@ -1,5 +1,5 @@
 import tkinter as tk
-from PIL import Image,ImageTk
+from PIL import Image, ImageTk
 import requests
 from io import BytesIO
 import random
@@ -9,7 +9,9 @@ import queue
 
 MIN_AWW = 2
 MAX_AWW = 116
-AWW_URL_BASE = "https://www.twolittlefleas.co.uk/happiness-generator/img/cute/image{}.jpg"
+AWW_URL_BASE = (
+    "https://www.twolittlefleas.co.uk/happiness-generator/img/cute/image{}.jpg"
+)
 
 
 def get_new_image():
@@ -39,7 +41,7 @@ def get_new_image():
             header = response.raw.read(100)
             ext = imghdr.what(None, h=header)
             print("Found: " + ext)
-            if ext != None:     # Proceed to other tests if we received an image at all
+            if ext != None:  # Proceed to other tests if we received an image at all
                 data = header + response.raw.read()  # GET THE REST OF THE FILE
                 data = BytesIO(data)
                 im = Image.open(data)
@@ -54,7 +56,7 @@ def get_new_image():
 def update_image():
     image = None
     while not image:
-        image=get_new_image()
+        image = get_new_image()
 
     label.configure(image=image)
     label.image = image
@@ -62,15 +64,18 @@ def update_image():
 
 #### comment empecher le freezing de l'appli
 
+
 def download_to_queue():
     image = None
     while not image:
-        image=get_new_image()
+        image = get_new_image()
     exchange_queue.put(image)
+
 
 def download_async():
     thread = threading.Thread(target=download_to_queue)
     thread.start()
+
 
 def update_image_async():
     # cette fonction devrait être dans une classe...
@@ -111,7 +116,7 @@ while not image:
 label.configure(image=image)
 label.image = image
 
-label.grid(column=0, row=0, sticky=tk.N+tk.S+tk.E+tk.W)
+label.grid(column=0, row=0, sticky=tk.N + tk.S + tk.E + tk.W)
 
 button = tk.Button(root, text="Update image", command=update_image)
 button_async = tk.Button(root, text="Update image Async", command=update_image_async)

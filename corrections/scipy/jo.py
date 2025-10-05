@@ -69,4 +69,3 @@ top10["Country"] = top10.Country.str.extract(
 )  # tester ici : https://regex101.com/
 
 top10.plot.bar(x="Country", y="Gold")
-

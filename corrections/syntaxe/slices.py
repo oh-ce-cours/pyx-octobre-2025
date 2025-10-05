@@ -55,9 +55,9 @@ def tail(lines, n):
 
 def perso(lines, nb_avant, nb_apres, saut):
     """Affiche des lignes.
-        * à partir de 'nb_avant'
-        * jusqu'à 'nb_apres' avant la fin
-        * en sautant 'saut' lignes entre chaque
+    * à partir de 'nb_avant'
+    * jusqu'à 'nb_apres' avant la fin
+    * en sautant 'saut' lignes entre chaque
     """
     lines_to_show = lines[nb_avant:-nb_apres:saut]
     for line in lines_to_show:

@@ -1,11 +1,11 @@
 class ConvertisseurTemperature:
     @staticmethod
     def celsius2fahrenheit(celsius):
-        return celsius * 9/5 + 32
+        return celsius * 9 / 5 + 32
 
     @staticmethod
     def fahrenheit2celsius(far):
-        return (far - 32) * 5/9
+        return (far - 32) * 5 / 9
 
     def __init__(self, celsius):
         self._celsius = celsius
@@ -43,5 +43,5 @@ def main():
     print("{}°C -> {}°F".format(ct.celsius, ct.fahrenheit))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -1,5 +1,4 @@
-"""
-"""
+""" """
 
 
 def est_palindrome(nb):
@@ -32,8 +31,7 @@ class Pipeline:
         self.iterable = iterable
 
     def ajout_filtre(self, nouveau_filtre):
-        """On ajoute le filtre à la liste des filtres.
-        """
+        """On ajoute le filtre à la liste des filtres."""
         self.filtres.append(nouveau_filtre)
 
     def process(self):
